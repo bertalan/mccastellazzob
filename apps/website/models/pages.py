@@ -17,6 +17,7 @@ from coderedcms.models import CoderedArticleIndexPage
 from coderedcms.models import CoderedArticlePage
 from coderedcms.models import CoderedEmail
 from coderedcms.models import CoderedEventIndexPage
+from coderedcms.models import CoderedEventOccurrence
 from coderedcms.models import CoderedEventPage
 from coderedcms.models import CoderedFormPage
 from coderedcms.models import CoderedLocationIndexPage
@@ -94,8 +95,8 @@ class EventPage(OpenStreetMapMixin, CoderedEventPage):
     parent_page_types: ClassVar[list[str]] = ["website.EventIndexPage"]
     template = "coderedcms/pages/event_page.html"
 
-    content_panels = [
-        *CoderedEventPage.content_panels,
+    # Estendiamo i panels base invece di sovrascriverli
+    content_panels = CoderedEventPage.content_panels + [
         MultiFieldPanel(
             OpenStreetMapMixin.get_map_panels(),
             heading=_("Mappa OpenStreetMap"),
@@ -147,6 +148,20 @@ class EventIndexPage(CoderedEventIndexPage):
     template = "coderedcms/pages/event_index_page.html"
 
 
+class EventOccurrence(CoderedEventOccurrence):
+    """
+    Modello per le occorrenze degli eventi (date ricorrenti).
+
+    Richiesto da CodeRedCMS per la gestione del calendario.
+    """
+
+    event = ParentalKey(
+        "website.EventPage",
+        related_name="occurrences",
+        on_delete=models.CASCADE,
+    )
+
+
 class LocationPage(OpenStreetMapMixin, CoderedLocationPage):
     """
     Pagina località con integrazione OpenStreetMap e JSON-LD.
@@ -163,8 +178,8 @@ class LocationPage(OpenStreetMapMixin, CoderedLocationPage):
     parent_page_types: ClassVar[list[str]] = ["website.LocationIndexPage"]
     template = "coderedcms/pages/location_page.html"
 
-    content_panels = [
-        *CoderedLocationPage.content_panels,
+    # Estendiamo i panels base invece di sovrascriverli
+    content_panels = CoderedLocationPage.content_panels + [
         MultiFieldPanel(
             OpenStreetMapMixin.get_map_panels(),
             heading=_("Mappa OpenStreetMap"),

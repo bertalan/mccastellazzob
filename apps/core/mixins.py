@@ -94,7 +94,5 @@ class OpenStreetMapMixin(models.Model):
             LeafletPanel(
                 "location",
                 address_field="address",
-                zoom_field="zoom",
-                geocoder=geocoders.NOMINATIM,
             ),
         ]

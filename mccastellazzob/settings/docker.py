@@ -33,7 +33,8 @@ DATABASES = {
 
 # Static e media
 STATIC_URL = "/static/"
-STATIC_ROOT = "/app/static"
+STATIC_ROOT = "/app/staticfiles"
+STATICFILES_DIRS = []  # Reset per evitare conflitto con STATIC_ROOT
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = "/app/media"

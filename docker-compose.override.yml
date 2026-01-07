@@ -10,4 +10,8 @@ services:
       - CREATE_SUPERUSER=true
     volumes:
       # Hot reload del codice
-      - ./src/mccastellazzob:/app
+      - ./manage.py:/app/manage.py
+      - ./mccastellazzob:/app/mccastellazzob
+      - ./apps:/app/apps
+      - ./tests:/app/tests
+      - ./conftest.py:/app/conftest.py
