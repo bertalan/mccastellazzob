@@ -13,7 +13,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import FieldPanel
 from wagtailgeowidget import geocoders
-from wagtailgeowidget.panels import LeafletPanel
+from wagtailgeowidget.panels import GeoAddressPanel, LeafletPanel
 
 
 if TYPE_CHECKING:
@@ -89,10 +89,11 @@ class OpenStreetMapMixin(models.Model):
     def get_map_panels(cls) -> list[Panel]:
         """Restituisce i pannelli Wagtail per la gestione della mappa."""
         return [
-            FieldPanel("address"),
+            GeoAddressPanel("address", geocoder=geocoders.NOMINATIM),
             FieldPanel("zoom"),
             LeafletPanel(
                 "location",
                 address_field="address",
+                zoom_field="zoom",
             ),
         ]
