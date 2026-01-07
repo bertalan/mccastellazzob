@@ -1,0 +1,96 @@
+# ==================================
+# mccastellazzob.com - Git Ignore
+# ==================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Static e Media (in produzione sono gestiti separatamente)
+static/
+media/
+brief/vecchio/
+src/
+
+# Docker
+docker/ssl/*.pem
+docker/ssl/*.key
+docker/ssl/*.crt
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backup originali (troppo grandi per git)
+brief/*.zip
+brief/*.sql.gz
+
+# Vecchio codice /src (abbandonato)
+src/
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Node (per template)
+node_modules/
+
+# Ruff
+.ruff_cache/

@@ -1,0 +1,209 @@
+# ============================================
+# pyproject.toml - Configurazione Progetto Unificata
+# mccastellazzob.com - Moto Club Castellazzo Bormida
+# ============================================
+# Stack: CodeRedCMS 6.0 / Wagtail 7.0 LTS / Django 5.2 LTS
+# Python: 3.12
+# ============================================
+
+[project]
+name = "mccastellazzob"
+version = "2.0.0"
+description = "Sito web Moto Club Castellazzo Bormida - Wagtail/CodeRedCMS"
+readme = "README.md"
+requires-python = ">=3.10,<3.14"
+license = {text = "Proprietary"}
+authors = [
+    {name = "Moto Club Castellazzo Bormida"}
+]
+keywords = ["wagtail", "coderedcms", "django", "motoclub"]
+
+dependencies = [
+    "coderedcms>=6.0,<7.0",
+    "wagtail>=7.0,<7.2",
+    "Django>=5.2,<6.0",
+    "wagtailgeowidget>=9.1.0",
+    "psycopg2-binary>=2.9",
+    "pillow>=10.0",
+    "pillow-heif>=0.16",
+    "gunicorn>=21.0",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Testing
+    "pytest>=8.0",
+    "pytest-django>=4.8",
+    "pytest-cov>=4.1",
+    "factory-boy>=3.3",
+    "wagtail-factories>=4.1",
+    # Code Quality
+    "ruff>=0.8",
+    "black>=24.0",
+    "mypy>=1.8",
+    "django-stubs>=5.0",
+    # Security
+    "pip-audit>=2.7",
+    "bandit>=1.7",
+    # Pre-commit
+    "pre-commit>=3.6",
+]
+
+prod = [
+    "sentry-sdk>=2.0",
+    "python-json-logger>=2.0",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mccastellazzob*", "apps*"]
+
+# ============================================
+# RUFF - Linting ultra-veloce
+# ============================================
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = [
+    "migrations",
+    "node_modules",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "static",
+    "media",
+    "src",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "I",      # isort
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "UP",     # pyupgrade
+    "DJ",     # flake8-django
+    "S",      # flake8-bandit (security)
+    "SIM",    # flake8-simplify
+]
+ignore = [
+    "E501",   # line too long (handled by formatter)
+    "S101",   # assert in tests is OK
+]
+
+[tool.ruff.lint.isort]
+case-sensitive = false
+force-single-line = true
+lines-after-imports = 2
+known-first-party = ["apps", "mccastellazzob"]
+known-third-party = ["wagtail", "coderedcms", "django"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101", "S105", "S106"]
+"**/test_*.py" = ["S101", "S105", "S106"]
+"conftest.py" = ["S101"]
+
+# ============================================
+# BLACK - Formatter
+# ============================================
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+extend-exclude = '''
+/(
+    migrations
+    | node_modules
+    | \.venv
+    | venv
+    | static
+    | media
+    | src
+)/
+'''
+
+# ============================================
+# MYPY - Type Checking
+# ============================================
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_ignores = true
+ignore_missing_imports = true
+plugins = ["mypy_django_plugin.main"]
+exclude = [
+    "migrations",
+    "node_modules",
+    "venv",
+    "src",
+]
+
+[tool.django-stubs]
+django_settings_module = "mccastellazzob.settings.dev"
+
+# ============================================
+# PYTEST - Testing
+# ============================================
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "mccastellazzob.settings.test"
+python_files = ["test_*.py", "tests.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+testpaths = ["tests"]
+addopts = [
+    "--cov=apps",
+    "--cov=mccastellazzob",
+    "--cov-report=html:htmlcov",
+    "--cov-report=term-missing",
+    "--cov-fail-under=80",
+    "-v",
+    "--tb=short",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+
+# ============================================
+# COVERAGE - Test Coverage
+# ============================================
+[tool.coverage.run]
+source = ["apps", "mccastellazzob"]
+omit = [
+    "*/migrations/*",
+    "*/tests/*",
+    "*/__pycache__/*",
+    "*/conftest.py",
+    "manage.py",
+    "*/wsgi.py",
+    "*/asgi.py",
+    "src/*",
+]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
+show_missing = true
+fail_under = 80
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+# ============================================
+# BANDIT - Security Analysis
+# ============================================
+[tool.bandit]
+exclude_dirs = ["tests", "migrations", "venv", ".venv", "src"]
+skips = ["B101"]
