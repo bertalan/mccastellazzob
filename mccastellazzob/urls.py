@@ -12,23 +12,22 @@ from django.contrib import admin
 from django.urls import include
 from django.urls import path
 
-from wagtail import urls as wagtail_urls
-from wagtail.admin import urls as wagtailadmin_urls
+from coderedcms import admin_urls as crx_admin_urls
+from coderedcms import search_urls as crx_search_urls
+from coderedcms import urls as crx_urls
 from wagtail.documents import urls as wagtaildocs_urls
-
-from apps.website.views import localized_search
 
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),
-    path("admin/", include(wagtailadmin_urls)),
+    path("admin/", include(crx_admin_urls)),
     path("documents/", include(wagtaildocs_urls)),
 ]
 
 # i18n patterns - IT senza prefisso, EN/FR con prefisso
 urlpatterns += i18n_patterns(
-    path("search/", localized_search, name="search"),
-    path("", include(wagtail_urls)),
+    path("search/", include(crx_search_urls)),
+    path("", include(crx_urls)),
     prefix_default_language=False,
 )
 
