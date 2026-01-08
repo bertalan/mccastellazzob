@@ -57,10 +57,10 @@ if [ "${CREATE_SUPERUSER:-false}" = "true" ]; then
     python manage.py shell -c "
 from django.contrib.auth import get_user_model
 User = get_user_model()
-if not User.objects.filter(is_superuser=True).exists():
+email = '${SUPERUSER_EMAIL:-admin@mccastellazzob.com}'
+if not User.objects.filter(email=email).exists():
     User.objects.create_superuser(
-        username='${SUPERUSER_USERNAME:-admin}',
-        email='${SUPERUSER_EMAIL:-admin@mccastellazzob.com}',
+        email=email,
         password='${SUPERUSER_PASSWORD:-admin123}'
     )
     print('Superuser creato!')
