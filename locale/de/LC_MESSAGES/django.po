@@ -614,7 +614,7 @@ msgstr "Heldenbereich"
 #: templates/website/base_old.jinja2:599
 #: templates/website/pages/about_page.jinja2:67
 msgid "Chi Siamo"
-msgstr "Wer wir sind"
+msgstr "Über uns"
 
 #: apps/website/models/about.py:164
 msgid "Membri"
@@ -769,7 +769,7 @@ msgstr "Aufruf zum Handeln"
 #: templates/website/base.jinja2:634 templates/website/base_old.jinja2:561
 #: templates/website/base_old.jinja2:601
 msgid "Contatti"
-msgstr "Kontakte"
+msgstr "Kontakt"
 
 #: apps/website/models/events.py:44
 msgid "Nome luogo"
@@ -1270,7 +1270,7 @@ msgstr "Heim"
 #: templates/website/pages/timeline_page.jinja2:4
 #: templates/website/pages/timeline_page.jinja2:22
 msgid "Novità"
-msgstr "Neuheit"
+msgstr "Neuigkeiten"
 
 #: templates/website/base.jinja2:439 templates/website/base.jinja2:515
 #: templates/website/pages/board_page.jinja2:113
@@ -1279,7 +1279,7 @@ msgstr "Neuheit"
 #, fuzzy
 #| msgid "Contatti"
 msgid "Contattaci"
-msgstr "Kontakte"
+msgstr "Kontaktieren Sie uns"
 
 #: templates/website/base.jinja2:447 templates/website/base.jinja2:519
 msgid "Seleziona lingua"
@@ -1489,7 +1489,7 @@ msgstr "Lernen Sie den Rat kennen"
 #: templates/website/pages/about_page.jinja2:103
 #: templates/website/pages/home_page.jinja2:174
 msgid "Unisciti a Noi"
-msgstr "Begleiten Sie uns"
+msgstr "Treten Sie uns bei"
 
 #: templates/website/pages/about_page.jinja2:113
 msgid "Gruppo di motociclisti del Moto Club Castellazzo Bormida"
@@ -1506,7 +1506,7 @@ msgstr "Statistiken"
 #, fuzzy
 #| msgid "Timeline Storica"
 msgid "Anni di Storia"
-msgstr "Historische Zeitleiste"
+msgstr "Jahre Geschichte"
 
 #: templates/website/pages/about_page.jinja2:154
 #, fuzzy
@@ -1517,7 +1517,7 @@ msgstr "Anzahl der aktiven Mitglieder"
 #: templates/website/pages/about_page.jinja2:162
 #: templates/website/pages/about_page.jinja2:260
 msgid "Passione"
-msgstr "Hingabe"
+msgstr "Leidenschaft"
 
 #: templates/website/pages/about_page.jinja2:195
 msgid "Cronologia"
@@ -1589,7 +1589,7 @@ msgstr "Erfahren Sie mehr"
 #, fuzzy
 #| msgid "Leggi di più"
 msgid "Scopri di più"
-msgstr "Mehr lesen"
+msgstr "Mehr erfahren"
 
 #: templates/website/pages/board_page.jinja2:20
 msgid "Il Consiglio"
@@ -1906,7 +1906,7 @@ msgstr "Veranstaltungen"
 #, fuzzy
 #| msgid "Link dettaglio"
 msgid "Vedi dettagli"
-msgstr "Detaillink"
+msgstr "Details ansehen"
 
 #: templates/website/pages/events_archive_page.jinja2:108
 msgid "Nessun evento nell'archivio"
@@ -1966,7 +1966,7 @@ msgstr "Kalender"
 #, fuzzy
 #| msgid "Archivio Eventi"
 msgid "Prossimi Eventi"
-msgstr "Veranstaltungsarchiv"
+msgstr "Kommende Veranstaltungen"
 
 #: templates/website/pages/events_page.jinja2:138
 msgid "Nessun evento in programma al momento."
@@ -2011,7 +2011,7 @@ msgstr "BESCHÄDIGEN"
 #, fuzzy
 #| msgid "Nome evento"
 msgid "Prossimo Evento"
-msgstr "Veranstaltungsname"
+msgstr "Nächste Veranstaltung"
 
 #: templates/website/pages/home_page.jinja2:98
 msgid "Raduno Primaverile"
@@ -2047,7 +2047,7 @@ msgstr "Werden Sie Teil der Familie des ältesten Motoclubs im Piemont"
 #, fuzzy
 #| msgid "Eventi"
 msgid "Vedi Eventi"
-msgstr "Veranstaltungen"
+msgstr "Veranstaltungen ansehen"
 
 #: templates/website/pages/privacy_page.jinja2:30
 msgid "Contenuto in fase di aggiornamento."

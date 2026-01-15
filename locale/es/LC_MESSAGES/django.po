@@ -1285,7 +1285,7 @@ msgstr "Novedad"
 #, fuzzy
 #| msgid "Contatti"
 msgid "Contattaci"
-msgstr "Contactos"
+msgstr "Contáctanos"
 
 #: templates/website/base.jinja2:447 templates/website/base.jinja2:519
 msgid "Seleziona lingua"
@@ -1509,7 +1509,7 @@ msgstr "Estadística"
 #, fuzzy
 #| msgid "Timeline Storica"
 msgid "Anni di Storia"
-msgstr "Cronología histórica"
+msgstr "Años de Historia"
 
 #: templates/website/pages/about_page.jinja2:154
 #, fuzzy
@@ -1589,7 +1589,7 @@ msgstr "Descubra más"
 #, fuzzy
 #| msgid "Leggi di più"
 msgid "Scopri di più"
-msgstr "Leer más"
+msgstr "Descubre más"
 
 #: templates/website/pages/board_page.jinja2:20
 msgid "Il Consiglio"
@@ -1902,7 +1902,7 @@ msgstr "Eventos"
 #, fuzzy
 #| msgid "Link dettaglio"
 msgid "Vedi dettagli"
-msgstr "Enlace detallado"
+msgstr "Ver detalles"
 
 #: templates/website/pages/events_archive_page.jinja2:108
 msgid "Nessun evento nell'archivio"
@@ -1961,7 +1961,7 @@ msgstr "Calendario"
 #, fuzzy
 #| msgid "Archivio Eventi"
 msgid "Prossimi Eventi"
-msgstr "Archivo de eventos"
+msgstr "Próximos Eventos"
 
 #: templates/website/pages/events_page.jinja2:138
 msgid "Nessun evento in programma al momento."
@@ -2006,7 +2006,7 @@ msgstr "MAR"
 #, fuzzy
 #| msgid "Nome evento"
 msgid "Prossimo Evento"
-msgstr "Nombre del evento"
+msgstr "Próximo Evento"
 
 #: templates/website/pages/home_page.jinja2:98
 msgid "Raduno Primaverile"
@@ -2042,7 +2042,7 @@ msgstr "Forma parte de la familia del Moto Club más antiguo del Piamonte"
 #, fuzzy
 #| msgid "Eventi"
 msgid "Vedi Eventi"
-msgstr "Eventos"
+msgstr "Ver Eventos"
 
 #: templates/website/pages/privacy_page.jinja2:30
 msgid "Contenuto in fase di aggiornamento."

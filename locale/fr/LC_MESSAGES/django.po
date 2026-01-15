@@ -614,7 +614,7 @@ msgstr "Section Héros"
 #: templates/website/base_old.jinja2:599
 #: templates/website/pages/about_page.jinja2:67
 msgid "Chi Siamo"
-msgstr "Qui nous sommes"
+msgstr "Qui sommes-nous"
 
 #: apps/website/models/about.py:164
 msgid "Membri"
@@ -769,7 +769,7 @@ msgstr "Appel à l'action"
 #: templates/website/base.jinja2:634 templates/website/base_old.jinja2:561
 #: templates/website/base_old.jinja2:601
 msgid "Contatti"
-msgstr "Contacts"
+msgstr "Contact"
 
 #: apps/website/models/events.py:44
 msgid "Nome luogo"
@@ -1276,7 +1276,7 @@ msgstr "Page d'accueil"
 #: templates/website/pages/timeline_page.jinja2:4
 #: templates/website/pages/timeline_page.jinja2:22
 msgid "Novità"
-msgstr "Nouveauté"
+msgstr "Actualités"
 
 #: templates/website/base.jinja2:439 templates/website/base.jinja2:515
 #: templates/website/pages/board_page.jinja2:113
@@ -1285,7 +1285,7 @@ msgstr "Nouveauté"
 #, fuzzy
 #| msgid "Contatti"
 msgid "Contattaci"
-msgstr "Contacts"
+msgstr "Contactez-nous"
 
 #: templates/website/base.jinja2:447 templates/website/base.jinja2:519
 msgid "Seleziona lingua"
@@ -1338,7 +1338,7 @@ msgstr "Langues"
 #: templates/website/blocks/article_block.html:28
 #: templates/website/pages/timeline_page.jinja2:83
 msgid "Leggi di più"
-msgstr "En savoir plus"
+msgstr "Lire la suite"
 
 #: templates/website/blocks/document_block.html:16
 #: templates/website/pages/transparency_page.jinja2:72
@@ -1410,7 +1410,7 @@ msgstr "Allez à la photo"
 #: templates/website/pages/about_page.jinja2:194
 #: templates/website/pages/home_page.jinja2:84
 msgid "La Nostra Storia"
-msgstr "Notre histoire"
+msgstr "Notre Histoire"
 
 #: templates/website/blocks/timeline_block.html:12
 #: templates/website/pages/about_page.jinja2:198
@@ -1511,7 +1511,7 @@ msgstr "Statistiques"
 #, fuzzy
 #| msgid "Timeline Storica"
 msgid "Anni di Storia"
-msgstr "Chronologie historique"
+msgstr "Années d'Histoire"
 
 #: templates/website/pages/about_page.jinja2:154
 #, fuzzy
@@ -1903,7 +1903,7 @@ msgstr "Événements"
 #, fuzzy
 #| msgid "Link dettaglio"
 msgid "Vedi dettagli"
-msgstr "Lien de détail"
+msgstr "Voir les détails"
 
 #: templates/website/pages/events_archive_page.jinja2:108
 msgid "Nessun evento nell'archivio"
@@ -1964,7 +1964,7 @@ msgstr "Calendrier"
 #, fuzzy
 #| msgid "Archivio Eventi"
 msgid "Prossimi Eventi"
-msgstr "Archives des événements"
+msgstr "Prochains Événements"
 
 #: templates/website/pages/events_page.jinja2:138
 msgid "Nessun evento in programma al momento."
@@ -2008,7 +2008,7 @@ msgstr "MAR"
 #, fuzzy
 #| msgid "Nome evento"
 msgid "Prossimo Evento"
-msgstr "Nom de l'événement"
+msgstr "Prochain Événement"
 
 #: templates/website/pages/home_page.jinja2:98
 msgid "Raduno Primaverile"
@@ -2044,7 +2044,7 @@ msgstr "Devenez membre de la famille du plus ancien Moto Club du Piémont"
 #, fuzzy
 #| msgid "Eventi"
 msgid "Vedi Eventi"
-msgstr "Événements"
+msgstr "Voir les Événements"
 
 #: templates/website/pages/privacy_page.jinja2:30
 msgid "Contenuto in fase di aggiornamento."
