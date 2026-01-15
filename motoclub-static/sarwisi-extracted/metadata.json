@@ -1,5 +1,0 @@
-{
-  "name": "Sarwisi UI Migration",
-  "description": "A Frontend replication of the Sarwisi UI components using Angular and Tailwind, structured dynamically like a Wagtail StreamField.",
-  "requestFramePermissions": []
-}

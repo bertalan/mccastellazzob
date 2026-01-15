@@ -48,9 +48,11 @@ db.sqlite3-journal
 
 # Static e Media (in produzione sono gestiti separatamente)
 static/
+scripts/
 media/
 vecchio/
 src/
+motoclub-static/
 
 # Docker
 docker/ssl/*.pem
@@ -69,6 +71,8 @@ Thumbs.db
 # Backup originali (troppo grandi per git)
 brief/*.zip
 brief/*.sql.gz
+motoclub-static.zip
+motoclub-static 2.zip
 
 # Vecchio codice /src (abbandonato)
 src/
@@ -94,3 +98,11 @@ node_modules/
 
 # Ruff
 .ruff_cache/
+
+# Files
+copia_crea_traduzioni.py
+CLAUDE.md
+TRADUZIONI.md
+MULTILANGUAGE_FLAGS_GUIDE.md
+TDD_NAVIGATION_REPORT.md
+DATABASE_MIGRATION_PLAN.md
