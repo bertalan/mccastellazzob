@@ -106,6 +106,7 @@ TEMPLATES = [
                 "apps.core.context_processors.site_colors",
                 "apps.core.context_processors.navigation",
                 "apps.core.context_processors.main_pages",
+                "apps.core.context_processors.page_translations",
             ],
             "extensions": [
                 "jinja2.ext.do",

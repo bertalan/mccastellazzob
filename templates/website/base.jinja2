@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{{ page.title }}{% endblock %} | {{ settings.website.SiteSettings.organization_name }}</title>
     
+    {# Costruisci dizionario traduzioni pagina #}
+    {% set translations_dict = {} %}
+    {% if page is defined and page.get_translations is defined %}
+        {% for translated_page in page.get_translations(inclusive=true) %}
+            {% set _ = translations_dict.update({translated_page.locale.language_code: translated_page.url}) %}
+        {% endfor %}
+    {% endif %}
+    
     {# SEO #}
     <meta name="description" content="{% block meta_description %}Moto Club Castellazzo Bormida - Dal 1933, passione su due ruote nel cuore del Piemonte{% endblock %}">
     
@@ -454,8 +462,9 @@
                     </button>
                     
                     <div id="langDropdown" class="lang-dropdown" role="menu">
-                        {% for lang_code, lang_name, flag in [('it', 'Italiano', '🇮🇹'), ('en', 'English', '🇬🇧'), ('fr', 'Français', '🇫🇷'), ('de', 'Deutsch', '🇩🇪'), ('es', 'Español', '🇪🇸')] %}
-                        <a href="/{{ lang_code }}{{ request.path[3:] }}" 
+                        {% set lang_data = [('it', 'Italiano', '🇮🇹'), ('en', 'English', '🇬🇧'), ('fr', 'Français', '🇫🇷'), ('de', 'Deutsch', '🇩🇪'), ('es', 'Español', '🇪🇸')] %}
+                        {% for lang_code, lang_name, flag in lang_data %}
+                        <a href="{{ translations_dict.get(lang_code) or page_translations.get(lang_code) or ('/' ~ lang_code ~ '/') }}" 
                            class="lang-option {% if request.LANGUAGE_CODE == lang_code %}active{% endif %}"
                            role="menuitem"
                            {% if request.LANGUAGE_CODE == lang_code %}aria-current="page"{% endif %}>
@@ -518,8 +527,9 @@
                 <div class="pt-4 border-t border-gray-100">
                     <p class="text-xs text-gray-500 mb-3 px-1">{% trans %}Seleziona lingua{% endtrans %}</p>
                     <div class="lang-switcher-mobile">
-                        {% for lang_code, lang_name, flag in [('it', 'Italiano', '🇮🇹'), ('en', 'English', '🇬🇧'), ('fr', 'Français', '🇫🇷'), ('de', 'Deutsch', '🇩🇪'), ('es', 'Español', '🇪🇸')] %}
-                        <a href="/{{ lang_code }}{{ request.path[3:] }}" 
+                        {% set lang_data_mobile = [('it', 'Italiano', '🇮🇹'), ('en', 'English', '🇬🇧'), ('fr', 'Français', '🇫🇷'), ('de', 'Deutsch', '🇩🇪'), ('es', 'Español', '🇪🇸')] %}
+                        {% for lang_code, lang_name, flag in lang_data_mobile %}
+                        <a href="{{ translations_dict.get(lang_code) or page_translations.get(lang_code) or ('/' ~ lang_code ~ '/') }}" 
                            class="lang-option {% if request.LANGUAGE_CODE == lang_code %}active text-white{% else %}text-navy{% endif %}"
                            aria-label="{{ lang_name }}"
                            {% if request.LANGUAGE_CODE == lang_code %}aria-current="page"{% endif %}>
@@ -664,8 +674,9 @@
                 </p>
                 <div class="flex items-center gap-2">
                     <span class="text-gray-400 text-xs mr-2">{% trans %}Lingua{% endtrans %}:</span>
-                    {% for lang_code, lang_name, flag in [('it', 'Italiano', '🇮🇹'), ('en', 'English', '🇬🇧'), ('fr', 'Français', '🇫🇷'), ('de', 'Deutsch', '🇩🇪'), ('es', 'Español', '🇪🇸')] %}
-                    <a href="/{{ lang_code }}{{ request.path[3:] }}" 
+                    {% set lang_data_footer = [('it', 'Italiano', '🇮🇹'), ('en', 'English', '🇬🇧'), ('fr', 'Français', '🇫🇷'), ('de', 'Deutsch', '🇩🇪'), ('es', 'Español', '🇪🇸')] %}
+                    {% for lang_code, lang_name, flag in lang_data_footer %}
+                    <a href="{{ translations_dict.get(lang_code) or page_translations.get(lang_code) or ('/' ~ lang_code ~ '/') }}" 
                        class="inline-flex items-center gap-1 px-2 py-1 rounded transition {% if request.LANGUAGE_CODE == lang_code %}bg-gold text-navy font-semibold{% else %}text-gray-400 hover:text-white hover:bg-white/10{% endif %}"
                        title="{{ lang_name }}"
                        aria-label="{{ lang_name }}"

@@ -133,3 +133,88 @@ def main_pages(request):
         pass
     
     return {"main_pages": pages}
+
+
+def page_translations(request):
+    """
+    Fornisce le traduzioni disponibili per la pagina corrente.
+    Usato dal language switcher per costruire link corretti.
+    
+    Uso nei template:
+        {% for lang_code, lang_url in page_translations.items() %}
+            <a href="{{ lang_url }}">{{ lang_code }}</a>
+        {% endfor %}
+    """
+    from wagtail.models import Locale, Page, Site
+    
+    translations = {}
+    languages = ['it', 'en', 'fr', 'de', 'es']
+    
+    current_path = request.path
+    
+    # Cerca la pagina corrente usando il metodo di Wagtail
+    site = Site.find_for_request(request)
+    if not site:
+        # Fallback: homepage per ogni lingua
+        for lang in languages:
+            translations[lang] = f'/{lang}/'
+        return {"page_translations": translations}
+    
+    # Trova la pagina usando il path resolver di Wagtail
+    page = None
+    try:
+        # Rimuovi la lingua dal path per trovare la pagina
+        path_parts = current_path.strip('/').split('/')
+        if path_parts and path_parts[0] in languages:
+            # Path senza prefisso lingua
+            remaining_path = path_parts[1:] if len(path_parts) > 1 else []
+        else:
+            remaining_path = path_parts
+        
+        # Cerca pagine per ogni locale per trovare quella corrente
+        current_locale = None
+        for lang in languages:
+            try:
+                locale = Locale.objects.get(language_code=lang)
+                # Trova la root page per questa lingua
+                root_pages = Page.objects.filter(
+                    locale=locale,
+                    depth=2  # Le homepage sono a depth 2
+                ).live()
+                
+                for root in root_pages:
+                    try:
+                        route_result = root.route(request, remaining_path)
+                        if route_result and route_result.page:
+                            # Abbiamo trovato la pagina!
+                            page = route_result.page
+                            current_locale = locale
+                            break
+                    except Exception:
+                        continue
+                
+                if page:
+                    break
+            except Locale.DoesNotExist:
+                continue
+                
+    except Exception:
+        pass
+    
+    if page:
+        # Ottieni tutte le traduzioni della pagina
+        try:
+            page_translations_qs = page.get_translations(inclusive=True)
+            for translated_page in page_translations_qs:
+                lang = translated_page.locale.language_code
+                if lang in languages:
+                    translations[lang] = translated_page.url
+        except Exception:
+            pass
+    
+    # Fallback per lingue mancanti: homepage della lingua
+    for lang in languages:
+        if lang not in translations:
+            translations[lang] = f'/{lang}/'
+    
+    return {"page_translations": translations}
