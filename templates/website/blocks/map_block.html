@@ -1,0 +1,26 @@
+{# Block: Map (OpenStreetMap) #}
+{% set map_id = 'map-' ~ range(1000, 9999)|random %}
+{% set lat = value.latitude or 45.0703 %}
+{% set lon = value.longitude or 7.6869 %}
+
+<div class="map-block">
+    {% if value.title %}
+    <h3 style="color: var(--blu-nautico); margin-bottom: 1rem;">{{ value.title }}</h3>
+    {% endif %}
+    
+    <div id="{{ map_id }}" style="height: {{ value.height or '400px' }}; border-radius: 8px;"></div>
+    
+    <script>
+        (function() {
+            var map = L.map('{{ map_id }}').setView([{{ lat }}, {{ lon }}], {{ value.zoom or 15 }});
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+            
+            L.marker([{{ lat }}, {{ lon }}])
+                .addTo(map)
+                .bindPopup('{{ value.address or "" }}');
+        })();
+    </script>
+</div>

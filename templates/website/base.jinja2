@@ -1,0 +1,760 @@
+{# MC Castellazzo - Base Template Jinja2 - Stile Moderno #}
+<!DOCTYPE html>
+<html lang="{{ request.LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{{ page.title }}{% endblock %} | {{ settings.website.SiteSettings.organization_name }}</title>
+    
+    {# SEO #}
+    <meta name="description" content="{% block meta_description %}Moto Club Castellazzo Bormida - Dal 1933, passione su due ruote nel cuore del Piemonte{% endblock %}">
+    
+    {# Schema.org JSON-LD #}
+    {% if page.get_json_ld is defined %}
+    <script type="application/ld+json">
+    {{ page.get_json_ld() }}
+    </script>
+    {% endif %}
+    
+    {# Tailwind CSS #}
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    {# Fonts #}
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    {# Font Awesome #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    {# AOS Animate #}
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    
+    {# Leaflet CSS per mappe #}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold': '#ffd700',
+                        'gold-dark': '#f6c401',
+                        'bordeaux': '#ab0031',
+                        'navy': '#1B263B',
+                        'navy-light': '#2D3E5C',
+                        'amaranth': '#9B1D64',
+                        'amaranth-dark': '#7A164F',
+                        'cream': '#FEFCF6',
+                        'warm-gray': '#F5F3EE',
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        .sr-only:focus, .focus\:not-sr-only:focus {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: auto;
+            height: auto;
+            padding: 1rem 2rem;
+            margin: 0;
+            overflow: visible;
+            clip: auto;
+            white-space: normal;
+            background: #D4AF37;
+            color: #1B263B;
+            font-weight: bold;
+            z-index: 9999;
+            border-radius: 8px;
+        }
+        
+        *:focus-visible {
+            outline: 3px solid #D4AF37;
+            outline-offset: 2px;
+        }
+        
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(27, 38, 59, 0.15);
+        }
+        
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        /* Language Switcher */
+        .lang-flag {
+            font-size: 1.5rem;
+            line-height: 1;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .lang-switcher-btn {
+            min-width: 44px;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+        
+        .lang-dropdown {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 40px rgba(27, 38, 59, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            min-width: 200px;
+        }
+        
+        .lang-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            min-height: 44px;
+            transition: background 0.2s ease;
+        }
+        
+        .lang-option:hover,
+        .lang-option:focus {
+            background: #FEFCF6;
+        }
+        
+        .lang-option.active {
+            background: #1B263B;
+            color: white;
+        }
+        
+        .lang-option.active .lang-name {
+            font-weight: 600;
+        }
+        
+        .lang-name {
+            flex: 1;
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 1023px) {
+            .lang-switcher-mobile {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 0.5rem;
+            }
+            
+            .lang-switcher-mobile .lang-option {
+                flex-direction: column;
+                text-align: center;
+                padding: 0.75rem 0.5rem;
+                border-radius: 0.5rem;
+                background: #F5F3EE;
+                gap: 0.25rem;
+            }
+            
+            .lang-switcher-mobile .lang-option.active {
+                background: #1B263B;
+            }
+            
+            .lang-switcher-mobile .lang-flag {
+                font-size: 1.75rem;
+            }
+            
+            .lang-switcher-mobile .lang-name {
+                font-size: 0.625rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+        }
+        
+        /* ==========================================
+           Prose - Rich Text Content Styling
+           Formattazione per contenuti dal CMS
+           ========================================== */
+        .prose {
+            color: #374151;
+            line-height: 1.75;
+        }
+        
+        .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+            color: #1B263B;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-top: 1.5em;
+            margin-bottom: 0.75em;
+        }
+        
+        .prose h1:first-child, .prose h2:first-child, .prose h3:first-child,
+        .prose h4:first-child, .prose h5:first-child, .prose h6:first-child {
+            margin-top: 0;
+        }
+        
+        .prose h1 { font-size: 2.25rem; }
+        .prose h2 { font-size: 1.875rem; }
+        .prose h3 { font-size: 1.5rem; }
+        .prose h4 { font-size: 1.25rem; }
+        .prose h5 { font-size: 1.125rem; }
+        .prose h6 { font-size: 1rem; }
+        
+        .prose p {
+            margin-top: 1.25em;
+            margin-bottom: 1.25em;
+        }
+        
+        .prose p:first-child { margin-top: 0; }
+        .prose p:last-child { margin-bottom: 0; }
+        
+        .prose a {
+            color: #ab0031;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .prose a:hover { color: #f6c401; }
+        
+        .prose strong, .prose b {
+            color: #1B263B;
+            font-weight: 600;
+        }
+        
+        .prose em, .prose i { font-style: italic; }
+        
+        .prose ul, .prose ol {
+            margin-top: 1.25em;
+            margin-bottom: 1.25em;
+            padding-left: 1.625em;
+        }
+        
+        .prose ul { list-style-type: disc; }
+        .prose ol { list-style-type: decimal; }
+        
+        .prose li {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        
+        .prose li::marker { color: #ab0031; }
+        
+        .prose ul ul, .prose ol ol, .prose ul ol, .prose ol ul {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        
+        .prose blockquote {
+            margin-top: 1.5em;
+            margin-bottom: 1.5em;
+            padding: 1em 1.5em;
+            border-left: 4px solid #ffd700;
+            font-style: italic;
+            color: #374151;
+            background-color: #F9FAFB;
+            border-radius: 0.5rem;
+        }
+        
+        .prose blockquote p { margin: 0; }
+        
+        .prose hr {
+            margin-top: 2em;
+            margin-bottom: 2em;
+            border: 0;
+            border-top: 2px solid #E5E7EB;
+        }
+        
+        .prose img {
+            margin-top: 1.5em;
+            margin-bottom: 1.5em;
+            border-radius: 1rem;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .prose figure {
+            margin-top: 1.5em;
+            margin-bottom: 1.5em;
+        }
+        
+        .prose figcaption {
+            font-size: 0.875rem;
+            color: #6B7280;
+            margin-top: 0.5em;
+            text-align: center;
+        }
+        
+        .prose table {
+            width: 100%;
+            margin-top: 1.5em;
+            margin-bottom: 1.5em;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+        
+        .prose thead { border-bottom: 2px solid #D1D5DB; }
+        
+        .prose th {
+            font-weight: 600;
+            color: #1B263B;
+            text-align: left;
+            padding: 0.75em 1em;
+        }
+        
+        .prose td {
+            padding: 0.75em 1em;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        
+        .prose tbody tr:hover { background-color: #F9FAFB; }
+        
+        /* Prose size variants */
+        .prose-sm { font-size: 0.875rem; }
+        .prose-lg { font-size: 1.125rem; }
+        
+        .prose-lg h1 { font-size: 2.5rem; }
+        .prose-lg h2 { font-size: 2rem; }
+        .prose-lg h3 { font-size: 1.75rem; }
+        .prose-lg h4 { font-size: 1.375rem; }
+        
+        .prose-xl { font-size: 1.25rem; }
+        
+        /* Prose color variants for dark backgrounds */
+        .prose-invert { color: #D1D5DB; }
+        
+        .prose-invert h1, .prose-invert h2, .prose-invert h3,
+        .prose-invert h4, .prose-invert h5, .prose-invert h6 {
+            color: white;
+        }
+        
+        .prose-invert strong, .prose-invert b { color: white; }
+        .prose-invert a { color: #ffd700; }
+        .prose-invert a:hover { color: #f6c401; }
+        
+        .prose-invert blockquote {
+            border-left-color: #ffd700;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .prose-invert hr { border-top-color: #374151; }
+        
+        /* Max width utility */
+        .prose.max-w-none { max-width: none; }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-cream">
+    {# Skip Link #}
+    <a href="#main-content" class="sr-only focus:not-sr-only">{% trans %}Vai al contenuto principale{% endtrans %}</a>
+
+    {# Navigation #}
+    <nav id="navbar" class="fixed w-full z-50 bg-gold shadow-md" aria-label="{% trans %}Navigazione principale{% endtrans %}">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="{{ main_pages.home or '/' }}" class="flex items-center gap-4">
+                    {% if settings.website.SiteSettings.logo %}
+                    {{ image(settings.website.SiteSettings.logo, "height-56", class="h-14 w-14", alt="Logo " ~ settings.website.SiteSettings.organization_name) }}
+                    {% else %}
+                    <img src="/static/images/MotoClubCastellazzoBormida-logo.webp" alt="Logo {{ settings.website.SiteSettings.organization_name }}" class="h-14 w-14">
+                    {% endif %}
+                    <div>
+                        <span class="text-navy font-heading font-bold text-xl block">{{ settings.website.SiteSettings.organization_name }}</span>
+                        <span class="text-navy text-xs tracking-widest">{% trans %}DAL{% endtrans %} {{ settings.website.SiteSettings.organization_founding_year }}</span>
+                    </div>
+                </a>
+                
+                <div class="hidden lg:flex items-center gap-6 ml-auto">
+                    {# Menu Dinamico da Wagtail #}
+                    {% if navbar and navbar.menu_items %}
+                        {% for item in navbar.menu_items %}
+                            {% if item.block_type == 'link' %}
+                                <a href="{{ item.value.url }}" 
+                                   class="text-navy text-sm hover:text-bordeaux transition">
+                                    {{ item.value.button_title }}
+                                </a>
+                            {% elif item.block_type == 'dropdown' %}
+                                <div class="relative group">
+                                    <button class="text-navy text-sm hover:text-bordeaux transition flex items-center gap-1">
+                                        {{ item.value.title }}
+                                        <i class="fas fa-chevron-down text-[10px]" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="absolute top-full left-0 mt-2 bg-white rounded-lg shadow-xl py-2 min-w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                                        {% for sublink in item.value.links %}
+                                            <a href="{{ sublink.url }}" 
+                                               class="block px-4 py-2 text-sm text-gray-600 hover:text-navy hover:bg-cream transition">
+                                                {{ sublink.button_title }}
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {# Fallback statico con URL dinamiche #}
+                        <a href="{{ main_pages.home or '/' }}" class="text-navy text-sm hover:text-bordeaux transition {% if request.path == '/' + request.LANGUAGE_CODE + '/' %}font-semibold border-b-2 border-navy pb-1{% endif %}">{{ _("Home") }}</a>
+                        <a href="{{ main_pages.news or '/novita/' }}" class="text-navy text-sm hover:text-bordeaux transition">{{ _("Novità") }}</a>
+                        <a href="{{ main_pages.about or '/chi-siamo/' }}" class="text-navy text-sm hover:text-bordeaux transition">{{ _("Chi Siamo") }}</a>
+                        <a href="{{ main_pages.events or '/eventi/' }}" class="text-navy text-sm hover:text-bordeaux transition">{{ _("Eventi") }}</a>
+                    {% endif %}
+                    <a href="{{ main_pages.contact or '/contatti/' }}" class="bg-bordeaux text-white text-sm font-bold px-5 py-2.5 rounded-full hover:bg-gold-dark hover:text-navy transition">
+                        {{ _("Contattaci") }}
+                    </a>
+                </div>
+                
+                {# Language Switcher Desktop - Dropdown con bandiere #}
+                <div class="hidden lg:block relative ml-4">
+                    <button id="langSwitcherBtn" 
+                            class="lang-switcher-btn flex items-center gap-2 px-3 py-2 rounded-full bg-navy/5 hover:bg-navy/10 transition"
+                            aria-label="{% trans %}Seleziona lingua{% endtrans %}"
+                            aria-expanded="false"
+                            aria-haspopup="true">
+                        {% set current_lang = {'it': '🇮🇹', 'en': '🇬🇧', 'fr': '🇫🇷', 'de': '🇩🇪', 'es': '🇪🇸'} %}
+                        <span class="lang-flag" aria-hidden="true">{{ current_lang.get(request.LANGUAGE_CODE, '🇮🇹') }}</span>
+                        <span class="text-navy text-sm font-medium">{{ request.LANGUAGE_CODE.upper() }}</span>
+                        <i class="fas fa-chevron-down text-navy text-xs" aria-hidden="true"></i>
+                    </button>
+                    
+                    <div id="langDropdown" class="lang-dropdown" role="menu">
+                        {% for lang_code, lang_name, flag in [('it', 'Italiano', '🇮🇹'), ('en', 'English', '🇬🇧'), ('fr', 'Français', '🇫🇷'), ('de', 'Deutsch', '🇩🇪'), ('es', 'Español', '🇪🇸')] %}
+                        <a href="/{{ lang_code }}{{ request.path[3:] }}" 
+                           class="lang-option {% if request.LANGUAGE_CODE == lang_code %}active{% endif %}"
+                           role="menuitem"
+                           {% if request.LANGUAGE_CODE == lang_code %}aria-current="page"{% endif %}>
+                            <span class="lang-flag" aria-hidden="true">{{ flag }}</span>
+                            <span class="lang-name">{{ lang_name }}</span>
+                            {% if request.LANGUAGE_CODE == lang_code %}
+                            <i class="fas fa-check text-gold text-sm" aria-hidden="true"></i>
+                            {% endif %}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <button id="mobileMenuBtn" class="lg:hidden text-navy text-2xl" aria-label="{% trans %}Apri menu di navigazione{% endtrans %}" aria-expanded="false">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        
+        {# Mobile Menu #}
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-gray-100" role="menu">
+            <div class="px-6 py-4 space-y-4">
+                {# Menu Dinamico da Wagtail #}
+                {% if navbar and navbar.menu_items %}
+                    {% for item in navbar.menu_items %}
+                        {% if item.block_type == 'link' %}
+                            <a href="{{ item.value.url }}" 
+                               class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100"
+                               role="menuitem">
+                                {% if item.value.icon %}<i class="{{ item.value.icon }} mr-2" aria-hidden="true"></i>{% endif %}
+                                {{ item.value.button_title }}
+                            </a>
+                        {% elif item.block_type == 'dropdown' %}
+                            <div class="py-2 border-b border-gray-100">
+                                <p class="text-navy font-semibold mb-2">
+                                    {% if item.value.icon %}<i class="{{ item.value.icon }} mr-2" aria-hidden="true"></i>{% endif %}
+                                    {{ item.value.title }}
+                                </p>
+                                {% for sublink in item.value.links %}
+                                    <a href="{{ sublink.url }}" 
+                                       class="block text-gray-600 hover:text-navy py-1 pl-4"
+                                       role="menuitem">
+                                        {% if sublink.icon %}<i class="{{ sublink.icon }} mr-2" aria-hidden="true"></i>{% endif %}
+                                        {{ sublink.button_title }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {# Fallback statico con URL dinamiche #}
+                    <a href="{{ main_pages.home or '/' }}" class="block text-navy font-semibold py-2 border-b border-gold/30" role="menuitem">{{ _("Home") }}</a>
+                    <a href="{{ main_pages.news or '/novita/' }}" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">{{ _("Novità") }}</a>
+                    <a href="{{ main_pages.about or '/chi-siamo/' }}" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">{{ _("Chi Siamo") }}</a>
+                    <a href="{{ main_pages.events or '/eventi/' }}" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">{{ _("Eventi") }}</a>
+                {% endif %}
+                <a href="{{ main_pages.contact or '/contatti/' }}" class="block bg-bordeaux text-white text-center font-bold px-6 py-3 rounded-full mt-4 hover:bg-gold-dark hover:text-navy transition" role="menuitem">{{ _("Contattaci") }}</a>
+                
+                {# Language Switcher Mobile - Grid ottimizzato per tap #}
+                <div class="pt-4 border-t border-gray-100">
+                    <p class="text-xs text-gray-500 mb-3 px-1">{% trans %}Seleziona lingua{% endtrans %}</p>
+                    <div class="lang-switcher-mobile">
+                        {% for lang_code, lang_name, flag in [('it', 'Italiano', '🇮🇹'), ('en', 'English', '🇬🇧'), ('fr', 'Français', '🇫🇷'), ('de', 'Deutsch', '🇩🇪'), ('es', 'Español', '🇪🇸')] %}
+                        <a href="/{{ lang_code }}{{ request.path[3:] }}" 
+                           class="lang-option {% if request.LANGUAGE_CODE == lang_code %}active text-white{% else %}text-navy{% endif %}"
+                           aria-label="{{ lang_name }}"
+                           {% if request.LANGUAGE_CODE == lang_code %}aria-current="page"{% endif %}>
+                            <span class="lang-flag" aria-hidden="true">{{ flag }}</span>
+                            <span class="lang-name">{{ lang_code.upper() }}</span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {# Main Content #}
+    {% block content %}{% endblock %}
+
+    {# Footer #}
+    <footer class="bg-navy text-white py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-[1.5fr_0.5fr_1fr_1fr_1fr] gap-12 lg:gap-8">
+                {# Logo & Info #}
+                <div>
+                    <div class="flex items-center gap-4 mb-6">
+                        {% if settings.website.SiteSettings.logo %}
+                        {{ image(settings.website.SiteSettings.logo, "height-56", class="h-14 w-14", alt="Logo " ~ settings.website.SiteSettings.organization_name) }}
+                        {% else %}
+                        <img src="/static/images/MotoClubCastellazzoBormida-logo.webp" alt="Logo {{ settings.website.SiteSettings.organization_name }}" class="h-14 w-14">
+                        {% endif %}
+                        <div>
+                            <span class="font-heading font-bold text-lg block whitespace-nowrap">{{ settings.website.SiteSettings.organization_name }}</span>
+                            <span class="text-gold text-xs tracking-widest">{{ _("DAL") }} {{ settings.website.SiteSettings.organization_founding_year }}</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        {% if footer and footer.tagline %}
+                            {{ footer.tagline }}
+                        {% else %}
+                            {{ _("Il più antico Moto Club del Piemonte. Passione, adrenalina e fratellanza su due ruote.") }}
+                        {% endif %}
+                    </p>
+                    {# Social Links #}
+                    <div class="flex gap-4">
+                        {% if footer and footer.social_links %}
+                            {% set social_icons = {'facebook': 'fab fa-facebook-f', 'instagram': 'fab fa-instagram', 'youtube': 'fab fa-youtube', 'twitter': 'fab fa-x-twitter', 'whatsapp': 'fab fa-whatsapp'} %}
+                            {% for social in footer.social_links %}
+                                <a href="{{ social.value.url }}" 
+                                   class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-navy transition" 
+                                   aria-label="{{ social.value.platform }}"
+                                   target="_blank" rel="noopener noreferrer">
+                                    <i class="{{ social_icons.get(social.value.platform, 'fas fa-link') }}" aria-hidden="true"></i>
+                                </a>
+                            {% endfor %}
+                        {% else %}
+                            <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-navy transition" aria-label="Facebook">
+                                <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-navy transition" aria-label="Instagram">
+                                <i class="fab fa-instagram" aria-hidden="true"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-navy transition" aria-label="YouTube">
+                                <i class="fab fa-youtube" aria-hidden="true"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                {# Spacer column #}
+                <div class="hidden lg:block"></div>
+                
+                {# Dynamic Columns OR Fallback #}
+                {% if footer and footer.columns %}
+                    {% for column in footer.columns %}
+                        <div>
+                            <h4 class="text-gold font-heading font-bold text-lg mb-6">{{ column.value.title }}</h4>
+                            <ul class="space-y-3">
+                                {% for link in column.value.links %}
+                                    <li>
+                                        <a href="{{ link.url }}" 
+                                           class="text-gray-400 hover:text-white transition">
+                                            {{ link.button_title }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {# Fallback statico con URL dinamiche #}
+                    {# Quick Links #}
+                    <div>
+                        <h4 class="text-gold font-heading font-bold text-lg mb-6">{{ _("Link Rapidi") }}</h4>
+                        <ul class="space-y-3">
+                            <li><a href="{{ main_pages.home or '/' }}" class="text-gray-400 hover:text-white transition">{{ _("Home") }}</a></li>
+                            <li><a href="{{ main_pages.news or '/novita/' }}" class="text-gray-400 hover:text-white transition">{{ _("Novità") }}</a></li>
+                            <li><a href="{{ main_pages.about or '/chi-siamo/' }}" class="text-gray-400 hover:text-white transition">{{ _("Chi Siamo") }}</a></li>
+                            <li><a href="{{ main_pages.events or '/eventi/' }}" class="text-gray-400 hover:text-white transition">{{ _("Eventi") }}</a></li>
+                            <li><a href="{{ main_pages.contact or '/contatti/' }}" class="text-gray-400 hover:text-white transition">{{ _("Contatti") }}</a></li>
+                        </ul>
+                    </div>
+                    
+                    {# Trasparenza #}
+                    <div>
+                        <h4 class="text-gold font-heading font-bold text-lg mb-6">{{ _("Trasparenza") }}</h4>
+                        <ul class="space-y-3">
+                            <li><a href="{{ main_pages.privacy or '/privacy/' }}" class="text-gray-400 hover:text-white transition">{{ _("Privacy Policy") }}</a></li>
+                        </ul>
+                    </div>
+                {% endif %}
+                
+                {# Contatti #}
+                <div>
+                    <h4 class="text-gold font-heading font-bold text-lg mb-6">{{ _("Contatti") }}</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-map-marker-alt text-gold mt-1" aria-hidden="true"></i>
+                            <span>{% if settings.website.SiteSettings.organization_street_address %}{{ settings.website.SiteSettings.organization_street_address }}<br>{% endif %}{{ settings.website.SiteSettings.organization_city }}<br>{{ settings.website.SiteSettings.organization_region }}, {{ settings.website.SiteSettings.organization_country }}</span>
+                        </li>
+                        {% if settings.website.SiteSettings.organization_email %}
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-envelope text-gold" aria-hidden="true"></i>
+                            <a href="mailto:{{ settings.website.SiteSettings.organization_email }}" class="hover:text-white transition">{{ settings.website.SiteSettings.organization_email }}</a>
+                        </li>
+                        {% endif %}
+                        {% if settings.website.SiteSettings.organization_phone %}
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-phone text-gold" aria-hidden="true"></i>
+                            <a href="tel:{{ settings.website.SiteSettings.organization_phone|replace(' ', '') }}" class="hover:text-white transition">{{ settings.website.SiteSettings.organization_phone }}</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            
+            {# Footer Bottom #}
+            <div class="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-400 text-sm">
+                    {% if footer and footer.copyright_text %}
+                        {{ footer.copyright_text }}
+                    {% else %}
+                        &copy; {{ now().year }} {{ settings.website.SiteSettings.organization_name }}. {{ _("Tutti i diritti riservati.") }}
+                    {% endif %}
+                </p>
+                <div class="flex items-center gap-2">
+                    <span class="text-gray-400 text-xs mr-2">{% trans %}Lingua{% endtrans %}:</span>
+                    {% for lang_code, lang_name, flag in [('it', 'Italiano', '🇮🇹'), ('en', 'English', '🇬🇧'), ('fr', 'Français', '🇫🇷'), ('de', 'Deutsch', '🇩🇪'), ('es', 'Español', '🇪🇸')] %}
+                    <a href="/{{ lang_code }}{{ request.path[3:] }}" 
+                       class="inline-flex items-center gap-1 px-2 py-1 rounded transition {% if request.LANGUAGE_CODE == lang_code %}bg-gold text-navy font-semibold{% else %}text-gray-400 hover:text-white hover:bg-white/10{% endif %}"
+                       title="{{ lang_name }}"
+                       aria-label="{{ lang_name }}"
+                       {% if request.LANGUAGE_CODE == lang_code %}aria-current="page"{% endif %}>
+                        <span class="text-lg" aria-hidden="true">{{ flag }}</span>
+                        <span class="text-xs">{{ lang_code.upper() }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    {# Leaflet JS per mappe #}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    {# AOS Animation #}
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+    </script>
+    
+    {# Mobile Menu Toggle #}
+    <script>
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn?.addEventListener('click', () => {
+            const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+            mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+            mobileMenu.classList.toggle('hidden');
+            
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        
+        // Language Switcher Dropdown
+        const langSwitcherBtn = document.getElementById('langSwitcherBtn');
+        const langDropdown = document.getElementById('langDropdown');
+        
+        if (langSwitcherBtn && langDropdown) {
+            // Toggle dropdown
+            langSwitcherBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isExpanded = langSwitcherBtn.getAttribute('aria-expanded') === 'true';
+                langSwitcherBtn.setAttribute('aria-expanded', !isExpanded);
+                langDropdown.classList.toggle('active');
+            });
+            
+            // Close on click outside
+            document.addEventListener('click', (e) => {
+                if (!langSwitcherBtn.contains(e.target) && !langDropdown.contains(e.target)) {
+                    langSwitcherBtn.setAttribute('aria-expanded', 'false');
+                    langDropdown.classList.remove('active');
+                }
+            });
+            
+            // Close on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && langDropdown.classList.contains('active')) {
+                    langSwitcherBtn.setAttribute('aria-expanded', 'false');
+                    langDropdown.classList.remove('active');
+                    langSwitcherBtn.focus();
+                }
+            });
+            
+            // Keyboard navigation in dropdown
+            const langOptions = langDropdown.querySelectorAll('.lang-option');
+            langOptions.forEach((option, index) => {
+                option.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        const nextIndex = (index + 1) % langOptions.length;
+                        langOptions[nextIndex].focus();
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        const prevIndex = (index - 1 + langOptions.length) % langOptions.length;
+                        langOptions[prevIndex].focus();
+                    }
+                });
+            });
+        }
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

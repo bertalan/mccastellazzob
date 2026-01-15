@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Galleria fotografica del Moto Club Castellazzo Bormida. Rivivi i momenti migliori dei nostri raduni, escursioni e gare.">
+    <title>Galleria | Moto Club Castellazzo Bormida</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold': '#ffd700',
+                        'gold-dark': '#f6c401',
+                        'bordeaux': '#ab0031',
+                        'navy': '#1B263B',
+                        'navy-light': '#2D3E5C',
+                        'amaranth': '#9B1D64',
+                        'amaranth-dark': '#7A164F',
+                        'cream': '#FEFCF6',
+                        'warm-gray': '#F5F3EE',
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        .sr-only:focus, .focus\:not-sr-only:focus {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: auto;
+            height: auto;
+            padding: 1rem 2rem;
+            margin: 0;
+            overflow: visible;
+            clip: auto;
+            white-space: normal;
+            background: #D4AF37;
+            color: #1B263B;
+            font-weight: bold;
+            z-index: 9999;
+            border-radius: 8px;
+        }
+        
+        *:focus-visible {
+            outline: 3px solid #D4AF37;
+            outline-offset: 2px;
+        }
+        
+        .gallery-item {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .gallery-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(27, 38, 59, 0.2);
+        }
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        .gallery-overlay {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background-color: #D4AF37;
+            color: #1B263B;
+        }
+    </style>
+</head>
+<body class="bg-cream">
+    <!-- Skip Link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only">Vai al contenuto principale</a>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white shadow-md" aria-label="Navigazione principale">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center gap-4">
+                    <img src="images/MotoClubCastellazzoBormida-logo.webp" alt="Logo Moto Club Castellazzo Bormida" class="h-14 w-14">
+                    <div>
+                        <span class="text-navy font-heading font-bold text-xl block">MC Castellazzo Bormida</span>
+                        <span class="text-gray-500 text-xs tracking-widest">DAL 1933</span>
+                    </div>
+                </a>
+                
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="index.html" class="text-gray-600 hover:text-navy transition">Home</a>
+                    <a href="chi-siamo.html" class="text-gray-600 hover:text-navy transition">Chi Siamo</a>
+                    <a href="consiglio.html" class="text-gray-600 hover:text-navy transition">Il Consiglio</a>
+                    <a href="eventi.html" class="text-gray-600 hover:text-navy transition">Eventi</a>
+                    <a href="galleria.html" class="text-navy font-semibold border-b-2 border-gold pb-1" aria-current="page">Galleria</a>
+                    <a href="contatti.html" class="bg-bordeaux text-white font-bold px-6 py-3 rounded-full hover:bg-gold-dark hover:text-navy transition">
+                        Contattaci
+                    </a>
+                </div>
+                
+                <button id="mobileMenuBtn" class="lg:hidden text-navy text-2xl" aria-label="Apri menu di navigazione" aria-expanded="false">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-gray-100" role="menu">
+            <div class="px-6 py-4 space-y-4">
+                <a href="index.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Home</a>
+                <a href="chi-siamo.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Chi Siamo</a>
+                <a href="consiglio.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Il Consiglio</a>
+                <a href="eventi.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Eventi</a>
+                <a href="galleria.html" class="block text-navy font-semibold py-2 border-b border-gold/30" role="menuitem" aria-current="page">Galleria</a>
+                <a href="contatti.html" class="block bg-bordeaux text-white text-center font-bold px-6 py-3 rounded-full mt-4 hover:bg-gold-dark hover:text-navy transition" role="menuitem">Contattaci</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-32 pb-16 bg-navy">
+        <div class="max-w-7xl mx-auto px-6">
+            <nav aria-label="Breadcrumb" class="mb-8">
+                <ol class="flex items-center gap-2 text-sm text-gray-400">
+                    <li><a href="index.html" class="hover:text-gold transition">Home</a></li>
+                    <li><i class="fas fa-chevron-right text-xs" aria-hidden="true"></i></li>
+                    <li aria-current="page" class="text-gold">Galleria</li>
+                </ol>
+            </nav>
+            
+            <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up">
+                Galleria <span class="text-gold">Fotografica</span>
+            </h1>
+            <p class="text-xl text-gray-300 max-w-2xl" data-aos="fade-up" data-aos-delay="100">
+                Rivivi i momenti più emozionanti attraverso le nostre foto
+            </p>
+        </div>
+    </header>
+
+    <main id="main-content" role="main">
+        <!-- Filter Section -->
+        <section class="py-8 bg-white sticky top-[88px] z-40 shadow-sm" aria-label="Filtri galleria">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex flex-wrap justify-center gap-3" role="group" aria-label="Filtra per categoria">
+                    <button class="filter-btn active px-6 py-3 rounded-full font-bold transition bg-gold text-navy" data-filter="all">
+                        Tutti
+                    </button>
+                    <button class="filter-btn px-6 py-3 rounded-full font-bold transition bg-warm-gray text-navy hover:bg-gold hover:text-navy" data-filter="raduni">
+                        Raduni
+                    </button>
+                    <button class="filter-btn px-6 py-3 rounded-full font-bold transition bg-warm-gray text-navy hover:bg-gold hover:text-navy" data-filter="escursioni">
+                        Escursioni
+                    </button>
+                    <button class="filter-btn px-6 py-3 rounded-full font-bold transition bg-warm-gray text-navy hover:bg-gold hover:text-navy" data-filter="gare">
+                        Gare
+                    </button>
+                    <button class="filter-btn px-6 py-3 rounded-full font-bold transition bg-warm-gray text-navy hover:bg-gold hover:text-navy" data-filter="sociali">
+                        Eventi Sociali
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Grid -->
+        <section class="py-16 bg-cream" aria-labelledby="gallery-heading">
+            <h2 id="gallery-heading" class="sr-only">Le nostre foto</h2>
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="galleryGrid">
+                    <!-- Raduni -->
+                    <button class="gallery-item relative overflow-hidden rounded-xl aspect-square" data-category="raduni" data-index="0" aria-label="Apri foto Raduno Primaverile 2025">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400" alt="Gruppo di motociclisti al raduno primaverile" class="w-full h-full object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-navy/70 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-search-plus text-3xl mb-2" aria-hidden="true"></i>
+                                <p class="font-bold">Raduno Primaverile 2025</p>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="gallery-item relative overflow-hidden rounded-xl aspect-square" data-category="escursioni" data-index="1" aria-label="Apri foto Escursione Langhe">
+                        <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=400" alt="Moto sulle strade delle Langhe" class="w-full h-full object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-navy/70 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-search-plus text-3xl mb-2" aria-hidden="true"></i>
+                                <p class="font-bold">Langhe in Moto</p>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="gallery-item relative overflow-hidden rounded-xl aspect-square" data-category="gare" data-index="2" aria-label="Apri foto Trofeo Sociale">
+                        <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=400" alt="Moto in pista durante gara" class="w-full h-full object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-navy/70 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-search-plus text-3xl mb-2" aria-hidden="true"></i>
+                                <p class="font-bold">Trofeo Sociale</p>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="gallery-item relative overflow-hidden rounded-xl aspect-square" data-category="sociali" data-index="3" aria-label="Apri foto Cena Sociale">
+                        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400" alt="Soci a cena insieme" class="w-full h-full object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-navy/70 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-search-plus text-3xl mb-2" aria-hidden="true"></i>
+                                <p class="font-bold">Cena di Natale</p>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="gallery-item relative overflow-hidden rounded-xl aspect-square" data-category="raduni" data-index="4" aria-label="Apri foto Raduno Interregionale">
+                        <img src="https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=400" alt="Raduno con moto parcheggiate" class="w-full h-full object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-navy/70 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-search-plus text-3xl mb-2" aria-hidden="true"></i>
+                                <p class="font-bold">Raduno Interregionale</p>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="gallery-item relative overflow-hidden rounded-xl aspect-square" data-category="escursioni" data-index="5" aria-label="Apri foto Colli Tortonesi">
+                        <img src="https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?w=400" alt="Strada panoramica sui colli" class="w-full h-full object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-navy/70 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-search-plus text-3xl mb-2" aria-hidden="true"></i>
+                                <p class="font-bold">Colli Tortonesi</p>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="gallery-item relative overflow-hidden rounded-xl aspect-square" data-category="gare" data-index="6" aria-label="Apri foto Campionato Regionale">
+                        <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=400" alt="Moto da corsa in pista" class="w-full h-full object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-navy/70 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-search-plus text-3xl mb-2" aria-hidden="true"></i>
+                                <p class="font-bold">Campionato Regionale</p>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="gallery-item relative overflow-hidden rounded-xl aspect-square" data-category="sociali" data-index="7" aria-label="Apri foto Festa di Anniversario">
+                        <img src="https://images.unsplash.com/photo-1516220362602-72f1539d1e5c?w=400" alt="Festa in sede" class="w-full h-full object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-navy/70 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-search-plus text-3xl mb-2" aria-hidden="true"></i>
+                                <p class="font-bold">90° Anniversario</p>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="gallery-item relative overflow-hidden rounded-xl aspect-square" data-category="raduni" data-index="8" aria-label="Apri foto Raduno Estivo">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400" alt="Raduno estivo" class="w-full h-full object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-navy/70 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-search-plus text-3xl mb-2" aria-hidden="true"></i>
+                                <p class="font-bold">Raduno Estivo</p>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="gallery-item relative overflow-hidden rounded-xl aspect-square" data-category="escursioni" data-index="9" aria-label="Apri foto Giro dei Laghi">
+                        <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=400" alt="Moto vicino a un lago" class="w-full h-full object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-navy/70 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-search-plus text-3xl mb-2" aria-hidden="true"></i>
+                                <p class="font-bold">Giro dei Laghi</p>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="gallery-item relative overflow-hidden rounded-xl aspect-square" data-category="gare" data-index="10" aria-label="Apri foto Enduro Challenge">
+                        <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=400" alt="Gara enduro" class="w-full h-full object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-navy/70 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-search-plus text-3xl mb-2" aria-hidden="true"></i>
+                                <p class="font-bold">Enduro Challenge</p>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="gallery-item relative overflow-hidden rounded-xl aspect-square" data-category="sociali" data-index="11" aria-label="Apri foto Barbecue Estivo">
+                        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400" alt="Barbecue con soci" class="w-full h-full object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-navy/70 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-search-plus text-3xl mb-2" aria-hidden="true"></i>
+                                <p class="font-bold">Barbecue Estivo</p>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="gallery-item relative overflow-hidden rounded-xl aspect-square" data-category="raduni" data-index="12" aria-label="Apri foto Raduno Nazionale">
+                        <img src="https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=400" alt="Grande raduno nazionale" class="w-full h-full object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-navy/70 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-search-plus text-3xl mb-2" aria-hidden="true"></i>
+                                <p class="font-bold">Raduno Nazionale FMI</p>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="gallery-item relative overflow-hidden rounded-xl aspect-square" data-category="escursioni" data-index="13" aria-label="Apri foto Valle d'Aosta">
+                        <img src="https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?w=400" alt="Montagne Valle d'Aosta" class="w-full h-full object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-navy/70 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-search-plus text-3xl mb-2" aria-hidden="true"></i>
+                                <p class="font-bold">Tour Valle d'Aosta</p>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="gallery-item relative overflow-hidden rounded-xl aspect-square" data-category="gare" data-index="14" aria-label="Apri foto Gimkana">
+                        <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=400" alt="Gimkana in piazza" class="w-full h-full object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-navy/70 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-search-plus text-3xl mb-2" aria-hidden="true"></i>
+                                <p class="font-bold">Gimkana in Piazza</p>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="gallery-item relative overflow-hidden rounded-xl aspect-square" data-category="sociali" data-index="15" aria-label="Apri foto Assemblea Soci">
+                        <img src="https://images.unsplash.com/photo-1516220362602-72f1539d1e5c?w=400" alt="Assemblea soci" class="w-full h-full object-cover">
+                        <div class="gallery-overlay absolute inset-0 bg-navy/70 flex items-center justify-center">
+                            <div class="text-center text-white">
+                                <i class="fas fa-search-plus text-3xl mb-2" aria-hidden="true"></i>
+                                <p class="font-bold">Assemblea Annuale</p>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20 bg-navy" aria-labelledby="cta-heading">
+            <div class="max-w-4xl mx-auto px-6 text-center" data-aos="zoom-in">
+                <h2 id="cta-heading" class="text-3xl md:text-5xl font-heading font-black text-white mb-6">
+                    Vuoi Essere Nelle <span class="text-gold">Prossime Foto</span>?
+                </h2>
+                <p class="text-lg text-gray-300 mb-10 max-w-2xl mx-auto">
+                    Unisciti al club e vivi momenti indimenticabili che rimarranno per sempre nella nostra galleria!
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="contatti.html" class="bg-gold text-navy font-bold px-10 py-5 rounded-full text-lg hover:bg-gold-dark transition flex items-center justify-center gap-3">
+                        <i class="fas fa-user-plus" aria-hidden="true"></i>
+                        <span>Diventa Socio</span>
+                    </a>
+                    <a href="eventi.html" class="bg-white/10 border-2 border-white text-white font-bold px-10 py-5 rounded-full text-lg hover:bg-white/20 transition flex items-center justify-center gap-3">
+                        <i class="fas fa-calendar" aria-hidden="true"></i>
+                        <span>Prossimi Eventi</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 bg-black/95 z-50 hidden items-center justify-center" role="dialog" aria-modal="true" aria-label="Visualizzatore immagini">
+        <button id="closeLightbox" class="absolute top-6 right-6 text-white text-3xl hover:text-gold transition" aria-label="Chiudi">
+            <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+        <button id="prevImage" class="absolute left-6 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gold transition" aria-label="Immagine precedente">
+            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+        </button>
+        <button id="nextImage" class="absolute right-6 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gold transition" aria-label="Immagine successiva">
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+        </button>
+        <div class="max-w-4xl max-h-[80vh] mx-4">
+            <img id="lightboxImage" src="" alt="" class="max-w-full max-h-[80vh] object-contain rounded-lg">
+            <p id="lightboxCaption" class="text-white text-center mt-4 text-lg font-bold"></p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-navy-light pt-16 pb-8" role="contentinfo">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="images/MotoClubCastellazzoBormida-logo.webp" alt="" class="h-12" aria-hidden="true">
+                        <span class="text-gold font-heading font-bold">MC Castellazzo Bormida</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Dal 1933 la passione per le due ruote nel cuore del Piemonte.</p>
+                </div>
+                
+                <nav aria-label="Link rapidi">
+                    <h3 class="text-gold font-heading font-bold mb-4">Link Rapidi</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="chi-siamo.html" class="hover:text-gold transition">Chi Siamo</a></li>
+                        <li><a href="consiglio.html" class="hover:text-gold transition">Il Consiglio</a></li>
+                        <li><a href="eventi.html" class="hover:text-gold transition">Eventi</a></li>
+                        <li><a href="galleria.html" class="hover:text-gold transition">Galleria</a></li>
+                    </ul>
+                </nav>
+                
+                <div>
+                    <h3 class="text-gold font-heading font-bold mb-4">Contatti</h3>
+                    <address class="not-italic space-y-2 text-gray-400 text-sm">
+                        <p><i class="fas fa-map-marker-alt text-gold mr-2" aria-hidden="true"></i>Via Roma 45, 15073 Castellazzo Bormida (AL)</p>
+                        <p><i class="fas fa-phone text-gold mr-2" aria-hidden="true"></i><a href="tel:+390131278945" class="hover:text-gold transition">+39 0131 278945</a></p>
+                        <p><i class="fas fa-envelope text-gold mr-2" aria-hidden="true"></i><a href="mailto:info@mccastellazzob.com" class="hover:text-gold transition">info@mccastellazzob.com</a></p>
+                    </address>
+                </div>
+                
+                <div>
+                    <h3 class="text-gold font-heading font-bold mb-4">Seguici</h3>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-10 h-10 bg-navy hover:bg-gold rounded-lg flex items-center justify-center text-gray-400 hover:text-navy transition" aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-navy hover:bg-gold rounded-lg flex items-center justify-center text-gray-400 hover:text-navy transition" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-navy hover:bg-gold rounded-lg flex items-center justify-center text-gray-400 hover:text-navy transition" aria-label="YouTube">
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2026 Moto Club Castellazzo Bormida. Tutti i diritti riservati.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 600, once: true });
+        
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+            mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Filter Gallery
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-gold', 'text-navy');
+                    b.classList.add('bg-warm-gray');
+                });
+                btn.classList.add('active', 'bg-gold', 'text-navy');
+                btn.classList.remove('bg-warm-gray');
+                
+                const filter = btn.dataset.filter;
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Lightbox
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const lightboxCaption = document.getElementById('lightboxCaption');
+        const closeLightbox = document.getElementById('closeLightbox');
+        const prevImage = document.getElementById('prevImage');
+        const nextImage = document.getElementById('nextImage');
+        
+        let currentIndex = 0;
+        const images = Array.from(galleryItems).map(item => ({
+            src: item.querySelector('img').src.replace('w=400', 'w=1200'),
+            caption: item.querySelector('.gallery-overlay p').textContent
+        }));
+        
+        function openLightbox(index) {
+            currentIndex = index;
+            updateLightboxImage();
+            lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function updateLightboxImage() {
+            lightboxImage.src = images[currentIndex].src;
+            lightboxImage.alt = images[currentIndex].caption;
+            lightboxCaption.textContent = images[currentIndex].caption;
+        }
+        
+        function closeLightboxHandler() {
+            lightbox.classList.add('hidden');
+            lightbox.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+        
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => openLightbox(index));
+        });
+        
+        closeLightbox.addEventListener('click', closeLightboxHandler);
+        
+        prevImage.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateLightboxImage();
+        });
+        
+        nextImage.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateLightboxImage();
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('hidden')) {
+                if (e.key === 'Escape') closeLightboxHandler();
+                if (e.key === 'ArrowLeft') {
+                    currentIndex = (currentIndex - 1 + images.length) % images.length;
+                    updateLightboxImage();
+                }
+                if (e.key === 'ArrowRight') {
+                    currentIndex = (currentIndex + 1) % images.length;
+                    updateLightboxImage();
+                }
+            }
+        });
+        
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightboxHandler();
+        });
+    </script>
+    
+    <!-- Color Management System -->
+    <script src="js/color-manager.js"></script>
+    <script src="js/color-config.js"></script>
+</body>
+</html>

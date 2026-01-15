@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Moto Club Castellazzo Bormida - Dal 1933, passione su due ruote nel cuore del Piemonte">
+    <meta name="keywords" content="moto club, castellazzo bormida, motociclismo, eventi moto, piemonte">
+    <title>Moto Club Castellazzo Bormida | Dal 1933</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- AOS Animation -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <!-- Dark/Light Mode Toggle -->
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- News Ticker -->
+    <div class="news-ticker">
+        <div class="ticker-wrap">
+            <div class="ticker-content">
+                <span class="ticker-item"><i class="fas fa-bullhorn"></i> Iscrizioni aperte per il Gran Raduno Primaverile 2026</span>
+                <span class="ticker-item"><i class="fas fa-star"></i> Nominato miglior Moto Club del Piemonte 2025</span>
+                <span class="ticker-item"><i class="fas fa-trophy"></i> Celebriamo 93 anni di passione dal 1933</span>
+                <span class="ticker-item"><i class="fas fa-calendar"></i> Prossima uscita: Giro dei Castelli - 15 Marzo</span>
+                <span class="ticker-item"><i class="fas fa-users"></i> Raggiunti 250 membri attivi!</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header / Navigation -->
+    <header id="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="#home" class="logo">
+                    <img src="images/MotoClubCastellazzoBormida-logo.webp" alt="Moto Club Castellazzo Bormida Logo">
+                    <span class="logo-text">
+                        <strong>MC Castellazzo Bormida</strong>
+                        <small>Dal 1933</small>
+                    </span>
+                </a>
+                
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#chi-siamo" class="nav-link">Chi Siamo</a></li>
+                    <li><a href="#consiglio" class="nav-link">Il Consiglio</a></li>
+                    <li><a href="#eventi" class="nav-link">Eventi</a></li>
+                    <li><a href="#galleria" class="nav-link">Galleria</a></li>
+                    <li><a href="#contatti" class="nav-link">Contatti</a></li>
+                </ul>
+                
+                <button class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div id="particles-js"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title" data-aos="fade-down">
+                <span class="typing-text"></span>
+            </h1>
+            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                93 anni di passione su due ruote nel cuore del Piemonte
+            </p>
+            
+            <!-- Event Countdown -->
+            <div class="event-spotlight" data-aos="zoom-in" data-aos-delay="400">
+                <div class="spotlight-badge">
+                    <i class="fas fa-fire"></i> PROSSIMO EVENTO
+                </div>
+                <h3>Gran Raduno Primaverile 2026</h3>
+                <div class="countdown" id="countdown">
+                    <div class="countdown-item">
+                        <span class="countdown-value" id="days">45</span>
+                        <span class="countdown-label">Giorni</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-value" id="hours">12</span>
+                        <span class="countdown-label">Ore</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-value" id="minutes">34</span>
+                        <span class="countdown-label">Minuti</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-value" id="seconds">56</span>
+                        <span class="countdown-label">Secondi</span>
+                    </div>
+                </div>
+                <button class="cta-button">
+                    <i class="fas fa-motorcycle"></i> Iscriviti Ora
+                </button>
+            </div>
+            
+            <a href="#chi-siamo" class="scroll-down">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span class="stat-number" data-target="93">0</span>
+                    <span class="stat-label">Anni di Storia</span>
+                </div>
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-users"></i>
+                    <span class="stat-number" data-target="250">0</span>
+                    <span class="stat-label">Membri Attivi</span>
+                </div>
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-flag-checkered"></i>
+                    <span class="stat-number" data-target="52">0</span>
+                    <span class="stat-label">Eventi Annuali</span>
+                </div>
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fas fa-route"></i>
+                    <span class="stat-number" data-target="120000">0</span>
+                    <span class="stat-label">Km Percorsi</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chi Siamo Section -->
+    <section id="chi-siamo" class="section chi-siamo">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Chi Siamo</h2>
+                <p class="section-subtitle">Una storia lunga 93 anni</p>
+            </div>
+            
+            <div class="content-grid">
+                <div class="content-text" data-aos="fade-right">
+                    <h3>La Nostra Storia</h3>
+                    <p>Fondato nel <strong>1933</strong>, il Moto Club Castellazzo Bormida è uno dei club motociclistici più antichi e prestigiosi del Piemonte. Nato dalla passione di un gruppo di pionieri del motociclismo, il nostro club ha attraversato quasi un secolo di storia, mantenendo intatta la dedizione per le due ruote.</p>
+                    
+                    <p>Con sede a <strong>Castellazzo Bormida</strong>, in provincia di Alessandria, rappresentiamo un punto di riferimento per tutti gli appassionati di moto della regione. Organizziamo raduni, escursioni, gare e momenti di aggregazione che uniscono centinaia di motociclisti ogni anno.</p>
+                    
+                    <div class="values-grid">
+                        <div class="value-item">
+                            <i class="fas fa-heart"></i>
+                            <h4>Passione</h4>
+                            <p>L'amore per le moto ci unisce</p>
+                        </div>
+                        <div class="value-item">
+                            <i class="fas fa-handshake"></i>
+                            <h4>Amicizia</h4>
+                            <p>Una grande famiglia di motociclisti</p>
+                        </div>
+                        <div class="value-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <h4>Sicurezza</h4>
+                            <p>Guida responsabile e consapevole</p>
+                        </div>
+                        <div class="value-item">
+                            <i class="fas fa-landmark"></i>
+                            <h4>Tradizione</h4>
+                            <p>93 anni di storia e cultura</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-vertical" data-aos="fade-left">
+                    <div class="timeline-item">
+                        <div class="timeline-marker">1933</div>
+                        <div class="timeline-content">
+                            <h4>Fondazione</h4>
+                            <p>Nasce il Moto Club Castellazzo Bormida, tra i primi in Piemonte</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">1955</div>
+                        <div class="timeline-content">
+                            <h4>Prima Sede Ufficiale</h4>
+                            <p>Acquisizione della sede storica in Via Roma</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">1978</div>
+                        <div class="timeline-content">
+                            <h4>Gran Premio Nazionale</h4>
+                            <p>Organizzazione del primo GP motociclistico regionale</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">2003</div>
+                        <div class="timeline-content">
+                            <h4>70° Anniversario</h4>
+                            <p>Raduno storico con oltre 500 moto partecipanti</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">2025</div>
+                        <div class="timeline-content">
+                            <h4>Premio Regionale</h4>
+                            <p>Miglior Moto Club del Piemonte</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item active">
+                        <div class="timeline-marker">2026</div>
+                        <div class="timeline-content">
+                            <h4>Oggi</h4>
+                            <p>250 membri attivi e decine di eventi all'anno</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consiglio Direttivo Section -->
+    <section id="consiglio" class="section consiglio">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Il Consiglio Direttivo</h2>
+                <p class="section-subtitle">Il team che guida il nostro club</p>
+            </div>
+            
+            <div class="council-grid">
+                <div class="council-card" data-aos="flip-left" data-aos-delay="100">
+                    <div class="card-front">
+                        <div class="member-photo">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Marco Ferraris</h3>
+                        <p class="member-role">Presidente</p>
+                    </div>
+                    <div class="card-back">
+                        <h3>Marco Ferraris</h3>
+                        <p class="member-role">Presidente</p>
+                        <p class="member-bio">Guida il club dal 2018 con passione e dedizione. Motociclista da 30 anni.</p>
+                        <div class="member-contact">
+                            <a href="mailto:presidente@mccastellazzob.com"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="council-card" data-aos="flip-left" data-aos-delay="200">
+                    <div class="card-front">
+                        <div class="member-photo">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Laura Rossi</h3>
+                        <p class="member-role">Vice Presidente</p>
+                    </div>
+                    <div class="card-back">
+                        <h3>Laura Rossi</h3>
+                        <p class="member-role">Vice Presidente</p>
+                        <p class="member-bio">Coordina le attività sociali e gli eventi. Prima donna nel consiglio direttivo.</p>
+                        <div class="member-contact">
+                            <a href="mailto:vicepresidente@mccastellazzob.com"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="council-card" data-aos="flip-left" data-aos-delay="300">
+                    <div class="card-front">
+                        <div class="member-photo">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Andrea Bianchi</h3>
+                        <p class="member-role">Segretario</p>
+                    </div>
+                    <div class="card-back">
+                        <h3>Andrea Bianchi</h3>
+                        <p class="member-role">Segretario</p>
+                        <p class="member-bio">Gestisce la comunicazione interna ed esterna del club dal 2020.</p>
+                        <div class="member-contact">
+                            <a href="mailto:segretario@mccastellazzob.com"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="council-card" data-aos="flip-left" data-aos-delay="400">
+                    <div class="card-front">
+                        <div class="member-photo">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Giuseppe Molinari</h3>
+                        <p class="member-role">Tesoriere</p>
+                    </div>
+                    <div class="card-back">
+                        <h3>Giuseppe Molinari</h3>
+                        <p class="member-role">Tesoriere</p>
+                        <p class="member-bio">Cura la gestione finanziaria e amministrativa del club.</p>
+                        <div class="member-contact">
+                            <a href="mailto:tesoriere@mccastellazzob.com"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="council-card" data-aos="flip-left" data-aos-delay="500">
+                    <div class="card-front">
+                        <div class="member-photo">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Stefano Valenti</h3>
+                        <p class="member-role">Responsabile Eventi</p>
+                    </div>
+                    <div class="card-back">
+                        <h3>Stefano Valenti</h3>
+                        <p class="member-role">Responsabile Eventi</p>
+                        <p class="member-bio">Organizza e coordina tutti gli eventi e le uscite del club.</p>
+                        <div class="member-contact">
+                            <a href="mailto:eventi@mccastellazzob.com"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="council-card" data-aos="flip-left" data-aos-delay="600">
+                    <div class="card-front">
+                        <div class="member-photo">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3>Chiara Lombardi</h3>
+                        <p class="member-role">Responsabile Social</p>
+                    </div>
+                    <div class="card-back">
+                        <h3>Chiara Lombardi</h3>
+                        <p class="member-role">Responsabile Social</p>
+                        <p class="member-bio">Gestisce i canali social e la presenza digitale del club.</p>
+                        <div class="member-contact">
+                            <a href="mailto:social@mccastellazzob.com"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Eventi Section -->
+    <section id="eventi" class="section eventi">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Prossimi Eventi</h2>
+                <p class="section-subtitle">Non perdere i nostri raduni e uscite</p>
+            </div>
+            
+            <div class="events-grid">
+                <div class="event-card featured" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="event-badge">IN EVIDENZA</div>
+                    <div class="event-image">
+                        <i class="fas fa-flag-checkered"></i>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">
+                            <span class="day">15</span>
+                            <span class="month">MAR</span>
+                        </div>
+                        <h3>Gran Raduno Primaverile 2026</h3>
+                        <p class="event-description">Il più grande evento dell'anno! Raduno con oltre 300 moto, musica dal vivo, stand gastronomici e premi.</p>
+                        <div class="event-details">
+                            <span><i class="fas fa-map-marker-alt"></i> Castellazzo Bormida</span>
+                            <span><i class="fas fa-clock"></i> 09:00 - 20:00</span>
+                        </div>
+                        <button class="event-button">
+                            <i class="fas fa-ticket-alt"></i> Prenota Posto
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="event-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="event-image">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">
+                            <span class="day">22</span>
+                            <span class="month">MAR</span>
+                        </div>
+                        <h3>Giro dei Castelli Medievali</h3>
+                        <p class="event-description">Escursione panoramica tra i castelli del Monferrato. 120 km di curve e storia.</p>
+                        <div class="event-details">
+                            <span><i class="fas fa-map-marker-alt"></i> Partenza da Castellazzo</span>
+                            <span><i class="fas fa-clock"></i> 08:30</span>
+                        </div>
+                        <button class="event-button secondary">
+                            <i class="fas fa-info-circle"></i> Dettagli
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="event-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="event-image">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">
+                            <span class="day">05</span>
+                            <span class="month">APR</span>
+                        </div>
+                        <h3>Corso Manutenzione Base</h3>
+                        <p class="event-description">Workshop pratico sulla manutenzione ordinaria della moto. Aperto a tutti i livelli.</p>
+                        <div class="event-details">
+                            <span><i class="fas fa-map-marker-alt"></i> Sede del Club</span>
+                            <span><i class="fas fa-clock"></i> 14:00 - 18:00</span>
+                        </div>
+                        <button class="event-button secondary">
+                            <i class="fas fa-info-circle"></i> Dettagli
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="event-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="event-image">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">
+                            <span class="day">12</span>
+                            <span class="month">APR</span>
+                        </div>
+                        <h3>Weekend in Valle d'Aosta</h3>
+                        <p class="event-description">Due giorni tra le Alpi con pernottamento. Itinerario mozzafiato sui passi alpini.</p>
+                        <div class="event-details">
+                            <span><i class="fas fa-map-marker-alt"></i> Valle d'Aosta</span>
+                            <span><i class="fas fa-clock"></i> 2 giorni</span>
+                        </div>
+                        <button class="event-button secondary">
+                            <i class="fas fa-info-circle"></i> Dettagli
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="event-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="event-image">
+                        <i class="fas fa-pizza-slice"></i>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">
+                            <span class="day">20</span>
+                            <span class="month">APR</span>
+                        </div>
+                        <h3>Cena Sociale Mensile</h3>
+                        <p class="event-description">Momento conviviale per tutti i soci. Menu tipico piemontese e buona compagnia.</p>
+                        <div class="event-details">
+                            <span><i class="fas fa-map-marker-alt"></i> Ristorante La Pergola</span>
+                            <span><i class="fas fa-clock"></i> 20:00</span>
+                        </div>
+                        <button class="event-button secondary">
+                            <i class="fas fa-info-circle"></i> Dettagli
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="event-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="event-image">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-date">
+                            <span class="day">03</span>
+                            <span class="month">MAG</span>
+                        </div>
+                        <h3>Gimkana Challenge 2026</h3>
+                        <p class="event-description">Gara di abilità e precisione. Premi per i primi tre classificati!</p>
+                        <div class="event-details">
+                            <span><i class="fas fa-map-marker-alt"></i> Piazzale Comunale</span>
+                            <span><i class="fas fa-clock"></i> 10:00 - 17:00</span>
+                        </div>
+                        <button class="event-button secondary">
+                            <i class="fas fa-info-circle"></i> Dettagli
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cta-section" data-aos="fade-up">
+                <h3>Vuoi vedere tutti i nostri eventi passati?</h3>
+                <button class="cta-button-secondary">
+                    <i class="fas fa-history"></i> Vai allo Storico Eventi
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galleria Section -->
+    <section id="galleria" class="section galleria">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Galleria Fotografica</h2>
+                <p class="section-subtitle">I momenti più belli catturati in foto</p>
+            </div>
+            
+            <div class="gallery-filters" data-aos="fade-up">
+                <button class="filter-btn active" data-filter="all">Tutte</button>
+                <button class="filter-btn" data-filter="raduni">Raduni</button>
+                <button class="filter-btn" data-filter="escursioni">Escursioni</button>
+                <button class="filter-btn" data-filter="gare">Gare</button>
+                <button class="filter-btn" data-filter="eventi">Eventi Sociali</button>
+            </div>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item" data-category="raduni" data-aos="zoom-in">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-flag-checkered"></i>
+                        <span>Gran Raduno 2025</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="escursioni" data-aos="zoom-in">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-mountain"></i>
+                        <span>Passo del Moncenisio</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="raduni" data-aos="zoom-in">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-users"></i>
+                        <span>90° Anniversario</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="gare" data-aos="zoom-in">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-trophy"></i>
+                        <span>Gimkana 2025</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="escursioni" data-aos="zoom-in">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-route"></i>
+                        <span>Giro dei Castelli</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="eventi" data-aos="zoom-in">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-glass-cheers"></i>
+                        <span>Cena Sociale</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="raduni" data-aos="zoom-in">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-motorcycle"></i>
+                        <span>Expo Moto 2025</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="escursioni" data-aos="zoom-in">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-mountain"></i>
+                        <span>Valle d'Aosta</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="eventi" data-aos="zoom-in">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-birthday-cake"></i>
+                        <span>Festa dei Soci</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section testimonials">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Cosa Dicono di Noi</h2>
+                <p class="section-subtitle">Le recensioni dei nostri membri</p>
+            </div>
+            
+            <div class="testimonials-slider" data-aos="fade-up">
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Sono socio dal 2010 e posso dire che questo è il miglior moto club della regione. Organizzazione perfetta, eventi fantastici e un gruppo di amici straordinari!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>Roberto Martini</h4>
+                            <p>Socio dal 2010</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Da quando mi sono iscritta ho scoperto un mondo nuovo. Le uscite sono sempre ben organizzate e l'atmosfera è familiare. Consiglio a tutti!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>Elena Verdi</h4>
+                            <p>Socia dal 2019</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Professionalità e passione in ogni evento. Il Gran Raduno è un appuntamento imperdibile. Orgoglioso di far parte di questa famiglia!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="author-info">
+                            <h4>Luca Neri</h4>
+                            <p>Socio dal 2015</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contatti Section -->
+    <section id="contatti" class="section contatti">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Contattaci</h2>
+                <p class="section-subtitle">Siamo qui per rispondere alle tue domande</p>
+            </div>
+            
+            <div class="contact-grid">
+                <div class="contact-info" data-aos="fade-right">
+                    <h3>Informazioni di Contatto</h3>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Indirizzo</h4>
+                            <p>Via Roma 45<br>15073 Castellazzo Bormida (AL)<br>Piemonte, Italia</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Telefono</h4>
+                            <p><a href="tel:+390131278945">+39 0131 278945</a></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p><a href="mailto:info@mccastellazzob.com">info@mccastellazzob.com</a></p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Orari Segreteria</h4>
+                            <p>Martedì e Giovedì: 18:00 - 20:00<br>Sabato: 10:00 - 12:00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <h4>Seguici sui Social</h4>
+                        <div class="social-icons">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                            <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container" data-aos="fade-left">
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Nome e Cognome *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefono</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Oggetto *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Seleziona...</option>
+                                <option value="info">Informazioni Generali</option>
+                                <option value="iscrizione">Iscrizione al Club</option>
+                                <option value="eventi">Eventi</option>
+                                <option value="altro">Altro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Messaggio *</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-button">
+                            <i class="fas fa-paper-plane"></i> Invia Messaggio
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="map-container" data-aos="fade-up">
+                <div id="map"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <img src="images/MotoClubCastellazzoBormida-logo.webp" alt="Logo" class="footer-logo">
+                    <p>Moto Club Castellazzo Bormida - Dal 1933 la passione per le due ruote nel cuore del Piemonte.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Link Rapidi</h4>
+                    <ul>
+                        <li><a href="#chi-siamo">Chi Siamo</a></li>
+                        <li><a href="#consiglio">Il Consiglio</a></li>
+                        <li><a href="#eventi">Eventi</a></li>
+                        <li><a href="#galleria">Galleria</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Servizi</h4>
+                    <ul>
+                        <li><a href="#">Diventa Socio</a></li>
+                        <li><a href="#">Regolamento</a></li>
+                        <li><a href="#">Trasparenza</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Newsletter</h4>
+                    <p>Iscriviti per ricevere aggiornamenti su eventi e novità</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="La tua email" required>
+                        <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Moto Club Castellazzo Bormida. Tutti i diritti riservati.</p>
+                <p>Fondato nel 1933 | CF: 12345678901</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="scroll-to-top" aria-label="Torna su">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <div class="lightbox-content">
+            <img src="" alt="Lightbox image">
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>

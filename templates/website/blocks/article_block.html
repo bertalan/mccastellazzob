@@ -1,0 +1,31 @@
+{# Block: Article #}
+<article class="timeline-item">
+    {% if value.image %}
+    <img src="{{ image(value.image, 'fill-800x400').url }}" 
+         alt="{{ value.headline }}" 
+         class="timeline-image">
+    {% endif %}
+    
+    <div class="card-date">
+        {{ value.date_published.strftime('%d/%m/%Y') if value.date_published else '' }}
+        {% if value.article_section %}
+        <span style="margin-left: 1rem; color: var(--blu-nautico);">
+            📁 {{ value.article_section }}
+        </span>
+        {% endif %}
+    </div>
+    
+    <h3 class="card-title">{{ value.headline }}</h3>
+    
+    {% if value.summary %}
+    <div style="margin-top: 0.5rem;">
+        {{ value.summary|safe }}
+    </div>
+    {% endif %}
+    
+    {% if value.url %}
+    <a href="{{ value.url }}" class="btn btn-primary" style="margin-top: 1rem;">
+        {{ _("Leggi di più") }} →
+    </a>
+    {% endif %}
+</article>

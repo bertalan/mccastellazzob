@@ -1,0 +1,77 @@
+{# Block: Hero Slider #}
+<section id="photo-slider" class="relative w-full overflow-hidden bg-navy pt-24" style="height: {{ value.height }};">
+    <div class="slider-container h-full relative">
+        <!-- Slides -->
+        <div class="slider-track h-full flex transition-transform duration-700 ease-in-out">
+            {% for slide in value.slides %}
+            <div class="slide min-w-full h-full relative">
+                <img src="{{ image(slide.image, 'width-1600').url }}" 
+                     alt="{{ slide.title }}" 
+                     class="w-full h-full object-cover">
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-navy/90 to-transparent p-8">
+                    <h3 class="text-white text-3xl font-bold">{{ slide.title }}</h3>
+                    {% if slide.category %}
+                    <p class="text-gold text-sm mt-2">{{ slide.category }}</p>
+                    {% endif %}
+                </div>
+                {% if slide.link %}
+                <a href="{{ slide.link }}" class="absolute inset-0 z-10" aria-label="{{ slide.title }}"></a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Navigation Arrows -->
+        <button class="slider-prev absolute left-4 top-1/2 -translate-y-1/2 bg-gold/90 hover:bg-gold text-navy w-12 h-12 rounded-full flex items-center justify-center transition shadow-lg z-10" aria-label="{{ _('Foto precedente') }}">
+            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+        </button>
+        <button class="slider-next absolute right-4 top-1/2 -translate-y-1/2 bg-gold/90 hover:bg-gold text-navy w-12 h-12 rounded-full flex items-center justify-center transition shadow-lg z-10" aria-label="{{ _('Foto successiva') }}">
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+        </button>
+
+        <!-- Dots Indicator -->
+        <div class="slider-dots absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+            {% for slide in value.slides %}
+            <button class="dot w-3 h-3 rounded-full {% if forloop.first %}bg-gold{% else %}bg-white/50{% endif %}" 
+                    data-index="{{ forloop.counter0 }}" 
+                    aria-label="{{ _('Vai alla foto') }} {{ forloop.counter }}"></button>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<script>
+(function() {
+    const container = document.querySelector('#photo-slider');
+    if (!container) return;
+    
+    const track = container.querySelector('.slider-track');
+    const slides = container.querySelectorAll('.slide');
+    const dots = container.querySelectorAll('.dot');
+    const prevBtn = container.querySelector('.slider-prev');
+    const nextBtn = container.querySelector('.slider-next');
+    
+    let currentIndex = 0;
+    const autoplay = {{ 'true' if value.autoplay else 'false' }};
+    const interval = {{ value.interval }};
+    
+    function goToSlide(index) {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+        currentIndex = index;
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('bg-gold', i === currentIndex);
+            dot.classList.toggle('bg-white/50', i !== currentIndex);
+        });
+    }
+    
+    prevBtn?.addEventListener('click', () => goToSlide(currentIndex - 1));
+    nextBtn?.addEventListener('click', () => goToSlide(currentIndex + 1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => goToSlide(i)));
+    
+    if (autoplay) {
+        setInterval(() => goToSlide(currentIndex + 1), interval);
+    }
+})();
+</script>

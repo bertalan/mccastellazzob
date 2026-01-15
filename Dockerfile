@@ -1,58 +1,57 @@
-# ============================================
-# Dockerfile per mccastellazzob.com
-# SOLO PER SVILUPPO LOCALE
-# ============================================
-# In produzione NON si usa Docker!
-# Django/Wagtail/CodeRedCMS con Python 3.12
-# ============================================
-FROM python:3.12-slim-bookworm
+# ================================
+# MC Castellazzo - Dockerfile
+# ================================
+FROM python:3.11-slim-bookworm
 
-# Variabili d'ambiente
+# Environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    DEBIAN_FRONTEND=noninteractive
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
 
-# Directory di lavoro
+# Working directory
 WORKDIR /app
 
-# Installa dipendenze di sistema
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
     libpq-dev \
     libjpeg-dev \
-    libpng-dev \
-    libwebp-dev \
     zlib1g-dev \
-    curl \
-    git \
+    libwebp-dev \
+    gcc \
+    gettext \
     && rm -rf /var/lib/apt/lists/*
 
-# Copia pyproject.toml e installa dipendenze Python
-COPY pyproject.toml /app/pyproject.toml
+# Copy dependency files
+COPY pyproject.toml ./
 
+# Install Python dependencies
 RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -e ".[dev]" && \
-    pip install --no-cache-dir gunicorn psycopg2-binary pillow-heif
+    pip install -e ".[dev]"
 
-# Copia il codice dell'applicazione
-COPY manage.py /app/manage.py
-COPY mccastellazzob /app/mccastellazzob
-COPY apps /app/apps
-COPY tests /app/tests
-COPY conftest.py /app/conftest.py
+# Copy project files
+COPY . .
 
-# Crea directory per static e media
+# Create directories for static and media
 RUN mkdir -p /app/static /app/media
 
-# Script di entrypoint
+# Create non-root user
+RUN addgroup --system --gid 1001 django && \
+    adduser --system --uid 1001 --gid 1001 django && \
+    chown -R django:django /app
+
+# Copy and set permissions for entrypoint
 COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Esponi la porta
+# Switch to non-root user
+USER django
+
+# Expose port
 EXPOSE 8000
 
-# Imposta l'entrypoint
+# Entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
 
-# Comando di default
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "--timeout", "120", "mccastellazzob.wsgi:application"]
+# Default command
+CMD ["gunicorn", "mccastellazzob.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2"]

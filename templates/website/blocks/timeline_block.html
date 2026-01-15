@@ -1,0 +1,79 @@
+{# Timeline Block Template - Django #}
+{% load i18n %}
+<section class="py-20 bg-cream" aria-labelledby="timeline-heading-{{ self.id }}">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="text-amaranth font-bold text-sm uppercase tracking-widest">{% trans "La Nostra Storia" %}</span>
+            <h2 id="timeline-heading-{{ self.id }}" class="text-3xl md:text-5xl font-heading font-black text-navy mt-4">
+                {{ self.heading }}
+            </h2>
+        </div>
+        
+        <div class="relative" role="list" aria-label="{% trans "Timeline storica del club" %}">
+            {# Timeline Line - visibile solo su desktop #}
+            <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gold hidden md:block" aria-hidden="true"></div>
+            
+            {# Timeline Items #}
+            <div class="space-y-12">
+                {% for event in self.events %}
+                <div class="relative" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00" role="listitem">
+                    <div class="md:flex items-center">
+                        {# Alternanza posizione - dispari a sinistra, pari a destra #}
+                        {% if not forloop.counter|divisibleby:2 %}
+                        {# Evento a sinistra (dispari) #}
+                        <div class="md:w-1/2 md:pr-12 md:text-right">
+                            <div class="bg-white rounded-2xl p-8 shadow-lg {% if event.highlight %}border-2 border-gold{% endif %}">
+                                <span class="inline-block 
+                                    {% if event.color == 'gold' %}bg-gold text-navy
+                                    {% elif event.color == 'amaranth' %}bg-amaranth text-white
+                                    {% else %}bg-navy text-white{% endif %} 
+                                    px-4 py-2 rounded-full text-sm font-bold mb-4"
+                                    aria-label="{{ _('Anno') }} {{ event.year }}">
+                                    {{ event.year }}
+                                </span>
+                                <h3 class="text-2xl font-heading font-bold text-navy mb-3">{{ event.title }}</h3>
+                                <p class="text-gray-600">{{ event.description }}</p>
+                            </div>
+                        </div>
+                        {# Dot centrale #}
+                        <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 
+                            {% if event.highlight %}w-8 h-8{% else %}w-6 h-6{% endif %} 
+                            {% if event.color == 'gold' %}bg-gold
+                            {% elif event.color == 'amaranth' %}bg-amaranth
+                            {% else %}bg-navy{% endif %} 
+                            rounded-full border-4 border-white shadow-lg" 
+                            aria-hidden="true"></div>
+                        <div class="md:w-1/2 md:pl-12"></div>
+                        {% else %}
+                        {# Evento a destra (pari) #}
+                        <div class="md:w-1/2 md:pr-12"></div>
+                        {# Dot centrale #}
+                        <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 
+                            {% if event.highlight %}w-8 h-8{% else %}w-6 h-6{% endif %} 
+                            {% if event.color == 'gold' %}bg-gold
+                            {% elif event.color == 'amaranth' %}bg-amaranth
+                            {% else %}bg-navy{% endif %} 
+                            rounded-full border-4 border-white shadow-lg" 
+                            aria-hidden="true"></div>
+                        <div class="md:w-1/2 md:pl-12">
+                            <div class="bg-white rounded-2xl p-8 shadow-lg {% if event.highlight %}border-2 border-gold{% endif %}">
+                                <span class="inline-block 
+                                    {% if event.color == 'gold' %}bg-gold text-navy
+                                    {% elif event.color == 'amaranth' %}bg-amaranth text-white
+                                    {% else %}bg-navy text-white{% endif %} 
+                                    px-4 py-2 rounded-full text-sm font-bold mb-4"
+                                    aria-label="{{ _('Anno') }} {{ event.year }}">
+                                    {{ event.year }}
+                                </span>
+                                <h3 class="text-2xl font-heading font-bold text-navy mb-3">{{ event.title }}</h3>
+                                <p class="text-gray-600">{{ event.description }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>

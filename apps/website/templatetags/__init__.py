@@ -1,1 +1,1 @@
-"""Template tags package for website app."""
+# Required for Python package

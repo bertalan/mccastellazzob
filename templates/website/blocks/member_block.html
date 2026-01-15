@@ -1,0 +1,22 @@
+{# Block: Member #}
+<div class="member-card">
+    {% if value.image %}
+    <img src="{{ image(value.image, 'fill-300x300').url }}" 
+         alt="{{ value.name }}" 
+         class="member-photo">
+    {% else %}
+    <div class="member-photo" style="background: var(--blu-nautico); 
+         display: flex; align-items: center; justify-content: center; color: var(--oro); font-size: 3rem;">
+        {{ value.name[0]|upper }}
+    </div>
+    {% endif %}
+    
+    <h4 class="member-name">{{ value.name }}</h4>
+    <p class="member-role">{{ value.role }}</p>
+    
+    {% if value.bio %}
+    <div style="margin-top: 1rem; text-align: left;">
+        {{ value.bio|safe }}
+    </div>
+    {% endif %}
+</div>

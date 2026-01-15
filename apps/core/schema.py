@@ -1,140 +1,201 @@
 """
-Generatore JSON-LD schema.org.
-
-mccastellazzob.com - Moto Club Castellazzo Bormida
-Genera markup strutturato per SEO secondo le specifiche schema.org.
+MC Castellazzo - Schema.org Helpers
+====================================
+Generazione automatica JSON-LD per schema.org types.
 """
-
-from __future__ import annotations
-
 import json
-from dataclasses import dataclass
-from datetime import datetime
 from typing import Any
 
-
-@dataclass
-class SchemaOrgEvent:
-    """Rappresenta un evento per schema.org/Event."""
-
-    name: str
-    start_date: datetime
-    location_name: str
-    address: str
-    url: str
-    end_date: datetime | None = None
-    latitude: float | None = None
-    longitude: float | None = None
-    description: str = ""
-    image_url: str = ""
-    organizer_name: str = "Moto Club Castellazzo Bormida"
+from django.utils.safestring import mark_safe
 
 
-@dataclass
-class SchemaOrgPlace:
-    """Rappresenta una località per schema.org/Place."""
-
-    name: str
-    address: str
-    url: str
-    latitude: float | None = None
-    longitude: float | None = None
-    description: str = ""
-    image_url: str = ""
-
-
-class SchemaOrgGenerator:
+class SchemaOrgMixin:
     """
-    Genera markup JSON-LD per schema.org.
-
-    Supporta la generazione di markup strutturato per:
-    - Event (eventi)
-    - Place (località)
-    - Organization (organizzazione)
+    Mixin per pagine che devono generare JSON-LD schema.org.
+    Ogni pagina deve implementare `get_schema_org_type()` e `get_schema_org_data()`.
     """
-
-    CONTEXT = "https://schema.org"
-
-    def generate_event(self, event: SchemaOrgEvent) -> str:
-        """Genera JSON-LD per un evento."""
-        data: dict[str, Any] = {
-            "@context": self.CONTEXT,
-            "@type": "Event",
-            "name": event.name,
-            "startDate": event.start_date.isoformat(),
-            "url": event.url,
-            "organizer": {
-                "@type": "Organization",
-                "name": event.organizer_name,
-            },
+    
+    def get_schema_org_type(self) -> str:
+        """Ritorna il tipo schema.org (es. 'Organization', 'Event')."""
+        raise NotImplementedError("Subclass must implement get_schema_org_type()")
+    
+    def get_schema_org_data(self) -> dict[str, Any]:
+        """Ritorna i dati per il JSON-LD."""
+        raise NotImplementedError("Subclass must implement get_schema_org_data()")
+    
+    def get_json_ld(self) -> str:
+        """Genera il JSON-LD completo."""
+        data = {
+            "@context": "https://schema.org",
+            "@type": self.get_schema_org_type(),
+            **self.get_schema_org_data(),
         }
+        return mark_safe(json.dumps(data, ensure_ascii=False, indent=2))
 
-        if event.end_date:
-            data["endDate"] = event.end_date.isoformat()
 
-        if event.description:
-            data["description"] = event.description
+def postal_address(
+    street: str = "",
+    city: str = "Torino",
+    region: str = "Piedmont",
+    country: str = "IT",
+    postal_code: str = "",
+) -> dict:
+    """
+    Genera un oggetto PostalAddress schema.org.
+    """
+    address = {
+        "@type": "PostalAddress",
+        "addressLocality": city,
+        "addressRegion": region,
+        "addressCountry": country,
+    }
+    if street:
+        address["streetAddress"] = street
+    if postal_code:
+        address["postalCode"] = postal_code
+    return address
 
-        if event.image_url:
-            data["image"] = event.image_url
 
-        location_data: dict[str, Any] = {
-            "@type": "Place",
-            "name": event.location_name,
-            "address": event.address,
+def contact_point(
+    telephone: str = "",
+    email: str = "",
+    contact_type: str = "customer service",
+) -> dict:
+    """
+    Genera un oggetto ContactPoint schema.org.
+    """
+    point = {
+        "@type": "ContactPoint",
+        "contactType": contact_type,
+    }
+    if telephone:
+        point["telephone"] = telephone
+    if email:
+        point["email"] = email
+    return point
+
+
+def image_object(
+    url: str,
+    width: int = 0,
+    height: int = 0,
+    caption: str = "",
+) -> dict:
+    """
+    Genera un oggetto ImageObject schema.org.
+    """
+    obj = {
+        "@type": "ImageObject",
+        "url": url,
+    }
+    if width and height:
+        obj["width"] = width
+        obj["height"] = height
+    if caption:
+        obj["caption"] = caption
+    return obj
+
+
+def place(
+    name: str,
+    street: str = "",
+    city: str = "Torino",
+    region: str = "Piedmont",
+    country: str = "IT",
+    lat: float = None,
+    lon: float = None,
+) -> dict:
+    """
+    Genera un oggetto Place schema.org.
+    """
+    p = {
+        "@type": "Place",
+        "name": name,
+        "address": postal_address(street, city, region, country),
+    }
+    if lat and lon:
+        p["geo"] = {
+            "@type": "GeoCoordinates",
+            "latitude": lat,
+            "longitude": lon,
         }
+    return p
 
-        if event.latitude and event.longitude:
-            location_data["geo"] = {
-                "@type": "GeoCoordinates",
-                "latitude": event.latitude,
-                "longitude": event.longitude,
-            }
 
-        data["location"] = location_data
+def article(
+    headline: str,
+    image_url: str = "",
+    date_published: str = "",
+    article_section: str = "",
+    url: str = "",
+    description: str = "",
+) -> dict:
+    """
+    Genera un oggetto Article schema.org.
+    """
+    art = {
+        "@type": "Article",
+        "headline": headline,
+    }
+    if image_url:
+        art["image"] = image_url
+    if date_published:
+        art["datePublished"] = date_published
+    if article_section:
+        art["articleSection"] = article_section
+    if url:
+        art["url"] = url
+    if description:
+        art["description"] = description
+    return art
 
-        return json.dumps(data, ensure_ascii=False, indent=2)
 
-    def generate_place(self, place: SchemaOrgPlace) -> str:
-        """Genera JSON-LD per una località."""
-        data: dict[str, Any] = {
-            "@context": self.CONTEXT,
-            "@type": "Place",
-            "name": place.name,
-            "address": place.address,
-            "url": place.url,
-        }
+def event(
+    name: str,
+    start_date: str,
+    end_date: str = "",
+    location: dict = None,
+    image_url: str = "",
+    description: str = "",
+    organizer: dict = None,
+    event_status: str = "EventScheduled",
+) -> dict:
+    """
+    Genera un oggetto Event schema.org.
+    """
+    e = {
+        "@type": "Event",
+        "name": name,
+        "startDate": start_date,
+        "eventStatus": f"https://schema.org/{event_status}",
+    }
+    if end_date:
+        e["endDate"] = end_date
+    if location:
+        e["location"] = location
+    if image_url:
+        e["image"] = image_url
+    if description:
+        e["description"] = description
+    if organizer:
+        e["organizer"] = organizer
+    return e
 
-        if place.description:
-            data["description"] = place.description
 
-        if place.image_url:
-            data["image"] = place.image_url
-
-        if place.latitude and place.longitude:
-            data["geo"] = {
-                "@type": "GeoCoordinates",
-                "latitude": place.latitude,
-                "longitude": place.longitude,
-            }
-
-        return json.dumps(data, ensure_ascii=False, indent=2)
-
-    def generate_organization(
-        self,
-        name: str = "Moto Club Castellazzo Bormida",
-        url: str = "https://mccastellazzob.com",
-        logo_url: str = "",
-    ) -> str:
-        """Genera JSON-LD per l'organizzazione."""
-        data: dict[str, Any] = {
-            "@context": self.CONTEXT,
-            "@type": "Organization",
-            "name": name,
-            "url": url,
-        }
-
-        if logo_url:
-            data["logo"] = logo_url
-
-        return json.dumps(data, ensure_ascii=False, indent=2)
+def person(
+    name: str,
+    job_title: str = "",
+    image_url: str = "",
+) -> dict:
+    """
+    Genera un oggetto Person schema.org.
+    """
+    p = {
+        "@type": "Person",
+        "name": name,
+    }
+    if job_title:
+        p["jobTitle"] = job_title
+    if image_url:
+        p["image"] = image_url
+    return p

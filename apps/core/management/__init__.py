@@ -1,1 +1,1 @@
-# Management commands for core app
+# apps/core/management/__init__.py

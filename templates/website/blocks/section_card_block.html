@@ -1,0 +1,20 @@
+{# Block: Section Card (singola card) - Django #}
+<div class="group relative overflow-hidden rounded-3xl shadow-lg card-hover" data-aos="fade-up" data-aos-delay="{% if forloop.counter %}{{ forloop.counter }}00{% else %}100{% endif %}">
+    <div class="aspect-[4/3] overflow-hidden">
+        <img src="{{ image(card.image, 'fill-600x450').url }}" 
+             alt="{{ card.title }}" 
+             class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-transparent"></div>
+    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+        <div class="w-12 h-12 {{ card.icon_bg_color }} rounded-xl flex items-center justify-center mb-4">
+            <i class="{{ card.icon }} text-xl" aria-hidden="true"></i>
+        </div>
+        <h3 class="text-2xl font-heading font-bold mb-2">{{ card.title }}</h3>
+        <p class="text-gray-300 mb-4 line-clamp-2">{{ card.description }}</p>
+        <a href="{{ card.link_page.url }}" class="{{ card.link_color }} font-bold hover:underline inline-flex items-center gap-2">
+            {{ card.link_text }}
+            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>

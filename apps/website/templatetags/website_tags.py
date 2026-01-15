@@ -1,86 +1,71 @@
 """
-Custom template tags for the website.
+Template tags for website navigation.
 
 mccastellazzob.com - Moto Club Castellazzo Bormida
-Template tags per navbar, footer e altre funzionalità.
+Template tags per navbar e footer multilingua.
 """
-
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
 
 from django import template
 from django.utils.translation import get_language
 from wagtail.models import Locale
 
-
-if TYPE_CHECKING:
-    from django.db.models import QuerySet
-
-    from apps.website.models.snippets import Footer
-    from apps.website.models.snippets import Navbar
-
+from apps.website.models import Navbar, Footer
 
 register = template.Library()
 
 
-@register.simple_tag
-def get_website_navbars() -> QuerySet[Navbar]:
-    """
-    Restituisce tutte le navbar per la lingua corrente.
-
-    Returns:
-        QuerySet di Navbar filtrate per locale corrente.
-    """
-    from apps.website.models.snippets import Navbar
-
-    current_language = get_language() or "it"
-
+def get_current_locale():
+    """Get the current Wagtail locale based on Django language."""
+    lang_code = get_language() or "it"
     try:
-        locale = Locale.objects.get(language_code=current_language)
-        return Navbar.objects.filter(locale=locale)
+        return Locale.objects.get(language_code=lang_code)
     except Locale.DoesNotExist:
-        return Navbar.objects.all()
+        return Locale.objects.get(language_code="it")
 
 
 @register.simple_tag
-def get_website_footers() -> QuerySet[Footer]:
+def get_navbar():
     """
-    Restituisce tutti i footer per la lingua corrente.
+    Restituisce la navbar attiva per la lingua corrente.
 
     Returns:
-        QuerySet di Footer filtrati per locale corrente.
+        Navbar object or None
     """
-    from apps.website.models.snippets import Footer
+    locale = get_current_locale()
+    return Navbar.objects.filter(is_active=True, locale=locale).first()
 
-    current_language = get_language() or "it"
 
-    try:
-        locale = Locale.objects.get(language_code=current_language)
-        return Footer.objects.filter(locale=locale)
-    except Locale.DoesNotExist:
-        return Footer.objects.all()
+@register.simple_tag
+def get_footer():
+    """
+    Restituisce il footer attivo per la lingua corrente.
+
+    Returns:
+        Footer object or None
+    """
+    locale = get_current_locale()
+    return Footer.objects.filter(is_active=True, locale=locale).first()
 
 
 @register.inclusion_tag("website/tags/navbar.html")
-def render_navbar() -> dict:
+def render_navbar():
     """
     Renderizza la navbar principale.
 
     Returns:
         Contesto per il template navbar.html.
     """
-    navbars = get_website_navbars()
-    return {"navbars": navbars}
+    navbar = get_navbar()
+    return {"navbar": navbar}
 
 
 @register.inclusion_tag("website/tags/footer.html")
-def render_footer() -> dict:
+def render_footer():
     """
     Renderizza il footer principale.
 
     Returns:
         Contesto per il template footer.html.
     """
-    footers = get_website_footers()
-    return {"footers": footers}
+    footer = get_footer()
+    return {"footer": footer}

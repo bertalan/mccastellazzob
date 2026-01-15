@@ -1,0 +1,28 @@
+{# Allauth - Email Confirmation Template #}
+{% extends "website/base.jinja2" %}
+
+{% block title %}{% trans %}Conferma Email{% endtrans %}{% endblock %}
+
+{% block content %}
+<div style="max-width: 400px; margin: 0 auto;">
+    <div class="card">
+        <div class="card-body" style="text-align: center;">
+            <h1 style="color: var(--blu-nautico); margin-bottom: 1rem;">
+                {% trans %}Conferma il tuo indirizzo email{% endtrans %}
+            </h1>
+            
+            <p style="color: var(--gray-800); margin-bottom: 1.5rem;">
+                {% trans %}Confermi che questo è il tuo indirizzo email?{% endtrans %}
+                <br><strong>{{ email }}</strong>
+            </p>
+            
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">
+                    {% trans %}Conferma{% endtrans %}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

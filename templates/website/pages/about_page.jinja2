@@ -1,0 +1,328 @@
+{# MC Castellazzo - About Page Template #}
+{# WCAG 2.2 AAA Compliant #}
+{% extends "website/base.jinja2" %}
+
+{% block title %}{{ page.hero_title or page.title }} | {{ settings.website.SiteSettings.organization_name }}{% endblock %}
+
+{% block content %}
+{# ============================================= #}
+{# HERO SECTION                                  #}
+{# ============================================= #}
+<header class="pt-32 pb-16 bg-navy" role="banner">
+    <div class="max-w-7xl mx-auto px-6">
+        {# Breadcrumb - WCAG 2.4.8 #}
+        <nav aria-label="Breadcrumb" class="mb-8">
+            <ol class="flex items-center gap-2 text-sm text-gray-400">
+                {# Breadcrumb dinamico usando Wagtail #}
+                {% for ancestor in page.get_ancestors(inclusive=False)[1:] %}
+                <li>
+                    <a href="{{ ancestor.url }}" class="hover:text-gold transition focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-navy rounded">
+                        {{ ancestor.title }}
+                    </a>
+                </li>
+                <li aria-hidden="true">
+                    <i class="fas fa-chevron-right text-xs"></i>
+                </li>
+                {% endfor %}
+                <li aria-current="page" class="text-gold font-medium">
+                    {{ page.title }}
+                </li>
+            </ol>
+        </nav>
+        
+        {# Hero Title #}
+        <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up">
+            {% if page.hero_title %}
+                {{ page.hero_title|replace(_('Storia'), "<span class='text-gold'>" ~ _('Storia') ~ "</span>")|safe }}
+            {% else %}
+                {{ _('La Nostra') }} <span class="text-gold">{{ _('Storia') }}</span>
+            {% endif %}
+        </h1>
+        
+        {% if page.hero_subtitle %}
+        <p class="text-xl text-gray-300 max-w-2xl" data-aos="fade-up" data-aos-delay="100">
+            {{ page.hero_subtitle }}
+        </p>
+        {% else %}
+        <p class="text-xl text-gray-300 max-w-2xl" data-aos="fade-up" data-aos-delay="100">
+            {{ _("Dal 1933, una passione che unisce generazioni di motociclisti nel cuore del Piemonte") }}
+        </p>
+        {% endif %}
+    </div>
+</header>
+
+{# ============================================= #}
+{# MAIN CONTENT                                  #}
+{# ============================================= #}
+<main id="main-content" role="main">
+    
+    {# ----------------------------------------- #}
+    {# INTRO SECTION                             #}
+    {# ----------------------------------------- #}
+    <section class="py-20 bg-white" aria-labelledby="intro-heading">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <span class="text-amaranth font-bold text-sm uppercase tracking-widest">
+                        {{ _("Chi Siamo") }}
+                    </span>
+                    <h2 id="intro-heading" class="text-3xl md:text-4xl font-heading font-black text-navy mt-4 mb-6">
+                        {{ _("Più di") }} {{ 2026 - page.founding_year }} {{ _("Anni di Passione") }}
+                    </h2>
+                    
+                    {% if page.intro %}
+                    <div class="text-gray-600 mb-6 leading-relaxed prose prose-lg">
+                        {{ page.intro|safe }}
+                    </div>
+                    {% else %}
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        {{ _("Il Moto Club Castellazzo Bormida è una delle realtà motoristiche più antiche del Piemonte.") }}
+                        {{ _("Fondato nel") }} <strong class="text-navy">{{ page.founding_year }}</strong>, 
+                        {{ _("il club ha attraversato quasi un secolo di storia, mantenendo intatta la passione per le due ruote e lo spirito di fratellanza tra i suoi membri.") }}
+                    </p>
+                    {% endif %}
+                    
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        {{ _("Oggi il club conta oltre") }} 
+                        <strong class="text-navy">{{ page.members_count }} {{ _("soci attivi") }}</strong>, 
+                        {{ _("uniti dalla passione per il motociclismo e dal desiderio di vivere insieme avventure indimenticabili.") }}
+                    </p>
+                    
+                    {# CTA Buttons #}
+                    <div class="flex flex-wrap gap-4">
+                        {# Link dinamico al consiglio (pagina figlia) #}
+                        {% set consiglio_page = page.get_children().live().filter(slug__icontains='consiglio').first() %}
+                        <a href="{{ consiglio_page.url if consiglio_page else main_pages.about }}" 
+                           class="bg-gold text-navy font-bold px-6 py-3 rounded-full hover:bg-gold-dark transition focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2">
+                            <i class="fas fa-users mr-2" aria-hidden="true"></i>
+                            {{ _("Conosci il Consiglio") }}
+                        </a>
+                        <a href="{{ main_pages.contact or page.url }}" 
+                           class="bg-white border-2 border-navy text-navy font-bold px-6 py-3 rounded-full hover:bg-navy hover:text-white transition focus:outline-none focus:ring-2 focus:ring-navy focus:ring-offset-2">
+                            <i class="fas fa-envelope mr-2" aria-hidden="true"></i>
+                            {{ _("Unisciti a Noi") }}
+                        </a>
+                    </div>
+                </div>
+                
+                {# Image #}
+                <div data-aos="fade-left">
+                    <div class="bg-warm-gray rounded-3xl p-8">
+                        {% if page.image %}
+                        <img src="{{ image(page.image, 'fill-600x400').url }}" 
+                             alt="{{ _("Gruppo di motociclisti del Moto Club Castellazzo Bormida") }}" 
+                             class="w-full h-80 object-cover rounded-2xl"
+                             loading="lazy">
+                        {% else %}
+                        <div class="w-full h-80 bg-gradient-to-br from-navy to-bordeaux rounded-2xl flex items-center justify-center">
+                            <i class="fas fa-motorcycle text-6xl text-gold" aria-hidden="true"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# ----------------------------------------- #}
+    {# STATISTICS BAR                            #}
+    {# ----------------------------------------- #}
+    <section class="py-12 bg-navy" aria-label="{{ _("Statistiche del club") }}">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-4xl md:text-5xl font-heading font-black text-gold mb-2">
+                        {{ page.founding_year }}
+                    </div>
+                    <div class="text-gray-300 text-sm uppercase tracking-widest">
+                        {{ _("Anno Fondazione") }}
+                    </div>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-4xl md:text-5xl font-heading font-black text-gold mb-2">
+                        {{ 2026 - page.founding_year }}+
+                    </div>
+                    <div class="text-gray-300 text-sm uppercase tracking-widest">
+                        {{ _("Anni di Storia") }}
+                    </div>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-4xl md:text-5xl font-heading font-black text-gold mb-2">
+                        {{ page.members_count }}+
+                    </div>
+                    <div class="text-gray-300 text-sm uppercase tracking-widest">
+                        {{ _("Soci Attivi") }}
+                    </div>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="400">
+                    <div class="text-4xl md:text-5xl font-heading font-black text-gold mb-2">
+                        ∞
+                    </div>
+                    <div class="text-gray-300 text-sm uppercase tracking-widest">
+                        {{ _("Passione") }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# ----------------------------------------- #}
+    {# BODY CONTENT (optional)                   #}
+    {# ----------------------------------------- #}
+    {% if page.body %}
+    <section class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="prose prose-lg max-w-none">
+                {{ page.body|safe }}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {# ----------------------------------------- #}
+    {# TIMELINE SECTION                          #}
+    {# ----------------------------------------- #}
+    {% if page.timeline %}
+        {% for block in page.timeline %}
+            {% include_block block %}
+        {% endfor %}
+    {% else %}
+    {# Default timeline se non popolata #}
+    <section class="py-20 bg-cream" aria-labelledby="timeline-heading">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-amaranth font-bold text-sm uppercase tracking-widest">{{ _("La Nostra Storia") }}</span>
+                <h2 id="timeline-heading" class="text-3xl md:text-5xl font-heading font-black text-navy mt-4">{{ _('Cronologia') }}</h2>
+            </div>
+            
+            <div class="relative" role="list" aria-label="{{ _("Timeline storica del club") }}">
+                {# Timeline Line #}
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gold hidden md:block" aria-hidden="true"></div>
+                
+                <div class="space-y-12">
+                    {# 1947 #}
+                    <div class="relative" data-aos="fade-up" role="listitem">
+                        <div class="md:flex items-center">
+                            <div class="md:w-1/2 md:pr-12 md:text-right">
+                                <div class="bg-white rounded-2xl p-8 shadow-lg border-2 border-gold">
+                                    <span class="inline-block bg-gold text-navy px-4 py-2 rounded-full text-sm font-bold mb-4">1947</span>
+                                    <h3 class="text-2xl font-heading font-bold text-navy mb-3">{{ _("La Madonnina dei Centauri") }}</h3>
+                                    <p class="text-gray-600">{{ _("Papa Pio XII dichiara la Madonnina di Castellazzo Patrona dei Motociclisti. Un riconoscimento storico che porta il nome del club in tutta Europa.") }}</p>
+                                </div>
+                            </div>
+                            <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gold rounded-full border-4 border-white shadow-lg" aria-hidden="true"></div>
+                            <div class="md:w-1/2 md:pl-12"></div>
+                        </div>
+                    </div>
+                    
+                    {# 1933 #}
+                    <div class="relative" data-aos="fade-up" data-aos-delay="100" role="listitem">
+                        <div class="md:flex items-center">
+                            <div class="md:w-1/2 md:pr-12"></div>
+                            <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gold rounded-full border-4 border-white shadow-lg" aria-hidden="true"></div>
+                            <div class="md:w-1/2 md:pl-12">
+                                <div class="bg-white rounded-2xl p-8 shadow-lg border-2 border-gold">
+                                    <span class="inline-block bg-gold text-navy px-4 py-2 rounded-full text-sm font-bold mb-4">1933</span>
+                                    <h3 class="text-2xl font-heading font-bold text-navy mb-3">{{ _("La Fondazione") }}</h3>
+                                    <p class="text-gray-600">{{ _("Il 16 marzo nasce il Moto Club Castellazzo Bormida. Un gruppo di appassionati fonda uno dei primi club motoristici della provincia di Alessandria.") }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {# ----------------------------------------- #}
+    {# VALUES SECTION                            #}
+    {# ----------------------------------------- #}
+    {% if page.values %}
+        {% for block in page.values %}
+            {% include_block block %}
+        {% endfor %}
+    {% else %}
+    {# Default values se non popolata #}
+    <section class="py-20 bg-white" aria-labelledby="values-heading">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-amaranth font-bold text-sm uppercase tracking-widest">{{ _("I Nostri Valori") }}</span>
+                <h2 id="values-heading" class="text-3xl md:text-5xl font-heading font-black text-navy mt-4">{{ _("Cosa Ci Guida") }}</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                {# Passione #}
+                <article class="bg-warm-gray rounded-2xl p-8 text-center card-hover" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-20 h-20 bg-gold rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-heart text-3xl text-navy" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-2xl font-heading font-bold text-navy mb-4">{{ _("Passione") }}</h3>
+                    <p class="text-gray-600">{{ _("L'amore per le due ruote è il motore di tutto ciò che facciamo.") }}</p>
+                </article>
+                
+                {# Amicizia #}
+                <article class="bg-warm-gray rounded-2xl p-8 text-center card-hover" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-20 h-20 bg-navy rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-users text-3xl text-gold" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-2xl font-heading font-bold text-navy mb-4">{{ _("Amicizia") }}</h3>
+                    <p class="text-gray-600">{{ _("Il Club è prima di tutto una grande famiglia unita dalla stessa passione.") }}</p>
+                </article>
+                
+                {# Rispetto #}
+                <article class="bg-warm-gray rounded-2xl p-8 text-center card-hover" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-20 h-20 bg-amaranth rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-handshake text-3xl text-white" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-2xl font-heading font-bold text-navy mb-4">{{ _("Rispetto") }}</h3>
+                    <p class="text-gray-600">{{ _("Per la strada, per l'ambiente, per gli altri. Sempre.") }}</p>
+                </article>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {# ----------------------------------------- #}
+    {# SUBPAGES SECTION                          #}
+    {# ----------------------------------------- #}
+    <section class="py-20 bg-cream" aria-labelledby="sections-heading">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 id="sections-heading" class="text-3xl md:text-4xl font-heading font-black text-navy">
+                    {{ _("Scopri di Più") }}
+                </h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                {% for child in page.get_children().live() %}
+                <a href="{{ child.url }}" 
+                   class="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition card-hover focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
+                   data-aos="fade-up" 
+                   data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="w-16 h-16 bg-navy rounded-xl flex items-center justify-center mb-6 group-hover:bg-gold transition">
+                        {% if 'consiglio' in child.slug %}
+                        <i class="fas fa-users text-2xl text-gold group-hover:text-navy transition" aria-hidden="true"></i>
+                        {% elif 'trasparenza' in child.slug %}
+                        <i class="fas fa-file-alt text-2xl text-gold group-hover:text-navy transition" aria-hidden="true"></i>
+                        {% elif 'contatti' in child.slug %}
+                        <i class="fas fa-envelope text-2xl text-gold group-hover:text-navy transition" aria-hidden="true"></i>
+                        {% else %}
+                        <i class="fas fa-arrow-right text-2xl text-gold group-hover:text-navy transition" aria-hidden="true"></i>
+                        {% endif %}
+                    </div>
+                    <h3 class="text-xl font-heading font-bold text-navy mb-2 group-hover:text-bordeaux transition">
+                        {{ child.title }}
+                    </h3>
+                    <p class="text-gray-600 flex items-center gap-2">
+                        {{ _("Scopri di più") }}
+                        <i class="fas fa-arrow-right text-sm group-hover:translate-x-2 transition" aria-hidden="true"></i>
+                    </p>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock %}

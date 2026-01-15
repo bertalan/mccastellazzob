@@ -1,0 +1,45 @@
+{# MC Castellazzo - Privacy Policy Page Template #}
+{% extends "website/base.jinja2" %}
+
+{% block title %}{{ page.title }} | {{ site_name }}{% endblock %}
+
+{% block content %}
+<main id="main-content" class="py-20">
+    <div class="max-w-4xl mx-auto px-6">
+        {# Header #}
+        <div class="mb-12" data-aos="fade-up">
+            <h1 class="text-4xl md:text-5xl font-heading font-black text-navy mb-6">
+                {{ page.title }}
+            </h1>
+            
+            {% if page.intro %}
+            <div class="text-xl text-gray-600 prose prose-lg">
+                {{ page.intro|safe }}
+            </div>
+            {% endif %}
+        </div>
+
+        {# Body Content #}
+        {% if page.body %}
+        <div class="prose prose-lg max-w-none" data-aos="fade-up" data-aos-delay="100">
+            {{ page.body|safe }}
+        </div>
+        {% else %}
+        <div class="bg-cream rounded-2xl p-8" data-aos="fade-up">
+            <p class="text-gray-600 text-center">
+                {{ _("Contenuto in fase di aggiornamento.") }}
+            </p>
+        </div>
+        {% endif %}
+
+        {# Back to home #}
+        <div class="mt-12 text-center" data-aos="fade-up" data-aos-delay="200">
+            <a href="{{ main_pages.home or '/' }}" 
+               class="inline-flex items-center gap-2 text-navy hover:text-bordeaux transition font-semibold">
+                <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                <span>{{ _("Torna alla Home") }}</span>
+            </a>
+        </div>
+    </div>
+</main>
+{% endblock %}

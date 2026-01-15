@@ -1,0 +1,99 @@
+{# MC Castellazzo - Timeline/News Page Template (Modern) #}
+{% extends "website/base.jinja2" %}
+
+{% block title %}{{ _("Novità") }} | {{ settings.website.SiteSettings.organization_name }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<header class="pt-32 pb-16 bg-navy">
+    <div class="max-w-7xl mx-auto px-6">
+        <nav aria-label="Breadcrumb" class="mb-8">
+            <ol class="flex items-center gap-2 text-sm text-gray-400">
+                {# Breadcrumb dinamico usando Wagtail #}
+                {% for ancestor in page.get_ancestors(inclusive=False)[1:] %}
+                <li><a href="{{ ancestor.url }}" class="hover:text-gold transition">{{ ancestor.title }}</a></li>
+                <li><i class="fas fa-chevron-right text-xs" aria-hidden="true"></i></li>
+                {% endfor %}
+                <li aria-current="page" class="text-gold">{{ page.title }}</li>
+            </ol>
+        </nav>
+        
+        <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up">
+            {{ _("Le Ultime") }} <span class="text-gold">{{ _("Novità") }}</span>
+        </h1>
+        <p class="text-xl text-gray-300 max-w-2xl" data-aos="fade-up" data-aos-delay="100">
+            {% if page.intro %}
+                {{ page.intro|striptags }}
+            {% else %}
+                {{ _("Notizie, aggiornamenti e storie dalla vita del club") }}
+            {% endif %}
+        </p>
+    </div>
+</header>
+
+<main id="main-content" role="main">
+    <section class="py-16 bg-cream" aria-labelledby="news-heading">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 id="news-heading" class="sr-only">{{ _("Articoli") }}</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for article in page.get_articles_sorted() %}
+                <article class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group" 
+                         data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    {% if article.image %}
+                    <div class="h-48 overflow-hidden">
+                        <img src="{{ image(article.image, 'fill-400x300').url }}" 
+                             alt="{{ article.headline }}"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    {% else %}
+                    <div class="h-48 bg-gradient-to-br from-navy to-navy-light flex items-center justify-center">
+                        <i class="fas fa-newspaper text-4xl text-gold/50" aria-hidden="true"></i>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="p-6">
+                        <div class="flex items-center gap-4 mb-4">
+                            {% if article.date_published %}
+                            <div class="w-14 h-14 bg-gold rounded-xl flex flex-col items-center justify-center shrink-0">
+                                <span class="text-navy text-lg font-black">{{ article.date_published.strftime('%d') }}</span>
+                                <span class="text-navy text-xs font-bold uppercase">{{ article.date_published.strftime('%b') }}</span>
+                            </div>
+                            {% endif %}
+                            <div class="flex-1">
+                                {% if article.article_section %}
+                                <span class="inline-block bg-amaranth/10 text-amaranth px-3 py-1 rounded-full text-xs font-bold mb-1">
+                                    {{ article.article_section }}
+                                </span>
+                                {% endif %}
+                                <h3 class="text-lg font-heading font-bold text-navy group-hover:text-amaranth transition-colors line-clamp-2">
+                                    {{ article.headline }}
+                                </h3>
+                            </div>
+                        </div>
+                        
+                        {% if article.summary %}
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                            {{ article.summary|striptags|truncate(150) }}
+                        </p>
+                        {% endif %}
+                        
+                        {% if article.url %}
+                        <a href="{{ article.url }}" class="inline-flex items-center gap-2 text-amaranth font-bold hover:text-navy transition">
+                            {{ _("Leggi di più") }}
+                            <i class="fas fa-arrow-right text-sm" aria-hidden="true"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </article>
+                {% else %}
+                <div class="col-span-full text-center py-12 bg-white rounded-2xl">
+                    <i class="fas fa-newspaper text-4xl text-gray-300 mb-4" aria-hidden="true"></i>
+                    <p class="text-gray-600">{{ _("Nessun articolo disponibile al momento.") }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

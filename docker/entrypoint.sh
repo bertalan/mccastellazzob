@@ -1,77 +1,52 @@
 #!/bin/bash
 set -e
 
-# Colori per output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+echo "=== MC Castellazzo Entrypoint ==="
 
-echo -e "${GREEN}========================================${NC}"
-echo -e "${GREEN}   mccastellazzob.com - Docker Start   ${NC}"
-echo -e "${GREEN}========================================${NC}"
-
-# Imposta il modulo settings Django
-export DJANGO_SETTINGS_MODULE="${DJANGO_SETTINGS_MODULE:-mccastellazzob.settings.docker}"
-
-echo -e "${YELLOW}→ Usando settings: ${DJANGO_SETTINGS_MODULE}${NC}"
-
-# Attendi che il database sia pronto
-echo -e "${YELLOW}→ Attendo che PostgreSQL sia disponibile...${NC}"
-until python -c "
+# Wait for database
+echo "Waiting for database..."
+while ! python -c "
 import os
-import psycopg2
-conn = psycopg2.connect(
-    dbname=os.environ.get('POSTGRES_DB', 'mccastellazzob'),
+import psycopg
+conn = psycopg.connect(
+    host=os.environ.get('POSTGRES_HOST', 'db'),
+    port=os.environ.get('POSTGRES_PORT', '5432'),
     user=os.environ.get('POSTGRES_USER', 'mccastellazzob'),
     password=os.environ.get('POSTGRES_PASSWORD', ''),
-    host=os.environ.get('POSTGRES_HOST', 'db'),
-    port=os.environ.get('POSTGRES_PORT', '5432')
+    dbname=os.environ.get('POSTGRES_DB', 'mccastellazzob')
 )
 conn.close()
 " 2>/dev/null; do
-    echo -e "${YELLOW}   PostgreSQL non ancora pronto, riprovo in 2 secondi...${NC}"
+    echo "Database not ready, waiting..."
     sleep 2
 done
-echo -e "${GREEN}✓ PostgreSQL è pronto!${NC}"
+echo "Database is ready!"
 
-# Esegui le migrazioni del database
-echo -e "${YELLOW}→ Esecuzione migrazioni database...${NC}"
+# Run migrations
+echo "Running migrations..."
 python manage.py migrate --noinput
-echo -e "${GREEN}✓ Migrazioni completate!${NC}"
 
-# Raccogli i file statici
-echo -e "${YELLOW}→ Raccolta file statici...${NC}"
-python manage.py collectstatic --noinput --clear
-echo -e "${GREEN}✓ File statici raccolti!${NC}"
+# Collect static files
+echo "Collecting static files..."
+python manage.py collectstatic --noinput
 
-# Compila i file SCSS (se presenti)
-if python -c "import sass" 2>/dev/null; then
-    echo -e "${YELLOW}→ Compilazione SCSS...${NC}"
-    python manage.py compilescss 2>/dev/null || echo -e "${YELLOW}   (compilescss non disponibile, skip)${NC}"
-fi
-
-# Crea il superuser se non esiste (solo in dev)
-if [ "${CREATE_SUPERUSER:-false}" = "true" ]; then
-    echo -e "${YELLOW}→ Verifica/creazione superuser...${NC}"
+# Create superuser if needed
+if [ "$CREATE_SUPERUSER" = "true" ]; then
+    echo "Creating superuser if not exists..."
     python manage.py shell -c "
 from django.contrib.auth import get_user_model
+import os
 User = get_user_model()
-email = '${SUPERUSER_EMAIL:-admin@mccastellazzob.com}'
-if not User.objects.filter(email=email).exists():
-    User.objects.create_superuser(
-        email=email,
-        password='${SUPERUSER_PASSWORD:-admin123}'
-    )
-    print('Superuser creato!')
+username = os.environ.get('SUPERUSER_USERNAME', 'admin')
+email = os.environ.get('SUPERUSER_EMAIL', 'admin@mccastellazzob.com')
+password = os.environ.get('SUPERUSER_PASSWORD', 'admin123')
+if not User.objects.filter(username=username).exists():
+    User.objects.create_superuser(username=username, email=email, password=password)
+    print(f'Superuser {username} created')
 else:
-    print('Superuser già esistente.')
+    print(f'Superuser {username} already exists')
 "
 fi
 
-echo -e "${GREEN}========================================${NC}"
-echo -e "${GREEN}   Avvio applicazione...               ${NC}"
-echo -e "${GREEN}========================================${NC}"
-
-# Esegui il comando passato (default: gunicorn)
+echo "=== Starting application ==="
 exec "$@"

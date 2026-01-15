@@ -1,0 +1,19 @@
+{# Block: Document #}
+<div class="document-item card" style="margin-bottom: 1rem;">
+    <div class="card-body">
+        <h4 class="card-title">
+            <span style="color: var(--amaranto);">📄</span>
+            {{ value.title }}
+        </h4>
+        
+        {% if value.description %}
+        <p style="margin: 0.5rem 0; color: var(--gray-800);">
+            {{ value.description }}
+        </p>
+        {% endif %}
+        
+        <a href="{{ value.document.url }}" class="btn btn-primary" target="_blank" download>
+            {{ _("Scarica") }} ↓
+        </a>
+    </div>
+</div>

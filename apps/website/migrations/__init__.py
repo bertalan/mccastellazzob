@@ -1,3 +1,1 @@
-"""
-Migrations package for website app.
-"""
+# apps/website/migrations/__init__.py

@@ -1,49 +1,40 @@
 """
-User factories.
-
-mccastellazzob.com - Moto Club Castellazzo Bormida
-Factories per modello User.
+MC Castellazzo - User Factories
 """
-
 import factory
-from django.contrib.auth import get_user_model
+from factory.django import DjangoModelFactory
+
+from apps.custom_user.models import User
 
 
-User = get_user_model()
-
-
-class UserFactory(factory.django.DjangoModelFactory):
-    """Factory per creare utenti."""
-
+class UserFactory(DjangoModelFactory):
+    """Factory for User model."""
+    
     class Meta:
         model = User
-        django_get_or_create = ("email",)
-
-    email = factory.Sequence(lambda n: f"user{n}@example.com")
+    
+    username = factory.Sequence(lambda n: f"user{n}")
+    email = factory.LazyAttribute(lambda obj: f"{obj.username}@example.com")
     first_name = factory.Faker("first_name", locale="it_IT")
     last_name = factory.Faker("last_name", locale="it_IT")
+    preferred_language = "it"
     is_active = True
-    is_staff = False
-    is_superuser = False
+    
+    @factory.post_generation
+    def password(self, create, extracted, **kwargs):
+        password = extracted or "testpass123"
+        self.set_password(password)
 
-    @factory.lazy_attribute
-    def username(self):
-        """Genera username dall'email."""
-        return self.email.split("@")[0]
 
-    @classmethod
-    def _create(cls, model_class, *args, **kwargs):
-        """Override per usare create_user."""
-        password = kwargs.pop("password", "testpass123")
-        user = super()._create(model_class, *args, **kwargs)
-        user.set_password(password)
-        user.save()
-        return user
+class MemberUserFactory(UserFactory):
+    """Factory for member users."""
+    
+    is_member = True
+    membership_date = factory.Faker("date_this_decade")
 
 
 class AdminUserFactory(UserFactory):
-    """Factory per creare superuser."""
-
+    """Factory for admin users."""
+    
     is_staff = True
     is_superuser = True
-    email = factory.Sequence(lambda n: f"admin{n}@example.com")

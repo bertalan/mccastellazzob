@@ -1,0 +1,110 @@
+{# MC Castellazzo - Transparency Page Template #}
+{% extends "website/base.jinja2" %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block content %}
+    {# Hero Section #}
+    <header class="pt-32 pb-16 bg-navy">
+        <div class="max-w-7xl mx-auto px-6">
+            <nav aria-label="Breadcrumb" class="mb-8">
+                <ol class="flex items-center gap-2 text-sm text-gray-400">
+                    {# Breadcrumb dinamico usando Wagtail #}
+                    {% for ancestor in page.get_ancestors(inclusive=False)[1:] %}
+                    <li><a href="{{ ancestor.url }}" class="hover:text-gold transition">{{ ancestor.title }}</a></li>
+                    <li><i class="fas fa-chevron-right text-xs" aria-hidden="true"></i></li>
+                    {% endfor %}
+                    <li aria-current="page" class="text-gold">{{ page.title }}</li>
+                </ol>
+            </nav>
+            
+            <div class="mb-4" data-aos="fade-up">
+                <span class="inline-flex items-center gap-2 bg-gold text-navy px-4 py-2 rounded-full text-sm font-bold">
+                    <i class="fas fa-file-alt" aria-hidden="true"></i>
+                    {{ _("Documenti Ufficiali") }}
+                </span>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up" data-aos-delay="100">
+                {{ page.title }}
+            </h1>
+            
+            {% if page.intro %}
+            <div class="max-w-3xl text-xl text-gray-300" data-aos="fade-up" data-aos-delay="200">
+                {{ page.intro|safe }}
+            </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <main id="main-content" role="main">
+        <section class="py-16 bg-cream">
+            <div class="max-w-7xl mx-auto px-6">
+                
+                {% if page.documents %}
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {% for block in page.documents %}
+                        {% if block.block_type == 'document' and block.value.document %}
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover" data-aos="fade-up" data-aos-delay="{{ loop.index * 50 }}">
+                            {# Header con icona #}
+                            <div class="bg-navy p-6">
+                                <div class="w-16 h-16 bg-gold rounded-2xl flex items-center justify-center mb-4">
+                                    <i class="fas fa-file-pdf text-2xl text-navy" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="text-xl font-heading font-bold text-white">
+                                    {{ block.value.title }}
+                                </h3>
+                            </div>
+                            
+                            {# Body #}
+                            <div class="p-6">
+                                {% if block.value.description %}
+                                <p class="text-gray-600 mb-6">
+                                    {{ block.value.description }}
+                                </p>
+                                {% endif %}
+                                
+                                <a href="{{ block.value.document.url }}" 
+                                   class="inline-flex items-center gap-2 bg-bordeaux text-white font-bold px-6 py-3 rounded-full hover:bg-amaranth transition w-full justify-center"
+                                   target="_blank"
+                                   download>
+                                    <i class="fas fa-download" aria-hidden="true"></i>
+                                    {{ _("Scarica") }}
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                {% else %}
+                {# Stato vuoto #}
+                <div class="bg-white rounded-2xl p-12 text-center shadow-lg" data-aos="fade-up">
+                    <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-folder-open text-3xl text-gray-400" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-bold text-navy mb-2">{{ _("Nessun documento disponibile") }}</h3>
+                    <p class="text-gray-600">{{ _("I documenti saranno pubblicati a breve.") }}</p>
+                </div>
+                {% endif %}
+                
+            </div>
+        </section>
+        
+        {# CTA Section #}
+        <section class="py-16 bg-navy">
+            <div class="max-w-4xl mx-auto px-6 text-center" data-aos="fade-up">
+                <h2 class="text-3xl font-heading font-bold text-white mb-4">
+                    {{ _("Hai bisogno di altri documenti?") }}
+                </h2>
+                <p class="text-gray-300 mb-8">
+                    {{ _("Contattaci per richiedere informazioni o documenti specifici.") }}
+                </p>
+                <a href="{{ main_pages.contact or page.get_parent().url }}" 
+                   class="inline-flex items-center gap-2 bg-gold text-navy font-bold px-8 py-4 rounded-full hover:bg-gold-dark transition">
+                    <i class="fas fa-envelope" aria-hidden="true"></i>
+                    {{ _("Contattaci") }}
+                </a>
+            </div>
+        </section>
+    </main>
+{% endblock %}

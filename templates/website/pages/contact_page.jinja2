@@ -1,0 +1,409 @@
+{# MC Castellazzo - Contact Page Template #}
+{# WCAG 2.2 AAA Compliant #}
+{% extends "website/base.jinja2" %}
+
+{% block title %}{{ page.title }} | {{ settings.website.SiteSettings.organization_name }}{% endblock %}
+
+{% block content %}
+{# ============================================= #}
+{# HERO SECTION                                  #}
+{# ============================================= #}
+<header class="pt-32 pb-16 bg-navy" role="banner">
+    <div class="max-w-7xl mx-auto px-6">
+        {# Breadcrumb - WCAG 2.4.8 #}
+        <nav aria-label="Breadcrumb" class="mb-8">
+            <ol class="flex items-center gap-2 text-sm text-gray-400">
+                {# Breadcrumb dinamico usando Wagtail #}
+                {% for ancestor in page.get_ancestors(inclusive=False)[1:] %}
+                <li>
+                    <a href="{{ ancestor.url }}" class="hover:text-gold transition focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-navy rounded">
+                        {{ ancestor.title }}
+                    </a>
+                </li>
+                <li aria-hidden="true">
+                    <i class="fas fa-chevron-right text-xs"></i>
+                </li>
+                {% endfor %}
+                <li aria-current="page" class="text-gold font-medium">
+                    {{ page.title }}
+                </li>
+            </ol>
+        </nav>
+        
+        {# Hero Title #}
+        <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up">
+            {{ page.title }}
+        </h1>
+        {% if page.intro %}
+        <div class="text-xl text-gray-300 max-w-2xl prose prose-invert" data-aos="fade-up" data-aos-delay="100">
+            {{ page.intro|safe }}
+        </div>
+        {% endif %}
+    </div>
+</header>
+
+{# ============================================= #}
+{# MAIN CONTENT                                  #}
+{# ============================================= #}
+<main id="main-content" role="main">
+    
+    {# ----------------------------------------- #}
+    {# CONTACT SECTION                           #}
+    {# ----------------------------------------- #}
+    <section class="py-20 bg-cream" aria-labelledby="contact-heading">
+        <h2 id="contact-heading" class="sr-only">{{ _("Sezione contatti") }}</h2>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-12">
+                
+                {# Contact Form #}
+                {% if page.show_contact_form %}
+                <div class="bg-white rounded-2xl shadow-lg p-8" data-aos="fade-right">
+                    <h2 class="text-2xl font-heading font-bold text-navy mb-6">{{ _("Inviaci un Messaggio") }}</h2>
+                    
+                    <form id="contactForm" method="post" action="" novalidate aria-describedby="formDescription">
+                        {% csrf_token %}
+                        <p id="formDescription" class="text-gray-600 mb-6">{{ _("Compila il modulo e ti risponderemo entro 24 ore.") }}</p>
+                        
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label for="nome" class="block text-sm font-semibold text-navy mb-2">{{ _("Nome") }} *</label>
+                                <input type="text" id="nome" name="nome" required
+                                    class="w-full px-4 py-3 rounded-lg bg-warm-gray border-2 border-transparent focus:border-gold focus:bg-white transition text-navy"
+                                    aria-required="true">
+                            </div>
+                            <div>
+                                <label for="cognome" class="block text-sm font-semibold text-navy mb-2">{{ _("Cognome") }} *</label>
+                                <input type="text" id="cognome" name="cognome" required
+                                    class="w-full px-4 py-3 rounded-lg bg-warm-gray border-2 border-transparent focus:border-gold focus:bg-white transition text-navy"
+                                    aria-required="true">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="email" class="block text-sm font-semibold text-navy mb-2">{{ _("Email") }} *</label>
+                            <input type="email" id="email" name="email" required
+                                class="w-full px-4 py-3 rounded-lg bg-warm-gray border-2 border-transparent focus:border-gold focus:bg-white transition text-navy"
+                                aria-required="true">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="telefono" class="block text-sm font-semibold text-navy mb-2">{{ _("Telefono") }}</label>
+                            <input type="tel" id="telefono" name="telefono"
+                                class="w-full px-4 py-3 rounded-lg bg-warm-gray border-2 border-transparent focus:border-gold focus:bg-white transition text-navy">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="oggetto" class="block text-sm font-semibold text-navy mb-2">{{ _("Oggetto") }} *</label>
+                            <select id="oggetto" name="oggetto" required
+                                class="w-full px-4 py-3 rounded-lg bg-warm-gray border-2 border-transparent focus:border-gold focus:bg-white transition text-navy"
+                                aria-required="true">
+                                <option value="">{{ _("Seleziona un argomento") }}</option>
+                                <option value="iscrizione">{{ _("Richiesta Iscrizione") }}</option>
+                                <option value="eventi">{{ _("Informazioni Eventi") }}</option>
+                                <option value="collaborazioni">{{ _("Collaborazioni") }}</option>
+                                <option value="altro">{{ _("Altro") }}</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="messaggio" class="block text-sm font-semibold text-navy mb-2">{{ _("Messaggio") }} *</label>
+                            <textarea id="messaggio" name="messaggio" rows="5" required
+                                class="w-full px-4 py-3 rounded-lg bg-warm-gray border-2 border-transparent focus:border-gold focus:bg-white transition text-navy resize-none"
+                                aria-required="true"></textarea>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="checkbox" id="privacy" name="privacy" required
+                                    class="mt-1 w-5 h-5 accent-gold"
+                                    aria-required="true">
+                                <span class="text-sm text-gray-600">
+                                    {{ _("Ho letto e accetto la") }} <a href="{{ main_pages.privacy or '/privacy/' }}" class="text-gold hover:text-gold-dark underline">{{ _("Privacy Policy") }}</a> *
+                                </span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-gold text-navy font-bold py-4 rounded-full hover:bg-gold-dark transition flex items-center justify-center gap-3 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2">
+                            <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                            <span>{{ _("Invia Messaggio") }}</span>
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+                
+                {# Contact Info Cards #}
+                <div class="space-y-6" data-aos="fade-left">
+                    {# Address Card #}
+                    {% if page.address %}
+                    <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                        <div class="flex items-start gap-4">
+                            <div class="w-14 h-14 bg-gold rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-2xl text-navy" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-heading font-bold text-navy mb-1">{{ _("Sede Sociale") }}</h3>
+                                <address class="not-italic text-gray-600">
+                                    {{ page.address|replace(", ", "<br>")|safe }}
+                                </address>
+                                {% if page.latitude and page.longitude %}
+                                <p class="text-xs text-gray-400 mt-2">
+                                    <i class="fas fa-location-crosshairs mr-1" aria-hidden="true"></i>
+                                    GPS: {{ "%.6f"|format(page.latitude) }}, {{ "%.6f"|format(page.longitude) }}
+                                </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {# Phone Card #}
+                    {% if page.phone %}
+                    <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                        <div class="flex items-start gap-4">
+                            <div class="w-14 h-14 bg-amaranth rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-phone text-2xl text-white" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-heading font-bold text-navy mb-1">{{ _("Telefono") }}</h3>
+                                <p class="text-gray-600">
+                                    <a href="tel:{{ page.phone }}" class="hover:text-gold transition">{{ page.phone }}</a>
+                                </p>
+                                {% if page.phone_note %}
+                                <p class="text-sm text-gray-500 mt-1">{{ page.phone_note }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {# Email Card #}
+                    {% if page.email %}
+                    <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                        <div class="flex items-start gap-4">
+                            <div class="w-14 h-14 bg-navy rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-envelope text-2xl text-gold" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-heading font-bold text-navy mb-1">{{ _("Email") }}</h3>
+                                <p class="text-gray-600">
+                                    <a href="mailto:{{ page.email }}" class="hover:text-gold transition">{{ page.email }}</a>
+                                </p>
+                                {% if page.email_note %}
+                                <p class="text-sm text-gray-500 mt-1">{{ page.email_note }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {# Opening Hours Card #}
+                    {% if page.opening_hours %}
+                    <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                        <div class="flex items-start gap-4">
+                            <div class="w-14 h-14 bg-gold rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-clock text-2xl text-navy" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-heading font-bold text-navy mb-1">{{ _("Orari Sede") }}</h3>
+                                <ul class="text-gray-600 text-sm space-y-1">
+                                    {% for line in page.opening_hours.split('\n') %}
+                                    {% if line.strip() %}
+                                    {% set parts = line.split(':') %}
+                                    <li class="flex justify-between gap-4">
+                                        <span>{{ parts[0]|trim }}:</span>
+                                        <span class="font-semibold">{{ parts[1:]|join(':')|trim if parts|length > 1 else '' }}</span>
+                                    </li>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% if page.opening_hours_note %}
+                                    <li class="text-gray-500 text-xs mt-2">
+                                        {{ page.opening_hours_note }}
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# ----------------------------------------- #}
+    {# MAP SECTION                               #}
+    {# ----------------------------------------- #}
+    <section class="py-20 bg-white" aria-labelledby="map-heading">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 id="map-heading" class="text-3xl md:text-4xl font-heading font-black text-navy mb-4" data-aos="fade-up">
+                    {{ _("Dove") }} <span class="text-gold">{{ _("Trovarci") }}</span>
+                </h2>
+                {% if page.map_description %}
+                <p class="text-gray-600 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+                    {{ page.map_description }}
+                </p>
+                {% endif %}
+            </div>
+            
+            <div class="rounded-2xl overflow-hidden shadow-lg" data-aos="zoom-in">
+                {% set location = page.get_map_location() %}
+                <div id="contact-map" 
+                     class="h-[400px] md:h-[500px]" 
+                     role="application" 
+                     aria-label="{{ _("Mappa interattiva con la posizione della sede") }}"></div>
+            </div>
+            
+            {% if page.directions_car or page.directions_train or page.directions_parking %}
+            <div class="grid md:grid-cols-3 gap-6 mt-8">
+                {% if page.directions_car %}
+                <div class="text-center p-6 bg-warm-gray rounded-xl" data-aos="fade-up">
+                    <i class="fas fa-car text-3xl text-gold mb-3" aria-hidden="true"></i>
+                    <h3 class="font-heading font-bold text-navy mb-2">{{ _("In Auto") }}</h3>
+                    <p class="text-gray-600 text-sm">{{ page.directions_car }}</p>
+                </div>
+                {% endif %}
+                {% if page.directions_train %}
+                <div class="text-center p-6 bg-warm-gray rounded-xl" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-train text-3xl text-amaranth mb-3" aria-hidden="true"></i>
+                    <h3 class="font-heading font-bold text-navy mb-2">{{ _("In Treno") }}</h3>
+                    <p class="text-gray-600 text-sm">{{ page.directions_train }}</p>
+                </div>
+                {% endif %}
+                {% if page.directions_parking %}
+                <div class="text-center p-6 bg-warm-gray rounded-xl" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-parking text-3xl text-navy mb-3" aria-hidden="true"></i>
+                    <h3 class="font-heading font-bold text-navy mb-2">{{ _("Parcheggio") }}</h3>
+                    <p class="text-gray-600 text-sm">{{ page.directions_parking }}</p>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    {# ----------------------------------------- #}
+    {# FAQ SECTION                               #}
+    {# ----------------------------------------- #}
+    <section class="py-20 bg-warm-gray" aria-labelledby="faq-heading">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 id="faq-heading" class="text-3xl md:text-4xl font-heading font-black text-navy mb-4" data-aos="fade-up">
+                    {{ _("Domande") }} <span class="text-gold">{{ _("Frequenti") }}</span>
+                </h2>
+                <p class="text-gray-600" data-aos="fade-up" data-aos-delay="100">
+                    {{ _("Trova rapidamente le risposte alle domande più comuni") }}
+                </p>
+            </div>
+            
+            <div class="space-y-4">
+                <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up">
+                    <summary class="flex items-center justify-between p-6 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset">
+                        <span class="font-heading font-bold text-navy text-lg">{{ _("Come posso iscrivermi al club?") }}</span>
+                        <i class="fas fa-chevron-down text-gold transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-600">
+                        <p>{{ _("Puoi iscriverti compilando il modulo in questa pagina, passando in sede durante gli orari di apertura, o contattandoci telefonicamente. La quota annuale è di €50 e include tessera FMI, assicurazione e partecipazione a tutti gli eventi sociali.") }}</p>
+                    </div>
+                </details>
+                
+                <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="50">
+                    <summary class="flex items-center justify-between p-6 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset">
+                        <span class="font-heading font-bold text-navy text-lg">{{ _("Quali sono i requisiti per l'iscrizione?") }}</span>
+                        <i class="fas fa-chevron-down text-gold transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-600">
+                        <p>{{ _("Possono iscriversi tutti i maggiorenni in possesso di patente valida e con la passione per le moto. Non è richiesto possedere una moto, basta l'entusiasmo!") }}</p>
+                    </div>
+                </details>
+                
+                <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="100">
+                    <summary class="flex items-center justify-between p-6 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset">
+                        <span class="font-heading font-bold text-navy text-lg">{{ _("Posso partecipare agli eventi prima di iscrivermi?") }}</span>
+                        <i class="fas fa-chevron-down text-gold transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-600">
+                        <p>{{ _("Sì! Puoi partecipare come ospite a un massimo di 2 eventi prima di decidere se iscriverti. È un ottimo modo per conoscere il club e i suoi membri.") }}</p>
+                    </div>
+                </details>
+                
+                <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="150">
+                    <summary class="flex items-center justify-between p-6 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset">
+                        <span class="font-heading font-bold text-navy text-lg">{{ _("Che tipo di moto devo avere?") }}</span>
+                        <i class="fas fa-chevron-down text-gold transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-600">
+                        <p>{{ _("Nel nostro club sono benvenute moto di ogni tipo: stradali, naked, enduro, custom, sportive... La passione per le due ruote è l'unico requisito! Molti soci hanno anche più moto per diverse occasioni.") }}</p>
+                    </div>
+                </details>
+                
+                <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="200">
+                    <summary class="flex items-center justify-between p-6 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset">
+                        <span class="font-heading font-bold text-navy text-lg">{{ _("Organizzate corsi di guida sicura?") }}</span>
+                        <i class="fas fa-chevron-down text-gold transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-600">
+                        <p>{{ _("Sì, in collaborazione con la FMI organizziamo periodicamente corsi di guida sicura e perfezionamento. I corsi sono aperti anche ai non soci con un piccolo supplemento.") }}</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    {# ----------------------------------------- #}
+    {# CTA SECTION                               #}
+    {# ----------------------------------------- #}
+    {% if page.cta_title or page.cta_description %}
+    <section class="py-20 bg-navy" aria-labelledby="cta-heading">
+        <div class="max-w-4xl mx-auto px-6 text-center" data-aos="zoom-in">
+            {% if page.cta_title %}
+            <h2 id="cta-heading" class="text-3xl md:text-5xl font-heading font-black text-white mb-6">
+                {{ page.cta_title }}
+            </h2>
+            {% endif %}
+            {% if page.cta_description %}
+            <p class="text-lg text-gray-300 mb-10 max-w-2xl mx-auto">
+                {{ page.cta_description }}
+            </p>
+            {% endif %}
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#contactForm" class="bg-gold text-navy font-bold px-10 py-5 rounded-full text-lg hover:bg-gold-dark transition flex items-center justify-center gap-3 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-navy">
+                    <i class="fas fa-pen" aria-hidden="true"></i>
+                    <span>{{ _("Compila il Modulo") }}</span>
+                </a>
+                {% if page.phone %}
+                <a href="tel:{{ page.phone }}" class="bg-white/10 border-2 border-white text-white font-bold px-10 py-5 rounded-full text-lg hover:bg-white/20 transition flex items-center justify-center gap-3 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-navy">
+                    <i class="fas fa-phone" aria-hidden="true"></i>
+                    <span>{{ _("Chiamaci Ora") }}</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    (function() {
+        {% set location = page.get_map_location() %}
+        var location = {
+            lat: {{ location.lat }},
+            lon: {{ location.lon }}
+        };
+        
+        var map = L.map('contact-map').setView([location.lat, location.lon], 15);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        
+        L.marker([location.lat, location.lon])
+            .addTo(map)
+            .bindPopup('{{ page.address or settings.website.SiteSettings.organization_name }}')
+            .openPopup();
+    })();
+</script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{# Block: Event Card #}
+<div class="card event-card">
+    {% if value.image %}
+    <img src="{{ image(value.image, 'fill-400x250').url }}" 
+         alt="{{ value.name }}" 
+         class="card-img">
+    {% endif %}
+    
+    <div class="card-body">
+        <span class="event-status event-status-{{ value.event_status|lower }}">
+            {% if value.event_status == 'EventScheduled' %}{{ _("Programmato") }}
+            {% elif value.event_status == 'EventCancelled' %}{{ _("Annullato") }}
+            {% elif value.event_status == 'EventPostponed' %}{{ _("Posticipato") }}
+            {% else %}{{ value.event_status }}{% endif %}
+        </span>
+        
+        <h3 class="card-title" style="margin-top: 0.5rem;">{{ value.name }}</h3>
+        
+        <p class="card-date">
+            📅 {{ value.start_date.strftime('%d/%m/%Y %H:%M') }}
+            {% if value.end_date %}
+            - {{ value.end_date.strftime('%d/%m/%Y %H:%M') }}
+            {% endif %}
+        </p>
+        
+        <p style="color: var(--gray-800);">
+            📍 {{ value.location_name }}
+            {% if value.location_address %}
+            <br><small>{{ value.location_address }}</small>
+            {% endif %}
+        </p>
+        
+        {% if value.description %}
+        <div style="margin-top: 1rem;">
+            {{ value.description|safe }}
+        </div>
+        {% endif %}
+        
+        {% if value.event_url %}
+        <a href="{{ value.event_url }}" class="btn btn-primary" style="margin-top: 1rem;">
+            {{ _("Dettagli") }} →
+        </a>
+        {% endif %}
+    </div>
+</div>

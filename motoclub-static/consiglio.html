@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Il Consiglio Direttivo del Moto Club Castellazzo Bormida. Conosci i membri che guidano il club con passione e dedizione.">
+    <title>Il Consiglio | Moto Club Castellazzo Bormida</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold': '#ffd700',
+                        'gold-dark': '#f6c401',
+                        'bordeaux': '#ab0031',
+                        'navy': '#1B263B',
+                        'navy-light': '#2D3E5C',
+                        'amaranth': '#9B1D64',
+                        'amaranth-dark': '#7A164F',
+                        'cream': '#FEFCF6',
+                        'warm-gray': '#F5F3EE',
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        .sr-only:focus, .focus\:not-sr-only:focus {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: auto;
+            height: auto;
+            padding: 1rem 2rem;
+            margin: 0;
+            overflow: visible;
+            clip: auto;
+            white-space: normal;
+            background: #D4AF37;
+            color: #1B263B;
+            font-weight: bold;
+            z-index: 9999;
+            border-radius: 8px;
+        }
+        
+        *:focus-visible {
+            outline: 3px solid #D4AF37;
+            outline-offset: 2px;
+        }
+        
+        .member-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .member-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(27, 38, 59, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-cream">
+    <!-- Skip Link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only">Vai al contenuto principale</a>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white shadow-md" aria-label="Navigazione principale">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center gap-4">
+                    <img src="images/MotoClubCastellazzoBormida-logo.webp" alt="Logo Moto Club Castellazzo Bormida" class="h-14 w-14">
+                    <div>
+                        <span class="text-navy font-heading font-bold text-xl block">MC Castellazzo Bormida</span>
+                        <span class="text-gray-500 text-xs tracking-widest">DAL 1933</span>
+                    </div>
+                </a>
+                
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="index.html" class="text-gray-600 hover:text-navy transition">Home</a>
+                    <a href="chi-siamo.html" class="text-gray-600 hover:text-navy transition">Chi Siamo</a>
+                    <a href="consiglio.html" class="text-navy font-semibold border-b-2 border-gold pb-1" aria-current="page">Il Consiglio</a>
+                    <a href="eventi.html" class="text-gray-600 hover:text-navy transition">Eventi</a>
+                    <a href="galleria.html" class="text-gray-600 hover:text-navy transition">Galleria</a>
+                    <a href="contatti.html" class="bg-bordeaux text-white font-bold px-6 py-3 rounded-full hover:bg-gold-dark hover:text-navy transition">
+                        Contattaci
+                    </a>
+                </div>
+                
+                <button id="mobileMenuBtn" class="lg:hidden text-navy text-2xl" aria-label="Apri menu di navigazione" aria-expanded="false">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-gray-100" role="menu">
+            <div class="px-6 py-4 space-y-4">
+                <a href="index.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Home</a>
+                <a href="chi-siamo.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Chi Siamo</a>
+                <a href="consiglio.html" class="block text-navy font-semibold py-2 border-b border-gold/30" role="menuitem" aria-current="page">Il Consiglio</a>
+                <a href="eventi.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Eventi</a>
+                <a href="galleria.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Galleria</a>
+                <a href="contatti.html" class="block bg-bordeaux text-white text-center font-bold px-6 py-3 rounded-full mt-4 hover:bg-gold-dark hover:text-navy transition" role="menuitem">Contattaci</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-32 pb-16 bg-navy">
+        <div class="max-w-7xl mx-auto px-6">
+            <nav aria-label="Breadcrumb" class="mb-8">
+                <ol class="flex items-center gap-2 text-sm text-gray-400">
+                    <li><a href="index.html" class="hover:text-gold transition">Home</a></li>
+                    <li><i class="fas fa-chevron-right text-xs" aria-hidden="true"></i></li>
+                    <li aria-current="page" class="text-gold">Il Consiglio</li>
+                </ol>
+            </nav>
+            
+            <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up">
+                Il Consiglio <span class="text-gold">Direttivo</span>
+            </h1>
+            <p class="text-xl text-gray-300 max-w-2xl" data-aos="fade-up" data-aos-delay="100">
+                Le persone che guidano il club con passione e dedizione, lavorando per offrire esperienze uniche a tutti i soci
+            </p>
+        </div>
+    </header>
+
+    <main id="main-content" role="main">
+        <!-- Council Members Section -->
+        <section class="py-20 bg-white" aria-labelledby="members-heading">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <span class="text-amaranth font-bold text-sm uppercase tracking-widest">Il Team</span>
+                    <h2 id="members-heading" class="text-3xl md:text-5xl font-heading font-black text-navy mt-4">I Nostri Membri</h2>
+                    <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Conosci le persone che dedicano tempo e passione alla gestione del club</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Presidente -->
+                    <article class="bg-white rounded-2xl shadow-lg overflow-hidden member-card border-2 border-gold" data-aos="fade-up" data-aos-delay="100">
+                        <div class="h-64 bg-navy relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400" alt="" class="w-full h-full object-cover opacity-80" aria-hidden="true">
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-gold text-navy px-4 py-2 rounded-full text-sm font-bold">Presidente</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-heading font-bold text-navy mb-2">Mario Rossi</h3>
+                            <p class="text-gray-600 mb-4">Guida il club dal 2018 con passione e visione. Motociclista da oltre 40 anni.</p>
+                            <a href="mailto:presidente@mccastellazzob.com" class="text-gold font-bold flex items-center gap-2 hover:gap-4 transition-all">
+                                <i class="fas fa-envelope" aria-hidden="true"></i>
+                                <span>Contatta</span>
+                            </a>
+                        </div>
+                    </article>
+                    
+                    <!-- Vice Presidente -->
+                    <article class="bg-white rounded-2xl shadow-lg overflow-hidden member-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="h-64 bg-amaranth relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400" alt="" class="w-full h-full object-cover opacity-80" aria-hidden="true">
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-white text-amaranth px-4 py-2 rounded-full text-sm font-bold">Vice Presidente</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-heading font-bold text-navy mb-2">Giuseppe Bianchi</h3>
+                            <p class="text-gray-600 mb-4">Supporta il presidente e coordina le attività del club. Esperto di viaggi su strada.</p>
+                            <a href="mailto:vice@mccastellazzob.com" class="text-amaranth font-bold flex items-center gap-2 hover:gap-4 transition-all">
+                                <i class="fas fa-envelope" aria-hidden="true"></i>
+                                <span>Contatta</span>
+                            </a>
+                        </div>
+                    </article>
+                    
+                    <!-- Segretaria -->
+                    <article class="bg-white rounded-2xl shadow-lg overflow-hidden member-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="h-64 bg-navy relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400" alt="" class="w-full h-full object-cover opacity-80" aria-hidden="true">
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-gold text-navy px-4 py-2 rounded-full text-sm font-bold">Segretaria</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-heading font-bold text-navy mb-2">Anna Verdi</h3>
+                            <p class="text-gray-600 mb-4">Gestisce le iscrizioni e le comunicazioni del club. Sempre disponibile per i soci.</p>
+                            <a href="mailto:segreteria@mccastellazzob.com" class="text-gold font-bold flex items-center gap-2 hover:gap-4 transition-all">
+                                <i class="fas fa-envelope" aria-hidden="true"></i>
+                                <span>Contatta</span>
+                            </a>
+                        </div>
+                    </article>
+                    
+                    <!-- Tesoriere -->
+                    <article class="bg-white rounded-2xl shadow-lg overflow-hidden member-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="h-64 bg-gold relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400" alt="" class="w-full h-full object-cover opacity-80" aria-hidden="true">
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-navy text-white px-4 py-2 rounded-full text-sm font-bold">Tesoriere</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-heading font-bold text-navy mb-2">Marco Neri</h3>
+                            <p class="text-gray-600 mb-4">Gestisce la contabilità e le finanze del club con precisione e trasparenza.</p>
+                            <a href="mailto:tesoreria@mccastellazzob.com" class="text-navy font-bold flex items-center gap-2 hover:gap-4 transition-all">
+                                <i class="fas fa-envelope" aria-hidden="true"></i>
+                                <span>Contatta</span>
+                            </a>
+                        </div>
+                    </article>
+                    
+                    <!-- Responsabile Eventi -->
+                    <article class="bg-white rounded-2xl shadow-lg overflow-hidden member-card" data-aos="fade-up" data-aos-delay="500">
+                        <div class="h-64 bg-amaranth relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400" alt="" class="w-full h-full object-cover opacity-80" aria-hidden="true">
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-white text-amaranth px-4 py-2 rounded-full text-sm font-bold">Resp. Eventi</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-heading font-bold text-navy mb-2">Laura Gialli</h3>
+                            <p class="text-gray-600 mb-4">Organizza e coordina tutti gli eventi del club. Creatività e organizzazione al top.</p>
+                            <a href="mailto:eventi@mccastellazzob.com" class="text-amaranth font-bold flex items-center gap-2 hover:gap-4 transition-all">
+                                <i class="fas fa-envelope" aria-hidden="true"></i>
+                                <span>Contatta</span>
+                            </a>
+                        </div>
+                    </article>
+                    
+                    <!-- Responsabile Comunicazione -->
+                    <article class="bg-white rounded-2xl shadow-lg overflow-hidden member-card" data-aos="fade-up" data-aos-delay="600">
+                        <div class="h-64 bg-navy relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400" alt="" class="w-full h-full object-cover opacity-80" aria-hidden="true">
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-gold text-navy px-4 py-2 rounded-full text-sm font-bold">Resp. Comunicazione</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-heading font-bold text-navy mb-2">Paolo Blu</h3>
+                            <p class="text-gray-600 mb-4">Cura i social media e la comunicazione esterna del club. Sempre connesso.</p>
+                            <a href="mailto:comunicazione@mccastellazzob.com" class="text-gold font-bold flex items-center gap-2 hover:gap-4 transition-all">
+                                <i class="fas fa-envelope" aria-hidden="true"></i>
+                                <span>Contatta</span>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Join Section -->
+        <section class="py-20 bg-cream" aria-labelledby="join-heading">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="bg-white rounded-3xl p-8 md:p-12 shadow-lg" data-aos="fade-up">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <span class="text-amaranth font-bold text-sm uppercase tracking-widest">Vuoi Contribuire?</span>
+                            <h2 id="join-heading" class="text-3xl md:text-4xl font-heading font-black text-navy mt-4 mb-6">
+                                Metti le Tue Idee al Servizio del Club
+                            </h2>
+                            <p class="text-gray-600 mb-6 leading-relaxed">
+                                Non servono candidature formali per dare il tuo contributo! 
+                                Se hai idee, passione e voglia di partecipare attivamente alla vita del club, 
+                                ogni forma di collaborazione è benvenuta. Insieme rendiamo il club sempre più forte!
+                            </p>
+                            <ul class="space-y-3 text-gray-600 mb-8">
+                                <li class="flex items-center gap-3">
+                                    <i class="fas fa-check text-gold" aria-hidden="true"></i>
+                                    <span>Proponi iniziative e progetti</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <i class="fas fa-check text-gold" aria-hidden="true"></i>
+                                    <span>Aiuta nell'organizzazione eventi</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <i class="fas fa-check text-gold" aria-hidden="true"></i>
+                                    <span>Condividi competenze e passione</span>
+                                </li>
+                            </ul>
+                            <a href="contatti.html" class="inline-flex items-center gap-3 bg-gold text-navy font-bold px-8 py-4 rounded-full hover:bg-gold-dark transition">
+                                <i class="fas fa-info-circle" aria-hidden="true"></i>
+                                <span>Maggiori Informazioni</span>
+                            </a>
+                        </div>
+                        <div class="bg-warm-gray rounded-2xl p-8">
+                            <div class="text-center">
+                                <div class="w-24 h-24 bg-navy rounded-full flex items-center justify-center mx-auto mb-6">
+                                    <i class="fas fa-handshake text-4xl text-gold" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="text-2xl font-heading font-bold text-navy mb-4">Collabora con Noi</h3>
+                                <p class="text-gray-600 mb-6">Ogni contributo fa la differenza!</p>
+                                <div class="bg-white rounded-xl p-4">
+                                    <p class="text-sm text-gray-500">Contattaci per scoprire come puoi partecipare attivamente</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20 bg-navy" aria-labelledby="cta-heading">
+            <div class="max-w-4xl mx-auto px-6 text-center" data-aos="zoom-in">
+                <h2 id="cta-heading" class="text-3xl md:text-5xl font-heading font-black text-white mb-6">
+                    Hai Domande per il <span class="text-gold">Consiglio</span>?
+                </h2>
+                <p class="text-lg text-gray-300 mb-10 max-w-2xl mx-auto">
+                    Siamo sempre disponibili ad ascoltare i soci. Contattaci per qualsiasi dubbio o proposta.
+                </p>
+                <a href="contatti.html" class="inline-flex items-center gap-3 bg-gold text-navy font-bold px-10 py-5 rounded-full text-lg hover:bg-gold-dark transition">
+                    <i class="fas fa-envelope" aria-hidden="true"></i>
+                    <span>Contattaci</span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-navy-light pt-16 pb-8" role="contentinfo">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="images/MotoClubCastellazzoBormida-logo.webp" alt="Logo Moto Club Castellazzo Bormida" class="h-12" aria-hidden="true">
+                        <span class="text-gold font-heading font-bold">MC Castellazzo Bormida</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Dal 1933 la passione per le due ruote nel cuore del Piemonte.</p>
+                </div>
+                
+                <nav aria-label="Link rapidi">
+                    <h3 class="text-gold font-heading font-bold mb-4">Link Rapidi</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="chi-siamo.html" class="hover:text-gold transition">Chi Siamo</a></li>
+                        <li><a href="consiglio.html" class="hover:text-gold transition">Il Consiglio</a></li>
+                        <li><a href="eventi.html" class="hover:text-gold transition">Eventi</a></li>
+                        <li><a href="galleria.html" class="hover:text-gold transition">Galleria</a></li>
+                    </ul>
+                </nav>
+                
+                <div>
+                    <h3 class="text-gold font-heading font-bold mb-4">Contatti</h3>
+                    <address class="not-italic space-y-2 text-gray-400 text-sm">
+                        <p><i class="fas fa-map-marker-alt text-gold mr-2" aria-hidden="true"></i>Via Roma 45, 15073 Castellazzo Bormida (AL)</p>
+                        <p><i class="fas fa-phone text-gold mr-2" aria-hidden="true"></i><a href="tel:+390131278945" class="hover:text-gold transition">+39 0131 278945</a></p>
+                        <p><i class="fas fa-envelope text-gold mr-2" aria-hidden="true"></i><a href="mailto:info@mccastellazzob.com" class="hover:text-gold transition">info@mccastellazzob.com</a></p>
+                    </address>
+                </div>
+                
+                <div>
+                    <h3 class="text-gold font-heading font-bold mb-4">Seguici</h3>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-10 h-10 bg-navy hover:bg-gold rounded-lg flex items-center justify-center text-gray-400 hover:text-navy transition" aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-navy hover:bg-gold rounded-lg flex items-center justify-center text-gray-400 hover:text-navy transition" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-navy hover:bg-gold rounded-lg flex items-center justify-center text-gray-400 hover:text-navy transition" aria-label="YouTube">
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2026 Moto Club Castellazzo Bormida. Tutti i diritti riservati.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 600, once: true });
+        
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+            mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+    
+    <!-- Color Management System -->
+    <script src="js/color-manager.js"></script>
+    <script src="js/color-config.js"></script>
+</body>
+</html>

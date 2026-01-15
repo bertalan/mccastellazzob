@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contatta il Moto Club Castellazzo Bormida. Informazioni, iscrizioni e sede sociale nel cuore del Piemonte.">
+    <title>Contatti | Moto Club Castellazzo Bormida</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold': '#ffd700',
+                        'gold-dark': '#f6c401',
+                        'bordeaux': '#ab0031',
+                        'navy': '#1B263B',
+                        'navy-light': '#2D3E5C',
+                        'amaranth': '#9B1D64',
+                        'amaranth-dark': '#7A164F',
+                        'cream': '#FEFCF6',
+                        'warm-gray': '#F5F3EE',
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        .sr-only:focus, .focus\:not-sr-only:focus {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: auto;
+            height: auto;
+            padding: 1rem 2rem;
+            margin: 0;
+            overflow: visible;
+            clip: auto;
+            white-space: normal;
+            background: #D4AF37;
+            color: #1B263B;
+            font-weight: bold;
+            z-index: 9999;
+            border-radius: 8px;
+        }
+        
+        *:focus-visible {
+            outline: 3px solid #D4AF37;
+            outline-offset: 2px;
+        }
+        
+        .input-field {
+            background-color: #F5F3EE;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            background-color: #fff;
+            border-color: #D4AF37;
+        }
+        
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(27, 38, 59, 0.15);
+        }
+        
+        details summary::-webkit-details-marker { display: none; }
+        details summary { cursor: pointer; }
+        details[open] .faq-arrow { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="bg-cream">
+    <!-- Skip Link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only">Vai al contenuto principale</a>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white shadow-md" aria-label="Navigazione principale">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center gap-4">
+                    <img src="images/MotoClubCastellazzoBormida-logo.webp" alt="Logo Moto Club Castellazzo Bormida" class="h-14 w-14">
+                    <div>
+                        <span class="text-navy font-heading font-bold text-xl block">MC Castellazzo Bormida</span>
+                        <span class="text-gray-500 text-xs tracking-widest">DAL 1933</span>
+                    </div>
+                </a>
+                
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="index.html" class="text-gray-600 hover:text-navy transition">Home</a>
+                    <a href="chi-siamo.html" class="text-gray-600 hover:text-navy transition">Chi Siamo</a>
+                    <a href="consiglio.html" class="text-gray-600 hover:text-navy transition">Il Consiglio</a>
+                    <a href="eventi.html" class="text-gray-600 hover:text-navy transition">Eventi</a>
+                    <a href="galleria.html" class="text-gray-600 hover:text-navy transition">Galleria</a>
+                    <a href="contatti.html" class="bg-bordeaux text-white font-bold px-6 py-3 rounded-full hover:bg-gold-dark hover:text-navy transition" aria-current="page">
+                        Contattaci
+                    </a>
+                </div>
+                
+                <button id="mobileMenuBtn" class="lg:hidden text-navy text-2xl" aria-label="Apri menu di navigazione" aria-expanded="false">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-gray-100" role="menu">
+            <div class="px-6 py-4 space-y-4">
+                <a href="index.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Home</a>
+                <a href="chi-siamo.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Chi Siamo</a>
+                <a href="consiglio.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Il Consiglio</a>
+                <a href="eventi.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Eventi</a>
+                <a href="galleria.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Galleria</a>
+                <a href="contatti.html" class="block bg-bordeaux text-white text-center font-bold px-6 py-3 rounded-full mt-4 hover:bg-gold-dark hover:text-navy transition" role="menuitem" aria-current="page">Contattaci</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-32 pb-16 bg-navy">
+        <div class="max-w-7xl mx-auto px-6">
+            <nav aria-label="Breadcrumb" class="mb-8">
+                <ol class="flex items-center gap-2 text-sm text-gray-400">
+                    <li><a href="index.html" class="hover:text-gold transition">Home</a></li>
+                    <li><i class="fas fa-chevron-right text-xs" aria-hidden="true"></i></li>
+                    <li aria-current="page" class="text-gold">Contatti</li>
+                </ol>
+            </nav>
+            
+            <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up">
+                Contattaci <span class="text-gold">Oggi</span>
+            </h1>
+            <p class="text-xl text-gray-300 max-w-2xl" data-aos="fade-up" data-aos-delay="100">
+                Siamo sempre pronti ad accogliere nuovi appassionati
+            </p>
+        </div>
+    </header>
+
+    <main id="main-content" role="main">
+        <!-- Contact Section -->
+        <section class="py-20 bg-cream" aria-labelledby="contact-heading">
+            <h2 id="contact-heading" class="sr-only">Sezione contatti</h2>
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <!-- Contact Form -->
+                    <div class="bg-white rounded-2xl shadow-lg p-8" data-aos="fade-right">
+                        <h3 class="text-2xl font-heading font-bold text-navy mb-6">Inviaci un Messaggio</h3>
+                        
+                        <form id="contactForm" novalidate aria-describedby="formDescription">
+                            <p id="formDescription" class="text-gray-600 mb-6">Compila il modulo e ti risponderemo entro 24 ore.</p>
+                            
+                            <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label for="nome" class="block text-sm font-semibold text-navy mb-2">Nome *</label>
+                                    <input type="text" id="nome" name="nome" required
+                                        class="input-field w-full px-4 py-3 rounded-lg text-navy"
+                                        aria-required="true">
+                                    <span id="nomeError" class="text-amaranth text-sm hidden" role="alert"></span>
+                                </div>
+                                <div>
+                                    <label for="cognome" class="block text-sm font-semibold text-navy mb-2">Cognome *</label>
+                                    <input type="text" id="cognome" name="cognome" required
+                                        class="input-field w-full px-4 py-3 rounded-lg text-navy"
+                                        aria-required="true">
+                                    <span id="cognomeError" class="text-amaranth text-sm hidden" role="alert"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="email" class="block text-sm font-semibold text-navy mb-2">Email *</label>
+                                <input type="email" id="email" name="email" required
+                                    class="input-field w-full px-4 py-3 rounded-lg text-navy"
+                                    aria-required="true">
+                                <span id="emailError" class="text-amaranth text-sm hidden" role="alert"></span>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="telefono" class="block text-sm font-semibold text-navy mb-2">Telefono</label>
+                                <input type="tel" id="telefono" name="telefono"
+                                    class="input-field w-full px-4 py-3 rounded-lg text-navy">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="oggetto" class="block text-sm font-semibold text-navy mb-2">Oggetto *</label>
+                                <select id="oggetto" name="oggetto" required
+                                    class="input-field w-full px-4 py-3 rounded-lg text-navy"
+                                    aria-required="true">
+                                    <option value="">Seleziona un argomento</option>
+                                    <option value="iscrizione">Richiesta Iscrizione</option>
+                                    <option value="eventi">Informazioni Eventi</option>
+                                    <option value="collaborazioni">Collaborazioni</option>
+                                    <option value="altro">Altro</option>
+                                </select>
+                                <span id="oggettoError" class="text-amaranth text-sm hidden" role="alert"></span>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="messaggio" class="block text-sm font-semibold text-navy mb-2">Messaggio *</label>
+                                <textarea id="messaggio" name="messaggio" rows="5" required
+                                    class="input-field w-full px-4 py-3 rounded-lg text-navy resize-none"
+                                    aria-required="true"></textarea>
+                                <span id="messaggioError" class="text-amaranth text-sm hidden" role="alert"></span>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="flex items-start gap-3 cursor-pointer">
+                                    <input type="checkbox" id="privacy" name="privacy" required
+                                        class="mt-1 w-5 h-5 accent-gold"
+                                        aria-required="true">
+                                    <span class="text-sm text-gray-600">
+                                        Ho letto e accetto la <a href="#" class="text-gold hover:text-gold-dark underline">Privacy Policy</a> *
+                                    </span>
+                                </label>
+                                <span id="privacyError" class="text-amaranth text-sm hidden" role="alert"></span>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-gold text-navy font-bold py-4 rounded-full hover:bg-gold-dark transition flex items-center justify-center gap-3">
+                                <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                                <span>Invia Messaggio</span>
+                            </button>
+                        </form>
+                        
+                        <div id="formSuccess" class="hidden text-center py-8">
+                            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-check text-3xl text-green-600" aria-hidden="true"></i>
+                            </div>
+                            <h4 class="text-xl font-heading font-bold text-navy mb-2">Messaggio Inviato!</h4>
+                            <p class="text-gray-600">Ti risponderemo al più presto.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Info -->
+                    <div class="space-y-6" data-aos="fade-left">
+                        <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 bg-gold rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-map-marker-alt text-2xl text-navy" aria-hidden="true"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-heading font-bold text-navy mb-1">Sede Sociale</h3>
+                                    <address class="not-italic text-gray-600">
+                                        Via Roma 45<br>
+                                        15073 Castellazzo Bormida (AL)<br>
+                                        Piemonte, Italia
+                                    </address>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 bg-amaranth rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-phone text-2xl text-white" aria-hidden="true"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-heading font-bold text-navy mb-1">Telefono</h3>
+                                    <p class="text-gray-600">
+                                        <a href="tel:+390131278945" class="hover:text-gold transition">+39 0131 278945</a>
+                                    </p>
+                                    <p class="text-sm text-gray-500 mt-1">Lun-Ven: 18:00 - 21:00</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 bg-navy rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-envelope text-2xl text-gold" aria-hidden="true"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-heading font-bold text-navy mb-1">Email</h3>
+                                    <p class="text-gray-600">
+                                        <a href="mailto:info@mccastellazzob.com" class="hover:text-gold transition">info@mccastellazzob.com</a>
+                                    </p>
+                                    <p class="text-sm text-gray-500 mt-1">Rispondiamo entro 24h</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 bg-gold rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-clock text-2xl text-navy" aria-hidden="true"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-heading font-bold text-navy mb-1">Orari Sede</h3>
+                                    <ul class="text-gray-600 text-sm space-y-1">
+                                        <li class="flex justify-between">
+                                            <span>Lunedì - Venerdì:</span>
+                                            <span class="font-semibold">18:00 - 21:00</span>
+                                        </li>
+                                        <li class="flex justify-between">
+                                            <span>Sabato:</span>
+                                            <span class="font-semibold">15:00 - 19:00</span>
+                                        </li>
+                                        <li class="flex justify-between">
+                                            <span>Domenica:</span>
+                                            <span class="font-semibold text-amaranth">Chiuso</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map Section -->
+        <section class="py-20 bg-white" aria-labelledby="map-heading">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 id="map-heading" class="text-3xl md:text-4xl font-heading font-black text-navy mb-4" data-aos="fade-up">
+                        Dove <span class="text-gold">Trovarci</span>
+                    </h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+                        La nostra sede è facilmente raggiungibile e dotata di ampio parcheggio
+                    </p>
+                </div>
+                
+                <div class="rounded-2xl overflow-hidden shadow-lg" data-aos="zoom-in">
+                    <div id="map" class="h-[400px] md:h-[500px]" role="application" aria-label="Mappa interattiva con la posizione della sede"></div>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6 mt-8">
+                    <div class="text-center p-6 bg-warm-gray rounded-xl" data-aos="fade-up">
+                        <i class="fas fa-car text-3xl text-gold mb-3" aria-hidden="true"></i>
+                        <h3 class="font-heading font-bold text-navy mb-2">In Auto</h3>
+                        <p class="text-gray-600 text-sm">Uscita A26 Alessandria Sud, 15 min</p>
+                    </div>
+                    <div class="text-center p-6 bg-warm-gray rounded-xl" data-aos="fade-up" data-aos-delay="100">
+                        <i class="fas fa-train text-3xl text-amaranth mb-3" aria-hidden="true"></i>
+                        <h3 class="font-heading font-bold text-navy mb-2">In Treno</h3>
+                        <p class="text-gray-600 text-sm">Stazione Alessandria + bus linea 5</p>
+                    </div>
+                    <div class="text-center p-6 bg-warm-gray rounded-xl" data-aos="fade-up" data-aos-delay="200">
+                        <i class="fas fa-parking text-3xl text-navy mb-3" aria-hidden="true"></i>
+                        <h3 class="font-heading font-bold text-navy mb-2">Parcheggio</h3>
+                        <p class="text-gray-600 text-sm">Ampio parcheggio gratuito disponibile</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="py-20 bg-warm-gray" aria-labelledby="faq-heading">
+            <div class="max-w-4xl mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 id="faq-heading" class="text-3xl md:text-4xl font-heading font-black text-navy mb-4" data-aos="fade-up">
+                        Domande <span class="text-gold">Frequenti</span>
+                    </h2>
+                    <p class="text-gray-600" data-aos="fade-up" data-aos-delay="100">
+                        Trova rapidamente le risposte alle domande più comuni
+                    </p>
+                </div>
+                
+                <div class="space-y-4">
+                    <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up">
+                        <summary class="flex items-center justify-between p-6 cursor-pointer">
+                            <span class="font-heading font-bold text-navy text-lg">Come posso iscrivermi al club?</span>
+                            <i class="fas fa-chevron-down text-gold faq-arrow transition-transform" aria-hidden="true"></i>
+                        </summary>
+                        <div class="px-6 pb-6 text-gray-600">
+                            <p>Puoi iscriverti compilando il modulo in questa pagina, passando in sede durante gli orari di apertura, o contattandoci telefonicamente. La quota annuale è di €50 e include tessera FMI, assicurazione e partecipazione a tutti gli eventi sociali.</p>
+                        </div>
+                    </details>
+                    
+                    <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="50">
+                        <summary class="flex items-center justify-between p-6 cursor-pointer">
+                            <span class="font-heading font-bold text-navy text-lg">Quali sono i requisiti per l'iscrizione?</span>
+                            <i class="fas fa-chevron-down text-gold faq-arrow transition-transform" aria-hidden="true"></i>
+                        </summary>
+                        <div class="px-6 pb-6 text-gray-600">
+                            <p>Possono iscriversi tutti i maggiorenni in possesso di patente valida e con la passione per le moto. Non è richiesto possedere una moto, basta l'entusiasmo!</p>
+                        </div>
+                    </details>
+                    
+                    <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="100">
+                        <summary class="flex items-center justify-between p-6 cursor-pointer">
+                            <span class="font-heading font-bold text-navy text-lg">Posso partecipare agli eventi prima di iscrivermi?</span>
+                            <i class="fas fa-chevron-down text-gold faq-arrow transition-transform" aria-hidden="true"></i>
+                        </summary>
+                        <div class="px-6 pb-6 text-gray-600">
+                            <p>Sì! Puoi partecipare come ospite a un massimo di 2 eventi prima di decidere se iscriverti. È un ottimo modo per conoscere il club e i suoi membri.</p>
+                        </div>
+                    </details>
+                    
+                    <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="150">
+                        <summary class="flex items-center justify-between p-6 cursor-pointer">
+                            <span class="font-heading font-bold text-navy text-lg">Che tipo di moto devo avere?</span>
+                            <i class="fas fa-chevron-down text-gold faq-arrow transition-transform" aria-hidden="true"></i>
+                        </summary>
+                        <div class="px-6 pb-6 text-gray-600">
+                            <p>Nel nostro club sono benvenute moto di ogni tipo: stradali, naked, enduro, custom, sportive... La passione per le due ruote è l'unico requisito! Molti soci hanno anche più moto per diverse occasioni.</p>
+                        </div>
+                    </details>
+                    
+                    <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="200">
+                        <summary class="flex items-center justify-between p-6 cursor-pointer">
+                            <span class="font-heading font-bold text-navy text-lg">Organizzate corsi di guida sicura?</span>
+                            <i class="fas fa-chevron-down text-gold faq-arrow transition-transform" aria-hidden="true"></i>
+                        </summary>
+                        <div class="px-6 pb-6 text-gray-600">
+                            <p>Sì, in collaborazione con la FMI organizziamo periodicamente corsi di guida sicura e perfezionamento. I corsi sono aperti anche ai non soci con un piccolo supplemento.</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20 bg-navy" aria-labelledby="cta-heading">
+            <div class="max-w-4xl mx-auto px-6 text-center" data-aos="zoom-in">
+                <h2 id="cta-heading" class="text-3xl md:text-5xl font-heading font-black text-white mb-6">
+                    Pronto a <span class="text-gold">Unirti</span> a Noi?
+                </h2>
+                <p class="text-lg text-gray-300 mb-10 max-w-2xl mx-auto">
+                    Dal 1933 accogliamo appassionati di moto. La tua storia con noi inizia oggi!
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#contactForm" class="bg-gold text-navy font-bold px-10 py-5 rounded-full text-lg hover:bg-gold-dark transition flex items-center justify-center gap-3">
+                        <i class="fas fa-pen" aria-hidden="true"></i>
+                        <span>Compila il Modulo</span>
+                    </a>
+                    <a href="tel:+390131278945" class="bg-white/10 border-2 border-white text-white font-bold px-10 py-5 rounded-full text-lg hover:bg-white/20 transition flex items-center justify-center gap-3">
+                        <i class="fas fa-phone" aria-hidden="true"></i>
+                        <span>Chiamaci Ora</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-navy-light pt-16 pb-8" role="contentinfo">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="images/MotoClubCastellazzoBormida-logo.webp" alt="" class="h-12" aria-hidden="true">
+                        <span class="text-gold font-heading font-bold">MC Castellazzo Bormida</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Dal 1933 la passione per le due ruote nel cuore del Piemonte.</p>
+                </div>
+                
+                <nav aria-label="Link rapidi">
+                    <h3 class="text-gold font-heading font-bold mb-4">Link Rapidi</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="chi-siamo.html" class="hover:text-gold transition">Chi Siamo</a></li>
+                        <li><a href="consiglio.html" class="hover:text-gold transition">Il Consiglio</a></li>
+                        <li><a href="eventi.html" class="hover:text-gold transition">Eventi</a></li>
+                        <li><a href="galleria.html" class="hover:text-gold transition">Galleria</a></li>
+                    </ul>
+                </nav>
+                
+                <div>
+                    <h3 class="text-gold font-heading font-bold mb-4">Contatti</h3>
+                    <address class="not-italic space-y-2 text-gray-400 text-sm">
+                        <p><i class="fas fa-map-marker-alt text-gold mr-2" aria-hidden="true"></i>Via Roma 45, 15073 Castellazzo Bormida (AL)</p>
+                        <p><i class="fas fa-phone text-gold mr-2" aria-hidden="true"></i><a href="tel:+390131278945" class="hover:text-gold transition">+39 0131 278945</a></p>
+                        <p><i class="fas fa-envelope text-gold mr-2" aria-hidden="true"></i><a href="mailto:info@mccastellazzob.com" class="hover:text-gold transition">info@mccastellazzob.com</a></p>
+                    </address>
+                </div>
+                
+                <div>
+                    <h3 class="text-gold font-heading font-bold mb-4">Seguici</h3>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-10 h-10 bg-navy hover:bg-gold rounded-lg flex items-center justify-center text-gray-400 hover:text-navy transition" aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-navy hover:bg-gold rounded-lg flex items-center justify-center text-gray-400 hover:text-navy transition" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-navy hover:bg-gold rounded-lg flex items-center justify-center text-gray-400 hover:text-navy transition" aria-label="YouTube">
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2026 Moto Club Castellazzo Bormida. Tutti i diritti riservati.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        AOS.init({ duration: 600, once: true });
+        
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+            mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Leaflet Map
+        const map = L.map('map').setView([44.8983, 8.5914], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+        
+        const customIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background:#D4AF37;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid #1B263B;"><i class="fas fa-motorcycle" style="color:#1B263B;font-size:18px;"></i></div>',
+            iconSize: [40, 40],
+            iconAnchor: [20, 40]
+        });
+        
+        L.marker([44.8983, 8.5914], { icon: customIcon })
+            .addTo(map)
+            .bindPopup('<strong style="color:#1B263B;">MC Castellazzo Bormida</strong><br>Via Roma 45<br>15073 Castellazzo Bormida (AL)')
+            .openPopup();
+        
+        // Form Validation
+        const form = document.getElementById('contactForm');
+        const formSuccess = document.getElementById('formSuccess');
+        
+        const validateField = (field, errorId, message) => {
+            const error = document.getElementById(errorId);
+            if (!field.validity.valid) {
+                error.textContent = message;
+                error.classList.remove('hidden');
+                field.classList.add('border-amaranth');
+                return false;
+            }
+            error.classList.add('hidden');
+            field.classList.remove('border-amaranth');
+            return true;
+        };
+        
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            let isValid = true;
+            
+            isValid = validateField(document.getElementById('nome'), 'nomeError', 'Il nome è obbligatorio') && isValid;
+            isValid = validateField(document.getElementById('cognome'), 'cognomeError', 'Il cognome è obbligatorio') && isValid;
+            isValid = validateField(document.getElementById('email'), 'emailError', 'Inserisci un\'email valida') && isValid;
+            isValid = validateField(document.getElementById('oggetto'), 'oggettoError', 'Seleziona un argomento') && isValid;
+            isValid = validateField(document.getElementById('messaggio'), 'messaggioError', 'Il messaggio è obbligatorio') && isValid;
+            
+            const privacy = document.getElementById('privacy');
+            const privacyError = document.getElementById('privacyError');
+            if (!privacy.checked) {
+                privacyError.textContent = 'Devi accettare la Privacy Policy';
+                privacyError.classList.remove('hidden');
+                isValid = false;
+            } else {
+                privacyError.classList.add('hidden');
+            }
+            
+            if (isValid) {
+                form.style.display = 'none';
+                formSuccess.classList.remove('hidden');
+            }
+        });
+    </script>
+    
+    <!-- Color Management System -->
+    <script src="js/color-manager.js"></script>
+    <script src="js/color-config.js"></script>
+</body>
+</html>

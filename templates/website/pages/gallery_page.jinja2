@@ -1,0 +1,129 @@
+{% extends "website/base.jinja2" %}
+{% block title %}{{ page.title }} | {{ page.get_site.site_name }}{% endblock %}
+
+{% block content %}
+<main id="main-content" role="main" class="pt-24">
+    <!-- Page Header -->
+    <section class="py-16 bg-navy">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-heading font-black text-white mb-4" data-aos="fade-up">
+                {{ page.title }}
+            </h1>
+            {% if page.intro %}
+            <div class="text-xl text-gray-300 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+                {{ page.intro|richtext }}
+            </div>
+            {% endif %}
+        </div>
+    </section>
+    
+    {# Gallery from InlinePanel (new method) #}
+    {% set all_images = page.get_all_images() %}
+    {% if all_images %}
+    <section class="py-16 bg-cream">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            {# Category Filters #}
+            {% if page.show_filters %}
+            {% set categories = page.get_categories() %}
+            {% if categories %}
+            <div class="flex flex-wrap justify-center gap-3 mb-12" data-aos="fade-up">
+                <button class="filter-btn active px-6 py-2 rounded-full font-semibold transition bg-navy text-white" 
+                        data-filter="all">
+                    {{ _("Tutti") }}
+                </button>
+                {% for cat in categories %}
+                <button class="filter-btn px-6 py-2 rounded-full font-semibold transition bg-white text-navy hover:bg-navy hover:text-white" 
+                        data-filter="{{ cat }}">
+                    {{ cat|capitalize }}
+                </button>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endif %}
+            
+            {# Image Grid #}
+            <div class="grid grid-cols-2 md:grid-cols-{{ page.columns }} gap-4" id="gallery-grid">
+                {% for img in all_images %}
+                <div class="gallery-item overflow-hidden rounded-xl shadow-lg cursor-pointer group"
+                     data-category="{{ img.category }}"
+                     data-aos="fade-up"
+                     data-aos-delay="{{ loop.index0 * 50 }}"
+                     onclick="openLightbox('{{ image(img.image, 'width-1600').url }}', '{{ img.caption|e }}')">
+                    <div class="aspect-square overflow-hidden">
+                        <img src="{{ image(img.image, 'fill-400x400').url }}" 
+                             alt="{{ img.caption or img.image.title }}"
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                             loading="lazy">
+                    </div>
+                    {% if img.caption %}
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <p class="text-white text-sm">{{ img.caption }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    
+    {# Legacy: StreamField Blocks (for backwards compatibility) #}
+    {% for block in page.gallery %}
+    <div>
+        {% include_block block %}
+    </div>
+    {% endfor %}
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" class="fixed inset-0 z-50 hidden bg-black/95 flex items-center justify-center p-4" onclick="closeLightbox()">
+    <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white text-4xl hover:text-gold transition" aria-label="{{ _('Chiudi') }}">
+        <i class="fas fa-times" aria-hidden="true"></i>
+    </button>
+    <img id="lightbox-image" src="" alt="" class="max-w-full max-h-[90vh] object-contain">
+    <p id="lightbox-caption" class="absolute bottom-6 left-6 right-6 text-center text-white text-lg"></p>
+</div>
+
+<script>
+function openLightbox(src, caption) {
+    document.getElementById('lightbox-image').src = src;
+    document.getElementById('lightbox-caption').textContent = caption;
+    document.getElementById('lightbox').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    document.getElementById('lightbox').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+});
+
+// Category Filter
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const filter = this.dataset.filter;
+        
+        // Update active button
+        document.querySelectorAll('.filter-btn').forEach(b => {
+            b.classList.remove('active', 'bg-navy', 'text-white');
+            b.classList.add('bg-white', 'text-navy');
+        });
+        this.classList.add('active', 'bg-navy', 'text-white');
+        this.classList.remove('bg-white', 'text-navy');
+        
+        // Filter images
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            if (filter === 'all' || item.dataset.category === filter || item.dataset.category === 'all') {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,631 @@
+{# MC Castellazzo - Base Template Jinja2 #}
+<!DOCTYPE html>
+<html lang="{{ request.LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{{ page.title }}{% endblock %} | MC Castellazzo</title>
+    
+    {# SEO #}
+    <meta name="description" content="{% block meta_description %}MC Castellazzo - Motoclub Torino{% endblock %}">
+    
+    {# Schema.org JSON-LD #}
+    {% if page.get_json_ld is defined %}
+    <script type="application/ld+json">
+    {{ page.get_json_ld() }}
+    </script>
+    {% endif %}
+    
+    {# Leaflet CSS per mappe #}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    {# Tema CSS #}
+    <style>
+        :root {
+            --oro: {{ colors.oro }};
+            --blu-nautico: {{ colors.blu_nautico }};
+            --amaranto: {{ colors.amaranto }};
+            --oro-light: #E5C76B;
+            --blu-light: #2A3B52;
+            --white: #FFFFFF;
+            --gray-100: #F8F9FA;
+            --gray-200: #E9ECEF;
+            --gray-800: #343A40;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--gray-100);
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+        
+        /* Header con gradiente oro-blu */
+        .site-header {
+            background: linear-gradient(135deg, var(--blu-nautico) 0%, var(--oro) 100%);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .site-header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .site-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--white);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .site-logo img {
+            height: 50px;
+            width: auto;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+            color: var(--oro-light);
+        }
+        
+        /* Language Switcher */
+        .lang-switcher {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .lang-switcher a {
+            color: var(--white);
+            padding: 0.25rem 0.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-switcher a:hover,
+        .lang-switcher a.active {
+            background: var(--oro);
+            border-color: var(--oro);
+            color: var(--blu-nautico);
+        }
+        
+        /* Auth Links */
+        .auth-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .auth-links a {
+            color: var(--white);
+            text-decoration: none;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: var(--oro);
+            color: var(--blu-nautico);
+        }
+        
+        .btn-primary:hover {
+            background: var(--oro-light);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--blu-nautico);
+        }
+        
+        .btn-amaranto {
+            background: var(--amaranto);
+            color: var(--white);
+        }
+        
+        .btn-amaranto:hover {
+            filter: brightness(1.1);
+        }
+        
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--blu-nautico) 0%, var(--blu-light) 100%);
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+            margin: -2rem -2rem 2rem -2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .card-title {
+            color: var(--blu-nautico);
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-date {
+            color: var(--amaranto);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        /* Grid */
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+        
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--oro), var(--amaranto));
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 2rem;
+            width: 16px;
+            height: 16px;
+            background: var(--oro);
+            border: 3px solid var(--blu-nautico);
+            border-radius: 50%;
+        }
+        
+        .timeline-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .timeline-item:hover .timeline-image {
+            transform: scale(1.05);
+        }
+        
+        .timeline-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        /* Gallery Lightbox */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.5));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+        
+        /* Members Grid */
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .member-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .member-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--oro);
+            margin-bottom: 1rem;
+        }
+        
+        .member-name {
+            color: var(--blu-nautico);
+            margin-bottom: 0.25rem;
+        }
+        
+        .member-role {
+            color: var(--amaranto);
+            font-weight: 500;
+        }
+        
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--blu-nautico);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--oro);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* Footer */
+        .site-footer {
+            background: var(--blu-nautico);
+            color: var(--white);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-section h4 {
+            color: var(--oro);
+            margin-bottom: 1rem;
+        }
+        
+        .footer-section a {
+            color: var(--white);
+            text-decoration: none;
+            display: block;
+            padding: 0.25rem 0;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: var(--oro);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            opacity: 0.8;
+        }
+        
+        /* Event Status Badge */
+        .event-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .event-status-scheduled {
+            background: #28a745;
+            color: white;
+        }
+        
+        .event-status-cancelled {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .event-status-postponed {
+            background: #ffc107;
+            color: black;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .site-header nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            main {
+                padding: 1rem;
+            }
+            
+            .timeline {
+                padding-left: 1.5rem;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-in {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header class="site-header">
+        <nav>
+            <a href="/{{ request.LANGUAGE_CODE }}/" class="site-logo">
+                {% if settings.website.SiteSettings.logo %}
+                    {{ image(settings.website.SiteSettings.logo, "height-50", alt="MC Castellazzo") }}
+                {% endif %}
+                <span>MC Castellazzo</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="/{{ request.LANGUAGE_CODE }}/">{% trans %}Home{% endtrans %}</a></li>
+                <li><a href="/{{ request.LANGUAGE_CODE }}/timeline/">{% trans %}Timeline{% endtrans %}</a></li>
+                <li><a href="/{{ request.LANGUAGE_CODE }}/chi-siamo/">{% trans %}Chi Siamo{% endtrans %}</a></li>
+                <li><a href="/{{ request.LANGUAGE_CODE }}/eventi/">{% trans %}Eventi{% endtrans %}</a></li>
+                <li><a href="/{{ request.LANGUAGE_CODE }}/contatti/">{% trans %}Contatti{% endtrans %}</a></li>
+            </ul>
+            
+            <div class="lang-switcher">
+                {% for lang_code, lang_name in [('it', 'IT'), ('fr', 'FR'), ('es', 'ES'), ('en', 'EN')] %}
+                    <a href="/{{ lang_code }}{{ request.path[3:] }}" 
+                       class="{% if request.LANGUAGE_CODE == lang_code %}active{% endif %}">
+                        {{ lang_name }}
+                    </a>
+                {% endfor %}
+            </div>
+            
+            <div class="auth-links">
+                {% if request.user.is_authenticated %}
+                    <span>{{ request.user.get_full_name() or request.user.username }}</span>
+                    <a href="{{ url('account_logout') }}" class="btn btn-secondary">{% trans %}Esci{% endtrans %}</a>
+                {% else %}
+                    <a href="{{ url('account_login') }}" class="btn btn-secondary">{% trans %}Accedi{% endtrans %}</a>
+                    <a href="{{ url('account_signup') }}" class="btn btn-primary">{% trans %}Registrati{% endtrans %}</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>MC Castellazzo</h4>
+                <p>{% trans %}Motoclub dal 1975{% endtrans %}</p>
+                <p>Torino, Piedmont, Italia</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>{% trans %}Link Utili{% endtrans %}</h4>
+                <a href="/{{ request.LANGUAGE_CODE }}/chi-siamo/">{% trans %}Chi Siamo{% endtrans %}</a>
+                <a href="/{{ request.LANGUAGE_CODE }}/eventi/">{% trans %}Eventi{% endtrans %}</a>
+                <a href="/{{ request.LANGUAGE_CODE }}/contatti/">{% trans %}Contatti{% endtrans %}</a>
+            </div>
+            
+            <div class="footer-section">
+                <h4>{% trans %}Trasparenza{% endtrans %}</h4>
+                <a href="/{{ request.LANGUAGE_CODE }}/chi-siamo/trasparenza/">{% trans %}Documenti{% endtrans %}</a>
+                <a href="/{{ request.LANGUAGE_CODE }}/chi-siamo/consiglio/">{% trans %}Consiglio Direttivo{% endtrans %}</a>
+            </div>
+            
+            <div class="footer-section">
+                <h4>{% trans %}Lingue{% endtrans %}</h4>
+                <div class="lang-switcher" style="justify-content: flex-start;">
+                    <a href="/it/">Italiano</a>
+                    <a href="/fr/">Français</a>
+                    <a href="/es/">Español</a>
+                    <a href="/en/">English</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; {{ now().year }} MC Castellazzo. {% trans %}Tutti i diritti riservati.{% endtrans %}</p>
+        </div>
+    </footer>
+    
+    {# Leaflet JS per mappe #}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

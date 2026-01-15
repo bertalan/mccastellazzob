@@ -1,0 +1,41 @@
+{# Block: Section Cards Grid #}
+<section class="py-20 bg-cream" aria-labelledby="sections-heading-{{ id }}">
+    <div class="max-w-7xl mx-auto px-6">
+        {% if value.heading_title %}
+        <div class="text-center mb-16" data-aos="fade-up">
+            {% if value.heading_label %}
+            <span class="inline-block bg-gold text-navy px-4 py-2 rounded-full text-sm font-bold mb-4">
+                {{ value.heading_label }}
+            </span>
+            {% endif %}
+            <h2 id="sections-heading-{{ id }}" class="text-4xl md:text-5xl font-heading font-black text-navy mb-4">
+                {{ value.heading_title }}
+            </h2>
+            {% if value.heading_subtitle %}
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">{{ value.heading_subtitle }}</p>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        {% if value.layout == 'grid-3-2' and value.cards|length == 5 %}
+        {# Layout 3+2 per 5 cards #}
+        <div class="grid md:grid-cols-3 gap-8 mb-8">
+            {% for card in value.cards[:3] %}
+            {% include "website/blocks/section_card_block.html" with context %}
+            {% endfor %}
+        </div>
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {% for card in value.cards[3:] %}
+            {% include "website/blocks/section_card_block.html" with context %}
+            {% endfor %}
+        </div>
+        {% else %}
+        {# Layout griglia normale #}
+        <div class="grid md:grid-cols-{% if value.layout == 'grid-2' %}2{% else %}3{% endif %} gap-8">
+            {% for card in value.cards %}
+            {% include "website/blocks/section_card_block.html" with context %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>

@@ -1,0 +1,256 @@
+{# MC Castellazzo - Event Detail Page Template #}
+{% extends "website/base.jinja2" %}
+
+{% block title %}{{ page.event_name }}{% endblock %}
+
+{% block content %}
+    {# Hero Section #}
+    <header class="pt-32 pb-16 bg-navy relative overflow-hidden">
+        {% if page.image %}
+        <div class="absolute inset-0 opacity-30">
+            <img src="{{ image(page.image, 'width-1920').url }}" alt="" class="w-full h-full object-cover">
+        </div>
+        {% endif %}
+        <div class="relative max-w-7xl mx-auto px-6">
+            <nav aria-label="Breadcrumb" class="mb-8">
+                <ol class="flex items-center gap-2 text-sm text-gray-400">
+                    {# Breadcrumb dinamico usando Wagtail #}
+                    {% for ancestor in page.get_ancestors(inclusive=False)[1:] %}
+                    <li><a href="{{ ancestor.url }}" class="hover:text-gold transition">{{ ancestor.title }}</a></li>
+                    <li><i class="fas fa-chevron-right text-xs" aria-hidden="true"></i></li>
+                    {% endfor %}
+                    <li aria-current="page" class="text-gold">{{ page.event_name }}</li>
+                </ol>
+            </nav>
+            
+            {# Status Badge #}
+            <div class="mb-4" data-aos="fade-up">
+                {% if page.event_status == 'EventScheduled' %}
+                <span class="inline-flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold">
+                    <i class="fas fa-check-circle" aria-hidden="true"></i>
+                    {{ _("Programmato") }}
+                </span>
+                {% elif page.event_status == 'EventCancelled' %}
+                <span class="inline-flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-full text-sm font-bold">
+                    <i class="fas fa-times-circle" aria-hidden="true"></i>
+                    {{ _("Annullato") }}
+                </span>
+                {% elif page.event_status == 'EventPostponed' %}
+                <span class="inline-flex items-center gap-2 bg-yellow-500 text-navy px-4 py-2 rounded-full text-sm font-bold">
+                    <i class="fas fa-clock" aria-hidden="true"></i>
+                    {{ _("Posticipato") }}
+                </span>
+                {% else %}
+                <span class="inline-flex items-center gap-2 bg-gold text-navy px-4 py-2 rounded-full text-sm font-bold">
+                    <i class="fas fa-calendar" aria-hidden="true"></i>
+                    {{ page.event_status }}
+                </span>
+                {% endif %}
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up" data-aos-delay="100">
+                {{ page.event_name }}
+            </h1>
+            
+            {# Quick Info Bar #}
+            <div class="flex flex-wrap gap-6 text-gray-300" data-aos="fade-up" data-aos-delay="200">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-calendar-alt text-gold" aria-hidden="true"></i>
+                    <span>{{ page.start_date.strftime('%d %B %Y') }}</span>
+                </div>
+                {% if page.location_name %}
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-map-marker-alt text-gold" aria-hidden="true"></i>
+                    <span>{{ page.location_name }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" role="main">
+        <article class="py-16 bg-cream">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid lg:grid-cols-3 gap-8">
+                    {# Main Content #}
+                    <div class="lg:col-span-2 space-y-8">
+                        {# Description #}
+                        {% if page.description %}
+                        <section class="bg-white rounded-2xl p-8 shadow-lg" data-aos="fade-up">
+                            <h2 class="text-2xl font-heading font-bold text-navy mb-6 flex items-center gap-3">
+                                <i class="fas fa-info-circle text-amaranth" aria-hidden="true"></i>
+                                {{ _("Descrizione") }}
+                            </h2>
+                            <div class="prose prose-lg max-w-none text-gray-700">
+                                {{ page.description|safe }}
+                            </div>
+                        </section>
+                        {% endif %}
+                        
+                        {# Map Section #}
+                        {% if page.location_lat and page.location_lon %}
+                        <section class="bg-white rounded-2xl overflow-hidden shadow-lg" data-aos="fade-up" data-aos-delay="100">
+                            <div id="event-map" class="h-80 w-full"></div>
+                            <div class="p-6">
+                                <h3 class="font-heading font-bold text-navy mb-2">{{ page.location_name }}</h3>
+                                {% if page.location_address %}
+                                <p class="text-gray-600 mb-4">{{ page.location_address }}</p>
+                                {% endif %}
+                                <a href="https://www.google.com/maps/dir/?api=1&destination={{ page.location_lat }},{{ page.location_lon }}" 
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   class="inline-flex items-center gap-2 text-amaranth font-bold hover:gap-4 transition-all">
+                                    <i class="fas fa-directions" aria-hidden="true"></i>
+                                    {{ _("Ottieni indicazioni") }}
+                                    <i class="fas fa-external-link-alt text-sm" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </section>
+                        {% endif %}
+                        
+                        {# Gallery #}
+                        {% if page.gallery %}
+                        <section class="bg-white rounded-2xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="200">
+                            <h2 class="text-2xl font-heading font-bold text-navy mb-6 flex items-center gap-3">
+                                <i class="fas fa-images text-amaranth" aria-hidden="true"></i>
+                                {{ _("Galleria") }}
+                            </h2>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                {% for block in page.gallery %}
+                                {% if block.block_type == 'image' and block.value.image %}
+                                <div class="aspect-video rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition"
+                                     onclick="openLightbox('{{ image(block.value.image, 'width-1200').url }}', '{{ block.value.caption or block.value.image.title }}')">
+                                    <img src="{{ image(block.value.image, 'fill-400x300').url }}" 
+                                         alt="{{ block.value.caption or block.value.image.title }}"
+                                         class="w-full h-full object-cover">
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </section>
+                        {% endif %}
+                    </div>
+                    
+                    {# Sidebar #}
+                    <div class="space-y-6">
+                        {# Event Details Card #}
+                        <div class="bg-white rounded-2xl p-6 shadow-lg sticky top-24" data-aos="fade-left">
+                            <h3 class="text-xl font-heading font-bold text-navy mb-6">{{ _("Dettagli Evento") }}</h3>
+                            
+                            <div class="space-y-4">
+                                {# Date #}
+                                <div class="flex items-start gap-4">
+                                    <div class="w-12 h-12 bg-amaranth rounded-xl flex items-center justify-center shrink-0">
+                                        <i class="fas fa-calendar-alt text-white" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500 uppercase tracking-wider">{{ _("Data e Ora") }}</p>
+                                        <p class="font-bold text-navy">{{ page.start_date.strftime('%d/%m/%Y') }}</p>
+                                        <p class="text-gray-600">{{ page.start_date.strftime('%H:%M') }}</p>
+                                        {% if page.end_date %}
+                                        <p class="text-sm text-gray-500 mt-1">{{ _("fino a") }} {{ page.end_date.strftime('%d/%m/%Y %H:%M') }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                {# Location #}
+                                {% if page.location_name %}
+                                <div class="flex items-start gap-4">
+                                    <div class="w-12 h-12 bg-gold rounded-xl flex items-center justify-center shrink-0">
+                                        <i class="fas fa-map-marker-alt text-navy" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500 uppercase tracking-wider">{{ _("Luogo") }}</p>
+                                        <p class="font-bold text-navy">{{ page.location_name }}</p>
+                                        {% if page.location_address %}
+                                        <p class="text-gray-600 text-sm">{{ page.location_address }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
+                                {# Category #}
+                                {% if page.event_type %}
+                                <div class="flex items-start gap-4">
+                                    <div class="w-12 h-12 bg-navy rounded-xl flex items-center justify-center shrink-0">
+                                        <i class="fas fa-tag text-gold" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500 uppercase tracking-wider">{{ _("Categoria") }}</p>
+                                        <p class="font-bold text-navy">{{ page.event_type }}</p>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            {# CTA Buttons #}
+                            <div class="mt-8 space-y-3">
+                                <a href="{{ main_pages.contact or '/' }}" 
+                                   class="w-full bg-bordeaux text-white font-bold py-4 rounded-full text-center hover:bg-amaranth transition flex items-center justify-center gap-2">
+                                    <i class="fas fa-envelope" aria-hidden="true"></i>
+                                    {{ _("Richiedi Informazioni") }}
+                                </a>
+                                <a href="{{ page.get_parent().url }}" 
+                                   class="w-full border-2 border-navy text-navy font-bold py-4 rounded-full text-center hover:bg-navy hover:text-white transition flex items-center justify-center gap-2">
+                                    <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                                    {{ _("Tutti gli Eventi") }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    {# Lightbox #}
+    <div id="lightbox" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center" onclick="closeLightbox()">
+        <img id="lightbox-img" src="" alt="" class="max-w-[90%] max-h-[90%] rounded-lg">
+        <button class="absolute top-8 right-8 text-white text-4xl hover:text-gold transition" aria-label="{{ _('Chiudi') }}">
+            <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Mappa
+    (function() {
+        var mapElement = document.getElementById('event-map');
+        if (!mapElement) return;
+        
+        var lat = {{ page.location_lat or 44.8423 }};
+        var lon = {{ page.location_lon or 8.5793 }};
+        
+        var map = L.map('event-map').setView([lat, lon], 15);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        
+        L.marker([lat, lon])
+            .addTo(map)
+            .bindPopup('<strong>{{ page.location_name }}</strong>{% if page.location_address %}<br>{{ page.location_address }}{% endif %}')
+            .openPopup();
+    })();
+    
+    // Lightbox
+    function openLightbox(src, alt) {
+        var lightbox = document.getElementById('lightbox');
+        document.getElementById('lightbox-img').src = src;
+        document.getElementById('lightbox-img').alt = alt;
+        lightbox.classList.remove('hidden');
+        lightbox.classList.add('flex');
+    }
+    
+    function closeLightbox() {
+        var lightbox = document.getElementById('lightbox');
+        lightbox.classList.add('hidden');
+        lightbox.classList.remove('flex');
+    }
+    
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeLightbox();
+    });
+</script>
+{% endblock %}

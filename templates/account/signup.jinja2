@@ -1,0 +1,66 @@
+{# Allauth - Signup Template #}
+{% extends "website/base.jinja2" %}
+
+{% block title %}{% trans %}Registrati{% endtrans %}{% endblock %}
+
+{% block content %}
+<div style="max-width: 450px; margin: 0 auto;">
+    <div class="card">
+        <div class="card-body">
+            <h1 style="color: var(--blu-nautico); margin-bottom: 1.5rem; text-align: center;">
+                {% trans %}Crea un Account{% endtrans %}
+            </h1>
+            
+            {% if form.errors %}
+            <div style="background: #f8d7da; color: #721c24; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <p><strong>{{ field.label }}:</strong> {{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <form method="post" action="{{ url('account_signup') }}">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label class="form-label" for="id_username">{% trans %}Username{% endtrans %} *</label>
+                    <input type="text" id="id_username" name="username" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="id_email">{% trans %}Email{% endtrans %} *</label>
+                    <input type="email" id="id_email" name="email" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="id_password1">{% trans %}Password{% endtrans %} *</label>
+                    <input type="password" id="id_password1" name="password1" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="id_password2">{% trans %}Conferma Password{% endtrans %} *</label>
+                    <input type="password" id="id_password2" name="password2" class="form-control" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    {% trans %}Registrati{% endtrans %}
+                </button>
+            </form>
+            
+            <hr style="margin: 1.5rem 0;">
+            
+            <p style="text-align: center;">
+                {% trans %}Hai già un account?{% endtrans %}
+                <a href="{{ url('account_login') }}" style="color: var(--amaranto); font-weight: 500;">
+                    {% trans %}Accedi{% endtrans %}
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

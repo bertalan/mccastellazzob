@@ -1,0 +1,256 @@
+{# MC Castellazzo - Homepage Template #}
+{% extends "website/base.jinja2" %}
+
+{% block title %}{{ page.hero_title or page.title }}{% endblock %}
+
+{% block meta_description %}{{ page.description|striptags|truncate(160) if page.description else settings.website.SiteSettings.organization_name ~ ' - Motoclub ' ~ settings.website.SiteSettings.organization_founding_year|string }}{% endblock %}
+
+{% block content %}
+{# NUOVO: Se body StreamField ha contenuti, usalo #}
+{% if page.body and page.body|length > 0 %}
+    {# Renderizza i blocchi StreamField #}
+    {% for block in page.body %}
+        {{ block }}
+    {% endfor %}
+{% else %}
+    {# FALLBACK: Template tradizionale per compatibilità con dati esistenti #}
+    
+    {# Photo Slider Section #}
+    <section id="photo-slider" class="relative w-full overflow-hidden bg-navy pt-24" style="height: 75vh;">
+        <div class="slider-container h-full relative">
+            {# Slides #}
+            <div id="slider-track" class="slider-track h-full flex transition-transform duration-700 ease-in-out">
+                {% set slides = [
+                    {'img': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600', 'title': 'Raduno Primaverile', 'cat': 'Raduni'},
+                    {'img': 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=1600', 'title': 'Langhe in Moto', 'cat': 'Escursioni'},
+                    {'img': 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=1600', 'title': 'Trofeo Sociale', 'cat': 'Gare'},
+                    {'img': 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1600', 'title': 'Cena Sociale', 'cat': 'Eventi Sociali'},
+                    {'img': 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=1600', 'title': 'Raduno Interregionale', 'cat': 'Raduni'},
+                    {'img': 'https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?w=1600', 'title': 'Colli Tortonesi', 'cat': 'Escursioni'}
+                ] %}
+                {% for slide in slides %}
+                <div class="slide min-w-full h-full relative">
+                    <img src="{{ slide.img }}" alt="{{ slide.title }}" class="w-full h-full object-cover">
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-navy/90 to-transparent p-8">
+                        <h3 class="text-white text-3xl font-bold">{{ slide.title }}</h3>
+                        <p class="text-gold text-sm mt-2">{{ slide.cat }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            {# Navigation Arrows #}
+            <button id="prevSlide" class="absolute left-4 top-1/2 -translate-y-1/2 bg-gold/90 hover:bg-gold text-navy w-12 h-12 rounded-full flex items-center justify-center transition shadow-lg z-10" aria-label="{{ _('Foto precedente') }}">
+                <i class="fas fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <button id="nextSlide" class="absolute right-4 top-1/2 -translate-y-1/2 bg-gold/90 hover:bg-gold text-navy w-12 h-12 rounded-full flex items-center justify-center transition shadow-lg z-10" aria-label="{{ _('Foto successiva') }}">
+                <i class="fas fa-chevron-right" aria-hidden="true"></i>
+            </button>
+
+            {# Dots Indicator #}
+            <div class="absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                {% for slide in slides %}
+                <button class="dot w-3 h-3 rounded-full {{ 'bg-gold' if loop.index0 == 0 else 'bg-white/50' }}" data-index="{{ loop.index0 }}" aria-label="{{ _('Vai alla foto') }} {{ loop.index }}"></button>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    {# Hero Section - Bordeaux Background #}
+    <header id="hero" class="py-20 bg-bordeaux">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="inline-block bg-gold text-navy px-4 py-2 rounded-full text-sm font-bold mb-6" data-aos="fade-right">
+                        <i class="fas fa-star mr-2" aria-hidden="true"></i> {{ _("IL PIÙ ANTICO MOTO CLUB DEL PIEMONTE") }}
+                    </span>
+                    
+                    <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-right" data-aos-delay="100">
+                        {{ _("Moto Club") }}<br>
+                        <span class="text-gold">{{ settings.website.SiteSettings.organization_city }}</span>
+                    </h1>
+                    
+                    <p class="text-xl text-gray-300 mb-8 leading-relaxed" data-aos="fade-right" data-aos-delay="200">
+                        <span class="text-gold font-bold">{{ now().year - settings.website.SiteSettings.organization_founding_year }} {{ _("anni") }}</span> {{ _("di passione, adrenalina e fratellanza su due ruote nel cuore del Piemonte") }}
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4" data-aos="fade-right" data-aos-delay="300">
+                        <a href="{{ main_pages.events or '/eventi/' }}" class="bg-gold text-navy font-bold px-8 py-4 rounded-full text-lg hover:bg-gold-dark transition flex items-center justify-center gap-3">
+                            <i class="fas fa-ticket-alt" aria-hidden="true"></i>
+                            <span>{{ _("Prossimi Eventi") }}</span>
+                        </a>
+                        <a href="{{ main_pages.about or '/chi-siamo/' }}" class="bg-white/10 border-2 border-white text-white font-bold px-8 py-4 rounded-full text-lg hover:bg-white/20 transition flex items-center justify-center gap-3">
+                            <i class="fas fa-play-circle" aria-hidden="true"></i>
+                            <span>{{ _("La Nostra Storia") }}</span>
+                        </a>
+                    </div>
+                </div>
+                
+                {# Event Card #}
+                <div class="bg-white rounded-3xl p-8 shadow-xl" data-aos="fade-left">
+                    <div class="flex items-start gap-6">
+                        <div class="w-20 h-20 bg-amaranth rounded-2xl flex flex-col items-center justify-center shrink-0">
+                            <span class="text-white text-3xl font-black">15</span>
+                            <span class="text-white text-xs font-bold uppercase">{{ _("MAR") }}</span>
+                        </div>
+                        <div>
+                            <span class="text-amaranth text-sm font-bold uppercase tracking-wider">{{ _("Prossimo Evento") }}</span>
+                            <h3 class="text-2xl font-heading font-bold text-navy mt-2">{{ _("Raduno Primaverile") }}</h3>
+                            <p class="text-gray-600 mt-2">{{ _("Il tradizionale raduno che apre la stagione motociclistica") }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 pt-6 border-t border-gray-100">
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <i class="fas fa-map-marker-alt text-amaranth" aria-hidden="true"></i>
+                                <span>{{ settings.website.SiteSettings.organization_city }}</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <i class="fas fa-clock text-amaranth" aria-hidden="true"></i>
+                                <span>09:00 - 18:00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="{{ main_pages.events or '/eventi/' }}" class="mt-6 w-full bg-navy text-white font-bold py-4 rounded-full text-center hover:bg-amaranth transition flex items-center justify-center gap-2">
+                        {{ _("Scopri Tutti gli Eventi") }}
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {# Benvenuti Section #}
+    {% if page.description %}
+    <section class="py-20 bg-cream">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-4xl font-heading font-bold text-navy mb-8" data-aos="fade-up">
+                {{ _("Benvenuti") }}
+            </h2>
+            <div class="prose prose-lg mx-auto text-gray-700" data-aos="fade-up" data-aos-delay="100">
+                {{ page.description|safe }}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {# Stats Section #}
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <div class="p-8" data-aos="fade-up">
+                    <div class="w-20 h-20 bg-gold rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-calendar-alt text-3xl text-navy"></i>
+                    </div>
+                    <div class="text-4xl font-bold text-navy mb-2">{{ settings.website.SiteSettings.organization_founding_year }}</div>
+                    <div class="text-gray-600">{{ _("Anno di fondazione") }}</div>
+                </div>
+                
+                <div class="p-8" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-20 h-20 bg-bordeaux rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-motorcycle text-3xl text-white"></i>
+                    </div>
+                    <div class="text-4xl font-bold text-navy mb-2">{{ now().year - settings.website.SiteSettings.organization_founding_year }}+</div>
+                    <div class="text-gray-600">{{ _("Anni di storia") }}</div>
+                </div>
+                
+                <div class="p-8" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-20 h-20 bg-amaranth rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-heart text-3xl text-white"></i>
+                    </div>
+                    <div class="text-4xl font-bold text-navy mb-2">∞</div>
+                    <div class="text-gray-600">{{ _("Passione per le moto") }}</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# CTA Section #}
+    <section class="py-20 bg-navy text-white text-center">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-4xl font-heading font-bold mb-6" data-aos="fade-up">
+                {{ _("Unisciti a Noi") }}
+            </h2>
+            <p class="text-xl text-cream mb-10" data-aos="fade-up" data-aos-delay="100">
+                {{ _("Diventa parte della famiglia del Moto Club più antico del Piemonte") }}
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="200">
+                <a href="{{ main_pages.contact or '/chi-siamo/contatti/' }}" class="bg-gold hover:bg-gold-dark text-navy font-bold px-8 py-4 rounded-full transition-all hover:scale-105 shadow-lg inline-flex items-center gap-2">
+                    <i class="fas fa-envelope"></i>
+                    {{ _("Contattaci") }}
+                </a>
+                <a href="{{ main_pages.events or '/eventi/' }}" class="bg-transparent hover:bg-white/10 text-white border-2 border-white font-bold px-8 py-4 rounded-full transition-all inline-flex items-center gap-2">
+                    <i class="fas fa-calendar-check"></i>
+                    {{ _("Vedi Eventi") }}
+                </a>
+            </div>
+        </div>
+    </section>
+
+    {# Slider JavaScript #}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const track = document.getElementById('slider-track');
+        const slides = track ? track.querySelectorAll('.slide') : [];
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prevSlide');
+        const nextBtn = document.getElementById('nextSlide');
+        let currentIndex = 0;
+        let autoplayInterval;
+
+        function goToSlide(index) {
+            if (!track || slides.length === 0) return;
+            currentIndex = (index + slides.length) % slides.length;
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('bg-gold', i === currentIndex);
+                dot.classList.toggle('bg-white/50', i !== currentIndex);
+            });
+        }
+
+        function nextSlide() {
+            goToSlide(currentIndex + 1);
+        }
+
+        function prevSlide() {
+            goToSlide(currentIndex - 1);
+        }
+
+        function startAutoplay() {
+            autoplayInterval = setInterval(nextSlide, 5000);
+        }
+
+        function stopAutoplay() {
+            clearInterval(autoplayInterval);
+        }
+
+        // Event listeners
+        if (nextBtn) nextBtn.addEventListener('click', () => { stopAutoplay(); nextSlide(); startAutoplay(); });
+        if (prevBtn) prevBtn.addEventListener('click', () => { stopAutoplay(); prevSlide(); startAutoplay(); });
+        
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => { stopAutoplay(); goToSlide(i); startAutoplay(); });
+        });
+
+        // Touch support
+        let touchStartX = 0;
+        if (track) {
+            track.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; stopAutoplay(); });
+            track.addEventListener('touchend', (e) => {
+                const diff = touchStartX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 50) {
+                    diff > 0 ? nextSlide() : prevSlide();
+                }
+                startAutoplay();
+            });
+        }
+
+        // Start autoplay
+        if (slides.length > 0) startAutoplay();
+    });
+    </script>
+{% endif %}
+{% endblock %}

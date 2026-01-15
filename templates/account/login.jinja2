@@ -1,0 +1,67 @@
+{# Allauth - Login Template #}
+{% extends "website/base.jinja2" %}
+
+{% block title %}{% trans %}Accedi{% endtrans %}{% endblock %}
+
+{% block content %}
+<div style="max-width: 400px; margin: 0 auto;">
+    <div class="card">
+        <div class="card-body">
+            <h1 style="color: var(--blu-nautico); margin-bottom: 1.5rem; text-align: center;">
+                {% trans %}Accedi{% endtrans %}
+            </h1>
+            
+            {% if form.errors %}
+            <div style="background: #f8d7da; color: #721c24; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <form method="post" action="{{ url('account_login') }}">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label class="form-label" for="id_login">{% trans %}Username o Email{% endtrans %}</label>
+                    <input type="text" id="id_login" name="login" class="form-control" required autofocus>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="id_password">{% trans %}Password{% endtrans %}</label>
+                    <input type="password" id="id_password" name="password" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" name="remember">
+                        {% trans %}Ricordami{% endtrans %}
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    {% trans %}Accedi{% endtrans %}
+                </button>
+            </form>
+            
+            <hr style="margin: 1.5rem 0;">
+            
+            <p style="text-align: center;">
+                <a href="{{ url('account_reset_password') }}">{% trans %}Password dimenticata?{% endtrans %}</a>
+            </p>
+            
+            <p style="text-align: center; margin-top: 1rem;">
+                {% trans %}Non hai un account?{% endtrans %}
+                <a href="{{ url('account_signup') }}" style="color: var(--amaranto); font-weight: 500;">
+                    {% trans %}Registrati{% endtrans %}
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

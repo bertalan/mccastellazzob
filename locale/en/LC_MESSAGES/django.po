@@ -1,0 +1,1110 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-15 18:59+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/custom_user/admin.py:28 apps/custom_user/admin.py:42
+msgid "Informazioni Club"
+msgstr "Club information"
+
+#: apps/custom_user/models.py:17
+msgid "Lingua preferita"
+msgstr "Preferred language"
+
+#: apps/custom_user/models.py:30 apps/website/models/about.py:284
+#: apps/website/models/home.py:89 apps/website/models/settings.py:89
+msgid "Telefono"
+msgstr "Telephone"
+
+#: apps/custom_user/models.py:37
+msgid "Membro del club"
+msgstr "Club member"
+
+#: apps/custom_user/models.py:43
+msgid "Data iscrizione"
+msgstr "Registration date"
+
+#: apps/custom_user/models.py:49
+msgid "Utente"
+msgstr "User"
+
+#: apps/custom_user/models.py:50
+msgid "Utenti"
+msgstr "Users"
+
+#: apps/website/blocks.py:18 apps/website/blocks.py:415
+#: apps/website/blocks.py:435 apps/website/blocks.py:486
+#: apps/website/blocks.py:628 apps/website/models/about.py:68
+#: apps/website/models/events.py:73 apps/website/models/gallery.py:32
+msgid "Immagine"
+msgstr "Image"
+
+#: apps/website/blocks.py:19 apps/website/blocks.py:75
+#: apps/website/blocks.py:174 apps/website/blocks.py:224
+#: apps/website/blocks.py:260 apps/website/blocks.py:323
+#: apps/website/blocks.py:362 apps/website/blocks.py:481
+#: apps/website/blocks.py:545 apps/website/blocks.py:567
+msgid "Titolo"
+msgstr "Title"
+
+#: apps/website/blocks.py:21 apps/website/blocks.py:422
+#: apps/website/blocks.py:493 apps/website/models/gallery.py:49
+msgid "Categoria"
+msgstr "Category"
+
+#: apps/website/blocks.py:24
+msgid "Es: Raduni, Escursioni, Gare"
+msgstr "Ex: Meetings, Excursions, Races"
+
+#: apps/website/blocks.py:26 apps/website/models/snippets.py:36
+#: apps/website/models/snippets.py:77
+msgid "Link"
+msgstr "Links"
+
+#: apps/website/blocks.py:30
+msgid "Slide"
+msgstr "Slides"
+
+#: apps/website/blocks.py:39
+msgid "Slides"
+msgstr ""
+
+#: apps/website/blocks.py:42
+msgid "Autoplay"
+msgstr ""
+
+#: apps/website/blocks.py:47
+msgid "Intervallo (ms)"
+msgstr "Interval (ms)"
+
+#: apps/website/blocks.py:53 apps/website/blocks.py:592
+msgid "Altezza"
+msgstr "Height"
+
+#: apps/website/blocks.py:57
+msgid "Schermo intero"
+msgstr "Full screen"
+
+#: apps/website/blocks.py:64
+msgid "Slider Fotografico"
+msgstr "Photo Slider"
+
+#: apps/website/blocks.py:71
+msgid "Badge"
+msgstr "Badges"
+
+#: apps/website/blocks.py:77
+msgid "Parte evidenziata"
+msgstr "Highlighted part"
+
+#: apps/website/blocks.py:79
+msgid "Testo in oro"
+msgstr "Gold text"
+
+#: apps/website/blocks.py:81 apps/website/blocks.py:228
+#: apps/website/blocks.py:267
+msgid "Sottotitolo"
+msgstr "Subtitle"
+
+#: apps/website/blocks.py:84
+msgid "Testo CTA primario"
+msgstr "Primary CTA text"
+
+#: apps/website/blocks.py:85
+msgid "Link CTA primario"
+msgstr "Primary CTA link"
+
+#: apps/website/blocks.py:87
+msgid "Testo CTA secondario"
+msgstr "Secondary CTA text"
+
+#: apps/website/blocks.py:92
+msgid "Link CTA secondario"
+msgstr "Secondary CTA link"
+
+#: apps/website/blocks.py:98 apps/website/models/events.py:203
+msgid "Evento in evidenza"
+msgstr "Featured event"
+
+#: apps/website/blocks.py:103
+msgid "Mostra countdown"
+msgstr "Show countdown"
+
+#: apps/website/blocks.py:110
+msgid "Hero con Countdown"
+msgstr "Hero with Countdown"
+
+#: apps/website/blocks.py:121 apps/website/models/snippets.py:29
+#: apps/website/models/snippets.py:51
+msgid "Icona FontAwesome"
+msgstr "FontAwesome icon"
+
+#: apps/website/blocks.py:124
+msgid "Classe FontAwesome, es: fas fa-calendar-alt"
+msgstr "FontAwesome class, ex: fas fa-calendar-alt"
+
+#: apps/website/blocks.py:127
+msgid "Colore sfondo icona"
+msgstr "Color background icon"
+
+#: apps/website/blocks.py:129 apps/website/blocks.py:185
+#: apps/website/blocks.py:202
+msgid "Oro"
+msgstr "Gold"
+
+#: apps/website/blocks.py:130 apps/website/blocks.py:186
+#: apps/website/blocks.py:203 apps/website/blocks.py:300
+msgid "Bordeaux"
+msgstr ""
+
+#: apps/website/blocks.py:131 apps/website/blocks.py:157
+#: apps/website/blocks.py:187 apps/website/blocks.py:204
+#: apps/website/blocks.py:299 apps/website/blocks.py:377
+msgid "Navy"
+msgstr ""
+
+#: apps/website/blocks.py:132 apps/website/blocks.py:188
+#: apps/website/blocks.py:205 apps/website/blocks.py:378
+msgid "Amaranto"
+msgstr "Amaranth"
+
+#: apps/website/blocks.py:136 apps/website/blocks.py:328
+msgid "Valore"
+msgstr "Value"
+
+#: apps/website/blocks.py:137
+msgid "Etichetta"
+msgstr "Label"
+
+#: apps/website/blocks.py:141
+msgid "Statistica"
+msgstr "Statistics"
+
+#: apps/website/blocks.py:150 apps/website/blocks.py:164
+#: apps/website/models/about.py:118
+msgid "Statistiche"
+msgstr "Statistics"
+
+#: apps/website/blocks.py:153 apps/website/blocks.py:297
+msgid "Sfondo"
+msgstr "Background"
+
+#: apps/website/blocks.py:155 apps/website/blocks.py:189
+msgid "Bianco"
+msgstr "White"
+
+#: apps/website/blocks.py:156
+msgid "Crema"
+msgstr "Cream"
+
+#: apps/website/blocks.py:175 apps/website/blocks.py:324
+#: apps/website/blocks.py:366 apps/website/blocks.py:552
+#: apps/website/blocks.py:632 apps/website/models/events.py:77
+#: apps/website/models/home.py:56
+msgid "Descrizione"
+msgstr "Description"
+
+#: apps/website/blocks.py:176
+msgid "Immagine di sfondo"
+msgstr "Background image"
+
+#: apps/website/blocks.py:178 apps/website/blocks.py:319
+msgid "Icona"
+msgstr "Icon"
+
+#: apps/website/blocks.py:183
+msgid "Colore icona"
+msgstr "Icon color"
+
+#: apps/website/blocks.py:193
+msgid "Pagina collegata"
+msgstr "Linked page"
+
+#: apps/website/blocks.py:195
+msgid "Testo link"
+msgstr "Link text"
+
+#: apps/website/blocks.py:200
+msgid "Colore link"
+msgstr "Link color"
+
+#: apps/website/blocks.py:212
+msgid "Card Sezione"
+msgstr "Card Section"
+
+#: apps/website/blocks.py:219
+msgid "Etichetta intestazione"
+msgstr "Header label"
+
+#: apps/website/blocks.py:236
+msgid "Cards"
+msgstr ""
+
+#: apps/website/blocks.py:239
+msgid "Layout"
+msgstr ""
+
+#: apps/website/blocks.py:241 apps/website/blocks.py:460
+#: apps/website/models/gallery.py:84
+msgid "3 colonne"
+msgstr "3 columns"
+
+#: apps/website/blocks.py:242 apps/website/blocks.py:459
+#: apps/website/models/gallery.py:83
+msgid "2 colonne"
+msgstr "2 columns"
+
+#: apps/website/blocks.py:243
+msgid "3 + 2 colonne (5 cards)"
+msgstr "3 + 2 columns (5 cards)"
+
+#: apps/website/blocks.py:250
+msgid "Griglia Sezioni"
+msgstr "Section Grid"
+
+#: apps/website/blocks.py:262
+msgid "Parola evidenziata"
+msgstr "Highlighted word"
+
+#: apps/website/blocks.py:265
+msgid "Parte del titolo in oro"
+msgstr "Part of the title in gold"
+
+#: apps/website/blocks.py:270
+msgid "Testo primario"
+msgstr "Primary text"
+
+#: apps/website/blocks.py:271
+msgid "Link primario"
+msgstr "Primary link"
+
+#: apps/website/blocks.py:273
+msgid "Icona primaria"
+msgstr "Primary icon"
+
+#: apps/website/blocks.py:281
+msgid "Testo secondario"
+msgstr "Secondary text"
+
+#: apps/website/blocks.py:286
+msgid "Link secondario"
+msgstr "Secondary link"
+
+#: apps/website/blocks.py:290
+msgid "Icona secondaria"
+msgstr "Secondary icon"
+
+#: apps/website/blocks.py:301
+msgid "Gradiente"
+msgstr "Gradient"
+
+#: apps/website/blocks.py:308
+msgid "Call-to-Action"
+msgstr ""
+
+#: apps/website/blocks.py:334 apps/website/blocks.py:391
+msgid "Titolo sezione"
+msgstr "Section title"
+
+#: apps/website/blocks.py:342 apps/website/blocks.py:347
+msgid "Valori"
+msgstr "Values"
+
+#: apps/website/blocks.py:358 templates/website/blocks/timeline_block.html:31
+#: templates/website/blocks/timeline_block.html:65
+msgid "Anno"
+msgstr "Year"
+
+#: apps/website/blocks.py:369
+msgid "Evidenzia (bordo gold)"
+msgstr "Highlight (gold border)"
+
+#: apps/website/blocks.py:374
+msgid "Colore badge"
+msgstr "Badge colour"
+
+#: apps/website/blocks.py:376
+msgid "Gold"
+msgstr ""
+
+#: apps/website/blocks.py:385
+msgid "Evento Timeline"
+msgstr "Event Timeline"
+
+#: apps/website/blocks.py:398 apps/website/models/events.py:133
+#: apps/website/models/events.py:218 apps/website/models/events.py:219
+msgid "Eventi"
+msgstr "Events"
+
+#: apps/website/blocks.py:403 apps/website/models/about.py:78
+msgid "Timeline Storica"
+msgstr "Historical Timeline"
+
+#: apps/website/blocks.py:417 apps/website/models/gallery.py:37
+msgid "Didascalia"
+msgstr "Caption"
+
+#: apps/website/blocks.py:424 apps/website/models/gallery.py:42
+#: templates/website/blocks/gallery_block.html:17
+msgid "Tutti"
+msgstr "Everyone"
+
+#: apps/website/blocks.py:425 apps/website/models/gallery.py:43
+#: templates/website/blocks/gallery_block.html:23
+msgid "Raduni"
+msgstr "Gatherings"
+
+#: apps/website/blocks.py:426 apps/website/models/gallery.py:44
+#: templates/website/blocks/gallery_block.html:29
+msgid "Escursioni"
+msgstr "Excursions"
+
+#: apps/website/blocks.py:427 apps/website/models/gallery.py:45
+#: templates/website/blocks/gallery_block.html:35
+msgid "Gare"
+msgstr "Races"
+
+#: apps/website/blocks.py:428 apps/website/models/gallery.py:46
+#: templates/website/blocks/gallery_block.html:41
+msgid "Eventi Sociali"
+msgstr "Social Events"
+
+#: apps/website/blocks.py:443
+msgid "Titolo galleria"
+msgstr "Gallery title"
+
+#: apps/website/blocks.py:448 apps/website/models/gallery.py:77
+msgid "Mostra filtri categoria"
+msgstr "Show category filters"
+
+#: apps/website/blocks.py:454 apps/website/models/gallery.py:116
+msgid "Immagini"
+msgstr "Images"
+
+#: apps/website/blocks.py:457 apps/website/models/gallery.py:88
+msgid "Colonne"
+msgstr "Columns"
+
+#: apps/website/blocks.py:461 apps/website/models/gallery.py:85
+msgid "4 colonne"
+msgstr "4 columns"
+
+#: apps/website/blocks.py:468 apps/website/models/gallery.py:123
+msgid "Galleria"
+msgstr "Gallery"
+
+#: apps/website/blocks.py:483
+msgid "Titolo dell'articolo"
+msgstr "Article title"
+
+#: apps/website/blocks.py:490
+msgid "Data pubblicazione"
+msgstr "Publication date"
+
+#: apps/website/blocks.py:496
+msgid "Categoria o tema dell'articolo"
+msgstr "Category or topic of the article"
+
+#: apps/website/blocks.py:499
+msgid "Sommario"
+msgstr "Summary"
+
+#: apps/website/blocks.py:503
+msgid "Link approfondimento"
+msgstr "Further information link"
+
+#: apps/website/blocks.py:509
+msgid "Articolo"
+msgstr "Item"
+
+#: apps/website/blocks.py:518 apps/website/models/snippets.py:119
+#: apps/website/models/snippets.py:165
+msgid "Nome"
+msgstr "Name"
+
+#: apps/website/blocks.py:522
+msgid "Ruolo"
+msgstr "Role"
+
+#: apps/website/blocks.py:526
+msgid "Foto"
+msgstr "Photo"
+
+#: apps/website/blocks.py:530
+msgid "Biografia"
+msgstr "Biography"
+
+#: apps/website/blocks.py:536
+msgid "Membro"
+msgstr "Member"
+
+#: apps/website/blocks.py:549 apps/website/blocks.py:558
+msgid "Documento"
+msgstr "Document"
+
+#: apps/website/blocks.py:572 apps/website/blocks.py:623
+#: apps/website/models/about.py:264 apps/website/models/home.py:62
+#: apps/website/models/home.py:163 apps/website/models/settings.py:75
+msgid "Indirizzo"
+msgstr "Address"
+
+#: apps/website/blocks.py:574
+msgid "Indirizzo da geocodificare"
+msgstr "Address to geocode"
+
+#: apps/website/blocks.py:577 apps/website/models/about.py:271
+#: apps/website/models/events.py:55
+msgid "Latitudine"
+msgstr "Latitude"
+
+#: apps/website/blocks.py:579
+msgid "Lascia vuoto per geocodifica automatica"
+msgstr "Leave blank for automatic geocoding"
+
+#: apps/website/blocks.py:582 apps/website/models/about.py:277
+#: apps/website/models/events.py:61
+msgid "Longitudine"
+msgstr "Longitude"
+
+#: apps/website/blocks.py:586
+msgid "Zoom"
+msgstr ""
+
+#: apps/website/blocks.py:599
+msgid "Mappa"
+msgstr "Map"
+
+#: apps/website/blocks.py:608 apps/website/models/events.py:28
+msgid "Nome evento"
+msgstr "Event name"
+
+#: apps/website/blocks.py:612 apps/website/models/events.py:33
+msgid "Data inizio"
+msgstr "Start date"
+
+#: apps/website/blocks.py:615 apps/website/models/events.py:37
+msgid "Data fine"
+msgstr "End date"
+
+#: apps/website/blocks.py:619 apps/website/models/events.py:124
+msgid "Luogo"
+msgstr "Place"
+
+#: apps/website/blocks.py:636 apps/website/models/events.py:82
+msgid "Stato evento"
+msgstr "Event status"
+
+#: apps/website/blocks.py:638 apps/website/models/events.py:85
+#: templates/website/blocks/event_card_block.html:11
+msgid "Programmato"
+msgstr "Scheduled"
+
+#: apps/website/blocks.py:639 apps/website/models/events.py:86
+#: templates/website/blocks/event_card_block.html:12
+msgid "Annullato"
+msgstr "Canceled"
+
+#: apps/website/blocks.py:640 apps/website/models/events.py:87
+#: templates/website/blocks/event_card_block.html:13
+msgid "Posticipato"
+msgstr "Postponed"
+
+#: apps/website/blocks.py:641 apps/website/models/events.py:88
+msgid "Riprogrammato"
+msgstr "Rescheduled"
+
+#: apps/website/blocks.py:646
+msgid "Link dettaglio"
+msgstr "Detail link"
+
+#: apps/website/blocks.py:652 apps/website/models/events.py:132
+msgid "Evento"
+msgstr "Event"
+
+#: apps/website/models/about.py:28
+msgid "Titolo Hero"
+msgstr "Title Hero"
+
+#: apps/website/models/about.py:31
+msgid "Titolo principale nell'hero section"
+msgstr "Main title in the hero section"
+
+#: apps/website/models/about.py:35
+msgid "Sottotitolo Hero"
+msgstr "Subtitle Hero"
+
+#: apps/website/models/about.py:38
+msgid "Sottotitolo nell'hero section"
+msgstr "Subtitle in the hero section"
+
+#: apps/website/models/about.py:43
+msgid "Anno di fondazione"
+msgstr "Year of foundation"
+
+#: apps/website/models/about.py:48
+msgid "Numero soci attivi"
+msgstr "Number of active members"
+
+#: apps/website/models/about.py:53 apps/website/models/about.py:154
+#: apps/website/models/about.py:214 apps/website/models/about.py:258
+#: apps/website/models/events.py:182 apps/website/models/events.py:276
+#: apps/website/models/gallery.py:71 apps/website/models/privacy.py:21
+#: apps/website/models/timeline.py:25
+msgid "Introduzione"
+msgstr "Introduction"
+
+#: apps/website/models/about.py:58 apps/website/models/privacy.py:26
+msgid "Contenuto"
+msgstr "Content"
+
+#: apps/website/models/about.py:88
+msgid "Traguardi / Statistiche"
+msgstr "Milestones / Statistics"
+
+#: apps/website/models/about.py:98 templates/website/blocks/values_block.html:7
+msgid "I Nostri Valori"
+msgstr "Our Values"
+
+#: apps/website/models/about.py:111 apps/website/models/events.py:193
+#: apps/website/models/home.py:178
+msgid "Hero Section"
+msgstr ""
+
+#: apps/website/models/about.py:129 apps/website/models/about.py:130
+msgid "Chi Siamo"
+msgstr "Who we are"
+
+#: apps/website/models/about.py:164
+msgid "Membri"
+msgstr "Members"
+
+#: apps/website/models/about.py:177 apps/website/models/about.py:178
+msgid "Consiglio Direttivo"
+msgstr "Board of Directors"
+
+#: apps/website/models/about.py:224
+msgid "Documenti"
+msgstr "Documents"
+
+#: apps/website/models/about.py:237 apps/website/models/about.py:238
+msgid "Trasparenza"
+msgstr "Transparency"
+
+#: apps/website/models/about.py:267
+msgid "Indirizzo completo per la mappa"
+msgstr "Full address for the map"
+
+#: apps/website/models/about.py:290 apps/website/models/home.py:94
+#: apps/website/models/settings.py:83
+msgid "Email"
+msgstr "E-mail"
+
+#: apps/website/models/about.py:296
+msgid "Mostra form contatto"
+msgstr "Show contact form"
+
+#: apps/website/models/about.py:301
+msgid "Messaggio successo form"
+msgstr "Form success message"
+
+#: apps/website/models/about.py:303
+msgid "Grazie per averci contattato!"
+msgstr "Thanks for contacting us!"
+
+#: apps/website/models/about.py:308
+msgid "Nota telefono"
+msgstr "Note telephone"
+
+#: apps/website/models/about.py:311
+msgid "Es: 'Chiamaci il giovedì sera'"
+msgstr "Ex: 'Call us on Thursday evening'"
+
+#: apps/website/models/about.py:315
+msgid "Nota email"
+msgstr "Note email"
+
+#: apps/website/models/about.py:318
+msgid "Es: 'Rispondiamo entro 24h'"
+msgstr "Ex: 'We respond within 24 hours'"
+
+#: apps/website/models/about.py:323
+msgid "Orari apertura"
+msgstr "Opening hours"
+
+#: apps/website/models/about.py:325
+msgid "Un orario per riga, formato: 'Giorno: HH:MM - HH:MM'"
+msgstr "One time per line, format: 'Day: HH:MM - HH:MM'"
+
+#: apps/website/models/about.py:329
+msgid "Nota orari"
+msgstr "Note times"
+
+#: apps/website/models/about.py:332
+msgid "Es: 'Serata sociale settimanale'"
+msgstr "Ex: 'Weekly social evening'"
+
+#: apps/website/models/about.py:337
+msgid "Descrizione mappa"
+msgstr "Map description"
+
+#: apps/website/models/about.py:340
+msgid "Testo sotto il titolo 'Dove Trovarci'"
+msgstr "Text under the heading 'Where to find us'"
+
+#: apps/website/models/about.py:344
+msgid "Indicazioni auto"
+msgstr "Car directions"
+
+#: apps/website/models/about.py:347
+msgid "Es: 'Uscita A26 Alessandria Sud, 15 min'"
+msgstr "Ex: 'Exit A26 Alessandria Sud, 15 min'"
+
+#: apps/website/models/about.py:351
+msgid "Indicazioni treno"
+msgstr "Train directions"
+
+#: apps/website/models/about.py:354
+msgid "Es: 'Stazione Alessandria + bus linea 5'"
+msgstr "Ex: 'Alessandria station + bus line 5'"
+
+#: apps/website/models/about.py:358
+msgid "Indicazioni parcheggio"
+msgstr "Parking directions"
+
+#: apps/website/models/about.py:361
+msgid "Es: 'Ampio parcheggio gratuito disponibile'"
+msgstr "Ex: 'Ample free parking available'"
+
+#: apps/website/models/about.py:366
+msgid "Titolo CTA"
+msgstr "CTA title"
+
+#: apps/website/models/about.py:369
+msgid "Es: 'Pronto a Unirti a Noi?'"
+msgstr "Ex: 'Ready to Join Us?'"
+
+#: apps/website/models/about.py:373
+msgid "Descrizione CTA"
+msgstr "CTA description"
+
+#: apps/website/models/about.py:376
+msgid "Es: 'Dal 1933 accogliamo appassionati di moto...'"
+msgstr "Ex: 'Since 1933 we have welcomed motorcycle enthusiasts...'"
+
+#: apps/website/models/about.py:391
+msgid "Posizione Mappa"
+msgstr "Location Map"
+
+#: apps/website/models/about.py:400
+msgid "Informazioni Contatto"
+msgstr "Contact Information"
+
+#: apps/website/models/about.py:407
+msgid "Orari Sede"
+msgstr "Headquarters opening hours"
+
+#: apps/website/models/about.py:416
+msgid "Indicazioni Stradali"
+msgstr "Road Directions"
+
+#: apps/website/models/about.py:423
+msgid "Form Contatto"
+msgstr "Contact form"
+
+#: apps/website/models/about.py:430
+msgid "Call to Action"
+msgstr ""
+
+#: apps/website/models/about.py:435 apps/website/models/about.py:436
+#: apps/website/models/home.py:170
+msgid "Contatti"
+msgstr "Contacts"
+
+#: apps/website/models/events.py:44
+msgid "Nome luogo"
+msgstr "Place name"
+
+#: apps/website/models/events.py:49
+msgid "Indirizzo luogo"
+msgstr "Place address"
+
+#: apps/website/models/events.py:100
+msgid "Galleria immagini"
+msgstr "Image gallery"
+
+#: apps/website/models/events.py:115
+msgid "Date e Stato"
+msgstr "Dates and Status"
+
+#: apps/website/models/events.py:204
+msgid "Evento da mostrare in primo piano con countdown"
+msgstr "Event to be shown in the foreground with countdown"
+
+#: apps/website/models/events.py:289 apps/website/models/events.py:290
+msgid "Archivio Eventi"
+msgstr "Events Archive"
+
+#: apps/website/models/gallery.py:60
+#, fuzzy
+#| msgid "Immagine hero"
+msgid "Immagine Galleria"
+msgstr "Hero image"
+
+#: apps/website/models/gallery.py:61
+#, fuzzy
+#| msgid "Immagine hero"
+msgid "Immagini Galleria"
+msgstr "Hero image"
+
+#: apps/website/models/gallery.py:98
+#, fuzzy
+#| msgid "Gallerie"
+msgid "Gallerie (blocchi)"
+msgstr "Galleries"
+
+#: apps/website/models/gallery.py:99
+msgid "Opzionale: usa i blocchi o le immagini sotto"
+msgstr "Optional: Use the blocks or images below"
+
+#: apps/website/models/gallery.py:112
+#, fuzzy
+#| msgid "Impostazioni Sito"
+msgid "Impostazioni Galleria"
+msgstr "Site Settings"
+
+#: apps/website/models/gallery.py:117
+msgid "Trascina per riordinare. Puoi selezionare più immagini dalla libreria."
+msgstr "Drag to reorder. You can select multiple images from the library."
+
+#: apps/website/models/gallery.py:124
+msgid "Gallerie"
+msgstr "Galleries"
+
+#: apps/website/models/home.py:41
+msgid "Nome organizzazione"
+msgstr "Organization name"
+
+#: apps/website/models/home.py:52 apps/website/models/settings.py:101
+msgid "Logo"
+msgstr ""
+
+#: apps/website/models/home.py:67 apps/website/models/settings.py:50
+msgid "Città"
+msgstr "City"
+
+#: apps/website/models/home.py:72 apps/website/models/settings.py:56
+msgid "Regione"
+msgstr "Region"
+
+#: apps/website/models/home.py:77 apps/website/models/settings.py:68
+msgid "Paese"
+msgstr "Village"
+
+#: apps/website/models/home.py:82 apps/website/models/settings.py:62
+msgid "CAP"
+msgstr ""
+
+#: apps/website/models/home.py:100
+msgid "Data fondazione"
+msgstr "Founding date"
+
+#: apps/website/models/home.py:107
+msgid "Titolo hero"
+msgstr "Title hero"
+
+#: apps/website/models/home.py:112
+msgid "Sottotitolo hero"
+msgstr "Subtitle hero"
+
+#: apps/website/models/home.py:122
+msgid "Immagine hero"
+msgstr "Hero image"
+
+#: apps/website/models/home.py:138
+msgid "Contenuto pagina"
+msgstr "Page content"
+
+#: apps/website/models/home.py:153 apps/website/models/settings.py:145
+msgid "Informazioni Organizzazione"
+msgstr "Organization Information"
+
+#: apps/website/models/home.py:184 apps/website/models/home.py:185
+msgid "Homepage"
+msgstr ""
+
+#: apps/website/models/privacy.py:39 apps/website/models/privacy.py:40
+msgid "Privacy Policy"
+msgstr ""
+
+#: apps/website/models/settings.py:20
+msgid "Nome Organizzazione"
+msgstr "Organization Name"
+
+#: apps/website/models/settings.py:23
+msgid "Nome ufficiale dell'organizzazione"
+msgstr "Official name of the organization"
+
+#: apps/website/models/settings.py:27
+msgid "Nome Alternativo"
+msgstr "Alternative Name"
+
+#: apps/website/models/settings.py:31
+msgid "Nome esteso o alternativo"
+msgstr "Extended or alternative name"
+
+#: apps/website/models/settings.py:35
+msgid "Anno Fondazione"
+msgstr "Foundation Year"
+
+#: apps/website/models/settings.py:42
+msgid "Descrizione Organizzazione"
+msgstr "Description Organization"
+
+#: apps/website/models/settings.py:45
+msgid "Breve descrizione per Schema.org"
+msgstr "Brief description for Schema.org"
+
+#: apps/website/models/settings.py:71
+msgid "Codice ISO 2 lettere (es. IT, FR, DE)"
+msgstr "ISO code 2 letters (e.g. IT, FR, DE)"
+
+#: apps/website/models/settings.py:79
+msgid "Indirizzo della sede"
+msgstr "Headquarters address"
+
+#: apps/website/models/settings.py:110
+msgid "Favicon"
+msgstr "Favicons"
+
+#: apps/website/models/settings.py:115
+msgid "Facebook URL"
+msgstr ""
+
+#: apps/website/models/settings.py:120
+msgid "Instagram URL"
+msgstr ""
+
+#: apps/website/models/settings.py:125
+msgid "YouTube URL"
+msgstr ""
+
+#: apps/website/models/settings.py:131
+msgid "Testo Footer"
+msgstr "Footer text"
+
+#: apps/website/models/settings.py:157
+msgid "Località e Contatti"
+msgstr "Location and Contacts"
+
+#: apps/website/models/settings.py:164
+msgid "Logo e Favicon"
+msgstr "Logo and Favicon"
+
+#: apps/website/models/settings.py:172
+msgid "Social Media"
+msgstr ""
+
+#: apps/website/models/settings.py:178 apps/website/models/settings.py:179
+msgid "Impostazioni Sito"
+msgstr "Site Settings"
+
+#: apps/website/models/snippets.py:32
+msgid "Es: fas fa-home"
+msgstr "Ex: fas fa-home"
+
+#: apps/website/models/snippets.py:47
+msgid "Titolo dropdown"
+msgstr "Title dropdown"
+
+#: apps/website/models/snippets.py:54
+msgid "Es: fas fa-info-circle"
+msgstr "Ex: fas fa-info-circle"
+
+#: apps/website/models/snippets.py:58
+msgid "Link nel dropdown"
+msgstr "Link in dropdown"
+
+#: apps/website/models/snippets.py:62
+msgid "Dropdown"
+msgstr "Dropdowns"
+
+#: apps/website/models/snippets.py:72
+msgid "Titolo colonna"
+msgstr "Column title"
+
+#: apps/website/models/snippets.py:81
+msgid "Colonna Footer"
+msgstr "Footer Column"
+
+#: apps/website/models/snippets.py:91
+msgid "Piattaforma"
+msgstr "Platform"
+
+#: apps/website/models/snippets.py:101
+msgid "URL"
+msgstr ""
+
+#: apps/website/models/snippets.py:105
+msgid "Social Link"
+msgstr "Social Links"
+
+#: apps/website/models/snippets.py:121
+msgid "Nome identificativo della navbar (es. 'Main Navigation')."
+msgstr "Identification name of the navbar (e.g. 'Main Navigation')."
+
+#: apps/website/models/snippets.py:125
+msgid "Attiva"
+msgstr "Activate"
+
+#: apps/website/models/snippets.py:127
+msgid "Solo la navbar attiva verrà mostrata."
+msgstr "Only the active navbar will be shown."
+
+#: apps/website/models/snippets.py:137
+msgid "Voci di menu"
+msgstr "Menu items"
+
+#: apps/website/models/snippets.py:147 apps/website/models/snippets.py:148
+msgid "Navbar"
+msgstr ""
+
+#: apps/website/models/snippets.py:167
+msgid "Nome identificativo del footer."
+msgstr "Footer identifier name."
+
+#: apps/website/models/snippets.py:171
+msgid "Attivo"
+msgstr "Active"
+
+#: apps/website/models/snippets.py:173
+msgid "Solo il footer attivo verrà mostrato."
+msgstr "Only the active footer will be shown."
+
+#: apps/website/models/snippets.py:177
+msgid "Tagline"
+msgstr "Taglines"
+
+#: apps/website/models/snippets.py:180
+msgid "Breve descrizione sotto il logo."
+msgstr "Short description under the logo."
+
+#: apps/website/models/snippets.py:189
+msgid "Colonne link"
+msgstr "Link columns"
+
+#: apps/website/models/snippets.py:198
+msgid "Link social"
+msgstr "Social links"
+
+#: apps/website/models/snippets.py:202
+msgid "Testo copyright"
+msgstr "Copyright text"
+
+#: apps/website/models/snippets.py:205
+msgid "Es: © 2026 MC Castellazzo. Tutti i diritti riservati."
+msgstr "Ex: © 2026 MC Castellazzo. All rights reserved."
+
+#: apps/website/models/snippets.py:218 apps/website/models/snippets.py:219
+msgid "Footer"
+msgstr ""
+
+#: apps/website/models/timeline.py:27
+msgid "Testo introduttivo per la pagina timeline"
+msgstr "Introductory text for the timeline page"
+
+#: apps/website/models/timeline.py:36
+msgid "Articoli"
+msgstr "Articles"
+
+#: apps/website/models/timeline.py:48 apps/website/models/timeline.py:49
+msgid "Timeline"
+msgstr ""
+
+#: templates/website/blocks/article_block.html:28
+msgid "Leggi di più"
+msgstr "Read more"
+
+#: templates/website/blocks/document_block.html:16
+msgid "Scarica"
+msgstr "Download"
+
+#: templates/website/blocks/event_card_block.html:41
+msgid "Dettagli"
+msgstr "Details"
+
+#: templates/website/blocks/gallery_block.html:12
+#, fuzzy
+#| msgid "Mostra filtri categoria"
+msgid "Filtra galleria per categoria"
+msgstr "Show category filters"
+
+#: templates/website/blocks/gallery_block.html:56
+#, fuzzy
+#| msgid "Titolo galleria"
+msgid "Foto galleria"
+msgstr "Gallery title"
+
+#: templates/website/blocks/hero_countdown_block.html:45
+msgid "PROSSIMO EVENTO"
+msgstr "NEXT EVENT"
+
+#: templates/website/blocks/hero_countdown_block.html:58
+msgid "Conto alla rovescia"
+msgstr "Countdown"
+
+#: templates/website/blocks/hero_countdown_block.html:61
+msgid "Giorni"
+msgstr "Days"
+
+#: templates/website/blocks/hero_countdown_block.html:65
+#, fuzzy
+#| msgid "Oro"
+msgid "Ore"
+msgstr "Gold"
+
+#: templates/website/blocks/hero_countdown_block.html:69
+msgid "Min"
+msgstr ""
+
+#: templates/website/blocks/hero_countdown_block.html:73
+msgid "Sec"
+msgstr ""
+
+#: templates/website/blocks/hero_countdown_block.html:78
+msgid "Scopri l'Evento"
+msgstr "Discover the Event"
+
+#: templates/website/blocks/hero_slider_block.html:25
+msgid "Foto precedente"
+msgstr "Previous photo"
+
+#: templates/website/blocks/hero_slider_block.html:28
+msgid "Foto successiva"
+msgstr "Next photo"
+
+#: templates/website/blocks/hero_slider_block.html:37
+msgid "Vai alla foto"
+msgstr "Go to the photo"
+
+#: templates/website/blocks/timeline_block.html:6
+msgid "La Nostra Storia"
+msgstr "Our History"
+
+#: templates/website/blocks/timeline_block.html:12
+msgid "Timeline storica del club"
+msgstr "Historical timeline of the club"

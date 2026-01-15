@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calendario eventi del Moto Club Castellazzo Bormida. Raduni, escursioni, gare e molto altro. Oltre 50 eventi all'anno!">
+    <title>Eventi | Moto Club Castellazzo Bormida</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold': '#ffd700',
+                        'gold-dark': '#f6c401',
+                        'bordeaux': '#ab0031',
+                        'navy': '#1B263B',
+                        'navy-light': '#2D3E5C',
+                        'amaranth': '#9B1D64',
+                        'amaranth-dark': '#7A164F',
+                        'cream': '#FEFCF6',
+                        'warm-gray': '#F5F3EE',
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        .sr-only:focus, .focus\:not-sr-only:focus {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            width: auto;
+            height: auto;
+            padding: 1rem 2rem;
+            margin: 0;
+            overflow: visible;
+            clip: auto;
+            white-space: normal;
+            background: #D4AF37;
+            color: #1B263B;
+            font-weight: bold;
+            z-index: 9999;
+            border-radius: 8px;
+        }
+        
+        *:focus-visible {
+            outline: 3px solid #D4AF37;
+            outline-offset: 2px;
+        }
+        
+        .event-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .event-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(27, 38, 59, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-cream">
+    <!-- Skip Link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only">Vai al contenuto principale</a>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white shadow-md" aria-label="Navigazione principale">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center gap-4">
+                    <img src="images/MotoClubCastellazzoBormida-logo.webp" alt="Logo Moto Club Castellazzo Bormida" class="h-14 w-14">
+                    <div>
+                        <span class="text-navy font-heading font-bold text-xl block">MC Castellazzo Bormida</span>
+                        <span class="text-gray-500 text-xs tracking-widest">DAL 1933</span>
+                    </div>
+                </a>
+                
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="index.html" class="text-gray-600 hover:text-navy transition">Home</a>
+                    <a href="chi-siamo.html" class="text-gray-600 hover:text-navy transition">Chi Siamo</a>
+                    <a href="consiglio.html" class="text-gray-600 hover:text-navy transition">Il Consiglio</a>
+                    <a href="eventi.html" class="text-navy font-semibold border-b-2 border-gold pb-1" aria-current="page">Eventi</a>
+                    <a href="galleria.html" class="text-gray-600 hover:text-navy transition">Galleria</a>
+                    <a href="contatti.html" class="bg-bordeaux text-white font-bold px-6 py-3 rounded-full hover:bg-gold-dark hover:text-navy transition">
+                        Contattaci
+                    </a>
+                </div>
+                
+                <button id="mobileMenuBtn" class="lg:hidden text-navy text-2xl" aria-label="Apri menu di navigazione" aria-expanded="false">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-gray-100" role="menu">
+            <div class="px-6 py-4 space-y-4">
+                <a href="index.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Home</a>
+                <a href="chi-siamo.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Chi Siamo</a>
+                <a href="consiglio.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Il Consiglio</a>
+                <a href="eventi.html" class="block text-navy font-semibold py-2 border-b border-gold/30" role="menuitem" aria-current="page">Eventi</a>
+                <a href="galleria.html" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">Galleria</a>
+                <a href="contatti.html" class="block bg-bordeaux text-white text-center font-bold px-6 py-3 rounded-full mt-4 hover:bg-gold-dark hover:text-navy transition" role="menuitem">Contattaci</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-32 pb-16 bg-navy">
+        <div class="max-w-7xl mx-auto px-6">
+            <nav aria-label="Breadcrumb" class="mb-8">
+                <ol class="flex items-center gap-2 text-sm text-gray-400">
+                    <li><a href="index.html" class="hover:text-gold transition">Home</a></li>
+                    <li><i class="fas fa-chevron-right text-xs" aria-hidden="true"></i></li>
+                    <li aria-current="page" class="text-gold">Eventi</li>
+                </ol>
+            </nav>
+            
+            <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up">
+                I Nostri <span class="text-gold">Eventi</span>
+            </h1>
+            <p class="text-xl text-gray-300 max-w-2xl" data-aos="fade-up" data-aos-delay="100">
+                Oltre 50 eventi all'anno per vivere insieme la passione per le due ruote
+            </p>
+        </div>
+    </header>
+
+    <main id="main-content" role="main">
+        <!-- Featured Event -->
+        <section class="py-16 bg-white" aria-labelledby="featured-heading">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="bg-warm-gray rounded-3xl overflow-hidden" data-aos="fade-up">
+                    <div class="grid lg:grid-cols-2">
+                        <div class="p-8 md:p-12 flex flex-col justify-center">
+                            <span class="inline-block bg-amaranth text-white px-4 py-2 rounded-full text-sm font-bold mb-6 w-fit">
+                                <i class="fas fa-star mr-2" aria-hidden="true"></i> EVENTO IN EVIDENZA
+                            </span>
+                            <h2 id="featured-heading" class="text-3xl md:text-4xl font-heading font-black text-navy mb-4">
+                                Gran Raduno Primaverile 2026
+                            </h2>
+                            <p class="text-gray-600 mb-6 leading-relaxed">
+                                Il più grande evento dell'anno! Due giorni di moto, amicizia e divertimento con percorsi panoramici, 
+                                cena sociale e musica dal vivo. Un'occasione imperdibile per tutti gli appassionati.
+                            </p>
+                            
+                            <div class="flex flex-wrap gap-4 mb-8">
+                                <div class="flex items-center gap-2 text-gray-600">
+                                    <i class="fas fa-calendar text-gold" aria-hidden="true"></i>
+                                    <span>15-16 Marzo 2026</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-gray-600">
+                                    <i class="fas fa-map-marker-alt text-amaranth" aria-hidden="true"></i>
+                                    <span>Castellazzo Bormida</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-gray-600">
+                                    <i class="fas fa-users text-navy" aria-hidden="true"></i>
+                                    <span>500+ partecipanti</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Countdown -->
+                            <div class="grid grid-cols-4 gap-4 mb-8" aria-label="Conto alla rovescia">
+                                <div class="bg-white rounded-xl p-4 text-center shadow">
+                                    <div class="text-3xl font-black text-navy" id="days">62</div>
+                                    <div class="text-xs text-gray-500 uppercase">Giorni</div>
+                                </div>
+                                <div class="bg-white rounded-xl p-4 text-center shadow">
+                                    <div class="text-3xl font-black text-navy" id="hours">08</div>
+                                    <div class="text-xs text-gray-500 uppercase">Ore</div>
+                                </div>
+                                <div class="bg-white rounded-xl p-4 text-center shadow">
+                                    <div class="text-3xl font-black text-navy" id="minutes">45</div>
+                                    <div class="text-xs text-gray-500 uppercase">Min</div>
+                                </div>
+                                <div class="bg-white rounded-xl p-4 text-center shadow">
+                                    <div class="text-3xl font-black text-navy" id="seconds">23</div>
+                                    <div class="text-xs text-gray-500 uppercase">Sec</div>
+                                </div>
+                            </div>
+                            
+                            <a href="contatti.html" class="inline-flex items-center gap-3 bg-gold text-navy font-bold px-8 py-4 rounded-full hover:bg-gold-dark transition w-fit">
+                                <i class="fas fa-ticket-alt" aria-hidden="true"></i>
+                                <span>Iscriviti Ora</span>
+                            </a>
+                        </div>
+                        <div class="h-64 lg:h-auto bg-navy">
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800" alt="Raduno di moto con molti partecipanti" class="w-full h-full object-cover opacity-80">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Event Types -->
+        <section class="py-16 bg-cream" aria-labelledby="types-heading">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-12" data-aos="fade-up">
+                    <span class="text-amaranth font-bold text-sm uppercase tracking-widest">Cosa Organizziamo</span>
+                    <h2 id="types-heading" class="text-3xl md:text-4xl font-heading font-black text-navy mt-4">Tipologie di Eventi</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <article class="bg-white rounded-2xl p-6 text-center shadow-lg event-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="w-16 h-16 bg-gold rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-users text-2xl text-navy" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl font-heading font-bold text-navy mb-2">Raduni</h3>
+                        <p class="text-gray-600 text-sm">Grandi incontri con club da tutta Italia</p>
+                        <span class="inline-block mt-4 text-gold font-bold">12 all'anno</span>
+                    </article>
+                    
+                    <article class="bg-white rounded-2xl p-6 text-center shadow-lg event-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="w-16 h-16 bg-amaranth rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-route text-2xl text-white" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl font-heading font-bold text-navy mb-2">Escursioni</h3>
+                        <p class="text-gray-600 text-sm">Gite giornaliere sulle strade più belle</p>
+                        <span class="inline-block mt-4 text-amaranth font-bold">24 all'anno</span>
+                    </article>
+                    
+                    <article class="bg-white rounded-2xl p-6 text-center shadow-lg event-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="w-16 h-16 bg-navy rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-flag-checkered text-2xl text-white" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl font-heading font-bold text-navy mb-2">Gare</h3>
+                        <p class="text-gray-600 text-sm">Competizioni amatoriali e sfide in pista</p>
+                        <span class="inline-block mt-4 text-navy font-bold">8 all'anno</span>
+                    </article>
+                    
+                    <article class="bg-white rounded-2xl p-6 text-center shadow-lg event-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="w-16 h-16 bg-gold rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-glass-cheers text-2xl text-navy" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="text-xl font-heading font-bold text-navy mb-2">Eventi Sociali</h3>
+                        <p class="text-gray-600 text-sm">Cene, feste e momenti di convivialità</p>
+                        <span class="inline-block mt-4 text-gold font-bold">8 all'anno</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upcoming Events -->
+        <section class="py-16 bg-white" aria-labelledby="upcoming-heading">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-12" data-aos="fade-up">
+                    <span class="text-amaranth font-bold text-sm uppercase tracking-widest">Calendario</span>
+                    <h2 id="upcoming-heading" class="text-3xl md:text-4xl font-heading font-black text-navy mt-4">Prossimi Eventi</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Event 1 -->
+                    <article class="bg-warm-gray rounded-2xl overflow-hidden shadow-lg event-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="p-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-16 h-16 bg-gold rounded-xl flex flex-col items-center justify-center shrink-0">
+                                    <span class="text-navy text-xl font-black">15</span>
+                                    <span class="text-navy text-xs font-bold">MAR</span>
+                                </div>
+                                <div>
+                                    <span class="inline-block bg-amaranth/10 text-amaranth px-3 py-1 rounded-full text-xs font-bold mb-1">RADUNO</span>
+                                    <h3 class="text-lg font-heading font-bold text-navy">Gran Raduno Primaverile</h3>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-4">Il più grande evento dell'anno con percorsi panoramici e cena sociale.</p>
+                            <div class="flex items-center gap-2 text-gray-500 text-sm">
+                                <i class="fas fa-map-marker-alt text-amaranth" aria-hidden="true"></i>
+                                <span>Castellazzo Bormida</span>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <!-- Event 2 -->
+                    <article class="bg-warm-gray rounded-2xl overflow-hidden shadow-lg event-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="p-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-16 h-16 bg-navy rounded-xl flex flex-col items-center justify-center shrink-0">
+                                    <span class="text-white text-xl font-black">28</span>
+                                    <span class="text-white text-xs font-bold">MAR</span>
+                                </div>
+                                <div>
+                                    <span class="inline-block bg-gold/20 text-gold-dark px-3 py-1 rounded-full text-xs font-bold mb-1">ESCURSIONE</span>
+                                    <h3 class="text-lg font-heading font-bold text-navy">Langhe in Moto</h3>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-4">Attraverso i vigneti delle Langhe con pranzo tipico piemontese.</p>
+                            <div class="flex items-center gap-2 text-gray-500 text-sm">
+                                <i class="fas fa-map-marker-alt text-amaranth" aria-hidden="true"></i>
+                                <span>Alba - Barolo</span>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <!-- Event 3 -->
+                    <article class="bg-warm-gray rounded-2xl overflow-hidden shadow-lg event-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="p-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-16 h-16 bg-amaranth rounded-xl flex flex-col items-center justify-center shrink-0">
+                                    <span class="text-white text-xl font-black">12</span>
+                                    <span class="text-white text-xs font-bold">APR</span>
+                                </div>
+                                <div>
+                                    <span class="inline-block bg-navy/10 text-navy px-3 py-1 rounded-full text-xs font-bold mb-1">GARA</span>
+                                    <h3 class="text-lg font-heading font-bold text-navy">Trofeo Sociale</h3>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-4">Sfida amatoriale tra i soci con premi e riconoscimenti.</p>
+                            <div class="flex items-center gap-2 text-gray-500 text-sm">
+                                <i class="fas fa-map-marker-alt text-amaranth" aria-hidden="true"></i>
+                                <span>Autodromo di Varano</span>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <!-- Event 4 -->
+                    <article class="bg-warm-gray rounded-2xl overflow-hidden shadow-lg event-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="p-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-16 h-16 bg-gold rounded-xl flex flex-col items-center justify-center shrink-0">
+                                    <span class="text-navy text-xl font-black">26</span>
+                                    <span class="text-navy text-xs font-bold">APR</span>
+                                </div>
+                                <div>
+                                    <span class="inline-block bg-gold/20 text-gold-dark px-3 py-1 rounded-full text-xs font-bold mb-1">ESCURSIONE</span>
+                                    <h3 class="text-lg font-heading font-bold text-navy">Colli Tortonesi</h3>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-4">Giro tra i borghi storici dei colli alessandrini con degustazione.</p>
+                            <div class="flex items-center gap-2 text-gray-500 text-sm">
+                                <i class="fas fa-map-marker-alt text-amaranth" aria-hidden="true"></i>
+                                <span>Tortona - Volpedo</span>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <!-- Event 5 -->
+                    <article class="bg-warm-gray rounded-2xl overflow-hidden shadow-lg event-card" data-aos="fade-up" data-aos-delay="500">
+                        <div class="p-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-16 h-16 bg-navy rounded-xl flex flex-col items-center justify-center shrink-0">
+                                    <span class="text-white text-xl font-black">03</span>
+                                    <span class="text-white text-xs font-bold">MAG</span>
+                                </div>
+                                <div>
+                                    <span class="inline-block bg-amaranth/10 text-amaranth px-3 py-1 rounded-full text-xs font-bold mb-1">SOCIALE</span>
+                                    <h3 class="text-lg font-heading font-bold text-navy">Cena di Primavera</h3>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-4">Cena conviviale presso la sede sociale con musica dal vivo.</p>
+                            <div class="flex items-center gap-2 text-gray-500 text-sm">
+                                <i class="fas fa-map-marker-alt text-amaranth" aria-hidden="true"></i>
+                                <span>Sede del Club</span>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <!-- Event 6 -->
+                    <article class="bg-warm-gray rounded-2xl overflow-hidden shadow-lg event-card" data-aos="fade-up" data-aos-delay="600">
+                        <div class="p-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-16 h-16 bg-amaranth rounded-xl flex flex-col items-center justify-center shrink-0">
+                                    <span class="text-white text-xl font-black">17</span>
+                                    <span class="text-white text-xs font-bold">MAG</span>
+                                </div>
+                                <div>
+                                    <span class="inline-block bg-amaranth/10 text-amaranth px-3 py-1 rounded-full text-xs font-bold mb-1">RADUNO</span>
+                                    <h3 class="text-lg font-heading font-bold text-navy">Raduno Interregionale</h3>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-4">Incontro con moto club da Lombardia, Liguria e Piemonte.</p>
+                            <div class="flex items-center gap-2 text-gray-500 text-sm">
+                                <i class="fas fa-map-marker-alt text-amaranth" aria-hidden="true"></i>
+                                <span>Acqui Terme</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                
+                <div class="text-center mt-12" data-aos="fade-up">
+                    <a href="contatti.html" class="inline-flex items-center gap-3 bg-navy text-white font-bold px-8 py-4 rounded-full hover:bg-navy-light transition">
+                        <i class="fas fa-calendar-plus" aria-hidden="true"></i>
+                        <span>Richiedi Calendario Completo</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20 bg-navy" aria-labelledby="cta-heading">
+            <div class="max-w-4xl mx-auto px-6 text-center" data-aos="zoom-in">
+                <h2 id="cta-heading" class="text-3xl md:text-5xl font-heading font-black text-white mb-6">
+                    Non Perderti <span class="text-gold">Nessun Evento</span>
+                </h2>
+                <p class="text-lg text-gray-300 mb-10 max-w-2xl mx-auto">
+                    Diventa socio e partecipa a tutti gli eventi del club. Iscrizione, assicurazione e tanto divertimento inclusi!
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="contatti.html" class="bg-gold text-navy font-bold px-10 py-5 rounded-full text-lg hover:bg-gold-dark transition flex items-center justify-center gap-3">
+                        <i class="fas fa-user-plus" aria-hidden="true"></i>
+                        <span>Diventa Socio</span>
+                    </a>
+                    <a href="galleria.html" class="bg-white/10 border-2 border-white text-white font-bold px-10 py-5 rounded-full text-lg hover:bg-white/20 transition flex items-center justify-center gap-3">
+                        <i class="fas fa-images" aria-hidden="true"></i>
+                        <span>Vedi la Galleria</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-navy-light pt-16 pb-8" role="contentinfo">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="images/MotoClubCastellazzoBormida-logo.webp" alt="" class="h-12" aria-hidden="true">
+                        <span class="text-gold font-heading font-bold">MC Castellazzo Bormida</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Dal 1933 la passione per le due ruote nel cuore del Piemonte.</p>
+                </div>
+                
+                <nav aria-label="Link rapidi">
+                    <h3 class="text-gold font-heading font-bold mb-4">Link Rapidi</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="chi-siamo.html" class="hover:text-gold transition">Chi Siamo</a></li>
+                        <li><a href="consiglio.html" class="hover:text-gold transition">Il Consiglio</a></li>
+                        <li><a href="eventi.html" class="hover:text-gold transition">Eventi</a></li>
+                        <li><a href="galleria.html" class="hover:text-gold transition">Galleria</a></li>
+                    </ul>
+                </nav>
+                
+                <div>
+                    <h3 class="text-gold font-heading font-bold mb-4">Contatti</h3>
+                    <address class="not-italic space-y-2 text-gray-400 text-sm">
+                        <p><i class="fas fa-map-marker-alt text-gold mr-2" aria-hidden="true"></i>Via Roma 45, 15073 Castellazzo Bormida (AL)</p>
+                        <p><i class="fas fa-phone text-gold mr-2" aria-hidden="true"></i><a href="tel:+390131278945" class="hover:text-gold transition">+39 0131 278945</a></p>
+                        <p><i class="fas fa-envelope text-gold mr-2" aria-hidden="true"></i><a href="mailto:info@mccastellazzob.com" class="hover:text-gold transition">info@mccastellazzob.com</a></p>
+                    </address>
+                </div>
+                
+                <div>
+                    <h3 class="text-gold font-heading font-bold mb-4">Seguici</h3>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-10 h-10 bg-navy hover:bg-gold rounded-lg flex items-center justify-center text-gray-400 hover:text-navy transition" aria-label="Facebook">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-navy hover:bg-gold rounded-lg flex items-center justify-center text-gray-400 hover:text-navy transition" aria-label="Instagram">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-navy hover:bg-gold rounded-lg flex items-center justify-center text-gray-400 hover:text-navy transition" aria-label="YouTube">
+                            <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2026 Moto Club Castellazzo Bormida. Tutti i diritti riservati.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 600, once: true });
+        
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+            mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Countdown
+        function updateCountdown() {
+            const eventDate = new Date('March 15, 2026 09:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+        
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+    
+    <!-- Color Management System -->
+    <script src="js/color-manager.js"></script>
+    <script src="js/color-config.js"></script>
+</body>
+</html>

@@ -1,3 +1,2 @@
-"""
-Settings package for mccastellazzob project.
-"""
+# Settings package
+from .base import *  # noqa: F401,F403

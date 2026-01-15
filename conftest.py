@@ -1,80 +1,90 @@
 """
-Pytest configuration and fixtures.
-
-mccastellazzob.com - Moto Club Castellazzo Bormida
-Fixtures globali per test suite.
+MC Castellazzo - Pytest Configuration
 """
-
 import pytest
-from django.contrib.auth import get_user_model
-from wagtail.models import Locale
-from wagtail.models import Page
-from wagtail.models import Site
+from django.conf import settings
 
 
-User = get_user_model()
+@pytest.fixture(scope="session")
+def django_db_setup():
+    """Configure test database."""
+    settings.DATABASES["default"] = {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": ":memory:",
+        "ATOMIC_REQUESTS": False,
+    }
+
+
+@pytest.fixture
+def site(db):
+    """Get or create Wagtail Site."""
+    from wagtail.models import Site, Page
+    from apps.website.models import HomePage
+    import uuid
+    
+    # Check if homepage already exists
+    existing_home = HomePage.objects.first()
+    if existing_home:
+        site = Site.objects.filter(is_default_site=True).first()
+        if site:
+            site.root_page = existing_home
+            site.save()
+            return site
+        return Site.objects.create(
+            hostname="localhost",
+            root_page=existing_home,
+            is_default_site=True,
+        )
+    
+    # Get root page
+    root_page = Page.objects.filter(depth=1).first()
+    if not root_page:
+        root_page = Page.add_root(title="Root", slug="root")
+    
+    # Create homepage with unique slug
+    unique_slug = f"home-{uuid.uuid4().hex[:8]}"
+    home = HomePage(
+        title="MC Castellazzo",
+        slug=unique_slug,
+        organization_name="MC Castellazzo",
+        city="Torino",
+        region="Piedmont",
+        country="IT",
+    )
+    root_page.add_child(instance=home)
+    
+    # Get or create site
+    site = Site.objects.filter(is_default_site=True).first()
+    if site:
+        site.root_page = home
+        site.save()
+    else:
+        site = Site.objects.create(
+            hostname="localhost",
+            root_page=home,
+            is_default_site=True,
+        )
+    
+    return site
 
 
 @pytest.fixture
 def user(db):
-    """Crea un utente base per i test."""
+    """Create test user."""
+    from apps.custom_user.models import User
     return User.objects.create_user(
+        username="testuser",
         email="test@example.com",
         password="testpass123",
-        first_name="Test",
-        last_name="User",
     )
 
 
 @pytest.fixture
 def admin_user(db):
-    """Crea un superuser per i test."""
+    """Create admin user."""
+    from apps.custom_user.models import User
     return User.objects.create_superuser(
+        username="admin",
         email="admin@example.com",
         password="adminpass123",
     )
-
-
-@pytest.fixture
-def locale_it(db):
-    """Crea o ottiene la locale italiana."""
-    locale, _ = Locale.objects.get_or_create(language_code="it")
-    return locale
-
-
-@pytest.fixture
-def locale_en(db):
-    """Crea o ottiene la locale inglese."""
-    locale, _ = Locale.objects.get_or_create(language_code="en")
-    return locale
-
-
-@pytest.fixture
-def locale_fr(db):
-    """Crea o ottiene la locale francese."""
-    locale, _ = Locale.objects.get_or_create(language_code="fr")
-    return locale
-
-
-@pytest.fixture
-def root_page(db, locale_it):
-    """Ottiene o crea la root page."""
-    try:
-        return Page.objects.get(depth=1)
-    except Page.DoesNotExist:
-        root = Page.add_root(title="Root", slug="root")
-        return root
-
-
-@pytest.fixture
-def site(db, root_page):
-    """Crea o ottiene il sito principale."""
-    site, _ = Site.objects.get_or_create(
-        is_default_site=True,
-        defaults={
-            "hostname": "localhost",
-            "root_page": root_page,
-            "site_name": "Test Site",
-        },
-    )
-    return site
