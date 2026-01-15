@@ -1,8 +1,10 @@
 """
 MC Castellazzo - Machine Translator per Wagtail Localize
 =========================================================
-Traduttore automatico usando deep-translator (Google Translate gratuito).
+Traduttore automatico usando deep-translator (MyMemory - gratuito).
 Integrato con Wagtail Localize per traduzione con un clic.
+
+In produzione, sostituire con DeepL o Google Cloud Translate.
 """
 import logging
 import re
@@ -15,13 +17,23 @@ from wagtail_localize.strings import StringValue
 logger = logging.getLogger(__name__)
 
 
-# Mapping delle lingue wagtail -> deep-translator
-LANGUAGE_MAP = {
-    "it": "it",
-    "en": "en",
-    "de": "de",
-    "fr": "fr",
-    "es": "es",
+# Mapping delle lingue wagtail -> codici MyMemory (formato completo)
+# MyMemory usa codici come 'it-IT', 'en-GB', etc.
+# GoogleTranslator e DeepL usano codici semplici come 'it', 'en'
+LANGUAGE_MAP_MYMEMORY = {
+    "it": "it-IT",
+    "en": "en-GB",
+    "de": "de-DE",
+    "fr": "fr-FR",
+    "es": "es-ES",
+}
+
+LANGUAGE_MAP_SIMPLE = {
+    "it": "italian",
+    "en": "english",
+    "de": "german",
+    "fr": "french",
+    "es": "spanish",
 }
 
 
@@ -74,23 +86,50 @@ class DeepTranslatorMachineTranslator(BaseMachineTranslator):
     """
     Traduttore machine per Wagtail Localize usando deep-translator.
     
-    Usa Google Translate gratuitamente senza API key.
+    Usa MyMemory (gratuito, 1000 req/giorno senza email, 10000 con email).
     Supporta traduzione di HTML preservando i tag.
+    
+    In produzione, configurare TRANSLATOR_PROVIDER in settings per usare
+    'deepl' o 'google' con le rispettive API key.
     """
     
-    display_name = "Google Translate (Gratuito)"
+    display_name = "MyMemory Translate (Gratuito)"
     
     def __init__(self, options=None):
         super().__init__(options)
         self.delay = (options or {}).get("DELAY", 0.5)
+        # Provider: 'mymemory' (default gratuito), 'google', 'deepl'
+        self.provider = (options or {}).get("PROVIDER", "mymemory")
+        # Email opzionale per MyMemory (aumenta limite a 10000/giorno)
+        self.mymemory_email = (options or {}).get("MYMEMORY_EMAIL", None)
     
     def _get_translator(self, source_lang, target_lang):
-        """Crea un'istanza del traduttore."""
+        """Crea un'istanza del traduttore in base al provider configurato."""
         try:
-            from deep_translator import GoogleTranslator
-            return GoogleTranslator(source=source_lang, target=target_lang)
-        except ImportError:
-            logger.error("deep-translator non installato. Esegui: pip install deep-translator")
+            if self.provider == "google":
+                from deep_translator import GoogleTranslator
+                # Google usa codici semplici o nomi completi
+                src = LANGUAGE_MAP_SIMPLE.get(source_lang, source_lang)
+                tgt = LANGUAGE_MAP_SIMPLE.get(target_lang, target_lang)
+                return GoogleTranslator(source=src, target=tgt)
+            elif self.provider == "deepl":
+                from deep_translator import DeeplTranslator
+                api_key = (self.options or {}).get("DEEPL_API_KEY", "")
+                return DeeplTranslator(source=source_lang, target=target_lang, api_key=api_key)
+            else:
+                # Default: MyMemory (gratuito) - richiede codici completi
+                from deep_translator import MyMemoryTranslator
+                src = LANGUAGE_MAP_MYMEMORY.get(source_lang, source_lang)
+                tgt = LANGUAGE_MAP_MYMEMORY.get(target_lang, target_lang)
+                if self.mymemory_email:
+                    return MyMemoryTranslator(
+                        source=src, 
+                        target=tgt,
+                        email=self.mymemory_email
+                    )
+                return MyMemoryTranslator(source=src, target=tgt)
+        except ImportError as e:
+            logger.error(f"deep-translator non installato o provider non disponibile: {e}")
             raise
     
     def _translate_text(self, text, source_lang, target_lang):

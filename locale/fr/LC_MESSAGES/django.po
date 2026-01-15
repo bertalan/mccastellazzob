@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-15 18:59+0100\n"
+"POT-Creation-Date: 2026-01-15 19:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,6 +28,8 @@ msgstr "Langue préférée"
 
 #: apps/custom_user/models.py:30 apps/website/models/about.py:284
 #: apps/website/models/home.py:89 apps/website/models/settings.py:89
+#: templates/website/pages/contact_page.jinja2:90
+#: templates/website/pages/contact_page.jinja2:167
 msgid "Telefono"
 msgstr "Téléphone"
 
@@ -64,6 +66,7 @@ msgstr "Titre"
 
 #: apps/website/blocks.py:21 apps/website/blocks.py:422
 #: apps/website/blocks.py:493 apps/website/models/gallery.py:49
+#: templates/website/pages/event_detail_page.jinja2:179
 msgid "Categoria"
 msgstr "Catégorie"
 
@@ -170,7 +173,7 @@ msgstr "Or"
 #: apps/website/blocks.py:130 apps/website/blocks.py:186
 #: apps/website/blocks.py:203 apps/website/blocks.py:300
 msgid "Bordeaux"
-msgstr ""
+msgstr "Bordeaux"
 
 #: apps/website/blocks.py:131 apps/website/blocks.py:157
 #: apps/website/blocks.py:187 apps/website/blocks.py:204
@@ -216,6 +219,7 @@ msgstr "Crème"
 #: apps/website/blocks.py:366 apps/website/blocks.py:552
 #: apps/website/blocks.py:632 apps/website/models/events.py:77
 #: apps/website/models/home.py:56
+#: templates/website/pages/event_detail_page.jinja2:82
 msgid "Descrizione"
 msgstr "Description"
 
@@ -348,6 +352,12 @@ msgstr "Chronologie de l'événement"
 
 #: apps/website/blocks.py:398 apps/website/models/events.py:133
 #: apps/website/models/events.py:218 apps/website/models/events.py:219
+#: templates/website/base.jinja2:436 templates/website/base.jinja2:513
+#: templates/website/base.jinja2:618 templates/website/base_old.jinja2:560
+#: templates/website/base_old.jinja2:600
+#: templates/website/pages/events_archive_page.jinja2:21
+#: templates/website/pages/events_page.jinja2:4
+#: templates/website/pages/events_page.jinja2:22
 msgid "Eventi"
 msgstr "Événements"
 
@@ -361,6 +371,7 @@ msgstr "Légende"
 
 #: apps/website/blocks.py:424 apps/website/models/gallery.py:42
 #: templates/website/blocks/gallery_block.html:17
+#: templates/website/pages/gallery_page.jinja2:33
 msgid "Tutti"
 msgstr "Tout le monde"
 
@@ -405,6 +416,7 @@ msgid "4 colonne"
 msgstr "4 colonnes"
 
 #: apps/website/blocks.py:468 apps/website/models/gallery.py:123
+#: templates/website/pages/event_detail_page.jinja2:116
 msgid "Galleria"
 msgstr "Galerie"
 
@@ -434,6 +446,7 @@ msgstr "Article"
 
 #: apps/website/blocks.py:518 apps/website/models/snippets.py:119
 #: apps/website/models/snippets.py:165
+#: templates/website/pages/contact_page.jinja2:69
 msgid "Nome"
 msgstr "Nom"
 
@@ -483,7 +496,7 @@ msgstr "Longitude"
 
 #: apps/website/blocks.py:586
 msgid "Zoom"
-msgstr ""
+msgstr "Zoom"
 
 #: apps/website/blocks.py:599
 msgid "Mappa"
@@ -502,6 +515,7 @@ msgid "Data fine"
 msgstr "Date de fin"
 
 #: apps/website/blocks.py:619 apps/website/models/events.py:124
+#: templates/website/pages/event_detail_page.jinja2:163
 msgid "Luogo"
 msgstr "Lieu"
 
@@ -511,16 +525,22 @@ msgstr "Statut de l'événement"
 
 #: apps/website/blocks.py:638 apps/website/models/events.py:85
 #: templates/website/blocks/event_card_block.html:11
+#: templates/website/pages/event_detail_page.jinja2:31
+#: templates/website/pages/events_page.jinja2:120
 msgid "Programmato"
 msgstr "Programmé"
 
 #: apps/website/blocks.py:639 apps/website/models/events.py:86
 #: templates/website/blocks/event_card_block.html:12
+#: templates/website/pages/event_detail_page.jinja2:36
+#: templates/website/pages/events_page.jinja2:121
 msgid "Annullato"
 msgstr "Annulé"
 
 #: apps/website/blocks.py:640 apps/website/models/events.py:87
 #: templates/website/blocks/event_card_block.html:13
+#: templates/website/pages/event_detail_page.jinja2:41
+#: templates/website/pages/events_page.jinja2:122
 msgid "Posticipato"
 msgstr "Reporté"
 
@@ -553,6 +573,7 @@ msgid "Sottotitolo nell'hero section"
 msgstr "Sous-titre dans la section héros"
 
 #: apps/website/models/about.py:43
+#: templates/website/pages/home_page.jinja2:148
 msgid "Anno di fondazione"
 msgstr "Année de fondation"
 
@@ -576,7 +597,9 @@ msgstr "Contenu"
 msgid "Traguardi / Statistiche"
 msgstr "Jalons / Statistiques"
 
-#: apps/website/models/about.py:98 templates/website/blocks/values_block.html:7
+#: apps/website/models/about.py:98
+#: templates/website/blocks/values_block.html:7
+#: templates/website/pages/about_page.jinja2:250
 msgid "I Nostri Valori"
 msgstr "Nos valeurs"
 
@@ -586,6 +609,10 @@ msgid "Hero Section"
 msgstr "Section Héros"
 
 #: apps/website/models/about.py:129 apps/website/models/about.py:130
+#: templates/website/base.jinja2:435 templates/website/base.jinja2:512
+#: templates/website/base.jinja2:617 templates/website/base_old.jinja2:559
+#: templates/website/base_old.jinja2:599
+#: templates/website/pages/about_page.jinja2:67
 msgid "Chi Siamo"
 msgstr "Qui nous sommes"
 
@@ -594,14 +621,16 @@ msgid "Membri"
 msgstr "Membres"
 
 #: apps/website/models/about.py:177 apps/website/models/about.py:178
+#: templates/website/base_old.jinja2:607
 msgid "Consiglio Direttivo"
 msgstr "Conseil d'administration"
 
-#: apps/website/models/about.py:224
+#: apps/website/models/about.py:224 templates/website/base_old.jinja2:606
 msgid "Documenti"
 msgstr "Documents"
 
 #: apps/website/models/about.py:237 apps/website/models/about.py:238
+#: templates/website/base.jinja2:625 templates/website/base_old.jinja2:605
 msgid "Trasparenza"
 msgstr "Transparence"
 
@@ -611,6 +640,10 @@ msgstr "Adresse complète pour la carte"
 
 #: apps/website/models/about.py:290 apps/website/models/home.py:94
 #: apps/website/models/settings.py:83
+#: templates/account/password_reset.jinja2:32
+#: templates/account/signup.jinja2:36
+#: templates/website/pages/contact_page.jinja2:83
+#: templates/website/pages/contact_page.jinja2:187
 msgid "Email"
 msgstr "E-mail"
 
@@ -715,6 +748,7 @@ msgid "Informazioni Contatto"
 msgstr "Coordonnées"
 
 #: apps/website/models/about.py:407
+#: templates/website/pages/contact_page.jinja2:207
 msgid "Orari Sede"
 msgstr "Horaires d'ouverture du siège social"
 
@@ -731,7 +765,9 @@ msgid "Call to Action"
 msgstr "Appel à l'action"
 
 #: apps/website/models/about.py:435 apps/website/models/about.py:436
-#: apps/website/models/home.py:170
+#: apps/website/models/home.py:170 templates/website/base.jinja2:619
+#: templates/website/base.jinja2:634 templates/website/base_old.jinja2:561
+#: templates/website/base_old.jinja2:601
 msgid "Contatti"
 msgstr "Contacts"
 
@@ -789,7 +825,10 @@ msgstr "Paramètres du site"
 
 #: apps/website/models/gallery.py:117
 msgid "Trascina per riordinare. Puoi selezionare più immagini dalla libreria."
-msgstr "Faites glisser pour réorganiser. Vous pouvez sélectionner plusieurs images dans la bibliothèque."
+msgstr ""
+"Faites glisser pour réorganiser. Vous pouvez sélectionner plusieurs images "
+"dans la bibliothèque.Faites glisser pour réorganiser. Vous pouvez "
+"sélectionner plusieurs images dans la bibliothèque."
 
 #: apps/website/models/gallery.py:124
 msgid "Gallerie"
@@ -801,7 +840,7 @@ msgstr "Nom de l'organisation"
 
 #: apps/website/models/home.py:52 apps/website/models/settings.py:101
 msgid "Logo"
-msgstr ""
+msgstr "Logo"
 
 #: apps/website/models/home.py:67 apps/website/models/settings.py:50
 msgid "Città"
@@ -848,6 +887,8 @@ msgid "Homepage"
 msgstr "Page d'accueil"
 
 #: apps/website/models/privacy.py:39 apps/website/models/privacy.py:40
+#: templates/website/base.jinja2:627
+#: templates/website/pages/contact_page.jinja2:121
 msgid "Privacy Policy"
 msgstr "politique de confidentialité"
 
@@ -868,6 +909,7 @@ msgid "Nome esteso o alternativo"
 msgstr "Nom étendu ou alternatif"
 
 #: apps/website/models/settings.py:35
+#: templates/website/pages/about_page.jinja2:138
 msgid "Anno Fondazione"
 msgstr "Année de fondation"
 
@@ -957,7 +999,7 @@ msgstr "Plate-forme"
 
 #: apps/website/models/snippets.py:101
 msgid "URL"
-msgstr ""
+msgstr "URLS"
 
 #: apps/website/models/snippets.py:105
 msgid "Social Link"
@@ -965,9 +1007,11 @@ msgstr "Liens sociaux"
 
 #: apps/website/models/snippets.py:121
 msgid "Nome identificativo della navbar (es. 'Main Navigation')."
-msgstr "Nom d'identification de la barre de navigation (par exemple « Navigation principale »)."
+msgstr ""
 "Nom d'identification de la barre de navigation (par exemple « Navigation "
-"principale »)."
+"principale »).Nom d'identification de la barre de navigation (par exemple "
+"« Navigation principale »).Nom d'identification de la barre de navigation "
+"(par exemple « Navigation principale »)."
 
 #: apps/website/models/snippets.py:125
 msgid "Attiva"
@@ -1030,18 +1074,274 @@ msgid "Testo introduttivo per la pagina timeline"
 msgstr "Texte d'introduction pour la page de chronologie"
 
 #: apps/website/models/timeline.py:36
+#: templates/website/pages/timeline_page.jinja2:37
 msgid "Articoli"
 msgstr "Articles"
 
 #: apps/website/models/timeline.py:48 apps/website/models/timeline.py:49
+#: templates/website/base_old.jinja2:558
 msgid "Timeline"
 msgstr "Chronologie"
 
+#: templates/account/email_confirm.jinja2:4
+msgid "Conferma Email"
+msgstr "Confirmez votre email"
+
+#: templates/account/email_confirm.jinja2:11
+msgid "Conferma il tuo indirizzo email"
+msgstr "Confirmez votre adresse e-mail"
+
+#: templates/account/email_confirm.jinja2:15
+msgid "Confermi che questo è il tuo indirizzo email?"
+msgstr "Êtes-vous sûr qu'il s'agit de votre adresse e-mail ?"
+
+#: templates/account/email_confirm.jinja2:22
+msgid "Conferma"
+msgstr "Il confirme"
+
+#: templates/account/login.jinja2:4 templates/account/login.jinja2:11
+#: templates/account/login.jinja2:48 templates/account/signup.jinja2:60
+#: templates/website/base_old.jinja2:578
+msgid "Accedi"
+msgstr "Se connecter"
+
+#: templates/account/login.jinja2:31
+msgid "Username o Email"
+msgstr "Nom d'utilisateur ou e-mail"
+
+#: templates/account/login.jinja2:36 templates/account/password_set.jinja2:32
+#: templates/account/signup.jinja2:41
+msgid "Password"
+msgstr "Mot de passe"
+
+#: templates/account/login.jinja2:43
+msgid "Ricordami"
+msgstr "Souviens-toi de moi"
+
+#: templates/account/login.jinja2:55
+msgid "Password dimenticata?"
+msgstr "Mot de passe oublié ?"
+
+#: templates/account/login.jinja2:59
+msgid "Non hai un account?"
+msgstr "Vous n'avez pas de compte ?"
+
+#: templates/account/login.jinja2:61 templates/account/signup.jinja2:4
+#: templates/account/signup.jinja2:51 templates/website/base_old.jinja2:579
+msgid "Registrati"
+msgstr "Registre"
+
+#: templates/account/logout.jinja2:4 templates/account/logout.jinja2:11
+#: templates/account/logout.jinja2:21 templates/website/base_old.jinja2:576
+msgid "Esci"
+msgstr "tu sors"
+
+#: templates/account/logout.jinja2:15
+msgid "Sei sicuro di voler uscire?"
+msgstr "Êtes-vous sûr de vouloir partir ?"
+
+#: templates/account/logout.jinja2:24
+#, fuzzy
+#| msgid "Annullato"
+msgid "Annulla"
+msgstr "Annulé"
+
+#: templates/account/password_change.jinja2:4
+#: templates/account/password_change.jinja2:11
+#: templates/account/password_change.jinja2:43
+msgid "Cambia Password"
+msgstr "Changer le mot de passe"
+
+#: templates/account/password_change.jinja2:28
+msgid "Password attuale"
+msgstr "Mot de passe actuel"
+
+#: templates/account/password_change.jinja2:33
+msgid "Nuova Password"
+msgstr "Nouveau mot de passe"
+
+#: templates/account/password_change.jinja2:38
+msgid "Conferma nuova password"
+msgstr "Confirmer le nouveau mot de passe"
+
+#: templates/account/password_reset.jinja2:4
+#: templates/account/password_reset.jinja2:11
+msgid "Reimposta Password"
+msgstr "Réinitialiser le mot de passe"
+
+#: templates/account/password_reset.jinja2:15
+msgid ""
+"Inserisci la tua email e ti invieremo un link per reimpostare la password."
+msgstr ""
+"Entrez votre adresse électronique et nous vous enverrons un lien pour "
+"réinitialiser votre mot de passe"
+
+#: templates/account/password_reset.jinja2:37
+msgid "Invia link"
+msgstr "Envoyer le lien"
+
+#: templates/account/password_reset.jinja2:44
+#: templates/account/password_reset_done.jinja2:21
+msgid "Torna al login"
+msgstr "Revenir à la connexion"
+
+#: templates/account/password_reset_done.jinja2:4
+msgid "Email Inviata"
+msgstr "E-mail envoyé"
+
+#: templates/account/password_reset_done.jinja2:13
+msgid "Controlla la tua email"
+msgstr "Vérifiez votre courrier électronique"
+
+#: templates/account/password_reset_done.jinja2:17
+msgid ""
+"Ti abbiamo inviato un'email con le istruzioni per reimpostare la password."
+msgstr ""
+"Nous vous avons envoyé un e-mail avec les instructions pour réinitialiser "
+"votre mot de passe."
+
+#: templates/account/password_set.jinja2:4
+#: templates/account/password_set.jinja2:11
+#: templates/account/password_set.jinja2:42
+msgid "Imposta Password"
+msgstr "Définir le mot de passe"
+
+#: templates/account/password_set.jinja2:15
+msgid ""
+"Non hai ancora una password impostata. Creane una per accedere con username "
+"e password."
+msgstr ""
+"Vous n'avez pas encore de mot de passe défini. Créez-en un pour vous "
+"connecter avec votre nom d'utilisateur et votre mot de passe."
+
+#: templates/account/password_set.jinja2:37 templates/account/signup.jinja2:46
+msgid "Conferma Password"
+msgstr "Confirmez le mot de passe"
+
+#: templates/account/signup.jinja2:11
+msgid "Crea un Account"
+msgstr "Créer un Compte"
+
+#: templates/account/signup.jinja2:31
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: templates/account/signup.jinja2:58
+msgid "Hai già un account?"
+msgstr "Vous avez déjà un compte ?"
+
+#: templates/account/verification_sent.jinja2:4
+msgid "Verifica Email"
+msgstr "Vérifier l'e-mail"
+
+#: templates/account/verification_sent.jinja2:13
+msgid "Verifica la tua email"
+msgstr "Vérifiez votre adresse électronique"
+
+#: templates/account/verification_sent.jinja2:17
+msgid ""
+"Ti abbiamo inviato un'email di verifica. Clicca sul link nell'email per "
+"attivare il tuo account."
+msgstr ""
+"Nous vous avons envoyé un e-mail de vérification. Cliquez sur le lien dans "
+"l'e-mail pour activer votre compte."
+
+#: templates/account/verification_sent.jinja2:21
+msgid "Torna alla home"
+msgstr "Retour à la maison"
+
+#: templates/website/base.jinja2:387
+#, fuzzy
+#| msgid "Contenuto pagina"
+msgid "Vai al contenuto principale"
+msgstr "Contenu des pages"
+
+#: templates/website/base.jinja2:390
+msgid "Navigazione principale"
+msgstr "Navigation principale"
+
+#: templates/website/base.jinja2:401 templates/website/base.jinja2:553
+msgid "DAL"
+msgstr "DE LA"
+
+#: templates/website/base.jinja2:433 templates/website/base.jinja2:510
+#: templates/website/base.jinja2:615 templates/website/base_old.jinja2:557
+#, fuzzy
+#| msgid "Homepage"
+msgid "Home"
+msgstr "Page d'accueil"
+
+#: templates/website/base.jinja2:434 templates/website/base.jinja2:511
+#: templates/website/base.jinja2:616
+#: templates/website/pages/timeline_page.jinja2:4
+#: templates/website/pages/timeline_page.jinja2:22
+msgid "Novità"
+msgstr "Nouveauté"
+
+#: templates/website/base.jinja2:439 templates/website/base.jinja2:515
+#: templates/website/pages/board_page.jinja2:113
+#: templates/website/pages/home_page.jinja2:182
+#: templates/website/pages/transparency_page.jinja2:105
+#, fuzzy
+#| msgid "Contatti"
+msgid "Contattaci"
+msgstr "Contacts"
+
+#: templates/website/base.jinja2:447 templates/website/base.jinja2:519
+msgid "Seleziona lingua"
+msgstr "Sélectionnez la langue"
+
+#: templates/website/base.jinja2:472
+#, fuzzy
+#| msgid "Anno di fondazione"
+msgid "Apri menu di navigazione"
+msgstr "Année de fondation"
+
+#: templates/website/base.jinja2:560
+msgid ""
+"Il più antico Moto Club del Piemonte. Passione, adrenalina e fratellanza su "
+"due ruote."
+msgstr ""
+"Le plus ancien Moto Club du Piémont. Passion, adrénaline et fraternité sur "
+"deux roues."
+
+#: templates/website/base.jinja2:613
+#, fuzzy
+#| msgid "Link primario"
+msgid "Link Rapidi"
+msgstr "Lien principal"
+
+#: templates/website/base.jinja2:662 templates/website/base_old.jinja2:622
+#, fuzzy
+#| msgid "Es: © 2026 MC Castellazzo. Tutti i diritti riservati."
+msgid "Tutti i diritti riservati."
+msgstr "Ex : © 2026 MC Castellazzo. Tous droits réservés."
+
+#: templates/website/base.jinja2:666
+msgid "Lingua"
+msgstr "Langue"
+
+#: templates/website/base_old.jinja2:593
+msgid "Motoclub dal 1975"
+msgstr "Club de moto depuis 1975"
+
+#: templates/website/base_old.jinja2:598
+#, fuzzy
+#| msgid "Link dettaglio"
+msgid "Link Utili"
+msgstr "Lien de détail"
+
+#: templates/website/base_old.jinja2:611
+msgid "Lingue"
+msgstr "Langues"
+
 #: templates/website/blocks/article_block.html:28
+#: templates/website/pages/timeline_page.jinja2:83
 msgid "Leggi di più"
 msgstr "En savoir plus"
 
 #: templates/website/blocks/document_block.html:16
+#: templates/website/pages/transparency_page.jinja2:72
 msgid "Scarica"
 msgstr "Télécharger"
 
@@ -1092,21 +1392,699 @@ msgid "Scopri l'Evento"
 msgstr "Découvrez l'événement"
 
 #: templates/website/blocks/hero_slider_block.html:25
+#: templates/website/pages/home_page.jinja2:43
 msgid "Foto precedente"
 msgstr "Photo précédente"
 
 #: templates/website/blocks/hero_slider_block.html:28
+#: templates/website/pages/home_page.jinja2:46
 msgid "Foto successiva"
 msgstr "Photo suivante"
 
 #: templates/website/blocks/hero_slider_block.html:37
+#: templates/website/pages/home_page.jinja2:53
 msgid "Vai alla foto"
 msgstr "Allez à la photo"
 
 #: templates/website/blocks/timeline_block.html:6
+#: templates/website/pages/about_page.jinja2:194
+#: templates/website/pages/home_page.jinja2:84
 msgid "La Nostra Storia"
 msgstr "Notre histoire"
 
 #: templates/website/blocks/timeline_block.html:12
+#: templates/website/pages/about_page.jinja2:198
 msgid "Timeline storica del club"
 msgstr "Chronologie historique du club"
+
+#: templates/website/pages/about_page.jinja2:38
+#, fuzzy
+#| msgid "La Nostra Storia"
+msgid "La Nostra"
+msgstr "Notre histoire"
+
+#: templates/website/pages/about_page.jinja2:38
+#, fuzzy
+#| msgid "Categoria"
+msgid "Storia"
+msgstr "Catégorie"
+
+#: templates/website/pages/about_page.jinja2:48
+msgid ""
+"Dal 1933, una passione che unisce generazioni di motociclisti nel cuore del "
+"Piemonte"
+msgstr ""
+"Depuis 1933, une passion qui unit les générations de motards au cœur du "
+"Piémont"
+
+#: templates/website/pages/about_page.jinja2:70
+msgid "Più di"
+msgstr "Plus que"
+
+#: templates/website/pages/about_page.jinja2:70
+#, fuzzy
+#| msgid "Anno di fondazione"
+msgid "Anni di Passione"
+msgstr "Année de fondation"
+
+#: templates/website/pages/about_page.jinja2:79
+msgid ""
+"Il Moto Club Castellazzo Bormida è una delle realtà motoristiche più antiche"
+" del Piemonte."
+msgstr ""
+"Le Moto Club Castellazzo Bormida est l'une des plus anciennes réalités "
+"motorisées du Piémont."
+
+#: templates/website/pages/about_page.jinja2:80
+#, fuzzy
+#| msgid "Anno Fondazione"
+msgid "Fondato nel"
+msgstr "Année de fondation"
+
+#: templates/website/pages/about_page.jinja2:81
+msgid ""
+"il club ha attraversato quasi un secolo di storia, mantenendo intatta la "
+"passione per le due ruote e lo spirito di fratellanza tra i suoi membri."
+msgstr ""
+"le club a traversé près d'un siècle d'histoire, en gardant intacte la "
+"passion pour les deux-roues et l'esprit de fraternité entre ses membres."
+
+#: templates/website/pages/about_page.jinja2:86
+msgid "Oggi il club conta oltre"
+msgstr "Aujourd'hui le club compte au-delà"
+
+#: templates/website/pages/about_page.jinja2:87
+#, fuzzy
+#| msgid "Numero soci attivi"
+msgid "soci attivi"
+msgstr "Nombre de membres actifs"
+
+#: templates/website/pages/about_page.jinja2:88
+msgid ""
+"uniti dalla passione per il motociclismo e dal desiderio di vivere insieme "
+"avventure indimenticabili."
+msgstr ""
+"unis par la passion du motocyclisme et le désir de vivre ensemble des "
+"aventures inoubliables."
+
+#: templates/website/pages/about_page.jinja2:98
+msgid "Conosci il Consiglio"
+msgstr "Apprenez à connaître le Conseil"
+
+#: templates/website/pages/about_page.jinja2:103
+#: templates/website/pages/home_page.jinja2:174
+msgid "Unisciti a Noi"
+msgstr "Rejoignez-nous"
+
+#: templates/website/pages/about_page.jinja2:113
+msgid "Gruppo di motociclisti del Moto Club Castellazzo Bormida"
+msgstr "Groupe de motocyclistes du Moto Club Castellazzo Bormida"
+
+#: templates/website/pages/about_page.jinja2:130
+#, fuzzy
+#| msgid "Statistiche"
+msgid "Statistiche del club"
+msgstr "Statistiques"
+
+#: templates/website/pages/about_page.jinja2:146
+#: templates/website/pages/board_page.jinja2:134
+#, fuzzy
+#| msgid "Timeline Storica"
+msgid "Anni di Storia"
+msgstr "Chronologie historique"
+
+#: templates/website/pages/about_page.jinja2:154
+#, fuzzy
+#| msgid "Numero soci attivi"
+msgid "Soci Attivi"
+msgstr "Nombre de membres actifs"
+
+#: templates/website/pages/about_page.jinja2:162
+#: templates/website/pages/about_page.jinja2:260
+msgid "Passione"
+msgstr "Passion"
+
+#: templates/website/pages/about_page.jinja2:195
+msgid "Cronologia"
+msgstr "Chronologie"
+
+#: templates/website/pages/about_page.jinja2:209
+msgid "La Madonnina dei Centauri"
+msgstr "La Madone des Centaures"
+
+#: templates/website/pages/about_page.jinja2:210
+msgid ""
+"Papa Pio XII dichiara la Madonnina di Castellazzo Patrona dei Motociclisti. "
+"Un riconoscimento storico che porta il nome del club in tutta Europa."
+msgstr ""
+"Le pape Pie XII déclare la Madonnina di Castellazzo patronne des "
+"motocyclistes. Une reconnaissance historique qui porte le nom du club dans "
+"toute l'Europe."
+
+#: templates/website/pages/about_page.jinja2:226
+#, fuzzy
+#| msgid "Anno Fondazione"
+msgid "La Fondazione"
+msgstr "Année de fondation"
+
+#: templates/website/pages/about_page.jinja2:227
+msgid ""
+"Il 16 marzo nasce il Moto Club Castellazzo Bormida. Un gruppo di "
+"appassionati fonda uno dei primi club motoristici della provincia di "
+"Alessandria."
+msgstr ""
+"Le 16 mars, le Moto Club Castellazzo Bormida est né. Un groupe de passionnés"
+" fonde l'un des premiers clubs automobiles de la province d'Alexandrie."
+
+#: templates/website/pages/about_page.jinja2:251
+msgid "Cosa Ci Guida"
+msgstr "Ce qui nous motive"
+
+#: templates/website/pages/about_page.jinja2:261
+msgid "L'amore per le due ruote è il motore di tutto ciò che facciamo."
+msgstr "L’amour des deux roues est le moteur de tout ce que nous faisons."
+
+#: templates/website/pages/about_page.jinja2:269
+msgid "Amicizia"
+msgstr "Amitié"
+
+#: templates/website/pages/about_page.jinja2:270
+msgid ""
+"Il Club è prima di tutto una grande famiglia unita dalla stessa passione."
+msgstr "Le Club est avant tout une grande famille unie par la même passion."
+
+#: templates/website/pages/about_page.jinja2:278
+msgid "Rispetto"
+msgstr "Respect"
+
+#: templates/website/pages/about_page.jinja2:279
+msgid "Per la strada, per l'ambiente, per gli altri. Sempre."
+msgstr "Pour la rue, pour l'environnement, pour les autres. Toujours."
+
+#: templates/website/pages/about_page.jinja2:293
+msgid "Scopri di Più"
+msgstr "En savoir plus"
+
+#: templates/website/pages/about_page.jinja2:318
+#: templates/website/pages/events_page.jinja2:67
+#, fuzzy
+#| msgid "Leggi di più"
+msgid "Scopri di più"
+msgstr "En savoir plus"
+
+#: templates/website/pages/board_page.jinja2:20
+msgid "Il Consiglio"
+msgstr "Le Conseil"
+
+#: templates/website/pages/board_page.jinja2:20
+#, fuzzy
+#| msgid "Attivo"
+msgid "Direttivo"
+msgstr "Actif"
+
+#: templates/website/pages/board_page.jinja2:28
+msgid ""
+"Le persone che guidano il club con passione e dedizione, lavorando per "
+"offrire esperienze uniche a tutti i soci"
+msgstr ""
+"Les personnes qui dirigent le club avec passion et dévouement, travaillant "
+"pour offrir des expériences uniques à tous les membres"
+
+#: templates/website/pages/board_page.jinja2:39
+msgid "Il Team"
+msgstr "L'équipe"
+
+#: templates/website/pages/board_page.jinja2:40
+#, fuzzy
+#| msgid "I Nostri Valori"
+msgid "I Nostri Membri"
+msgstr "Nos valeurs"
+
+#: templates/website/pages/board_page.jinja2:41
+msgid ""
+"Conosci le persone che dedicano tempo e passione alla gestione del club"
+msgstr ""
+"Apprenez à connaître les personnes qui consacrent leur temps et leur passion"
+" à la gestion du club"
+
+#: templates/website/pages/board_page.jinja2:89
+msgid "Nessun membro disponibile."
+msgstr "Aucun membre disponible."
+
+#: templates/website/pages/board_page.jinja2:102
+msgid "Vuoi Contribuire?"
+msgstr "Voulez-vous contribuer?"
+
+#: templates/website/pages/board_page.jinja2:104
+msgid "Metti le Tue Idee al Servizio del Club"
+msgstr "Mettez vos idées au service du club"
+
+#: templates/website/pages/board_page.jinja2:107
+msgid ""
+"Il nostro consiglio è sempre aperto a nuove idee e proposte. Se vuoi "
+"contribuire attivamente alla vita del club, partecipa alle nostre riunioni o"
+" candidati per il prossimo mandato."
+msgstr ""
+"Notre conseil est toujours ouvert à de nouvelles idées et propositions. Si "
+"vous souhaitez contribuer activement à la vie du club, participez à nos "
+"réunions ou candidatures pour le prochain mandat."
+
+#: templates/website/pages/board_page.jinja2:118
+msgid "Prossime Riunioni"
+msgstr "Réunions à venir"
+
+#: templates/website/pages/board_page.jinja2:125
+msgid "Assemblea Annuale"
+msgstr "Assemblée annuelle"
+
+#: templates/website/pages/board_page.jinja2:126
+msgid ""
+"Il rinnovo del consiglio avviene ogni triennio durante l'assemblea dei soci"
+msgstr ""
+"Le renouvellement du conseil a lieu tous les trois ans lors de l'assemblée "
+"des associés"
+
+#: templates/website/pages/board_page.jinja2:130
+#, fuzzy
+#| msgid "Anno Fondazione"
+msgid "Fondazione"
+msgstr "Année de fondation"
+
+#: templates/website/pages/contact_page.jinja2:54
+msgid "Sezione contatti"
+msgstr "Rubrique Contact"
+
+#: templates/website/pages/contact_page.jinja2:61
+msgid "Inviaci un Messaggio"
+msgstr "Envoyez-nous un message"
+
+#: templates/website/pages/contact_page.jinja2:65
+msgid "Compila il modulo e ti risponderemo entro 24 ore."
+msgstr "Remplissez le formulaire et nous vous répondrons dans les 24 heures."
+
+#: templates/website/pages/contact_page.jinja2:75
+msgid "Cognome"
+msgstr "Nom de famille"
+
+#: templates/website/pages/contact_page.jinja2:96
+msgid "Oggetto"
+msgstr "Objet"
+
+#: templates/website/pages/contact_page.jinja2:100
+msgid "Seleziona un argomento"
+msgstr "Sélectionnez un sujet"
+
+#: templates/website/pages/contact_page.jinja2:101
+#, fuzzy
+#| msgid "Data iscrizione"
+msgid "Richiesta Iscrizione"
+msgstr "Date d'inscription"
+
+#: templates/website/pages/contact_page.jinja2:102
+#, fuzzy
+#| msgid "Informazioni Contatto"
+msgid "Informazioni Eventi"
+msgstr "Coordonnées"
+
+#: templates/website/pages/contact_page.jinja2:103
+msgid "Collaborazioni"
+msgstr "Collaborations"
+
+#: templates/website/pages/contact_page.jinja2:104
+msgid "Altro"
+msgstr "Autre"
+
+#: templates/website/pages/contact_page.jinja2:109
+msgid "Messaggio"
+msgstr "Message"
+
+#: templates/website/pages/contact_page.jinja2:121
+msgid "Ho letto e accetto la"
+msgstr "J'ai lu et j'accepte le"
+
+#: templates/website/pages/contact_page.jinja2:128
+msgid "Invia Messaggio"
+msgstr "Envoyer un message"
+
+#: templates/website/pages/contact_page.jinja2:144
+#, fuzzy
+#| msgid "Eventi Sociali"
+msgid "Sede Sociale"
+msgstr "Événements sociaux"
+
+#: templates/website/pages/contact_page.jinja2:240
+msgid "Dove"
+msgstr "Où"
+
+#: templates/website/pages/contact_page.jinja2:240
+msgid "Trovarci"
+msgstr "Trouvez-nous"
+
+#: templates/website/pages/contact_page.jinja2:254
+msgid "Mappa interattiva con la posizione della sede"
+msgstr "Plan interactif avec localisation du bureau"
+
+#: templates/website/pages/contact_page.jinja2:262
+msgid "In Auto"
+msgstr "En voiture"
+
+#: templates/website/pages/contact_page.jinja2:269
+msgid "In Treno"
+msgstr "En train"
+
+#: templates/website/pages/contact_page.jinja2:276
+msgid "Parcheggio"
+msgstr "Parking"
+
+#: templates/website/pages/contact_page.jinja2:292
+msgid "Domande"
+msgstr "Demandes"
+
+#: templates/website/pages/contact_page.jinja2:292
+msgid "Frequenti"
+msgstr "Fréquent"
+
+#: templates/website/pages/contact_page.jinja2:295
+msgid "Trova rapidamente le risposte alle domande più comuni"
+msgstr "Trouvez rapidement des réponses aux questions les plus courantes"
+
+#: templates/website/pages/contact_page.jinja2:302
+msgid "Come posso iscrivermi al club?"
+msgstr "Comment puis-je rejoindre le club ?"
+
+#: templates/website/pages/contact_page.jinja2:306
+msgid ""
+"Puoi iscriverti compilando il modulo in questa pagina, passando in sede "
+"durante gli orari di apertura, o contattandoci telefonicamente. La quota "
+"annuale è di €50 e include tessera FMI, assicurazione e partecipazione a "
+"tutti gli eventi sociali."
+msgstr ""
+"Vous pouvez vous inscrire en remplissant le formulaire sur cette page, en "
+"vous rendant sur place pendant les heures d'ouverture, ou en nous contactant"
+" par téléphone. La cotisation annuelle est de 50 € et comprend la carte du "
+"FMI, l'assurance et la participation à tous les événements sociaux."
+
+#: templates/website/pages/contact_page.jinja2:312
+msgid "Quali sono i requisiti per l'iscrizione?"
+msgstr "Quelles sont les conditions d’inscription ?"
+
+#: templates/website/pages/contact_page.jinja2:316
+msgid ""
+"Possono iscriversi tutti i maggiorenni in possesso di patente valida e con "
+"la passione per le moto. Non è richiesto possedere una moto, basta "
+"l'entusiasmo!"
+msgstr ""
+"Toutes les personnes majeures en possession d'un permis valide et "
+"passionnées par les motos peuvent s'inscrire. Il n'est pas nécessaire de "
+"posséder une moto, l'enthousiasme suffit !"
+
+#: templates/website/pages/contact_page.jinja2:322
+msgid "Posso partecipare agli eventi prima di iscrivermi?"
+msgstr "Puis-je assister à des événements avant de m'inscrire ?"
+
+#: templates/website/pages/contact_page.jinja2:326
+msgid ""
+"Sì! Puoi partecipare come ospite a un massimo di 2 eventi prima di decidere "
+"se iscriverti. È un ottimo modo per conoscere il club e i suoi membri."
+msgstr ""
+"Oui ! Vous pouvez participer en tant qu'invité à un maximum de 2 événements "
+"avant de décider de vous inscrire. C'est un excellent moyen de connaître le "
+"club et ses membres."
+
+#: templates/website/pages/contact_page.jinja2:332
+msgid "Che tipo di moto devo avere?"
+msgstr "Quel type de vélo dois-je avoir ?"
+
+#: templates/website/pages/contact_page.jinja2:336
+msgid ""
+"Nel nostro club sono benvenute moto di ogni tipo: stradali, naked, enduro, "
+"custom, sportive... La passione per le due ruote è l'unico requisito! Molti "
+"soci hanno anche più moto per diverse occasioni."
+msgstr ""
+"Dans notre club, toutes sortes de motos sont les bienvenues : routières, "
+"naked, enduro, custom, sportives… La passion pour les deux-roues est la "
+"seule exigence ! De nombreux associés ont également plusieurs motos pour "
+"différentes occasions."
+
+#: templates/website/pages/contact_page.jinja2:342
+msgid "Organizzate corsi di guida sicura?"
+msgstr "Organisez-vous des cours de conduite sécuritaire ?"
+
+#: templates/website/pages/contact_page.jinja2:346
+msgid ""
+"Sì, in collaborazione con la FMI organizziamo periodicamente corsi di guida "
+"sicura e perfezionamento. I corsi sono aperti anche ai non soci con un "
+"piccolo supplemento."
+msgstr ""
+"Oui, en collaboration avec le FMI, nous organisons régulièrement des cours "
+"de conduite sûre et de perfectionnement. Les cours sont également ouverts "
+"aux non-membres moyennant un petit supplément."
+
+#: templates/website/pages/contact_page.jinja2:372
+msgid "Compila il Modulo"
+msgstr "Remplissez le formulaire"
+
+#: templates/website/pages/contact_page.jinja2:377
+msgid "Chiamaci Ora"
+msgstr "Appelez-nous maintenant"
+
+#: templates/website/pages/event_detail_page.jinja2:104
+msgid "Ottieni indicazioni"
+msgstr "Obtenir un itinéraire"
+
+#: templates/website/pages/event_detail_page.jinja2:138
+#, fuzzy
+#| msgid "Dettagli"
+msgid "Dettagli Evento"
+msgstr "Détails"
+
+#: templates/website/pages/event_detail_page.jinja2:147
+#, fuzzy
+#| msgid "Data fine"
+msgid "Data e Ora"
+msgstr "Date de fin"
+
+#: templates/website/pages/event_detail_page.jinja2:151
+msgid "fino a"
+msgstr "jusqu'à"
+
+#: templates/website/pages/event_detail_page.jinja2:191
+#, fuzzy
+#| msgid "Informazioni Club"
+msgid "Richiedi Informazioni"
+msgstr "Informations sur les clubs"
+
+#: templates/website/pages/event_detail_page.jinja2:196
+msgid "Tutti gli Eventi"
+msgstr "Tous les événements"
+
+#: templates/website/pages/event_detail_page.jinja2:209
+#: templates/website/pages/gallery_page.jinja2:81
+msgid "Chiudi"
+msgstr "Fermer"
+
+#: templates/website/pages/events_archive_page.jinja2:21
+#, fuzzy
+#| msgid "Archivio Eventi"
+msgid "Archivio"
+msgstr "Archives des événements"
+
+#: templates/website/pages/events_archive_page.jinja2:29
+msgid "Rivivi i momenti più belli delle nostre passate avventure su due ruote"
+msgstr "Revivez les meilleurs moments de nos aventures passées en deux roues"
+
+#: templates/website/pages/events_archive_page.jinja2:45
+#, fuzzy
+#| msgid "Eventi"
+msgid "eventi"
+msgstr "Événements"
+
+#: templates/website/pages/events_archive_page.jinja2:91
+#, fuzzy
+#| msgid "Link dettaglio"
+msgid "Vedi dettagli"
+msgstr "Lien de détail"
+
+#: templates/website/pages/events_archive_page.jinja2:108
+msgid "Nessun evento nell'archivio"
+msgstr "Aucun événement dans les archives"
+
+#: templates/website/pages/events_archive_page.jinja2:109
+msgid "Gli eventi passati appariranno qui man mano che si svolgeranno."
+msgstr ""
+"Les événements passés apparaîtront ici au fur et à mesure de leur "
+"déroulement."
+
+#: templates/website/pages/events_archive_page.jinja2:113
+#, fuzzy
+#| msgid "Scopri l'Evento"
+msgid "Scopri gli eventi futuri"
+msgstr "Découvrez l'événement"
+
+#: templates/website/pages/events_archive_page.jinja2:124
+msgid "Non perderti i prossimi eventi!"
+msgstr "Ne manquez pas les prochains événements !"
+
+#: templates/website/pages/events_archive_page.jinja2:127
+msgid ""
+"Scopri cosa abbiamo in programma e unisciti a noi per nuove avventure su due"
+" ruote"
+msgstr ""
+"Découvrez ce que nous prévoyons et rejoignez-nous pour de nouvelles "
+"aventures sur deux roues"
+
+#: templates/website/pages/events_archive_page.jinja2:132
+msgid "Torna agli eventi"
+msgstr "Retour aux événements"
+
+#: templates/website/pages/events_page.jinja2:22
+#, fuzzy
+#| msgid "I Nostri Valori"
+msgid "I Nostri"
+msgstr "Nos valeurs"
+
+#: templates/website/pages/events_page.jinja2:28
+msgid ""
+"Raduni, escursioni, gare e momenti di convivialità per vivere insieme la "
+"passione per le due ruote"
+msgstr ""
+"Réunions, excursions, courses et moments de convivialité pour vivre ensemble"
+" la passion des deux-roues"
+
+#: templates/website/pages/events_page.jinja2:43
+msgid "EVENTO IN EVIDENZA"
+msgstr "ÉVÉNEMENT MARQUÉ"
+
+#: templates/website/pages/events_page.jinja2:91
+msgid "Calendario"
+msgstr "Calendrier"
+
+#: templates/website/pages/events_page.jinja2:92
+#: templates/website/pages/home_page.jinja2:80
+#, fuzzy
+#| msgid "Archivio Eventi"
+msgid "Prossimi Eventi"
+msgstr "Archives des événements"
+
+#: templates/website/pages/events_page.jinja2:138
+msgid "Nessun evento in programma al momento."
+msgstr "Aucun événement programmé pour le moment."
+
+#: templates/website/pages/events_page.jinja2:141
+#, fuzzy
+#| msgid "Archivio Eventi"
+msgid "Vedi archivio eventi"
+msgstr "Archives des événements"
+
+#: templates/website/pages/events_page.jinja2:150
+#, fuzzy
+#| msgid "Archivio Eventi"
+msgid "Archivio storico eventi"
+msgstr "Archives des événements"
+
+#: templates/website/pages/home_page.jinja2:65
+msgid "IL PIÙ ANTICO MOTO CLUB DEL PIEMONTE"
+msgstr "LE PLUS ANCIEN MOTO CLUB DU PIÉMONT"
+
+#: templates/website/pages/home_page.jinja2:69
+msgid "Moto Club"
+msgstr "Club de moto"
+
+#: templates/website/pages/home_page.jinja2:74
+msgid "anni"
+msgstr "années"
+
+#: templates/website/pages/home_page.jinja2:74
+msgid ""
+"di passione, adrenalina e fratellanza su due ruote nel cuore del Piemonte"
+msgstr ""
+"de passion, d'adrénaline et de fraternité sur deux roues au cœur du Piémont"
+
+#: templates/website/pages/home_page.jinja2:94
+msgid "MAR"
+msgstr "MAR"
+
+#: templates/website/pages/home_page.jinja2:97
+#, fuzzy
+#| msgid "Nome evento"
+msgid "Prossimo Evento"
+msgstr "Nom de l'événement"
+
+#: templates/website/pages/home_page.jinja2:98
+msgid "Raduno Primaverile"
+msgstr "Réunion de printemps"
+
+#: templates/website/pages/home_page.jinja2:99
+msgid "Il tradizionale raduno che apre la stagione motociclistica"
+msgstr "Le traditionnel rallye qui ouvre la saison moto"
+
+#: templates/website/pages/home_page.jinja2:117
+#, fuzzy
+#| msgid "Scopri l'Evento"
+msgid "Scopri Tutti gli Eventi"
+msgstr "Découvrez l'événement"
+
+#: templates/website/pages/home_page.jinja2:130
+msgid "Benvenuti"
+msgstr "Accueillir"
+
+#: templates/website/pages/home_page.jinja2:156
+msgid "Anni di storia"
+msgstr "Des années d'histoire"
+
+#: templates/website/pages/home_page.jinja2:164
+msgid "Passione per le moto"
+msgstr "Passionné de moto"
+
+#: templates/website/pages/home_page.jinja2:177
+msgid "Diventa parte della famiglia del Moto Club più antico del Piemonte"
+msgstr "Devenez membre de la famille du plus ancien Moto Club du Piémont"
+
+#: templates/website/pages/home_page.jinja2:186
+#, fuzzy
+#| msgid "Eventi"
+msgid "Vedi Eventi"
+msgstr "Événements"
+
+#: templates/website/pages/privacy_page.jinja2:30
+msgid "Contenuto in fase di aggiornamento."
+msgstr "Contenu en cours de mise à jour."
+
+#: templates/website/pages/privacy_page.jinja2:40
+msgid "Torna alla Home"
+msgstr "Retour à la maison"
+
+#: templates/website/pages/timeline_page.jinja2:22
+msgid "Le Ultime"
+msgstr "Le dernier"
+
+#: templates/website/pages/timeline_page.jinja2:28
+msgid "Notizie, aggiornamenti e storie dalla vita del club"
+msgstr "Nouvelles, mises à jour et histoires de la vie du club"
+
+#: templates/website/pages/timeline_page.jinja2:92
+msgid "Nessun articolo disponibile al momento."
+msgstr "Aucun article disponible pour le moment."
+
+#: templates/website/pages/transparency_page.jinja2:24
+#, fuzzy
+#| msgid "Documenti"
+msgid "Documenti Ufficiali"
+msgstr "Documents"
+
+#: templates/website/pages/transparency_page.jinja2:85
+msgid "Nessun documento disponibile"
+msgstr "Aucun document disponible"
+
+#: templates/website/pages/transparency_page.jinja2:86
+msgid "I documenti saranno pubblicati a breve."
+msgstr "Les documents seront publiés prochainement."
+
+#: templates/website/pages/transparency_page.jinja2:97
+msgid "Hai bisogno di altri documenti?"
+msgstr "Avez-vous besoin d'autres documents?"
+
+#: templates/website/pages/transparency_page.jinja2:100
+msgid "Contattaci per richiedere informazioni o documenti specifici."
+msgstr ""
+"Contactez-nous pour demander des informations ou des documents spécifiques."
