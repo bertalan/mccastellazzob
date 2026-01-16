@@ -82,7 +82,7 @@ class TestHeroCountdownBlock:
     def test_hero_countdown_has_template(self):
         """Test HeroCountdownBlock has template defined."""
         block = HeroCountdownBlock()
-        assert block.meta.template == "website/blocks/hero_countdown_block.html"
+        assert block.meta.template == "website/blocks/hero_countdown_block.jinja2"
 
 
 @pytest.mark.django_db

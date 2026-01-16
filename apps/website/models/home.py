@@ -103,15 +103,29 @@ class HomePage(SchemaOrgMixin, Page):
     )
     
     # Hero section
+    hero_badge = models.CharField(
+        _("Badge hero"),
+        max_length=100,
+        blank=True,
+        help_text=_("Es: IL PIÙ ANTICO MOTO CLUB DEL PIEMONTE"),
+    )
     hero_title = models.CharField(
         _("Titolo hero"),
         max_length=255,
         blank=True,
+        help_text=_("Es: Moto Club"),
     )
     hero_subtitle = models.CharField(
         _("Sottotitolo hero"),
+        max_length=255,
+        blank=True,
+        help_text=_("Es: Castellazzo Bormida (parte evidenziata in oro)"),
+    )
+    hero_tagline = models.CharField(
+        _("Tagline hero"),
         max_length=500,
         blank=True,
+        help_text=_("Es: di passione, adrenalina e fratellanza su due ruote"),
     )
     hero_image = models.ForeignKey(
         "wagtailimages.Image",
@@ -120,6 +134,42 @@ class HomePage(SchemaOrgMixin, Page):
         on_delete=models.SET_NULL,
         related_name="+",
         verbose_name=_("Immagine hero"),
+    )
+    
+    # Carousel per lo slider fotografico
+    hero_carousel = models.ForeignKey(
+        "coderedcms.Carousel",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Slider fotografico"),
+        help_text=_("Seleziona un Carousel da Snippets > Carousel."),
+    )
+    
+    # Evento in evidenza
+    featured_event = models.ForeignKey(
+        "website.EventDetailPage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Evento in evidenza"),
+        help_text=_("Evento da mostrare nella homepage"),
+    )
+    
+    # CTA Section
+    cta_title = models.CharField(
+        _("Titolo CTA"),
+        max_length=255,
+        blank=True,
+        help_text=_("Es: Unisciti a Noi"),
+    )
+    cta_subtitle = models.CharField(
+        _("Sottotitolo CTA"),
+        max_length=500,
+        blank=True,
+        help_text=_("Es: Diventa parte della famiglia del Moto Club più antico del Piemonte"),
     )
     
     # Body StreamField per componenti grafici
@@ -171,11 +221,22 @@ class HomePage(SchemaOrgMixin, Page):
         ),
         MultiFieldPanel(
             [
+                FieldPanel("hero_badge"),
                 FieldPanel("hero_title"),
                 FieldPanel("hero_subtitle"),
+                FieldPanel("hero_tagline"),
                 FieldPanel("hero_image"),
+                FieldPanel("hero_carousel"),
             ],
             heading=_("Hero Section"),
+        ),
+        FieldPanel("featured_event"),
+        MultiFieldPanel(
+            [
+                FieldPanel("cta_title"),
+                FieldPanel("cta_subtitle"),
+            ],
+            heading=_("CTA Section"),
         ),
         FieldPanel("body"),
     ]

@@ -69,8 +69,8 @@
                         {# Date Badge #}
                         <div class="flex items-center gap-4 mb-4">
                             <div class="w-14 h-14 bg-gold rounded-xl flex flex-col items-center justify-center shrink-0">
-                                <span class="text-navy text-lg font-black leading-none">{{ event.start_date.strftime('%d') }}</span>
-                                <span class="text-navy text-xs font-bold uppercase">{{ event.start_date.strftime('%b') }}</span>
+                                <span class="text-navy text-lg font-black leading-none">{{ localtime(event.start_date).strftime('%d') }}</span>
+                                <span class="text-navy text-xs font-bold uppercase">{{ localtime(event.start_date).strftime('%b') }}</span>
                             </div>
                             <div class="flex-1">
                                 <h3 class="text-lg font-heading font-bold text-navy group-hover:text-amaranth transition-colors line-clamp-2">

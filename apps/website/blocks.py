@@ -108,7 +108,7 @@ class HeroCountdownBlock(blocks.StructBlock):
     class Meta:
         icon = "date"
         label = _("Hero con Countdown")
-        template = "website/blocks/hero_countdown_block.html"
+        template = "website/blocks/hero_countdown_block.jinja2"
 
 
 # =============================================================================

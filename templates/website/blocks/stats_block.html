@@ -2,9 +2,9 @@
 <section class="py-16 {{ value.background }}" aria-labelledby="stats-heading-{{ id }}">
     <h2 id="stats-heading-{{ id }}" class="sr-only">Statistiche</h2>
     <div class="max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="flex flex-wrap justify-center gap-6">
             {% for stat in value.stats %}
-            <div class="{% if value.background == 'bg-navy' %}bg-navy-light{% else %}bg-warm-gray{% endif %} rounded-2xl p-8 text-center card-hover" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+            <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[280px] {% if value.background == 'bg-navy' %}bg-navy-light{% else %}bg-warm-gray{% endif %} rounded-2xl p-8 text-center card-hover" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
                 <div class="w-16 h-16 {{ stat.icon_bg_color }} rounded-xl flex items-center justify-center mx-auto mb-4">
                     <i class="{{ stat.icon }} text-2xl {% if stat.icon_bg_color == 'bg-gold' %}text-navy{% else %}text-white{% endif %}" aria-hidden="true"></i>
                 </div>

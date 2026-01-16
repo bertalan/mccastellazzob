@@ -123,6 +123,7 @@ TEMPLATES = [
             ],
             "globals": {
                 "now": "django.utils.timezone.now",
+                "localtime": "django.utils.timezone.localtime",
             },
             "autoescape": True,
             "auto_reload": DEBUG,
@@ -242,6 +243,11 @@ WAGTAILLOCALIZE_MACHINE_TRANSLATOR = {
 CODERED_PROTECTED_MEDIA_URL = "/protected/"
 CODERED_PROTECTED_MEDIA_ROOT = BASE_DIR / "protected"
 CODERED_PROTECTED_MEDIA_UPLOAD_WHITELIST = [".pdf", ".doc", ".docx", ".xls", ".xlsx"]
+
+# Disabilita Navbar e Footer built-in di CodeRedCMS per usare quelli custom multilingua
+# I nostri snippet in apps.website.models.snippets usano TranslatableMixin per supporto 5 lingue
+CRX_DISABLE_NAVBAR = True
+CRX_DISABLE_FOOTER = True
 
 # ======================
 # ALLAUTH SETTINGS (aggiornato per allauth 65+)

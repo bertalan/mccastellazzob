@@ -23,7 +23,7 @@ class TestMissingPages:
 
     def test_consiglio_page_exists(self):
         """Test: la pagina Il Consiglio deve esistere."""
-        response = self.client.get('/it/chi-siamo/consiglio/')
+        response = self.client.get('/it/chi-siamo/consiglio-direttivo/')
         assert response.status_code == 200, \
             f"Pagina Il Consiglio non trovata (status: {response.status_code})"
 
@@ -35,7 +35,7 @@ class TestMissingPages:
 
     def test_contatti_page_exists(self):
         """Test: la pagina Contatti deve esistere."""
-        response = self.client.get('/it/contatti/')
+        response = self.client.get('/it/chi-siamo/contatti/')
         assert response.status_code == 200, \
             f"Pagina Contatti non trovata (status: {response.status_code})"
 
@@ -47,7 +47,7 @@ class TestMissingPages:
 
     def test_consiglio_page_has_content(self):
         """Test: la pagina Il Consiglio deve avere contenuto."""
-        response = self.client.get('/it/chi-siamo/consiglio/')
+        response = self.client.get('/it/chi-siamo/consiglio-direttivo/')
         if response.status_code == 200:
             content = response.content.decode('utf-8')
             # Verifica presenza di contenuto specifico del consiglio
@@ -64,7 +64,7 @@ class TestMissingPages:
 
     def test_contatti_page_has_form(self):
         """Test: la pagina Contatti deve avere un form o informazioni di contatto."""
-        response = self.client.get('/it/contatti/')
+        response = self.client.get('/it/chi-siamo/contatti/')
         if response.status_code == 200:
             content = response.content.decode('utf-8')
             has_form = '<form' in content
@@ -77,9 +77,9 @@ class TestMissingPages:
     def test_all_pages_have_correct_language(self):
         """Test: tutte le pagine devono essere in italiano."""
         urls = [
-            '/it/chi-siamo/consiglio/',
+            '/it/chi-siamo/consiglio-direttivo/',
             '/it/galleria/',
-            '/it/contatti/',
+            '/it/chi-siamo/contatti/',
             '/it/privacy/',
         ]
         

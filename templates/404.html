@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pagina non trovata | MC Castellazzo Bormida</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold': '#ffd700',
+                        'gold-dark': '#f6c401',
+                        'bordeaux': '#ab0031',
+                        'navy': '#1B263B',
+                        'navy-light': '#2D3E5C',
+                        'cream': '#FEFCF6',
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; }
+    </style>
+</head>
+<body class="bg-cream">
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="text-center px-6 max-w-2xl">
+            <div class="text-9xl font-heading font-black text-gold mb-6">404</div>
+            <h1 class="text-4xl font-heading font-bold text-navy mb-4">
+                Pagina non trovata
+            </h1>
+            <p class="text-gray-600 text-lg mb-8">
+                La pagina che stai cercando non esiste o è stata spostata.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/" class="bg-gold hover:bg-gold-dark text-navy font-bold px-8 py-4 rounded-full transition-all hover:scale-105 shadow-lg inline-flex items-center gap-2">
+                    <i class="fas fa-home"></i>
+                    Torna alla Home
+                </a>
+                <a href="/it/chi-siamo/contatti/" class="bg-navy hover:bg-navy-light text-white font-bold px-8 py-4 rounded-full transition-all inline-flex items-center gap-2">
+                    <i class="fas fa-envelope"></i>
+                    Contattaci
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

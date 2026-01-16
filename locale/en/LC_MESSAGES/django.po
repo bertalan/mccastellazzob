@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -796,19 +795,16 @@ msgid "Archivio Eventi"
 msgstr "Events Archive"
 
 #: apps/website/models/gallery.py:60
-#, fuzzy
 #| msgid "Immagine hero"
 msgid "Immagine Galleria"
 msgstr "Hero image"
 
 #: apps/website/models/gallery.py:61
-#, fuzzy
 #| msgid "Immagine hero"
 msgid "Immagini Galleria"
 msgstr "Hero image"
 
 #: apps/website/models/gallery.py:98
-#, fuzzy
 #| msgid "Gallerie"
 msgid "Gallerie (blocchi)"
 msgstr "Galleries"
@@ -818,7 +814,6 @@ msgid "Opzionale: usa i blocchi o le immagini sotto"
 msgstr "Optional: Use the blocks or images below"
 
 #: apps/website/models/gallery.py:112
-#, fuzzy
 #| msgid "Impostazioni Sito"
 msgid "Impostazioni Galleria"
 msgstr "Site Settings"
@@ -1134,7 +1129,6 @@ msgid "Sei sicuro di voler uscire?"
 msgstr "Are you sure you want to leave?"
 
 #: templates/account/logout.jinja2:24
-#, fuzzy
 #| msgid "Annullato"
 msgid "Annulla"
 msgstr "Canceled"
@@ -1241,7 +1235,6 @@ msgid "Torna alla home"
 msgstr "Return to home"
 
 #: templates/website/base.jinja2:387
-#, fuzzy
 #| msgid "Contenuto pagina"
 msgid "Vai al contenuto principale"
 msgstr "Page content"
@@ -1252,7 +1245,7 @@ msgstr "Main navigation"
 
 #: templates/website/base.jinja2:401 templates/website/base.jinja2:553
 msgid "DAL"
-msgstr "FROM THE"
+msgstr "SINCE"
 
 #: templates/website/base.jinja2:433 templates/website/base.jinja2:510
 #: templates/website/base.jinja2:615 templates/website/base_old.jinja2:557
@@ -1270,7 +1263,6 @@ msgstr "News"
 #: templates/website/pages/board_page.jinja2:113
 #: templates/website/pages/home_page.jinja2:182
 #: templates/website/pages/transparency_page.jinja2:105
-#, fuzzy
 #| msgid "Contatti"
 msgid "Contattaci"
 msgstr "Contact Us"
@@ -1280,7 +1272,6 @@ msgid "Seleziona lingua"
 msgstr "Select language"
 
 #: templates/website/base.jinja2:472
-#, fuzzy
 #| msgid "Anno di fondazione"
 msgid "Apri menu di navigazione"
 msgstr "Year of foundation"
@@ -1294,27 +1285,24 @@ msgstr ""
 " wheels."
 
 #: templates/website/base.jinja2:613
-#, fuzzy
 #| msgid "Link primario"
 msgid "Link Rapidi"
 msgstr "Primary link"
 
 #: templates/website/base.jinja2:662 templates/website/base_old.jinja2:622
-#, fuzzy
 #| msgid "Es: © 2026 MC Castellazzo. Tutti i diritti riservati."
 msgid "Tutti i diritti riservati."
 msgstr "Ex: © 2026 MC Castellazzo. All rights reserved."
 
 #: templates/website/base.jinja2:666
 msgid "Lingua"
-msgstr "Tongue"
+msgstr "Language"
 
 #: templates/website/base_old.jinja2:593
 msgid "Motoclub dal 1975"
 msgstr "Motorcycle club since 1975"
 
 #: templates/website/base_old.jinja2:598
-#, fuzzy
 #| msgid "Link dettaglio"
 msgid "Link Utili"
 msgstr "Detail link"
@@ -1338,13 +1326,11 @@ msgid "Dettagli"
 msgstr "Details"
 
 #: templates/website/blocks/gallery_block.html:12
-#, fuzzy
 #| msgid "Mostra filtri categoria"
 msgid "Filtra galleria per categoria"
 msgstr "Show category filters"
 
 #: templates/website/blocks/gallery_block.html:56
-#, fuzzy
 #| msgid "Titolo galleria"
 msgid "Foto galleria"
 msgstr "Gallery title"
@@ -1362,7 +1348,6 @@ msgid "Giorni"
 msgstr "Days"
 
 #: templates/website/blocks/hero_countdown_block.html:65
-#, fuzzy
 #| msgid "Oro"
 msgid "Ore"
 msgstr "Gold"
@@ -1406,13 +1391,11 @@ msgid "Timeline storica del club"
 msgstr "Historical timeline of the club"
 
 #: templates/website/pages/about_page.jinja2:38
-#, fuzzy
 #| msgid "La Nostra Storia"
 msgid "La Nostra"
 msgstr "Our History"
 
 #: templates/website/pages/about_page.jinja2:38
-#, fuzzy
 #| msgid "Categoria"
 msgid "Storia"
 msgstr "Category"
@@ -1430,7 +1413,6 @@ msgid "Più di"
 msgstr "More than"
 
 #: templates/website/pages/about_page.jinja2:70
-#, fuzzy
 #| msgid "Anno di fondazione"
 msgid "Anni di Passione"
 msgstr "Year of foundation"
@@ -1444,7 +1426,6 @@ msgstr ""
 "Piedmont."
 
 #: templates/website/pages/about_page.jinja2:80
-#, fuzzy
 #| msgid "Anno Fondazione"
 msgid "Fondato nel"
 msgstr "Foundation Year"
@@ -1462,7 +1443,6 @@ msgid "Oggi il club conta oltre"
 msgstr "Today the club counts beyond"
 
 #: templates/website/pages/about_page.jinja2:87
-#, fuzzy
 #| msgid "Numero soci attivi"
 msgid "soci attivi"
 msgstr "Number of active members"
@@ -1489,20 +1469,17 @@ msgid "Gruppo di motociclisti del Moto Club Castellazzo Bormida"
 msgstr "Group of motorcyclists from the Moto Club Castellazzo Bormida"
 
 #: templates/website/pages/about_page.jinja2:130
-#, fuzzy
 #| msgid "Statistiche"
 msgid "Statistiche del club"
 msgstr "Statistics"
 
 #: templates/website/pages/about_page.jinja2:146
 #: templates/website/pages/board_page.jinja2:134
-#, fuzzy
 #| msgid "Timeline Storica"
 msgid "Anni di Storia"
 msgstr "Years of History"
 
 #: templates/website/pages/about_page.jinja2:154
-#, fuzzy
 #| msgid "Numero soci attivi"
 msgid "Soci Attivi"
 msgstr "Number of active members"
@@ -1530,7 +1507,6 @@ msgstr ""
 "throughout Europe."
 
 #: templates/website/pages/about_page.jinja2:226
-#, fuzzy
 #| msgid "Anno Fondazione"
 msgid "La Fondazione"
 msgstr "Foundation Year"
@@ -1577,17 +1553,15 @@ msgstr "Find out more"
 
 #: templates/website/pages/about_page.jinja2:318
 #: templates/website/pages/events_page.jinja2:67
-#, fuzzy
 #| msgid "Leggi di più"
 msgid "Scopri di più"
-msgstr "Learn More"
+msgstr "Learn more"
 
 #: templates/website/pages/board_page.jinja2:20
 msgid "Il Consiglio"
 msgstr "The Council"
 
 #: templates/website/pages/board_page.jinja2:20
-#, fuzzy
 #| msgid "Attivo"
 msgid "Direttivo"
 msgstr "Active"
@@ -1605,7 +1579,6 @@ msgid "Il Team"
 msgstr "The Team"
 
 #: templates/website/pages/board_page.jinja2:40
-#, fuzzy
 #| msgid "I Nostri Valori"
 msgid "I Nostri Membri"
 msgstr "Our Values"
@@ -1655,7 +1628,6 @@ msgstr ""
 "shareholders' meeting"
 
 #: templates/website/pages/board_page.jinja2:130
-#, fuzzy
 #| msgid "Anno Fondazione"
 msgid "Fondazione"
 msgstr "Foundation Year"
@@ -1685,13 +1657,11 @@ msgid "Seleziona un argomento"
 msgstr "Select a topic"
 
 #: templates/website/pages/contact_page.jinja2:101
-#, fuzzy
 #| msgid "Data iscrizione"
 msgid "Richiesta Iscrizione"
 msgstr "Registration date"
 
 #: templates/website/pages/contact_page.jinja2:102
-#, fuzzy
 #| msgid "Informazioni Contatto"
 msgid "Informazioni Eventi"
 msgstr "Contact Information"
@@ -1717,7 +1687,6 @@ msgid "Invia Messaggio"
 msgstr "Send Message"
 
 #: templates/website/pages/contact_page.jinja2:144
-#, fuzzy
 #| msgid "Eventi Sociali"
 msgid "Sede Sociale"
 msgstr "Social Events"
@@ -1841,13 +1810,11 @@ msgid "Ottieni indicazioni"
 msgstr "Get directions"
 
 #: templates/website/pages/event_detail_page.jinja2:138
-#, fuzzy
 #| msgid "Dettagli"
 msgid "Dettagli Evento"
 msgstr "Details"
 
 #: templates/website/pages/event_detail_page.jinja2:147
-#, fuzzy
 #| msgid "Data fine"
 msgid "Data e Ora"
 msgstr "End date"
@@ -1857,7 +1824,6 @@ msgid "fino a"
 msgstr "until"
 
 #: templates/website/pages/event_detail_page.jinja2:191
-#, fuzzy
 #| msgid "Informazioni Club"
 msgid "Richiedi Informazioni"
 msgstr "Club information"
@@ -1872,7 +1838,6 @@ msgid "Chiudi"
 msgstr "Close"
 
 #: templates/website/pages/events_archive_page.jinja2:21
-#, fuzzy
 #| msgid "Archivio Eventi"
 msgid "Archivio"
 msgstr "Events Archive"
@@ -1882,13 +1847,11 @@ msgid "Rivivi i momenti più belli delle nostre passate avventure su due ruote"
 msgstr "Relive the best moments of our past adventures on two wheels"
 
 #: templates/website/pages/events_archive_page.jinja2:45
-#, fuzzy
 #| msgid "Eventi"
 msgid "eventi"
 msgstr "Events"
 
 #: templates/website/pages/events_archive_page.jinja2:91
-#, fuzzy
 #| msgid "Link dettaglio"
 msgid "Vedi dettagli"
 msgstr "View Details"
@@ -1902,7 +1865,6 @@ msgid "Gli eventi passati appariranno qui man mano che si svolgeranno."
 msgstr "Past events will appear here as they unfold."
 
 #: templates/website/pages/events_archive_page.jinja2:113
-#, fuzzy
 #| msgid "Scopri l'Evento"
 msgid "Scopri gli eventi futuri"
 msgstr "Discover the Event"
@@ -1923,7 +1885,6 @@ msgid "Torna agli eventi"
 msgstr "Back to events"
 
 #: templates/website/pages/events_page.jinja2:22
-#, fuzzy
 #| msgid "I Nostri Valori"
 msgid "I Nostri"
 msgstr "Our Values"
@@ -1946,7 +1907,6 @@ msgstr "Calendar"
 
 #: templates/website/pages/events_page.jinja2:92
 #: templates/website/pages/home_page.jinja2:80
-#, fuzzy
 #| msgid "Archivio Eventi"
 msgid "Prossimi Eventi"
 msgstr "Upcoming Events"
@@ -1956,13 +1916,11 @@ msgid "Nessun evento in programma al momento."
 msgstr "No events scheduled at the moment."
 
 #: templates/website/pages/events_page.jinja2:141
-#, fuzzy
 #| msgid "Archivio Eventi"
 msgid "Vedi archivio eventi"
 msgstr "Events Archive"
 
 #: templates/website/pages/events_page.jinja2:150
-#, fuzzy
 #| msgid "Archivio Eventi"
 msgid "Archivio storico eventi"
 msgstr "Events Archive"
@@ -1991,7 +1949,6 @@ msgid "MAR"
 msgstr "MAR"
 
 #: templates/website/pages/home_page.jinja2:97
-#, fuzzy
 #| msgid "Nome evento"
 msgid "Prossimo Evento"
 msgstr "Next Event"
@@ -2005,7 +1962,6 @@ msgid "Il tradizionale raduno che apre la stagione motociclistica"
 msgstr "The traditional rally that opens the motorcycle season"
 
 #: templates/website/pages/home_page.jinja2:117
-#, fuzzy
 #| msgid "Scopri l'Evento"
 msgid "Scopri Tutti gli Eventi"
 msgstr "Discover the Event"
@@ -2027,7 +1983,6 @@ msgid "Diventa parte della famiglia del Moto Club più antico del Piemonte"
 msgstr "Become part of the family of the oldest Moto Club in Piedmont"
 
 #: templates/website/pages/home_page.jinja2:186
-#, fuzzy
 #| msgid "Eventi"
 msgid "Vedi Eventi"
 msgstr "View Events"
@@ -2053,7 +2008,6 @@ msgid "Nessun articolo disponibile al momento."
 msgstr "No items available at the moment."
 
 #: templates/website/pages/transparency_page.jinja2:24
-#, fuzzy
 #| msgid "Documenti"
 msgid "Documenti Ufficiali"
 msgstr "Documents"

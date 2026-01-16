@@ -630,3 +630,169 @@ class TestJsonLdOutput:
         parsed = json.loads(json_ld)
         assert parsed["@type"] == "Event"
         assert "startDate" in parsed
+
+
+# ============================================================
+# UI TRANSLATIONS TEST
+# ============================================================
+
+@pytest.mark.django_db
+class TestUITranslations:
+    """Test that UI strings are properly translated in all languages."""
+    
+    UI_STRINGS = {
+        'en': {
+            'DAL': 'SINCE',
+            'Contattaci': 'Contact Us',
+            'Prossimi Eventi': 'Upcoming Events',
+            'Vedi Eventi': 'View Events',
+            'Scopri di più': 'Learn more',
+            'Benvenuti': 'Welcome',
+            'Lingua': 'Language',
+        },
+        'de': {
+            'DAL': 'SEIT',
+            'Contattaci': 'Kontaktieren Sie uns',
+            'Prossimi Eventi': 'Kommende Veranstaltungen',
+            'Vedi Eventi': 'Veranstaltungen ansehen',
+            'Scopri di più': 'Mehr erfahren',
+            'Benvenuti': 'Willkommen',
+            'Lingua': 'Sprache',
+        },
+        'fr': {
+            'DAL': 'DEPUIS',
+            'Contattaci': 'Contactez-nous',
+            'Prossimi Eventi': 'Événements à venir',
+            'Vedi Eventi': 'Voir les événements',
+            'Scopri di più': 'En savoir plus',
+            'Benvenuti': 'Bienvenue',
+            'Lingua': 'Langue',
+        },
+        'es': {
+            'DAL': 'DESDE',
+            'Contattaci': 'Contáctanos',
+            'Prossimi Eventi': 'Próximos Eventos',
+            'Vedi Eventi': 'Ver Eventos',
+            'Scopri di più': 'Saber más',
+            'Benvenuti': 'Bienvenidos',
+            'Lingua': 'Idioma',
+        },
+    }
+    
+    @pytest.mark.parametrize("lang", ['en', 'de', 'fr', 'es'])
+    def test_ui_strings_translated(self, lang):
+        """Test that UI strings are properly translated via gettext."""
+        from django.utils.translation import activate, gettext
+        
+        activate(lang)
+        expected = self.UI_STRINGS[lang]
+        
+        for italian, translated in expected.items():
+            result = gettext(italian)
+            assert result == translated, (
+                f"Translation failed for '{italian}' in {lang}: "
+                f"expected '{translated}', got '{result}'"
+            )
+
+
+# ============================================================
+# DATABASE CONTENT TRANSLATIONS TEST
+# ============================================================
+
+@pytest.mark.django_db
+class TestDatabaseContentTranslations:
+    """Test that database content is properly translated in all languages."""
+    
+    def test_timeline_articles_translated_fr(self):
+        """Test that TimelinePage articles are translated in French."""
+        from wagtail.models import Locale
+        from apps.website.models import TimelinePage
+        
+        fr = Locale.objects.filter(language_code='fr').first()
+        if not fr:
+            pytest.skip("French locale not found")
+        
+        timeline = TimelinePage.objects.filter(locale=fr).first()
+        if not timeline:
+            pytest.skip("French TimelinePage not found")
+        
+        # Verifica che almeno un articolo sia tradotto
+        for block in timeline.articles:
+            if block.block_type == 'article':
+                headline = block.value.get('headline', '')
+                # Non deve essere in italiano
+                assert 'successo' not in headline.lower(), f"Headline still in Italian: {headline}"
+                assert 'Raduno' not in headline, f"Headline still in Italian: {headline}"
+                break
+    
+    def test_event_titles_translated_de(self):
+        """Test that EventDetailPage titles are translated in German."""
+        from wagtail.models import Locale
+        from apps.website.models import EventDetailPage
+        
+        de = Locale.objects.filter(language_code='de').first()
+        if not de:
+            pytest.skip("German locale not found")
+        
+        events = EventDetailPage.objects.filter(locale=de)
+        if not events.exists():
+            pytest.skip("No German events found")
+        
+        for event in events:
+            # Non deve contenere parole italiane
+            assert 'Raduno' not in event.title, f"Event title still in Italian: {event.title}"
+            assert 'Gita' not in event.title, f"Event title still in Italian: {event.title}"
+    
+    def test_board_roles_translated_es(self):
+        """Test that BoardPage roles are translated in Spanish."""
+        from wagtail.models import Locale
+        from apps.website.models import BoardPage
+        
+        es = Locale.objects.filter(language_code='es').first()
+        if not es:
+            pytest.skip("Spanish locale not found")
+        
+        board = BoardPage.objects.filter(locale=es).first()
+        if not board:
+            pytest.skip("Spanish BoardPage not found")
+        
+        for block in board.members:
+            if block.block_type == 'member':
+                role = block.value.get('role', '')
+                # Ruoli in spagnolo dovrebbero essere tradotti
+                assert role not in ['Segretario', 'Tesoriere', 'Consigliere'], \
+                    f"Role still in Italian: {role}"
+    
+    @pytest.mark.parametrize("lang", ['en', 'de', 'fr', 'es'])
+    def test_all_languages_have_translated_content(self, lang):
+        """Test that all languages have properly translated database content."""
+        from wagtail.models import Locale
+        from apps.website.models import TimelinePage, EventDetailPage, BoardPage
+        
+        locale = Locale.objects.filter(language_code=lang).first()
+        if not locale:
+            pytest.skip(f"Locale {lang} not found")
+        
+        # Verifica TimelinePage
+        timeline = TimelinePage.objects.filter(locale=locale).first()
+        if timeline and timeline.articles:
+            for block in timeline.articles:
+                if block.block_type == 'article':
+                    headline = block.value.get('headline', '')
+                    # Non deve essere in italiano (eccetto per IT)
+                    if lang != 'it':
+                        assert 'Grande successo' not in headline, \
+                            f"Timeline headline in {lang} still in Italian: {headline}"
+                    break
+        
+        # Verifica BoardPage
+        board = BoardPage.objects.filter(locale=locale).first()
+        if board and board.members:
+            for block in board.members:
+                if block.block_type == 'member':
+                    role = block.value.get('role', '')
+                    if lang != 'it':
+                        assert role != 'Segretario', \
+                            f"Board role in {lang} still in Italian: {role}"
+                    break
+

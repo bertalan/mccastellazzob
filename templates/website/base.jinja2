@@ -549,7 +549,7 @@
     {# Footer #}
     <footer class="bg-navy text-white py-16">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="grid md:grid-cols-2 lg:grid-cols-[1.5fr_0.5fr_1fr_1fr_1fr] gap-12 lg:gap-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-[1.5fr_0.5fr_0.8fr_0.7fr_1.2fr] gap-12 lg:gap-8">
                 {# Logo & Info #}
                 <div>
                     <div class="flex items-center gap-4 mb-6">
@@ -644,19 +644,19 @@
                     <h4 class="text-gold font-heading font-bold text-lg mb-6">{{ _("Contatti") }}</h4>
                     <ul class="space-y-3 text-gray-400">
                         <li class="flex items-start gap-3">
-                            <i class="fas fa-map-marker-alt text-gold mt-1" aria-hidden="true"></i>
-                            <span>{% if settings.website.SiteSettings.organization_street_address %}{{ settings.website.SiteSettings.organization_street_address }}<br>{% endif %}{{ settings.website.SiteSettings.organization_city }}<br>{{ settings.website.SiteSettings.organization_region }}, {{ settings.website.SiteSettings.organization_country }}</span>
+                            <i class="fas fa-map-marker-alt text-gold mt-1 shrink-0" aria-hidden="true"></i>
+                            <span class="leading-relaxed">{% if settings.website.SiteSettings.organization_street_address %}<span class="whitespace-nowrap">{{ settings.website.SiteSettings.organization_street_address }}</span><br>{% endif %}<span class="whitespace-nowrap">{{ settings.website.SiteSettings.organization_city }}</span><br>{{ settings.website.SiteSettings.organization_region }}, {{ settings.website.SiteSettings.organization_country }}</span>
                         </li>
                         {% if settings.website.SiteSettings.organization_email %}
                         <li class="flex items-center gap-3">
-                            <i class="fas fa-envelope text-gold" aria-hidden="true"></i>
-                            <a href="mailto:{{ settings.website.SiteSettings.organization_email }}" class="hover:text-white transition">{{ settings.website.SiteSettings.organization_email }}</a>
+                            <i class="fas fa-envelope text-gold shrink-0" aria-hidden="true"></i>
+                            <a href="mailto:{{ settings.website.SiteSettings.organization_email }}" class="hover:text-white transition whitespace-nowrap">{{ settings.website.SiteSettings.organization_email }}</a>
                         </li>
                         {% endif %}
                         {% if settings.website.SiteSettings.organization_phone %}
                         <li class="flex items-center gap-3">
-                            <i class="fas fa-phone text-gold" aria-hidden="true"></i>
-                            <a href="tel:{{ settings.website.SiteSettings.organization_phone|replace(' ', '') }}" class="hover:text-white transition">{{ settings.website.SiteSettings.organization_phone }}</a>
+                            <i class="fas fa-phone text-gold shrink-0" aria-hidden="true"></i>
+                            <a href="tel:{{ settings.website.SiteSettings.organization_phone|replace(' ', '') }}" class="hover:text-white transition whitespace-nowrap">{{ settings.website.SiteSettings.organization_phone }}</a>
                         </li>
                         {% endif %}
                     </ul>
