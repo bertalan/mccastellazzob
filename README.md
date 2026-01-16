@@ -99,12 +99,14 @@ docker compose exec web pytest --cov=apps
 
 ## 📦 Tech Stack
 
-- **Framework**: Django 5.1 + Wagtail 6.4 + CodeRedCMS
+- **Framework**: Django 5.2 + Wagtail 7.0 + CodeRedCMS 6.0
 - **Database**: PostgreSQL 15
 - **Template Engine**: Jinja2
 - **CSS**: Bootstrap 5 con variabili custom
-- **i18n**: wagtail-localize + django i18n
-- **Testing**: pytest + pytest-django + factory_boy
+- **i18n**: wagtail-localize 1.9 + django i18n
+- **Auth**: django-allauth 65
+- **Testing**: pytest 8 + pytest-django + factory_boy
+- **Python**: 3.11+
 
 ## 📝 License
 
