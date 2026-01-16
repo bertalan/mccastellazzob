@@ -1,45 +1,58 @@
-# MC Castellazzo - Sito Motoclub
+# MC Castellazzo Bormida - Sito Motoclub
 
-Sito dinamico per il motoclub MC Castellazzo, costruito con CodeRedCMS/Wagtail.
+Sito web ufficiale del Motoclub Castellazzo Bormida, costruito con **CodeRedCMS/Wagtail** e **Django**.
 
-## Caratteristiche
+## 🏍️ Caratteristiche
 
-- **4 lingue**: IT, FR, ES, EN (tutte paritarie)
-- **Schema.org**: Tutte le pagine seguono i types schema.org
+- **5 lingue**: IT (default), EN, FR, DE, ES - tutte paritarie con traduzioni complete
+- **Schema.org**: Markup strutturato per SEO ottimale
 - **Tema**: Gradienti oro (#D4AF37) - blu nautico (#1B263B), accenti amaranto (#9B1D64)
 - **Mappe**: OpenStreetMap + Nominatim (no Google)
 - **Auth**: Frontend authentication con django-allauth
 
-## Sviluppo con Docker
+## 📄 Pagine
+
+| Pagina | Descrizione |
+|--------|-------------|
+| **Home** | Hero carousel, eventi in evidenza, CTA |
+| **Novità** | Timeline articoli del club |
+| **Chi Siamo** | Storia, valori, statistiche |
+| **Consiglio** | Board page con membri |
+| **Eventi** | Calendario eventi con archivio |
+| **Galleria** | Foto con filtri categoria |
+| **Contatti** | Form contatto + mappa |
+| **Trasparenza** | Documenti ufficiali |
+| **Privacy** | Policy GDPR |
+
+## 🚀 Sviluppo con Docker
 
 ```bash
 # Avvia l'ambiente di sviluppo
 docker compose up -d
 
-# Accedi all'applicazione
-# Frontend: http://localhost
-# Admin: http://localhost/admin/
+# Frontend: http://localhost:8000
+# Admin: http://localhost:8000/admin/
 
 # Credenziali default:
 # Username: admin
 # Password: admin123
 ```
 
-## Struttura
+## 📁 Struttura Progetto
 
 ```
 mccastellazzob/
 ├── apps/
-│   ├── core/           # Mixins, validators, schema helpers
-│   ├── website/        # Pagine CMS: Home, Timeline, Chi Siamo, Eventi
+│   ├── core/           # Context processors, schema, traduzioni
+│   ├── website/        # Models, blocks, snippets (Navbar/Footer)
 │   └── custom_user/    # User model personalizzato
-├── mccastellazzob/     # Settings Django
-├── templates/          # Jinja2 templates
-├── static/             # CSS, JS, immagini
-└── tests/              # Test TDD
+├── mccastellazzob/     # Settings Django (base, dev, docker, prod)
+├── templates/          # Jinja2 templates (pages, blocks, account)
+├── locale/             # Traduzioni .po/.mo (de, en, es, fr)
+└── tests/              # Test suite TDD (60+ test)
 ```
 
-## Comandi utili
+## 🔧 Comandi Utili
 
 ```bash
 # Migrazioni
@@ -54,8 +67,45 @@ docker compose exec web python manage.py collectstatic --noinput
 
 # Test
 docker compose exec web pytest
+
+# Compilare traduzioni
+docker compose exec web python manage.py compilemessages
 ```
 
-## License
+## 🌐 Internazionalizzazione
 
-MIT License - MC Castellazzo
+Le traduzioni sono gestite su due livelli:
+
+1. **UI (file .po)**: Template strings in `locale/{lang}/LC_MESSAGES/django.po`
+2. **Contenuti DB**: Pagine Wagtail tradotte con wagtail-localize
+
+### URL tradotti
+- `/it/novita/` → `/en/news/` → `/fr/actualites/` → `/de/neuigkeiten/` → `/es/novedades/`
+- `/it/galleria/` → `/en/gallery/` → `/fr/galerie/` → `/de/galerie/` → `/es/galeria/`
+- `/it/eventi/` → `/en/events/` → `/fr/evenements/` → `/de/veranstaltungen/` → `/es/eventos/`
+
+## 🧪 Test
+
+```bash
+# Tutti i test
+docker compose exec web pytest
+
+# Solo traduzioni
+docker compose exec web pytest tests/test_translations.py -v
+
+# Coverage
+docker compose exec web pytest --cov=apps
+```
+
+## 📦 Tech Stack
+
+- **Framework**: Django 5.1 + Wagtail 6.4 + CodeRedCMS
+- **Database**: PostgreSQL 15
+- **Template Engine**: Jinja2
+- **CSS**: Bootstrap 5 con variabili custom
+- **i18n**: wagtail-localize + django i18n
+- **Testing**: pytest + pytest-django + factory_boy
+
+## 📝 License
+
+MIT License - MC Castellazzo Bormida

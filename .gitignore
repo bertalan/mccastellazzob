@@ -48,6 +48,7 @@ db.sqlite3-journal
 
 # Static e Media (in produzione sono gestiti separatamente)
 static/
+staticfiles/
 scripts/
 media/
 vecchio/
