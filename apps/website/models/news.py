@@ -53,7 +53,7 @@ class NewsIndexFeaturedPage(Orderable):
         verbose_name_plural = _("Pagine in evidenza")
 
 
-class NewsIndexPage(CoderedArticleIndexPage):
+class NewsIndexPage(JsonLdMixin, CoderedArticleIndexPage):
     """
     Indice Novità - eredita tutto da CodeRedCMS.
     
@@ -62,6 +62,8 @@ class NewsIndexPage(CoderedArticleIndexPage):
     - Filtro categorie (?c=slug)
     - Ordinamento (index_order_by)
     - Cover image
+    
+    Schema.org: CollectionPage con ItemList
     """
     
     class Meta:
@@ -84,6 +86,72 @@ class NewsIndexPage(CoderedArticleIndexPage):
         ),
     ]
     
+    # =========================================================================
+    # Schema.org CollectionPage + ItemList
+    # =========================================================================
+    
+    def get_json_ld_type(self) -> str:
+        return "CollectionPage"
+    
+    def get_json_ld_data(self, request=None) -> dict:
+        """
+        Genera JSON-LD per l'indice articoli.
+        
+        Schema.org: CollectionPage con ItemList contenente tutti gli articoli.
+        Simile a EventsArchivePage ma per gli articoli.
+        """
+        # Ottieni gli articoli figli live
+        articles = NewsPage.objects.child_of(self).live().public().order_by(
+            '-first_published_at'
+        )[:50]  # Limita a 50 per performance
+        
+        items = []
+        position = 1
+        
+        for article in articles:
+            item_data = {
+                "@type": "ListItem",
+                "position": position,
+                "item": {
+                    "@type": "Article",
+                    "headline": article.title,
+                    "url": article.full_url,
+                },
+            }
+            
+            # Aggiungi data se disponibile
+            if article.date_display:
+                item_data["item"]["datePublished"] = article.date_display.isoformat()
+            
+            # Aggiungi immagine se disponibile
+            if article.cover_image:
+                try:
+                    rendition = article.cover_image.get_rendition("fill-400x300")
+                    item_data["item"]["image"] = rendition.full_url if hasattr(rendition, 'full_url') else rendition.url
+                except Exception:
+                    pass
+            
+            items.append(item_data)
+            position += 1
+        
+        org = get_organization_data(self)
+        
+        return {
+            "name": self.title,
+            "description": clean_html(self.search_description or ""),
+            "url": self.full_url,
+            "publisher": {
+                "@type": "Organization",
+                "name": org.get("name", ""),
+                "logo": org.get("logo"),
+            },
+            "mainEntity": {
+                "@type": "ItemList",
+                "numberOfItems": len(items),
+                "itemListElement": items,
+            },
+        }
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         

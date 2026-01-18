@@ -186,12 +186,6 @@ Il sito rispetta le linee guida WCAG 2.2 livello AAA:
 - **Skip links**: Salta al contenuto principale
 - **Datetime semantico**: Elementi `<time>` con attributo `datetime`
 
-## 📚 Documentazione
-
-- **[CLAUDE.md](CLAUDE.md)**: Istruzioni sviluppo e principi chiave
-- **[SEO_SCHEMA_GUIDE.md](SEO_SCHEMA_GUIDE.md)**: Guida SEO e schema.org
-- **[MULTILANGUAGE_FLAGS_GUIDE.md](MULTILANGUAGE_FLAGS_GUIDE.md)**: Gestione multilingua
-- **[TDD_NAVIGATION_REPORT.md](TDD_NAVIGATION_REPORT.md)**: Report navigazione
 
 ## 📝 License
 
