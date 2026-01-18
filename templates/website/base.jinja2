@@ -475,7 +475,7 @@
                     {% else %}
                         {# Fallback statico con URL dinamiche #}
                         <a href="{{ main_pages.home or '/' }}" class="text-navy text-sm hover:text-bordeaux transition {% if request.path == '/' + request.LANGUAGE_CODE + '/' %}font-semibold border-b-2 border-navy pb-1{% endif %}">{{ _("Home") }}</a>
-                        <a href="{{ main_pages.news or '/novita/' }}" class="text-navy text-sm hover:text-bordeaux transition">{{ _("Novità") }}</a>
+                        <a href="{{ main_pages.news or '/articoli/' }}" class="text-navy text-sm hover:text-bordeaux transition">{{ _("Articoli") }}</a>
                         <a href="{{ main_pages.about or '/chi-siamo/' }}" class="text-navy text-sm hover:text-bordeaux transition">{{ _("Chi Siamo") }}</a>
                         <a href="{{ main_pages.events or '/eventi/' }}" class="text-navy text-sm hover:text-bordeaux transition">{{ _("Eventi") }}</a>
                     {% endif %}
@@ -553,7 +553,7 @@
                 {% else %}
                     {# Fallback statico con URL dinamiche #}
                     <a href="{{ main_pages.home or '/' }}" class="block text-navy font-semibold py-2 border-b border-gold/30" role="menuitem">{{ _("Home") }}</a>
-                    <a href="{{ main_pages.news or '/novita/' }}" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">{{ _("Novità") }}</a>
+                    <a href="{{ main_pages.news or '/articoli/' }}" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">{{ _("Articoli") }}</a>
                     <a href="{{ main_pages.about or '/chi-siamo/' }}" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">{{ _("Chi Siamo") }}</a>
                     <a href="{{ main_pages.events or '/eventi/' }}" class="block text-gray-600 hover:text-navy py-2 border-b border-gray-100" role="menuitem">{{ _("Eventi") }}</a>
                 {% endif %}
@@ -659,7 +659,7 @@
                         <h4 class="text-gold font-heading font-bold text-lg mb-6">{{ _("Link Rapidi") }}</h4>
                         <ul class="space-y-3">
                             <li><a href="{{ main_pages.home or '/' }}" class="text-gray-400 hover:text-white transition">{{ _("Home") }}</a></li>
-                            <li><a href="{{ main_pages.news or '/novita/' }}" class="text-gray-400 hover:text-white transition">{{ _("Novità") }}</a></li>
+                            <li><a href="{{ main_pages.news or '/articoli/' }}" class="text-gray-400 hover:text-white transition">{{ _("Articoli") }}</a></li>
                             <li><a href="{{ main_pages.about or '/chi-siamo/' }}" class="text-gray-400 hover:text-white transition">{{ _("Chi Siamo") }}</a></li>
                             <li><a href="{{ main_pages.events or '/eventi/' }}" class="text-gray-400 hover:text-white transition">{{ _("Eventi") }}</a></li>
                             <li><a href="{{ main_pages.contact or '/contatti/' }}" class="text-gray-400 hover:text-white transition">{{ _("Contatti") }}</a></li>

@@ -1064,11 +1064,6 @@ msgstr "Fußzeile"
 msgid "Testo introduttivo per la pagina timeline"
 msgstr "Einführungstext für die Timeline-Seite"
 
-#: apps/website/models/timeline.py:36
-#: templates/website/pages/timeline_page.jinja2:37
-msgid "Articoli"
-msgstr "Artikel"
-
 #: apps/website/models/timeline.py:48 apps/website/models/timeline.py:49
 #: templates/website/base_old.jinja2:558
 msgid "Timeline"
@@ -1262,8 +1257,8 @@ msgstr "Startseite"
 #: templates/website/base.jinja2:616
 #: templates/website/pages/timeline_page.jinja2:4
 #: templates/website/pages/timeline_page.jinja2:22
-msgid "Novità"
-msgstr "Neuigkeiten"
+msgid "Articoli"
+msgstr "Artikel"
 
 #: templates/website/base.jinja2:439 templates/website/base.jinja2:515
 #: templates/website/pages/board_page.jinja2:113

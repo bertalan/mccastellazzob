@@ -1,96 +1,312 @@
+{# MC Castellazzo - News Index Page Template #}
 {% extends "website/base.jinja2" %}
 {% from "website/includes/gold_title.jinja2" import gold_title %}
 
-{% block title %}{{ page.title }} - {{ _("Novità") }}{% endblock %}
+{% block title %}{{ page.title }}{% endblock %}
 
 {% block content %}
-    {# Hero Section #}
-    <section class="relative bg-gradient-to-b from-navy to-navy/90 py-20 overflow-hidden">
-        <div class="absolute inset-0 opacity-10">
-            <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,...'); background-size: 60px 60px;"></div>
-        </div>
+<!-- Hero Section -->
+<header class="pt-32 pb-16 bg-navy">
+    <div class="max-w-7xl mx-auto px-6">
+        <nav aria-label="Breadcrumb" class="mb-8">
+            <ol class="flex items-center gap-2 text-sm text-gray-400">
+                {% for ancestor in page.get_ancestors(inclusive=False)[1:] %}
+                <li><a href="{{ ancestor.url }}" class="hover:text-gold transition">{{ ancestor.title }}</a></li>
+                <li><i class="fas fa-chevron-right text-xs" aria-hidden="true"></i></li>
+                {% endfor %}
+                <li aria-current="page" class="text-gold">{{ page.title }}</li>
+            </ol>
+        </nav>
         
-        <div class="container mx-auto px-4 relative z-10">
-            <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-white mb-4">
-                    {{ gold_title(page.title) }}
-                </h1>
-                {% if page.caption %}
-                <p class="text-xl text-white/90 max-w-2xl mx-auto">{{ page.caption }}</p>
-                {% endif %}
-                
-                {# Search Form #}
-                <form method="get" action="" class="mt-8 max-w-xl mx-auto">
-                    <div class="flex bg-white rounded-full overflow-hidden shadow-lg">
-                        <input type="text" name="q" value="{{ search_query or '' }}" 
+        <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up">
+            {{ gold_title(page.title) }}
+        </h1>
+        {% if page.caption %}
+        <p class="text-xl text-gray-300" data-aos="fade-up" data-aos-delay="100">
+            {{ page.caption }}
+        </p>
+        {% endif %}
+        
+        <!-- Search Bar - WCAG 2.2 AAA compliant -->
+        <div class="mt-8" data-aos="fade-up" data-aos-delay="150">
+            <form method="get" action="" role="search" aria-label="{{ _('Ricerca articoli') }}" class="flex flex-col md:flex-row gap-4 items-center">
+                <div class="flex-1 w-full md:max-w-xl">
+                    <label for="search-input" class="sr-only">{{ _('Cerca negli articoli') }}</label>
+                    <div class="flex bg-white rounded-full overflow-hidden shadow-lg ring-2 ring-transparent focus-within:ring-gold transition-all duration-200">
+                        <input type="text" 
+                               id="search-input"
+                               name="q" 
+                               value="{{ request.GET.get('q', '') }}" 
                                placeholder="{{ _('Cerca negli articoli...') }}"
-                               class="flex-1 px-6 py-4 focus:outline-none text-gray-700">
-                        <button type="submit" class="bg-gold hover:bg-gold/90 text-navy px-8 py-4 font-bold transition">
+                               autocomplete="off"
+                               class="flex-1 px-6 py-4 focus:outline-none text-gray-800 placeholder-gray-500">
+                        <button type="submit" 
+                                class="bg-gold hover:bg-gold-dark focus:bg-gold-dark text-navy px-8 py-4 font-bold transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-navy focus:ring-inset">
                             <i class="fas fa-search" aria-hidden="true"></i>
                             <span class="sr-only">{{ _("Cerca") }}</span>
                         </button>
                     </div>
-                </form>
-                
-                {# Active search query #}
-                {% if search_query %}
-                <div class="mt-4">
-                    <span class="text-white/80">{{ _("Risultati per:") }}</span>
-                    <span class="text-gold font-bold">"{{ search_query }}"</span>
-                    <a href="{{ page.url }}" class="ml-4 text-white hover:text-gold transition">
-                        <i class="fas fa-times" aria-hidden="true"></i>
-                        {{ _("Cancella") }}
-                    </a>
                 </div>
-                {% endif %}
-            </div>
-        </div>
-    </section>
-    
-    {# Category Filters #}
-    {% if page.index_classifiers.exists() %}
-    <section class="bg-gray-100 py-6">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-wrap items-center justify-center gap-3">
-                <a href="{{ page.url }}" 
-                   class="px-4 py-2 rounded-full transition font-medium {% if not selected_terms %}bg-gold text-navy{% else %}bg-white text-gray-700 hover:bg-gold/20{% endif %}">
-                    {{ _("Tutte") }}
-                </a>
-                {% for classifier in page.index_classifiers.all() %}
-                    {% for term in classifier.terms.all() %}
-                    <a href="{{ page.url }}?c={{ term.slug }}" 
-                       class="px-4 py-2 rounded-full transition font-medium {% if selected_terms and term in selected_terms %}bg-gold text-navy{% else %}bg-white text-gray-700 hover:bg-gold/20{% endif %}">
-                        {{ term.name }}
+                
+                <!-- Recent Tags (ordinati per ultima pubblicazione) -->
+                {% if recent_tags %}
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-gray-400 text-sm"><i class="fas fa-tags mr-1" aria-hidden="true"></i>{{ _("Recenti:") }}</span>
+                    {% for tag in recent_tags %}
+                    <a href="?tag={{ tag.slug }}" 
+                       class="px-3 py-1 bg-white/10 hover:bg-gold text-white hover:text-navy text-sm rounded-full transition{% if active_tag == tag.slug %} bg-gold text-navy{% endif %}">
+                        #{{ tag.name }}
                     </a>
                     {% endfor %}
+                </div>
+                {% endif %}
+            </form>
+            
+            <!-- Active Search Query -->
+            {% if request.GET.get('q') %}
+            <div class="mt-4 flex items-center gap-3">
+                <span class="text-gray-300">{{ _("Risultati per:") }}</span>
+                <span class="text-gold font-bold">"{{ request.GET.get('q') }}"</span>
+                <a href="{{ page.url }}" class="text-white hover:text-gold transition text-sm">
+                    <i class="fas fa-times-circle" aria-hidden="true"></i>
+                    {{ _("Cancella") }}
+                </a>
+            </div>
+            {% endif %}
+            
+            <!-- Active Tag Filter -->
+            {% if active_tag %}
+            <div class="mt-4 flex items-center gap-3">
+                <span class="text-gray-300">{{ _("Filtro tag:") }}</span>
+                <span class="text-gold font-bold">#{{ active_tag }}</span>
+                <a href="{{ page.url }}" class="text-white hover:text-gold transition text-sm">
+                    <i class="fas fa-times-circle" aria-hidden="true"></i>
+                    {{ _("Rimuovi filtro") }}
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+<main id="main-content" role="main">
+    <!-- Search/Tag Results -->
+    {% if is_search %}
+    <section class="py-16 bg-cream">
+        <div class="max-w-7xl mx-auto px-6">
+            {% if global_search_results %}
+            <h2 class="text-3xl font-heading font-bold text-navy mb-8" data-aos="fade-up">
+                <i class="fas fa-search text-gold mr-3" aria-hidden="true"></i>
+                {{ _("Risultati per") }} "{{ search_query }}"
+                <span class="text-lg font-normal text-gray-500 ml-2">({{ global_search_results|length }} {{ _("trovati") }})</span>
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for item in global_search_results %}
+                <article class="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 50 }}">
+                    <!-- Cover Image -->
+                    <a href="{{ item.url }}" class="block aspect-video overflow-hidden">
+                        {% if item.cover_image %}
+                        <img src="{{ image(item.cover_image, 'fill-600x400').url }}" 
+                             alt="{{ item.title }}"
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        {% elif item.image %}
+                        <img src="{{ image(item.image, 'fill-600x400').url }}" 
+                             alt="{{ item.title }}"
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        {% else %}
+                        <div class="w-full h-full bg-gradient-to-br from-navy to-navy-light flex items-center justify-center">
+                            {% if item.start_date %}
+                            <i class="fas fa-calendar-alt text-gold text-5xl" aria-hidden="true"></i>
+                            {% else %}
+                            <i class="fas fa-file-alt text-gold text-5xl" aria-hidden="true"></i>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </a>
+                    
+                    <div class="p-6">
+                        <!-- Type Badge (Categoria) -->
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="inline-block px-3 py-1 bg-gold text-navy text-xs font-bold rounded-full uppercase tracking-wide">
+                                {% if item.start_date %}
+                                    {{ _("Evento") }}
+                                {% else %}
+                                    {{ _("Articolo") }}
+                                {% endif %}
+                            </span>
+                            {# Mostra anche categoria se disponibile #}
+                            {% if item.classifier_terms and item.classifier_terms.exists() %}
+                                {% for term in item.classifier_terms.all()[:2] %}
+                                <span class="inline-block px-3 py-1 bg-amaranth/10 text-amaranth text-xs font-bold rounded-full">
+                                    {{ term.name }}
+                                </span>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Title - WCAG: link con contrasto sufficiente e focus visible -->
+                        <h3 class="text-xl font-heading font-bold text-navy mb-3">
+                            <a href="{{ item.url }}" 
+                               class="hover:text-amaranth focus:text-amaranth focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 rounded transition-colors duration-200 block">
+                                {{ item.title }}
+                            </a>
+                        </h3>
+                        
+                        {# Data e location per gli eventi - su righe separate per leggibilità #}
+                        {% if item.start_date %}
+                        <div class="space-y-2 text-sm text-gray-700 mb-4" role="group" aria-label="{{ _('Informazioni evento') }}">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-calendar-alt text-gold w-5 text-center" aria-hidden="true"></i>
+                                <time datetime="{{ item.start_date.isoformat() }}" class="font-medium">
+                                    {{ item.start_date.strftime('%d %B %Y') }}
+                                    {% if item.end_date and item.end_date.date() != item.start_date.date() %}
+                                    <span class="text-gray-500">—</span> {{ item.end_date.strftime('%d %B %Y') }}
+                                    {% endif %}
+                                </time>
+                            </div>
+                            {% if item.location_name %}
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-map-marker-alt text-gold w-5 text-center mt-0.5" aria-hidden="true"></i>
+                                <span class="font-medium">
+                                    {{ item.location_name }}
+                                    {% if item.location_address %}
+                                    <span class="block text-gray-500 text-xs mt-0.5">{{ item.location_address }}</span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% else %}
+                        {# Data pubblicazione per articoli #}
+                        {% if item.date_display %}
+                        <div class="flex items-center gap-2 text-sm text-gray-600 mb-3">
+                            <i class="fas fa-clock text-gold w-5 text-center" aria-hidden="true"></i>
+                            <time datetime="{{ item.date_display.isoformat() }}">
+                                {{ item.date_display.strftime('%d %B %Y') }}
+                            </time>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        
+                        {# Caption/Description #}
+                        {% if item.caption %}
+                        <p class="text-gray-700 mb-4 line-clamp-2 leading-relaxed">{{ item.caption }}</p>
+                        {% elif item.description %}
+                        <p class="text-gray-700 mb-4 line-clamp-2 leading-relaxed">{{ item.description|striptags|truncate(120) }}</p>
+                        {% endif %}
+                        
+                        <!-- Read More - WCAG: focus visible, aria-label per contesto -->
+                        <div class="flex items-center justify-end pt-4 border-t border-gray-200">
+                            <a href="{{ item.url }}" 
+                               aria-label="{{ _('Scopri di più su') }}: {{ item.title }}"
+                               class="inline-flex items-center gap-2 text-amaranth font-bold text-sm hover:text-navy focus:text-navy focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 rounded-lg px-2 py-1 transition-colors duration-200">
+                                {{ _("Scopri di più") }}
+                                <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
                 {% endfor %}
             </div>
+            {% else %}
+            <!-- Nessun risultato -->
+            <div class="text-center py-16" role="status" aria-live="polite">
+                <i class="fas fa-search text-6xl text-gray-400 mb-6" aria-hidden="true"></i>
+                <h2 class="text-2xl font-heading font-bold text-navy mb-4">
+                    {{ _("Nessun risultato trovato") }}
+                </h2>
+                <p class="text-gray-700 mb-6">
+                    {{ _("La ricerca per") }} "<strong>{{ search_query }}</strong>" {{ _("non ha prodotto risultati.") }}
+                </p>
+                <a href="{{ page.url }}" 
+                   class="inline-flex items-center gap-2 px-6 py-3 bg-gold text-navy font-bold rounded-full hover:bg-gold-dark focus:outline-none focus:ring-2 focus:ring-navy focus:ring-offset-2 transition-colors duration-200">
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                    {{ _("Torna agli articoli") }}
+                </a>
+            </div>
+            {% endif %}
         </div>
     </section>
     {% endif %}
-    
-    {# Articles Grid #}
-    <main class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
-            {% if index_children %}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {% for article in index_children %}
+
+    <!-- Featured Pages Section (solo senza ricerca) -->
+    {% if featured_pages and not is_search %}
+    <section class="py-16 bg-cream">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl font-heading font-bold text-navy mb-8" data-aos="fade-up">
+                {{ _("In Evidenza") }}
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for item in featured_pages %}
                 <article class="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
-                    {# Cover Image #}
-                    <a href="{{ article.url }}" class="block aspect-video overflow-hidden">
-                        {% if article.cover_image %}
-                        <img src="{{ image(article.cover_image, 'fill-600x400').url }}" 
-                             alt="{{ article.title }}"
+                    <!-- Cover Image -->
+                    <a href="{{ item.url }}" class="block aspect-video overflow-hidden">
+                        {% if item.cover_image %}
+                        <img src="{{ image(item.cover_image, 'fill-600x400').url }}" 
+                             alt="{{ item.title }}"
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        {% elif item.image %}
+                        <img src="{{ image(item.image, 'fill-600x400').url }}" 
+                             alt="{{ item.title }}"
                              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                         {% else %}
-                        <div class="w-full h-full bg-gradient-to-br from-navy to-navy/80 flex items-center justify-center">
+                        <div class="w-full h-full bg-gradient-to-br from-navy to-navy-light flex items-center justify-center">
                             <i class="fas fa-newspaper text-gold text-5xl" aria-hidden="true"></i>
                         </div>
                         {% endif %}
                     </a>
                     
                     <div class="p-6">
-                        {# Categories & Date #}
+                        <!-- Title -->
+                        <h3 class="text-xl font-heading font-bold text-navy mb-3 group-hover:text-amaranth transition">
+                            <a href="{{ item.url }}">{{ item.title }}</a>
+                        </h3>
+                        
+                        <!-- Caption/Description -->
+                        {% if item.caption %}
+                        <p class="text-gray-600 mb-4 line-clamp-2">{{ item.caption }}</p>
+                        {% elif item.description %}
+                        <p class="text-gray-600 mb-4 line-clamp-2">{{ item.description|striptags|truncate(100) }}</p>
+                        {% endif %}
+                        
+                        <!-- Read More -->
+                        <div class="flex items-center justify-end pt-4 border-t border-gray-100">
+                            <a href="{{ item.url }}" class="text-amaranth font-bold text-sm hover:text-gold transition flex items-center gap-1">
+                                {{ _("Scopri di più") }}
+                                <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Articles Section (nascosta durante la ricerca) -->
+    {% if not is_search %}
+    <section class="py-16 bg-cream">
+        <div class="max-w-7xl mx-auto px-6">
+            {% if index_children %}
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for article in index_children %}
+                <article class="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+                    <!-- Cover Image -->
+                    <a href="{{ article.url }}" class="block aspect-video overflow-hidden">
+                        {% if article.cover_image %}
+                        <img src="{{ image(article.cover_image, 'fill-600x400').url }}" 
+                             alt="{{ article.title }}"
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        {% else %}
+                        <div class="w-full h-full bg-gradient-to-br from-navy to-navy-light flex items-center justify-center">
+                            <i class="fas fa-newspaper text-gold text-5xl" aria-hidden="true"></i>
+                        </div>
+                        {% endif %}
+                    </a>
+                    
+                    <div class="p-6">
+                        <!-- Categories and Date -->
                         <div class="flex items-center justify-between mb-3">
                             <div class="flex flex-wrap gap-2">
                                 {% for term in article.classifier_terms.all()[:2] %}
@@ -106,23 +322,25 @@
                             {% endif %}
                         </div>
                         
-                        {# Title #}
+                        <!-- Title -->
                         <h2 class="text-xl font-heading font-bold text-navy mb-3 group-hover:text-amaranth transition">
                             <a href="{{ article.url }}">{{ article.title }}</a>
                         </h2>
                         
-                        {# Caption/Excerpt #}
+                        <!-- Caption/Excerpt -->
                         {% if article.caption %}
                         <p class="text-gray-600 mb-4 line-clamp-2">{{ article.caption }}</p>
                         {% endif %}
                         
-                        {# Author & Read More #}
+                        <!-- Author and Read More -->
                         <div class="flex items-center justify-between pt-4 border-t border-gray-100">
                             {% if article.author_display or article.author %}
                             <div class="flex items-center gap-2 text-sm text-gray-500">
                                 <i class="fas fa-user-circle" aria-hidden="true"></i>
                                 {{ article.author_display or article.author.get_full_name() }}
                             </div>
+                            {% else %}
+                            <div></div>
                             {% endif %}
                             <a href="{{ article.url }}" class="text-amaranth font-bold text-sm hover:text-gold transition flex items-center gap-1">
                                 {{ _("Leggi tutto") }}
@@ -134,11 +352,11 @@
                 {% endfor %}
             </div>
             
-            {# Pagination #}
+            <!-- Pagination -->
             {% if index_paginated.has_other_pages() %}
-            <nav class="mt-12 flex justify-center items-center gap-2" aria-label="{{ _('Navigazione pagine') }}">
+            <nav class="mt-12 flex justify-center items-center gap-2" aria-label="Navigazione pagine">
                 {% if index_paginated.has_previous() %}
-                <a href="?page={{ index_paginated.previous_page_number() }}{% if search_query %}&q={{ search_query }}{% endif %}" 
+                <a href="?page={{ index_paginated.previous_page_number() }}" 
                    class="px-4 py-2 bg-white rounded-lg shadow hover:bg-gold hover:text-navy transition">
                     <i class="fas fa-chevron-left" aria-hidden="true"></i>
                 </a>
@@ -148,13 +366,13 @@
                     {% if num == index_paginated.number %}
                     <span class="px-4 py-2 bg-gold text-navy font-bold rounded-lg shadow">{{ num }}</span>
                     {% elif num > index_paginated.number - 3 and num < index_paginated.number + 3 %}
-                    <a href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}" 
+                    <a href="?page={{ num }}" 
                        class="px-4 py-2 bg-white rounded-lg shadow hover:bg-gold hover:text-navy transition">{{ num }}</a>
                     {% endif %}
                 {% endfor %}
                 
                 {% if index_paginated.has_next() %}
-                <a href="?page={{ index_paginated.next_page_number() }}{% if search_query %}&q={{ search_query }}{% endif %}" 
+                <a href="?page={{ index_paginated.next_page_number() }}" 
                    class="px-4 py-2 bg-white rounded-lg shadow hover:bg-gold hover:text-navy transition">
                     <i class="fas fa-chevron-right" aria-hidden="true"></i>
                 </a>
@@ -163,25 +381,19 @@
             {% endif %}
             
             {% else %}
-            {# No Results #}
+            <!-- No Results -->
             <div class="text-center py-16">
                 <i class="fas fa-newspaper text-6xl text-gray-300 mb-6" aria-hidden="true"></i>
                 <h2 class="text-2xl font-heading font-bold text-navy mb-4">
-                    {% if search_query %}
-                    {{ _("Nessun risultato trovato") }}
-                    {% else %}
                     {{ _("Nessun articolo disponibile") }}
-                    {% endif %}
                 </h2>
                 <p class="text-gray-600">
-                    {% if search_query %}
-                    {{ _("Prova con termini di ricerca diversi.") }}
-                    {% else %}
                     {{ _("Gli articoli saranno pubblicati presto.") }}
-                    {% endif %}
                 </p>
             </div>
             {% endif %}
         </div>
-    </main>
+    </section>
+    {% endif %}
+</main>
 {% endblock %}

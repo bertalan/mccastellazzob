@@ -5,7 +5,7 @@
 {% block title %}{{ page.title|replace('**', '') }}{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
+<!-- Header Section -->
 <header class="pt-32 pb-16 bg-navy">
     <div class="max-w-7xl mx-auto px-6">
         <nav aria-label="Breadcrumb" class="mb-8">
@@ -135,23 +135,29 @@
                 <div class="col-span-full text-center py-12 bg-white rounded-2xl">
                     <i class="fas fa-calendar-times text-4xl text-gray-300 mb-4" aria-hidden="true"></i>
                     <p class="text-gray-600 mb-6">{{ _("Nessun evento in programma al momento.") }}</p>
-                    <a href="{{ main_pages.events_archive or '/archivio-eventi/' }}" class="inline-flex items-center gap-2 bg-gold text-navy font-bold px-6 py-3 rounded-full hover:bg-gold-dark transition">
-                        <i class="fas fa-history" aria-hidden="true"></i>
-                        {{ _("Vedi archivio eventi") }}
-                    </a>
                 </div>
                 {% endfor %}
             </div>
-            
-            {% if page.get_upcoming_events()|list|length > 0 %}
-            <div class="text-center mt-12">
-                <a href="{{ main_pages.events_archive or '/archivio-eventi/' }}" class="inline-flex items-center gap-2 text-navy font-bold hover:text-amaranth transition">
-                    {{ _("Archivio storico eventi") }}
-                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
-                </a>
-            </div>
-            {% endif %}
+        </div>
+    </section>
+    
+    <!-- Archivio Storico -->
+    <section class="py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <a href="{{ main_pages.events_archive or '/archivio-eventi/' }}" class="inline-flex items-center gap-3 bg-navy text-white font-bold px-8 py-4 rounded-full hover:bg-amaranth transition">
+                <i class="fas fa-history" aria-hidden="true"></i>
+                {{ _("Archivio storico eventi") }}
+                <i class="fas fa-arrow-right" aria-hidden="true"></i>
+            </a>
         </div>
     </section>
 </main>
+
+{# Hero con Countdown se configurato #}
+{% if page.hero %}
+    {% for block in page.hero %}
+        {% include_block block %}
+    {% endfor %}
+{% endif %}
+
 {% endblock %}

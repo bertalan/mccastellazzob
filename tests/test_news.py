@@ -23,8 +23,8 @@ def news_index(site):
     
     home = HomePage.objects.first()
     news_index = NewsIndexPage(
-        title="Novità",
-        slug=f"novita-{uuid.uuid4().hex[:8]}",
+        title="Articoli",
+        slug=f"articoli-{uuid.uuid4().hex[:8]}",
     )
     home.add_child(instance=news_index)
     return news_index
@@ -65,7 +65,7 @@ class TestNewsIndexPage:
     def test_news_index_creation(self, news_index):
         """Test NewsIndexPage can be created."""
         assert news_index.pk is not None
-        assert news_index.title == "Novità"
+        assert news_index.title == "Articoli"
     
     def test_news_index_subpage_types(self, news_index):
         """Test NewsIndexPage only allows NewsPage as children."""

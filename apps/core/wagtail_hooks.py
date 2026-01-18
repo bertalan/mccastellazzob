@@ -4,8 +4,10 @@ MC Castellazzo - Wagtail Hooks
 Hooks per aggiungere funzionalità custom al backend Wagtail.
 Include il pulsante "Traduci Automaticamente" nel menu azioni delle pagine.
 Include il menu "Caricamento Massivo" per le immagini.
+Include lo script di geocoding automatico per gli indirizzi.
 """
 from django.urls import path, reverse
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from wagtail import hooks
 from wagtail.admin.action_menu import ActionMenuItem
@@ -53,13 +55,18 @@ def register_translate_url():
 @hooks.register("register_admin_urls")
 def register_bulk_upload_url():
     """Registra l'URL per il caricamento massivo immagini."""
-    from apps.core.admin_views import BulkUploadView
+    from apps.core.admin_views import BulkUploadView, get_image_metadata
     
     return [
         path(
             "bulk-upload/",
             BulkUploadView.as_view(),
             name="bulk_upload",
+        ),
+        path(
+            "api/image-metadata/<int:image_id>/",
+            get_image_metadata,
+            name="image_metadata_api",
         ),
     ]
 
@@ -80,3 +87,13 @@ def register_translate_action():
     """Registra la voce di menu per la traduzione automatica."""
     return TranslateMenuItem()
 
+
+@hooks.register("insert_global_admin_js")
+def global_admin_js():
+    """Aggiunge script custom per l'admin Wagtail."""
+    return format_html(
+        '<script src="{}"></script>'
+        '<script src="{}"></script>',
+        "/static/js/address_geocoding.js",
+        "/static/js/gallery_image_metadata.js"
+    )

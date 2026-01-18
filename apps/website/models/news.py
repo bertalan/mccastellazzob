@@ -10,14 +10,47 @@ Ereditano da CodeRedCMS per sfruttare:
 """
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from modelcluster.fields import ParentalKey
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.fields import StreamField
+from wagtail.models import Orderable, Page
 from wagtail.search import index
 
+from coderedcms.blocks import CONTENT_STREAMBLOCKS
 from coderedcms.models import CoderedArticleIndexPage, CoderedArticlePage
 
 from apps.core.seo import JsonLdMixin, get_organization_data, clean_html
 from apps.website.blocks import GalleryImageBlock
+
+
+# Blocchi contenuto senza 'table' (richiede handsontable JS non installato)
+NEWS_CONTENT_BLOCKS = [
+    block for block in CONTENT_STREAMBLOCKS if block[0] != 'table'
+]
+
+
+class NewsIndexFeaturedPage(Orderable):
+    """Pagine in evidenza selezionabili nell'indice novità."""
+    
+    page = ParentalKey(
+        "website.NewsIndexPage",
+        on_delete=models.CASCADE,
+        related_name="featured_pages",
+    )
+    featured_page = models.ForeignKey(
+        Page,
+        on_delete=models.CASCADE,
+        related_name="+",
+        verbose_name=_("Pagina in evidenza"),
+    )
+    
+    panels = [
+        FieldPanel("featured_page"),
+    ]
+    
+    class Meta:
+        verbose_name = _("Pagina in evidenza")
+        verbose_name_plural = _("Pagine in evidenza")
 
 
 class NewsIndexPage(CoderedArticleIndexPage):
@@ -43,19 +76,183 @@ class NewsIndexPage(CoderedArticleIndexPage):
     # Può stare sotto HomePage
     parent_page_types = ["website.HomePage"]
     
-    # Override per aggiungere ricerca testuale
+    # Pannelli admin - aggiungiamo le pagine in evidenza
+    content_panels = CoderedArticleIndexPage.content_panels + [
+        MultiFieldPanel(
+            [InlinePanel("featured_pages", label=_("Pagina"))],
+            heading=_("Pagine in evidenza"),
+        ),
+    ]
+    
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         
+        # Tag recenti - da CodeRedCMS (articoli) e Eventi
+        # Ordinati per ultima pubblicazione delle pagine che li usano
+        from taggit.models import Tag
+        from django.db.models import Count, Max, Q
+        
+        # Tag da articoli CodeRedCMS
+        codered_tags = Tag.objects.filter(
+            coderedcms_coderedtag_items__isnull=False,
+            coderedcms_coderedtag_items__content_object__locale=self.locale,
+        ).annotate(
+            last_used=Max('coderedcms_coderedtag_items__content_object__last_published_at'),
+            usage_count=Count('coderedcms_coderedtag_items')
+        )
+        
+        # Tag da eventi (EventPageTag)
+        from apps.website.models.events import EventPageTag
+        event_tags = Tag.objects.filter(
+            website_eventpagetag_items__isnull=False,
+            website_eventpagetag_items__content_object__locale=self.locale,
+        ).annotate(
+            last_used=Max('website_eventpagetag_items__content_object__last_published_at'),
+            usage_count=Count('website_eventpagetag_items')
+        )
+        
+        # Unisci e ordina
+        all_tags = list(codered_tags) + list(event_tags)
+        # Rimuovi duplicati mantenendo quello con last_used più recente
+        seen = {}
+        for tag in all_tags:
+            if tag.slug not in seen or (tag.last_used and (not seen[tag.slug].last_used or tag.last_used > seen[tag.slug].last_used)):
+                seen[tag.slug] = tag
+        recent_tags = sorted(seen.values(), key=lambda t: (t.last_used or '', -t.usage_count), reverse=True)[:5]
+        context["recent_tags"] = recent_tags
+        
+        # Filtra per tag se richiesto
+        tag_slug = request.GET.get("tag", "").strip()
+        if tag_slug:
+            # Rimuovi eventuale # iniziale
+            tag_slug = tag_slug.lstrip('#')
+            context["active_tag"] = tag_slug
+            context["is_search"] = True  # Nascondi articoli normali quando si filtra per tag
+            
+            # Cerca pagine con questo tag (articoli CodeRedCMS)
+            from wagtail.models import Page
+            from coderedcms.models import CoderedPage
+            
+            # Pagine CodeRedCMS con questo tag
+            codered_results = CoderedPage.objects.live().public().filter(
+                locale=self.locale,
+                tags__slug=tag_slug
+            )[:12]
+            
+            # Eventi con questo tag
+            from apps.website.models.events import EventDetailPage
+            event_results = EventDetailPage.objects.live().public().filter(
+                locale=self.locale,
+                tags__slug=tag_slug
+            )[:12]
+            
+            # Combina risultati
+            all_results = list(codered_results) + list(event_results)
+            context["global_search_results"] = [p.specific for p in all_results[:12]]
+            context["search_query"] = f"#{tag_slug}"
+        
         # Ricerca testuale
         query = request.GET.get("q", "").strip()
-        if query and "index_children" in context:
-            from wagtail.search.models import Query
-            # Filtra i risultati per query
-            context["index_children"] = context["index_children"].search(query)
-            # Registra la query per analytics
-            Query.get(query).add_hit()
+        if query:
+            from wagtail.models import Page
+            from apps.website.models.events import EventDetailPage
+            import re
+            
+            # Ottieni il locale corrente della pagina
+            current_locale = self.locale
+            
+            # Parse query: virgola o | = OR, spazi = AND
+            # Esempio: "moto,bici" -> OR, "moto bici" -> AND
+            def parse_search_terms(q):
+                """Ritorna (terms, is_or_search)"""
+                # Controlla se contiene , o |
+                if ',' in q or '|' in q:
+                    # OR search
+                    terms = [t.strip() for t in re.split(r'[,|]', q) if t.strip()]
+                    return terms, True
+                else:
+                    # AND search (spazi)
+                    terms = [t.strip() for t in q.split() if t.strip()]
+                    return terms, False
+            
+            terms, is_or = parse_search_terms(query)
+            
+            def build_q_filter(terms, is_or, fields):
+                """Costruisce Q filter per i campi specificati"""
+                if not terms:
+                    return Q()
+                
+                term_queries = []
+                for term in terms:
+                    # Per ogni termine, cerca in tutti i campi (OR tra campi)
+                    field_q = Q()
+                    for field in fields:
+                        field_q |= Q(**{f"{field}__icontains": term})
+                    term_queries.append(field_q)
+                
+                # Combina i termini con AND o OR
+                if is_or:
+                    result = Q()
+                    for tq in term_queries:
+                        result |= tq
+                else:
+                    result = Q()
+                    for tq in term_queries:
+                        result &= tq
+                    # Se result è vuoto, inizializza col primo
+                    if term_queries:
+                        result = term_queries[0]
+                        for tq in term_queries[1:]:
+                            result &= tq
+                
+                return result
+            
+            # Ricerca in tutte le pagine (titolo)
+            page_q = build_q_filter(terms, is_or, ['title'])
+            page_results = list(
+                Page.objects.live().public()
+                .filter(locale=current_locale)
+                .filter(page_q)
+                .distinct()[:12]
+            )
+            
+            # Ricerca negli eventi (più campi)
+            event_q = build_q_filter(terms, is_or, ['title', 'event_name', 'location_name', 'location_address', 'description'])
+            event_results = list(
+                EventDetailPage.objects.live().public()
+                .filter(locale=current_locale)
+                .filter(event_q)
+                .exclude(id__in=[p.id for p in page_results])
+                .distinct()[:8]
+            )
+            
+            # Combina i risultati (rimuovi duplicati)
+            seen_ids = set()
+            all_results = []
+            for p in page_results + event_results:
+                if p.id not in seen_ids:
+                    seen_ids.add(p.id)
+                    all_results.append(p)
+            
+            context["global_search_results"] = [p.specific for p in all_results[:12]]
+            
+            # Filtra anche i figli di questo indice
+            if "index_children" in context:
+                child_q = build_q_filter(terms, is_or, ['title'])
+                try:
+                    context["index_children"] = context["index_children"].filter(child_q)
+                except Exception:
+                    pass
+            
             context["search_query"] = query
+            context["is_search"] = True
+        
+        # Mostra pagine in evidenza SOLO se non c'è ricerca o filtro tag
+        if not context.get("is_search"):
+            context["featured_pages"] = [
+                fp.featured_page.specific for fp in self.featured_pages.all()
+            ]
+            context["is_search"] = False
         
         return context
 
@@ -77,6 +274,15 @@ class NewsPage(JsonLdMixin, CoderedArticlePage):
     Aggiunto:
     - gallery (galleria immagini sfogliabile)
     """
+    
+    # Override body senza blocco 'table' (richiede handsontable JS)
+    body = StreamField(
+        NEWS_CONTENT_BLOCKS,
+        blank=True,
+        null=True,
+        use_json_field=True,
+        verbose_name=_("Contenuto"),
+    )
     
     # Galleria immagini (stesso pattern degli Eventi)
     gallery = StreamField(

@@ -1,19 +1,22 @@
 """
 MC Castellazzo - Bulk Upload Admin Views
 =========================================
-Viste admin per il caricamento massivo di immagini.
+Viste admin per il caricamento massivo di immagini e API per metadati immagini.
 """
 
 import io
+import json
 from typing import Optional
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.files.base import ContentFile
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views import View
+from django.views.decorators.http import require_GET
 from wagtail.images import get_image_model
 from wagtail.models import Collection
 
@@ -158,3 +161,33 @@ class BulkUploadView(View):
             "form": form,
             "page_title": _("Caricamento massivo immagini"),
         })
+
+
+@login_required
+@require_GET
+def get_image_metadata(request, image_id):
+    """
+    API endpoint per recuperare i metadati di un'immagine.
+    Restituisce titolo, descrizione e tag dell'immagine.
+    """
+    try:
+        image = Image.objects.get(pk=image_id)
+        
+        # Recupera i tag come stringa
+        tags_list = list(image.tags.names())
+        
+        return JsonResponse({
+            "success": True,
+            "data": {
+                "id": image.id,
+                "title": image.title or "",
+                "description": getattr(image, "description", "") or "",
+                "tags": tags_list,
+                "alt_text": getattr(image, "alt_text", "") or image.title or "",
+            }
+        })
+    except Image.DoesNotExist:
+        return JsonResponse({
+            "success": False,
+            "error": "Image not found"
+        }, status=404)

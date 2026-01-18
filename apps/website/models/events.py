@@ -12,12 +12,28 @@ from datetime import date
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from modelcluster.contrib.taggit import ClusterTaggableManager
+from modelcluster.fields import ParentalKey
+from taggit.models import TaggedItemBase
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
 from apps.core.seo import JsonLdMixin, clean_html, get_organization_data, event as schema_event, place
 from apps.website.blocks import GalleryImageBlock, HeroCountdownBlock
+from wagtail.search import index
+
+
+class EventPageTag(TaggedItemBase):
+    """
+    Tag per gli eventi - usa taggit standard per condividere
+    gli stessi Tag con tutto il sito (articoli, gallerie, ecc.)
+    """
+    content_object = ParentalKey(
+        "website.EventDetailPage",
+        on_delete=models.CASCADE,
+        related_name="tagged_items",
+    )
 
 
 class EventDetailPage(JsonLdMixin, Page):
@@ -102,6 +118,13 @@ class EventDetailPage(JsonLdMixin, Page):
         verbose_name=_("Galleria immagini"),
     )
     
+    # Tags - usa lo stesso sistema di CodeRedCMS per condividere i tag
+    tags = ClusterTaggableManager(
+        through="website.EventPageTag",
+        blank=True,
+        verbose_name=_("Tag"),
+    )
+    
     # === Wagtail Config ===
     template = "website/pages/event_detail_page.jinja2"
     parent_page_types = ["website.EventsPage", "website.EventsArchivePage"]
@@ -128,6 +151,18 @@ class EventDetailPage(JsonLdMixin, Page):
         FieldPanel("image"),
         FieldPanel("description"),
         FieldPanel("gallery"),
+        FieldPanel("tags"),
+    ]
+    
+    # Campi indicizzati per la ricerca
+    search_fields = Page.search_fields + [
+        index.SearchField("event_name", boost=2),
+        index.SearchField("location_name", boost=1.5),
+        index.SearchField("location_address"),
+        index.SearchField("description"),
+        index.RelatedFields("tags", [index.SearchField("name")]),
+        index.AutocompleteField("event_name"),
+        index.AutocompleteField("location_name"),
     ]
     
     class Meta:
