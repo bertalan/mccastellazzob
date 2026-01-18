@@ -368,6 +368,10 @@ class JsonLdMixin:
             }
             return mark_safe(json.dumps(data, cls=SchemaEncoder, ensure_ascii=False, indent=2))
         except Exception as e:
+            # Log errore per debug
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"JSON-LD generation error: {e}", exc_info=True)
             # In caso di errore, ritorna JSON vuoto invece di rompere la pagina
             return mark_safe('{}')
 

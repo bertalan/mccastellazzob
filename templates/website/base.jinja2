@@ -56,7 +56,7 @@
     {# Schema.org JSON-LD - Custom per pagine con JsonLdMixin #}
     {% if page.get_json_ld is defined %}
     <script type="application/ld+json">
-    {{ page.get_json_ld() }}
+    {{ page.get_json_ld(request) }}
     </script>
     {% endif %}
     

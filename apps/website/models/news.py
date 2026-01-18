@@ -122,9 +122,10 @@ class NewsIndexPage(JsonLdMixin, CoderedArticleIndexPage):
                 }
                 if page.location_address:
                     event_data["location"]["address"] = page.location_address
-            if page.cover_image:
+            # EventDetailPage usa 'image', non 'cover_image'
+            if page.image:
                 try:
-                    rendition = page.cover_image.get_rendition("fill-400x300")
+                    rendition = page.image.get_rendition("fill-400x300")
                     event_data["image"] = rendition.full_url if hasattr(rendition, 'full_url') else rendition.url
                 except Exception:
                     pass
@@ -154,22 +155,113 @@ class NewsIndexPage(JsonLdMixin, CoderedArticleIndexPage):
             "url": page.full_url,
         }
     
+    def _get_search_results(self, request) -> list:
+        """
+        Ottiene i risultati di ricerca per tag o query testuale.
+        Replica la logica di get_context per coerenza con il template.
+        """
+        from apps.website.models.events import EventDetailPage
+        from coderedcms.models import CoderedPage
+        
+        results = []
+        
+        # Ricerca per tag
+        tag_slug = request.GET.get("tag", "").strip().lstrip('#')
+        if tag_slug:
+            # Pagine CodeRedCMS con questo tag
+            codered_results = CoderedPage.objects.live().public().filter(
+                locale=self.locale,
+                tags__slug=tag_slug
+            )[:12]
+            
+            # Eventi con questo tag
+            event_results = EventDetailPage.objects.live().public().filter(
+                locale=self.locale,
+                tags__slug=tag_slug
+            )[:12]
+            
+            results = [p.specific for p in list(codered_results) + list(event_results)][:12]
+            return results
+        
+        # Ricerca testuale
+        query = request.GET.get("q", "").strip()
+        if query:
+            from wagtail.models import Page
+            import re
+            
+            # Parse query
+            if ',' in query or '|' in query:
+                terms = [t.strip() for t in re.split(r'[,|]', query) if t.strip()]
+                is_or = True
+            else:
+                terms = [t.strip() for t in query.split() if t.strip()]
+                is_or = False
+            
+            if terms:
+                from django.db.models import Q
+                
+                # Ricerca in pagine
+                page_q = Q()
+                for term in terms:
+                    term_q = Q(title__icontains=term)
+                    if is_or:
+                        page_q |= term_q
+                    else:
+                        page_q &= term_q
+                
+                page_results = list(
+                    Page.objects.live().public()
+                    .filter(locale=self.locale)
+                    .filter(page_q)
+                    .distinct()[:12]
+                )
+                
+                # Ricerca in eventi
+                event_q = Q()
+                for term in terms:
+                    term_q = Q(title__icontains=term) | Q(event_name__icontains=term)
+                    if is_or:
+                        event_q |= term_q
+                    else:
+                        event_q &= term_q
+                
+                event_results = list(
+                    EventDetailPage.objects.live().public()
+                    .filter(locale=self.locale)
+                    .filter(event_q)
+                    .exclude(id__in=[p.id for p in page_results])
+                    .distinct()[:8]
+                )
+                
+                results = [p.specific for p in page_results + event_results][:12]
+        
+        return results
+    
     def get_json_ld_data(self, request=None) -> dict:
         """
         Genera JSON-LD per l'indice articoli.
         
         Schema.org: CollectionPage con ItemList contenente articoli ed eventi.
         Rileva automaticamente il tipo di ogni risultato (Article, Event, WebPage).
+        
+        Se c'è una ricerca (tag o query), usa i risultati di ricerca.
+        Altrimenti, usa gli articoli figli.
         """
-        # Ottieni gli articoli figli live
-        articles = NewsPage.objects.child_of(self).live().public().order_by(
-            '-first_published_at'
-        )[:50]  # Limita a 50 per performance
+        pages = []
+        
+        # Se c'è una request con ricerca, usa quei risultati
+        if request and (request.GET.get("tag") or request.GET.get("q")):
+            pages = self._get_search_results(request)
+        else:
+            # Default: articoli figli
+            pages = list(NewsPage.objects.child_of(self).live().public().order_by(
+                '-first_published_at'
+            )[:50])
         
         items = []
         position = 1
         
-        for page in articles:
+        for page in pages:
             item_data = {
                 "@type": "ListItem",
                 "position": position,
