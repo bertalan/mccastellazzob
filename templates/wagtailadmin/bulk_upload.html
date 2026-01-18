@@ -1,0 +1,151 @@
+{% extends "wagtailadmin/base.html" %}
+{% load i18n wagtailadmin_tags %}
+
+{% block titletag %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<header class="w-slim-header">
+    <div class="w-slim-header__title">
+        <h1 class="w-h2">
+            <svg class="icon icon-image w-header-icon" aria-hidden="true">
+                <use href="#icon-image"></use>
+            </svg>
+            {{ page_title }}
+        </h1>
+    </div>
+</header>
+
+<div class="nice-padding">
+    <p class="help-text">
+        {% trans "Carica più immagini contemporaneamente con metadati comuni. Le immagini verranno automaticamente ottimizzate (max 1280px, formato WebP, qualità 85%)." %}
+    </p>
+    
+    <form method="post" enctype="multipart/form-data" class="bulk-upload-form">
+        {% csrf_token %}
+        
+        <ul class="w-field-panel">
+            {# Campo Prefisso Titolo #}
+            <li class="w-field w-field--char_field w-field--text_input">
+                <div class="w-field__wrapper">
+                    <label class="w-field__label" for="id_title_prefix">
+                        {% trans "Prefisso titolo" %}
+                        <span class="w-required-mark">*</span>
+                    </label>
+                    <div class="w-field__input">
+                        {{ form.title_prefix }}
+                    </div>
+                    {% if form.title_prefix.errors %}
+                        <p class="w-field__errors">{{ form.title_prefix.errors }}</p>
+                    {% endif %}
+                    <p class="w-field__help">{{ form.title_prefix.help_text }}</p>
+                </div>
+            </li>
+            
+            {# Campo Tag #}
+            <li class="w-field w-field--char_field w-field--text_input">
+                <div class="w-field__wrapper">
+                    <label class="w-field__label" for="id_tags">
+                        {% trans "Tag" %}
+                    </label>
+                    <div class="w-field__input">
+                        {{ form.tags }}
+                    </div>
+                    {% if form.tags.errors %}
+                        <p class="w-field__errors">{{ form.tags.errors }}</p>
+                    {% endif %}
+                    <p class="w-field__help">{{ form.tags.help_text }}</p>
+                </div>
+            </li>
+            
+            {# Campo Collezione #}
+            <li class="w-field w-field--choice_field w-field--select">
+                <div class="w-field__wrapper">
+                    <label class="w-field__label" for="id_collection">
+                        {% trans "Collezione" %}
+                    </label>
+                    <div class="w-field__input">
+                        {{ form.collection }}
+                    </div>
+                    {% if form.collection.errors %}
+                        <p class="w-field__errors">{{ form.collection.errors }}</p>
+                    {% endif %}
+                    <p class="w-field__help">{{ form.collection.help_text }}</p>
+                </div>
+            </li>
+            
+            {# Campo Immagini #}
+            <li class="w-field w-field--file_field w-field--file_input">
+                <div class="w-field__wrapper">
+                    <label class="w-field__label" for="id_images">
+                        {% trans "Immagini" %}
+                        <span class="w-required-mark">*</span>
+                    </label>
+                    <div class="w-field__input">
+                        {{ form.images }}
+                    </div>
+                    {% if form.images.errors %}
+                        <p class="w-field__errors">{{ form.images.errors }}</p>
+                    {% endif %}
+                    <p class="w-field__help">{{ form.images.help_text }}</p>
+                </div>
+            </li>
+        </ul>
+        
+        {# Pulsanti Azione #}
+        <footer class="footer">
+            <ul>
+                <li class="footer__container">
+                    <button type="submit" class="button action-save button-longrunning" data-clicked-text="{% trans 'Caricamento in corso...' %}">
+                        <svg class="icon icon-upload button-longrunning__icon" aria-hidden="true">
+                            <use href="#icon-upload"></use>
+                        </svg>
+                        <em>{% trans "Carica immagini" %}</em>
+                    </button>
+                </li>
+            </ul>
+        </footer>
+    </form>
+</div>
+
+<style>
+    .bulk-upload-form .w-field__input input[type="text"],
+    .bulk-upload-form .w-field__input select {
+        width: 100%;
+        max-width: 600px;
+    }
+    
+    .bulk-upload-form .help-text {
+        margin-bottom: 2rem;
+        color: var(--w-color-text-meta);
+    }
+    
+    .bulk-upload-form .w-field-panel {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .bulk-upload-form .w-field {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: var(--w-color-surface-container);
+        border-radius: 8px;
+    }
+    
+    .bulk-upload-form .w-field__label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    
+    .bulk-upload-form .w-field__help {
+        font-size: 0.875rem;
+        color: var(--w-color-text-meta);
+        margin-top: 0.5rem;
+    }
+    
+    .bulk-upload-form .w-required-mark {
+        color: var(--w-color-critical-200);
+    }
+</style>
+{% endblock %}

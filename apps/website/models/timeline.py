@@ -9,11 +9,11 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.fields import StreamField
 from wagtail.models import Page
 
-from apps.core.schema import SchemaOrgMixin, article
+from apps.core.seo import JsonLdMixin, article
 from apps.website.blocks import ArticleBlock
 
 
-class TimelinePage(SchemaOrgMixin, Page):
+class TimelinePage(JsonLdMixin, Page):
     """
     Pagina Timeline - schema.org ItemList.
     
@@ -63,10 +63,10 @@ class TimelinePage(SchemaOrgMixin, Page):
         )
     
     # === Schema.org Methods ===
-    def get_schema_org_type(self) -> str:
+    def get_json_ld_type(self) -> str:
         return "ItemList"
     
-    def get_schema_org_data(self) -> dict:
+    def get_json_ld_data(self, request=None) -> dict:
         items = []
         for idx, art in enumerate(self.get_articles_sorted(), start=1):
             item = article(

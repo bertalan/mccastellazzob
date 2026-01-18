@@ -6,19 +6,33 @@ Pagine Chi Siamo con sottopagine:
 - BoardPage (Consiglio Direttivo - schema.org Organization with members)
 - TransparencyPage (Trasparenza - schema.org WebPage)
 - ContactPage (Contatti - schema.org ContactPage)
+
+I dati organizzazione vengono da wagtailseo.SeoSettings.
 """
+import hashlib
+import hmac
+import random
+import time
+import logging
+
+from django.conf import settings
+from django.core.mail import EmailMessage
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.http import JsonResponse
+from django.template.response import TemplateResponse
+from django.utils.translation import gettext_lazy as _, gettext
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
-from apps.core.schema import SchemaOrgMixin, person, postal_address
+logger = logging.getLogger(__name__)
+
+from apps.core.seo import JsonLdMixin, clean_html, person, get_organization_data, get_seo_settings
 from apps.core.maps import get_default_location
-from apps.website.blocks import MemberBlock, DocumentBlock, MapBlock, StatsBlock, ValuesBlock, TimelineBlock
+from apps.website.blocks import MemberBlock, DocumentBlock, MapBlock, StatsBlock, ValuesBlock, TimelineBlock, FAQItemBlock
 
 
-class AboutPage(SchemaOrgMixin, Page):
+class AboutPage(JsonLdMixin, Page):
     """
     Pagina Chi Siamo principale - schema.org AboutPage.
     """
@@ -130,22 +144,22 @@ class AboutPage(SchemaOrgMixin, Page):
         verbose_name_plural = _("Chi Siamo")
     
     # === Schema.org Methods ===
-    def get_schema_org_type(self) -> str:
+    def get_json_ld_type(self) -> str:
         return "AboutPage"
     
-    def get_schema_org_data(self) -> dict:
+    def get_json_ld_data(self, request=None) -> dict:
         data = {
             "name": self.title,
             "url": self.full_url,
         }
         if self.intro:
-            data["description"] = self.intro
+            data["description"] = clean_html(self.intro)
         if self.image:
             data["image"] = self.image.get_rendition("original").url
         return data
 
 
-class BoardPage(SchemaOrgMixin, Page):
+class BoardPage(JsonLdMixin, Page):
     """
     Pagina Consiglio Direttivo - schema.org Organization con members.
     """
@@ -186,10 +200,10 @@ class BoardPage(SchemaOrgMixin, Page):
         return members_list
     
     # === Schema.org Methods ===
-    def get_schema_org_type(self) -> str:
+    def get_json_ld_type(self) -> str:
         return "Organization"
     
-    def get_schema_org_data(self) -> dict:
+    def get_json_ld_data(self, request=None) -> dict:
         members = []
         for m in self.get_members_list():
             members.append(person(
@@ -205,7 +219,7 @@ class BoardPage(SchemaOrgMixin, Page):
         }
 
 
-class TransparencyPage(SchemaOrgMixin, Page):
+class TransparencyPage(JsonLdMixin, Page):
     """
     Pagina Trasparenza - schema.org WebPage con documenti allegati.
     """
@@ -238,18 +252,18 @@ class TransparencyPage(SchemaOrgMixin, Page):
         verbose_name_plural = _("Trasparenza")
     
     # === Schema.org Methods ===
-    def get_schema_org_type(self) -> str:
+    def get_json_ld_type(self) -> str:
         return "WebPage"
     
-    def get_schema_org_data(self) -> dict:
+    def get_json_ld_data(self, request=None) -> dict:
         return {
             "name": self.title,
             "url": self.full_url,
-            "description": self.intro if self.intro else "",
+            "description": clean_html(self.intro) if self.intro else "",
         }
 
 
-class ContactPage(SchemaOrgMixin, Page):
+class ContactPage(JsonLdMixin, Page):
     """
     Pagina Contatti - schema.org ContactPage con form e mappa OpenStreetMap.
     """
@@ -361,6 +375,29 @@ class ContactPage(SchemaOrgMixin, Page):
         help_text=_("Es: 'Ampio parcheggio gratuito disponibile'"),
     )
     
+    # FAQ
+    faq = StreamField(
+        [("item", FAQItemBlock())],
+        blank=True,
+        use_json_field=True,
+        verbose_name=_("Domande Frequenti"),
+        help_text=_("Aggiungi le FAQ. Lascia vuoto per nascondere la sezione."),
+    )
+    
+    faq_title = models.CharField(
+        _("Titolo sezione FAQ"),
+        max_length=100,
+        default=_("Domande Frequenti"),
+        blank=True,
+    )
+    
+    faq_subtitle = models.CharField(
+        _("Sottotitolo FAQ"),
+        max_length=255,
+        default=_("Trova rapidamente le risposte alle domande più comuni"),
+        blank=True,
+    )
+    
     # CTA
     cta_title = models.CharField(
         _("Titolo CTA"),
@@ -424,6 +461,14 @@ class ContactPage(SchemaOrgMixin, Page):
         ),
         MultiFieldPanel(
             [
+                FieldPanel("faq_title"),
+                FieldPanel("faq_subtitle"),
+                FieldPanel("faq"),
+            ],
+            heading=_("FAQ - Domande Frequenti"),
+        ),
+        MultiFieldPanel(
+            [
                 FieldPanel("cta_title"),
                 FieldPanel("cta_description"),
             ],
@@ -442,62 +487,42 @@ class ContactPage(SchemaOrgMixin, Page):
         return get_default_location()
     
     # === Schema.org Methods ===
-    def get_schema_org_type(self) -> str:
+    def get_json_ld_type(self) -> str:
         return "Organization"
     
-    def get_schema_org_data(self) -> dict:
+    def get_json_ld_data(self, request=None) -> dict:
         """
         Schema.org Organization con ContactPoint.
         https://schema.org/Organization
-        I dati vengono presi da SiteSettings per evitare testo hardcoded.
+        I dati vengono presi da wagtailseo.SeoSettings (fonte unica).
         """
-        from apps.core.schema import contact_point
-        from apps.website.models.settings import SiteSettings
+        # Ottieni dati base da SeoSettings
+        data = get_organization_data(self)
         
-        # Carica le impostazioni del sito
-        site = self.get_site()
-        settings = SiteSettings.load(request_or_site=site) if site else None
+        # Aggiungi dati specifici della pagina Contatti
+        if self.phone:
+            data["telephone"] = self.phone
+        if self.email:
+            data["contactPoint"] = {
+                "@type": "ContactPoint",
+                "email": self.email,
+                "telephone": self.phone if self.phone else "",
+                "contactType": "customer service",
+            }
         
-        # Valori da SiteSettings o fallback
-        org_name = settings.organization_name if settings else "MC Castellazzo Bormida"
-        org_alternate = settings.organization_alternate_name if settings else ""
-        org_founding = str(settings.organization_founding_year) if settings else "1933"
-        org_description = settings.organization_description if settings else ""
-        org_city = settings.organization_city if settings else "Castellazzo Bormida"
-        org_region = settings.organization_region if settings else "Piemonte"
-        org_postal_code = settings.organization_postal_code if settings else "15073"
-        org_country = settings.organization_country if settings else "IT"
-        
-        data = {
-            "name": org_name,
-            "url": site.root_url if site else "",
-            "foundingDate": org_founding,
-        }
-        
-        # Logo dall'immagine in SiteSettings
-        if settings and settings.logo:
-            logo_url = settings.logo.file.url
-            # Assicurati che l'URL sia assoluto
-            if site and not logo_url.startswith("http"):
-                logo_url = site.root_url.rstrip("/") + logo_url
-            data["logo"] = logo_url
-        
-        if org_alternate:
-            data["alternateName"] = org_alternate
-        if org_description:
-            data["description"] = org_description
-        
-        # Indirizzo
+        # Indirizzo dalla pagina (se presente) o da SeoSettings
         if self.address:
-            data["address"] = postal_address(
-                street=self.address,
-                city=org_city,
-                region=org_region,
-                country=org_country,
-                postal_code=org_postal_code,
-            )
+            seo = get_seo_settings(self)
+            data["address"] = {
+                "@type": "PostalAddress",
+                "streetAddress": self.address,
+                "addressLocality": seo.struct_org_address_locality or "Castellazzo Bormida",
+                "addressRegion": seo.struct_org_address_region or "Piemonte",
+                "postalCode": seo.struct_org_address_postal or "15073",
+                "addressCountry": seo.struct_org_address_country or "IT",
+            }
         
-        # Coordinate geo
+        # Coordinate geo dalla pagina
         if self.latitude and self.longitude:
             data["geo"] = {
                 "@type": "GeoCoordinates",
@@ -505,12 +530,260 @@ class ContactPage(SchemaOrgMixin, Page):
                 "longitude": self.longitude,
             }
         
-        # Contatti
-        if self.phone or self.email:
-            data["contactPoint"] = contact_point(
-                telephone=self.phone,
-                email=self.email,
-                contact_type="customer service",
-            )
-        
         return data
+    
+    # === Anti-Spam: Honeypot + Timestamp (solo) ===
+    
+    MIN_FORM_TIME = 10  # Secondi minimi per compilare il form
+    MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB per file
+    MAX_FILES = 3  # Massimo 3 allegati
+    ALLOWED_EXTENSIONS = {'.pdf', '.jpg', '.jpeg', '.png', '.doc', '.docx', '.txt'}
+    
+    def _get_secret_key(self):
+        """Chiave segreta per HMAC."""
+        return getattr(settings, 'SECRET_KEY', 'fallback-secret')[:32]
+    
+    def generate_captcha_token(self):
+        """
+        Genera token con timestamp firmato (senza CAPTCHA matematico).
+        Returns: dict con timestamp_token
+        """
+        timestamp = int(time.time())
+        
+        # Crea token HMAC: solo timestamp
+        payload = str(timestamp)
+        signature = hmac.new(
+            self._get_secret_key().encode(),
+            payload.encode(),
+            hashlib.sha256
+        ).hexdigest()[:16]
+        
+        return {
+            'timestamp_token': f"{timestamp}:{signature}",
+        }
+    
+    def verify_timestamp(self, token):
+        """
+        Verifica il timestamp: form compilato in >10 secondi.
+        Returns: (bool success, str error_message)
+        """
+        if not token:
+            return False, gettext("Token anti-spam mancante")
+        
+        try:
+            parts = token.split(':')
+            if len(parts) != 2:
+                return False, gettext("Token non valido")
+            
+            timestamp, signature = parts
+            timestamp = int(timestamp)
+            
+            # Verifica firma HMAC
+            payload = str(timestamp)
+            expected_sig = hmac.new(
+                self._get_secret_key().encode(),
+                payload.encode(),
+                hashlib.sha256
+            ).hexdigest()[:16]
+            
+            if not hmac.compare_digest(signature, expected_sig):
+                return False, gettext("Token manipolato")
+            
+            # Verifica tempo minimo (10 secondi)
+            elapsed = int(time.time()) - timestamp
+            if elapsed < self.MIN_FORM_TIME:
+                return False, gettext("Hai compilato il form troppo velocemente")
+            
+            # Verifica token non troppo vecchio (1 ora)
+            if elapsed > 3600:
+                return False, gettext("Il form è scaduto, ricarica la pagina")
+            
+            return True, ""
+            
+        except (ValueError, AttributeError) as e:
+            logger.warning(f"Timestamp verification failed: {e}")
+            return False, gettext("Errore verifica anti-spam")
+    
+    def verify_honeypot(self, request):
+        """Verifica che il campo honeypot sia vuoto."""
+        honeypot = request.POST.get('website', '')
+        if honeypot:
+            logger.warning(f"Honeypot triggered from {request.META.get('REMOTE_ADDR')}")
+            return False
+        return True
+    
+    def validate_attachments(self, files):
+        """
+        Valida gli allegati: dimensione, tipo, numero.
+        Returns: (list of valid files, list of errors)
+        """
+        valid_files = []
+        errors = []
+        
+        if len(files) > self.MAX_FILES:
+            errors.append(gettext("Puoi allegare massimo %(max)s file") % {'max': self.MAX_FILES})
+            files = files[:self.MAX_FILES]
+        
+        for f in files:
+            # Verifica estensione
+            ext = '.' + f.name.split('.')[-1].lower() if '.' in f.name else ''
+            if ext not in self.ALLOWED_EXTENSIONS:
+                errors.append(
+                    gettext("Tipo file non permesso: %(name)s. Usa: %(allowed)s") % {
+                        'name': f.name,
+                        'allowed': ', '.join(self.ALLOWED_EXTENSIONS)
+                    }
+                )
+                continue
+            
+            # Verifica dimensione
+            if f.size > self.MAX_FILE_SIZE:
+                errors.append(
+                    gettext("File troppo grande: %(name)s (max 5MB)") % {'name': f.name}
+                )
+                continue
+            
+            valid_files.append(f)
+        
+        return valid_files, errors
+    
+    def send_contact_email(self, form_data, attachments=None):
+        """
+        Invia email di contatto con allegati.
+        """
+        subject = gettext("[MC Castellazzo] Nuovo messaggio: %(subject)s") % {
+            'subject': dict([
+                ('iscrizione', gettext('Richiesta Iscrizione')),
+                ('eventi', gettext('Informazioni Eventi')),
+                ('collaborazioni', gettext('Collaborazioni')),
+                ('altro', gettext('Altro')),
+            ]).get(form_data.get('oggetto', 'altro'), form_data.get('oggetto', 'Contatto'))
+        }
+        
+        body = f"""
+Nuovo messaggio dal sito MC Castellazzo
+========================================
+
+Nome: {form_data.get('nome', '')} {form_data.get('cognome', '')}
+Email: {form_data.get('email', '')}
+Telefono: {form_data.get('telefono', 'Non fornito')}
+Argomento: {form_data.get('oggetto', '')}
+
+Messaggio:
+{form_data.get('messaggio', '')}
+
+---
+Inviato dal form contatti di mccastellazzo.com
+"""
+        
+        # Destinatario: email della pagina o default
+        to_email = self.email or getattr(settings, 'DEFAULT_FROM_EMAIL', 'info@mccastellazzo.com')
+        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@mccastellazzo.com')
+        reply_to = form_data.get('email', '')
+        
+        email = EmailMessage(
+            subject=subject,
+            body=body,
+            from_email=from_email,
+            to=[to_email],
+            reply_to=[reply_to] if reply_to else None,
+        )
+        
+        # Aggiungi allegati
+        if attachments:
+            for f in attachments:
+                email.attach(f.name, f.read(), f.content_type)
+        
+        try:
+            email.send(fail_silently=False)
+            return True, ""
+        except Exception as e:
+            logger.error(f"Failed to send contact email: {e}")
+            return False, gettext("Errore nell'invio dell'email. Riprova più tardi.")
+    
+    def get_context(self, request, *args, **kwargs):
+        """Aggiunge dati CAPTCHA al context."""
+        context = super().get_context(request, *args, **kwargs)
+        context['captcha'] = self.generate_captcha_token()
+        context['form_errors'] = []
+        context['form_success'] = False
+        return context
+    
+    def serve(self, request, *args, **kwargs):
+        """
+        Gestisce GET e POST del form contatti.
+        """
+        if request.method == 'POST':
+            context = self.get_context(request, *args, **kwargs)
+            errors = []
+            
+            # 1. Verifica honeypot
+            if not self.verify_honeypot(request):
+                # Non mostrare errore, simula successo per i bot
+                context['form_success'] = True
+                return TemplateResponse(request, self.template, context)
+            
+            # 2. Verifica Timestamp (>10 secondi)
+            token = request.POST.get('captcha_token', '')
+            timestamp_valid, timestamp_error = self.verify_timestamp(token)
+            
+            if not timestamp_valid:
+                errors.append(timestamp_error)
+            
+            # 3. Valida campi obbligatori
+            required_fields = ['nome', 'cognome', 'email', 'oggetto', 'messaggio', 'privacy']
+            for field in required_fields:
+                if not request.POST.get(field):
+                    field_names = {
+                        'nome': gettext('Nome'),
+                        'cognome': gettext('Cognome'),
+                        'email': gettext('Email'),
+                        'oggetto': gettext('Oggetto'),
+                        'messaggio': gettext('Messaggio'),
+                        'privacy': gettext('Accettazione Privacy'),
+                    }
+                    errors.append(gettext("Campo obbligatorio: %(field)s") % {'field': field_names.get(field, field)})
+            
+            # 4. Valida allegati
+            attachments = request.FILES.getlist('allegati')
+            valid_attachments, attachment_errors = self.validate_attachments(attachments)
+            errors.extend(attachment_errors)
+            
+            # 5. Se ci sono errori, mostra il form con errori
+            if errors:
+                context['form_errors'] = errors
+                context['captcha'] = self.generate_captcha_token()  # Nuovo token
+                # Mantieni i valori inseriti
+                context['form_data'] = request.POST
+                return TemplateResponse(request, self.template, context)
+            
+            # 6. Invia email
+            form_data = {
+                'nome': request.POST.get('nome', ''),
+                'cognome': request.POST.get('cognome', ''),
+                'email': request.POST.get('email', ''),
+                'telefono': request.POST.get('telefono', ''),
+                'oggetto': request.POST.get('oggetto', ''),
+                'messaggio': request.POST.get('messaggio', ''),
+            }
+            
+            success, email_error = self.send_contact_email(form_data, valid_attachments)
+            
+            if not success:
+                context['form_errors'] = [email_error]
+                context['captcha'] = self.generate_captcha_token()
+                context['form_data'] = request.POST
+                return TemplateResponse(request, self.template, context)
+            
+            # 7. Successo!
+            context['form_success'] = True
+            context['success_message'] = self.form_success_message or gettext("Grazie per averci contattato!")
+            
+            # Per richieste AJAX
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'success': True, 'message': str(context['success_message'])})
+            
+            return TemplateResponse(request, self.template, context)
+        
+        # GET request
+        return super().serve(request, *args, **kwargs)

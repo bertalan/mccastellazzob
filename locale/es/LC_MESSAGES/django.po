@@ -473,7 +473,7 @@ msgstr "Documento"
 #: apps/website/models/about.py:264 apps/website/models/home.py:62
 #: apps/website/models/home.py:163 apps/website/models/settings.py:75
 msgid "Indirizzo"
-msgstr "DIRECCIÓN"
+msgstr "Dirección"
 
 #: apps/website/blocks.py:574
 msgid "Indirizzo da geocodificare"
@@ -768,7 +768,7 @@ msgstr "Llamado a la acción"
 #: templates/website/base.jinja2:634 templates/website/base_old.jinja2:561
 #: templates/website/base_old.jinja2:601
 msgid "Contatti"
-msgstr "Contactos"
+msgstr "Contacto"
 
 #: apps/website/models/events.py:44
 msgid "Nome luogo"
@@ -885,7 +885,7 @@ msgstr "Página principal"
 #: templates/website/base.jinja2:627
 #: templates/website/pages/contact_page.jinja2:121
 msgid "Privacy Policy"
-msgstr "política de privacidad"
+msgstr "Política de Privacidad"
 
 #: apps/website/models/settings.py:20
 msgid "Nome Organizzazione"
@@ -1261,7 +1261,7 @@ msgstr "DESDE"
 #: templates/website/base.jinja2:615 templates/website/base_old.jinja2:557
 #| msgid "Homepage"
 msgid "Home"
-msgstr "Página principal"
+msgstr "Inicio"
 
 #: templates/website/base.jinja2:434 templates/website/base.jinja2:511
 #: templates/website/base.jinja2:616
@@ -1382,12 +1382,12 @@ msgstr "Foto anterior"
 #: templates/website/blocks/hero_slider_block.html:28
 #: templates/website/pages/home_page.jinja2:46
 msgid "Foto successiva"
-msgstr "siguiente foto"
+msgstr "Foto siguiente"
 
 #: templates/website/blocks/hero_slider_block.html:37
 #: templates/website/pages/home_page.jinja2:53
 msgid "Vai alla foto"
-msgstr "ir a la foto"
+msgstr "Ir a la foto"
 
 #: templates/website/blocks/timeline_block.html:6
 #: templates/website/pages/about_page.jinja2:194
@@ -1455,7 +1455,7 @@ msgstr "Hoy el club cuenta más allá"
 #: templates/website/pages/about_page.jinja2:87
 #| msgid "Numero soci attivi"
 msgid "soci attivi"
-msgstr "Número de miembros activos"
+msgstr "socios activos"
 
 #: templates/website/pages/about_page.jinja2:88
 msgid ""
@@ -1564,7 +1564,7 @@ msgstr "Descubra más"
 #: templates/website/pages/events_page.jinja2:67
 #| msgid "Leggi di più"
 msgid "Scopri di più"
-msgstr "Saber más"
+msgstr "Descubre más"
 
 #: templates/website/pages/board_page.jinja2:20
 msgid "Il Consiglio"
@@ -1604,7 +1604,7 @@ msgstr "No hay miembros disponibles."
 
 #: templates/website/pages/board_page.jinja2:102
 msgid "Vuoi Contribuire?"
-msgstr "¿Quieres contribuir?"
+msgstr "¿Quieres Contribuir?"
 
 #: templates/website/pages/board_page.jinja2:104
 msgid "Metti le Tue Idee al Servizio del Club"
@@ -1622,11 +1622,11 @@ msgstr ""
 
 #: templates/website/pages/board_page.jinja2:118
 msgid "Prossime Riunioni"
-msgstr "Próximas reuniones"
+msgstr "Próximas Reuniones"
 
 #: templates/website/pages/board_page.jinja2:125
 msgid "Assemblea Annuale"
-msgstr "Encuentro anual"
+msgstr "Asamblea Anual"
 
 #: templates/website/pages/board_page.jinja2:126
 msgid ""
@@ -1638,7 +1638,7 @@ msgstr ""
 #: templates/website/pages/board_page.jinja2:130
 #| msgid "Anno Fondazione"
 msgid "Fondazione"
-msgstr "Año de fundación"
+msgstr "Fundación"
 
 #: templates/website/pages/contact_page.jinja2:54
 msgid "Sezione contatti"
@@ -1658,7 +1658,7 @@ msgstr "Apellido"
 
 #: templates/website/pages/contact_page.jinja2:96
 msgid "Oggetto"
-msgstr "Objeto"
+msgstr "Asunto"
 
 #: templates/website/pages/contact_page.jinja2:100
 msgid "Seleziona un argomento"
@@ -1827,7 +1827,7 @@ msgstr "Detalles"
 #: templates/website/pages/event_detail_page.jinja2:147
 #| msgid "Data fine"
 msgid "Data e Ora"
-msgstr "Fecha de finalización"
+msgstr "Fecha y Hora"
 
 #: templates/website/pages/event_detail_page.jinja2:151
 msgid "fino a"
@@ -2038,4 +2038,133 @@ msgstr "¿Necesitas otros documentos?"
 
 #: templates/website/pages/transparency_page.jinja2:100
 msgid "Contattaci per richiedere informazioni o documenti specifici."
-msgstr "Contáctenos para solicitar información o documentos específicos."
+msgstr "Contáctanos para solicitar información o documentos específicos."
+
+msgid "Leggi tutto"
+msgstr "Leer más"
+
+msgid "Invia"
+msgstr "Enviar"
+
+msgid "Invia messaggio"
+msgstr "Enviar mensaje"
+
+msgid "Chi siamo"
+msgstr "Quiénes somos"
+
+msgid "Il tuo messaggio"
+msgstr "Tu mensaje"
+
+msgid "Il tuo nome"
+msgstr "Tu nombre"
+
+msgid "La tua email"
+msgstr "Tu correo electrónico"
+
+msgid "Rispondiamo al più presto"
+msgstr "Responderemos lo antes posible"
+
+msgid "Token anti-spam mancante"
+msgstr "Token anti-spam faltante"
+
+msgid "Token non valido"
+msgstr "Token no válido"
+
+msgid "Invio troppo veloce"
+msgstr "Envío demasiado rápido"
+
+msgid "FAQ"
+msgstr "FAQ"
+
+msgid "FAQ - Domande Frequenti"
+msgstr "FAQ - Preguntas Frecuentes"
+
+msgid "La domanda frequente"
+msgstr "La pregunta frecuente"
+
+msgid "La risposta alla domanda"
+msgstr "La respuesta a la pregunta"
+
+msgid "Seguici"
+msgstr "Síguenos"
+
+msgid "Iscriviti alla Newsletter"
+msgstr "Suscríbete al Boletín"
+
+msgid "Cookie Policy"
+msgstr "Política de Cookies"
+
+msgid "Tutti i diritti riservati"
+msgstr "Todos los derechos reservados"
+
+msgid "Scopri la storia"
+msgstr "Descubre la historia"
+
+msgid "Iscriviti"
+msgstr "Suscríbete"
+
+msgid "Diventa socio"
+msgstr "Hazte socio"
+
+msgid "Raduno dei Centauri"
+msgstr "Rally de los Centauros"
+
+msgid "I Nostri Numeri"
+msgstr "Nuestros Números"
+
+msgid "anni di storia"
+msgstr "años de historia"
+
+msgid "eventi annuali"
+msgstr "eventos anuales"
+
+msgid "sezioni estere"
+msgstr "secciones extranjeras"
+
+msgid "Il Consiglio Direttivo"
+msgstr "La Junta Directiva"
+
+msgid "Presidente"
+msgstr "Presidente"
+
+msgid "Vice Presidente"
+msgstr "Vicepresidente"
+
+msgid "Segretario"
+msgstr "Secretario"
+
+msgid "Tesoriere"
+msgstr "Tesorero"
+
+msgid "Consigliere"
+msgstr "Consejero"
+
+msgid "Dove Siamo"
+msgstr "Dónde Estamos"
+
+msgid "Orari"
+msgstr "Horarios"
+
+msgid "Scrivi un messaggio"
+msgstr "Escribe un mensaje"
+
+msgid "Inviaci un messaggio"
+msgstr "Envíanos un mensaje"
+
+msgid "Moto Club Castellazzo Bormida - Dal 1933, passione su due ruote nel cuore del Piemonte"
+msgstr "Moto Club Castellazzo Bormida - Desde 1933, pasión sobre dos ruedas en el corazón del Piamonte"
+
+msgid "Allegati"
+msgstr "Adjuntos"
+
+msgid "Trascina i file qui"
+msgstr "Arrastra los archivos aquí"
+
+msgid "oppure clicca per selezionare"
+msgstr "o haz clic para seleccionar"
+
+msgid "Max 3 file, 5MB ciascuno. Formati: PDF, JPG, PNG, DOC, DOCX, TXT"
+msgstr "Máx. 3 archivos, 5MB cada uno. Formatos: PDF, JPG, PNG, DOC, DOCX, TXT"
+
+msgid "Compila il modulo e ti risponderemo al più presto."
+msgstr "Rellena el formulario y te responderemos lo antes posible."

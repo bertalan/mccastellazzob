@@ -1,25 +1,24 @@
-{# Timeline Block Template - Django #}
-{% load i18n %}
-<section class="py-20 bg-cream" aria-labelledby="timeline-heading-{{ self.id }}">
+{# Timeline Block Template - Jinja2 #}
+<section class="py-20 bg-cream" aria-labelledby="timeline-heading-{{ id }}">
     <div class="max-w-7xl mx-auto px-6">
         <div class="text-center mb-16" data-aos="fade-up">
-            <span class="text-amaranth font-bold text-sm uppercase tracking-widest">{% trans "La Nostra Storia" %}</span>
-            <h2 id="timeline-heading-{{ self.id }}" class="text-3xl md:text-5xl font-heading font-black text-navy mt-4">
-                {{ self.heading }}
+            <span class="text-amaranth font-bold text-sm uppercase tracking-widest">{{ _("La Nostra Storia") }}</span>
+            <h2 id="timeline-heading-{{ id }}" class="text-3xl md:text-5xl font-heading font-black text-navy mt-4">
+                {{ value.heading }}
             </h2>
         </div>
         
-        <div class="relative" role="list" aria-label="{% trans "Timeline storica del club" %}">
+        <div class="relative" role="list" aria-label="{{ _('Timeline storica del club') }}">
             {# Timeline Line - visibile solo su desktop #}
             <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gold hidden md:block" aria-hidden="true"></div>
             
-            {# Timeline Items #}
+            {# Timeline Items - ordinati dal più recente #}
             <div class="space-y-12">
-                {% for event in self.events %}
-                <div class="relative" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00" role="listitem">
+                {% for event in value.events|reverse %}
+                <div class="relative" data-aos="fade-up" data-aos-delay="{{ loop.index }}00" role="listitem">
                     <div class="md:flex items-center">
                         {# Alternanza posizione - dispari a sinistra, pari a destra #}
-                        {% if not forloop.counter|divisibleby:2 %}
+                        {% if loop.index is odd %}
                         {# Evento a sinistra (dispari) #}
                         <div class="md:w-1/2 md:pr-12 md:text-right">
                             <div class="bg-white rounded-2xl p-8 shadow-lg {% if event.highlight %}border-2 border-gold{% endif %}">

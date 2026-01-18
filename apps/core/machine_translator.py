@@ -191,11 +191,11 @@ class DeepTranslatorMachineTranslator(BaseMachineTranslator):
         Returns:
             Dict con StringValue originali come chiavi e traduzioni come valori
         """
-        source_lang = LANGUAGE_MAP.get(
+        source_lang = LANGUAGE_MAP_SIMPLE.get(
             source_locale.language_code, 
             source_locale.language_code
         )
-        target_lang = LANGUAGE_MAP.get(
+        target_lang = LANGUAGE_MAP_SIMPLE.get(
             target_locale.language_code,
             target_locale.language_code
         )

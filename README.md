@@ -1,28 +1,32 @@
 # MC Castellazzo Bormida - Sito Motoclub
 
-Sito web ufficiale del Motoclub Castellazzo Bormida, costruito con **CodeRedCMS/Wagtail** e **Django**.
+Sito web ufficiale del Motoclub Castellazzo Bormida, costruito con **CodeRedCMS 6.x / Wagtail 7.x LTS / Django 5.2 LTS**.
 
 ## 🏍️ Caratteristiche
 
 - **5 lingue**: IT (default), EN, FR, DE, ES - tutte paritarie con traduzioni complete
-- **Schema.org**: Markup strutturato per SEO ottimale
-- **Tema**: Gradienti oro (#D4AF37) - blu nautico (#1B263B), accenti amaranto (#9B1D64)
-- **Mappe**: OpenStreetMap + Nominatim (no Google)
+- **Schema.org**: JSON-LD automatico via `JsonLdMixin` (SportsClub, Event, AboutPage...)
+- **SEO**: Fonte unica dati in `wagtailseo.SeoSettings`, hreflang multilingua
+- **Tema**: Oro #D4AF37, Blu #1B263B, Amaranto #9B1D64
+- **Mappe**: OpenStreetMap + Leaflet.js + Nominatim (no Google)
 - **Auth**: Frontend authentication con django-allauth
+- **TDD**: Test-driven development con pytest
 
-## 📄 Pagine
+## 📄 Pagine e Schema.org
 
-| Pagina | Descrizione |
-|--------|-------------|
-| **Home** | Hero carousel, eventi in evidenza, CTA |
-| **Novità** | Timeline articoli del club |
-| **Chi Siamo** | Storia, valori, statistiche |
-| **Consiglio** | Board page con membri |
-| **Eventi** | Calendario eventi con archivio |
-| **Galleria** | Foto con filtri categoria |
-| **Contatti** | Form contatto + mappa |
-| **Trasparenza** | Documenti ufficiali |
-| **Privacy** | Policy GDPR |
+| Pagina | Tipo schema.org | Modello |
+|--------|-----------------|---------|
+| Homepage | SportsClub | `HomePage` |
+| Eventi Anno | EventSeries | `EventsPage` |
+| Dettaglio Evento | Event | `EventDetailPage` |
+| Archivio Eventi | ItemList | `EventsArchivePage` |
+| Chi Siamo | AboutPage | `AboutPage` |
+| Consiglio | Organization | `BoardPage` |
+| Trasparenza | WebPage | `TransparencyPage` |
+| Contatti | Organization | `ContactPage` |
+| Galleria | ImageGallery | `GalleryPage` |
+| Timeline | ItemList | `TimelinePage` |
+| Privacy | WebPage | `PrivacyPage` |
 
 ## 🚀 Sviluppo con Docker
 
@@ -43,16 +47,26 @@ docker compose up -d
 ```
 mccastellazzob/
 ├── apps/
-│   ├── core/           # Context processors, schema, traduzioni
+│   ├── core/           # SEO module (JsonLdMixin), context processors, traduzioni
 │   ├── website/        # Models, blocks, snippets (Navbar/Footer)
 │   └── custom_user/    # User model personalizzato
 ├── mccastellazzob/     # Settings Django (base, dev, docker, prod)
-├── templates/          # Jinja2 templates (pages, blocks, account)
+├── templates/          # Jinja2 templates (.jinja2)
 ├── locale/             # Traduzioni .po/.mo (de, en, es, fr)
-└── tests/              # Test suite TDD (60+ test)
+└── tests/              # Test suite TDD (pytest)
 ```
 
-## 🔧 Comandi Utili
+## 🔧 Architettura SEO
+
+Il modulo `apps/core/seo.py` centralizza la gestione SEO:
+
+- **Fonte unica**: `wagtailseo.SeoSettings` (Settings > SEO in admin)
+- **`SiteSettings`**: Solo social URLs e footer (no dati org duplicati)
+- **`JsonLdMixin`**: Mixin per JSON-LD custom nelle pagine
+- **Helpers**: `get_organization_data()`, `place()`, `event()`, `person()`, `clean_html()`
+- **Multilingua**: `get_alternate_urls()`, hreflang automatici in base.jinja2
+
+## 🔧 Comandi Docker
 
 ```bash
 # Migrazioni
@@ -84,6 +98,37 @@ Le traduzioni sono gestite su due livelli:
 - `/it/galleria/` → `/en/gallery/` → `/fr/galerie/` → `/de/galerie/` → `/es/galeria/`
 - `/it/eventi/` → `/en/events/` → `/fr/evenements/` → `/de/veranstaltungen/` → `/es/eventos/`
 
+### Forzare Traduzioni
+
+Il comando `force_translate` sincronizza e traduce automaticamente le pagine:
+
+```bash
+# Tradurre UNA pagina specifica (per ID)
+docker compose exec web python manage.py force_translate --page=3
+
+# Tradurre UNA pagina specifica (per slug)
+docker compose exec web python manage.py force_translate --slug=home
+
+# Solo vedere cosa farebbe (dry-run)
+docker compose exec web python manage.py force_translate --page=5 --dry-run
+
+# Tradurre TUTTE le pagine
+docker compose exec web python manage.py force_translate
+
+# Saltare segmenti già tradotti (più veloce)
+docker compose exec web python manage.py force_translate --skip-existing
+```
+
+| Pagina | ID |
+|--------|-----|
+| Home | 3 |
+| Novità | 4 |
+| Chi Siamo | 5 |
+| Consiglio | 6 |
+| Trasparenza | 7 |
+| Motocavalcata | 15 |
+| Galleria | 1761 |
+
 ## 🧪 Test
 
 ```bash
@@ -99,14 +144,22 @@ docker compose exec web pytest --cov=apps
 
 ## 📦 Tech Stack
 
-- **Framework**: Django 5.2 + Wagtail 7.0 + CodeRedCMS 6.0
+- **Framework**: Django 5.2 LTS + Wagtail 7.x LTS + CodeRedCMS 6.x
 - **Database**: PostgreSQL 15
-- **Template Engine**: Jinja2
+- **Template Engine**: Jinja2 (.jinja2)
 - **CSS**: Bootstrap 5 con variabili custom
-- **i18n**: wagtail-localize 1.9 + django i18n
-- **Auth**: django-allauth 65
-- **Testing**: pytest 8 + pytest-django + factory_boy
+- **SEO**: wagtailseo (SeoSettings, struct_org_*)
+- **i18n**: wagtail-localize + django i18n
+- **Auth**: django-allauth
+- **Testing**: pytest + pytest-django + factory_boy
 - **Python**: 3.11+
+
+## 📚 Documentazione
+
+- **[CLAUDE.md](CLAUDE.md)**: Istruzioni sviluppo e principi chiave
+- **[SEO_SCHEMA_GUIDE.md](SEO_SCHEMA_GUIDE.md)**: Guida SEO e schema.org
+- **[MULTILANGUAGE_FLAGS_GUIDE.md](MULTILANGUAGE_FLAGS_GUIDE.md)**: Gestione multilingua
+- **[TDD_NAVIGATION_REPORT.md](TDD_NAVIGATION_REPORT.md)**: Report navigazione
 
 ## 📝 License
 

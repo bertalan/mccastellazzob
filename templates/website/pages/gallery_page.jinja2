@@ -1,128 +1,436 @@
 {% extends "website/base.jinja2" %}
-{% block title %}{{ page.title }} | {{ page.get_site.site_name }}{% endblock %}
+{% from "website/includes/gold_title.jinja2" import gold_title %}
+{% block title %}{{ page.title|replace('**', '') }}{% endblock %}
 
 {% block content %}
-<main id="main-content" role="main" class="pt-24">
-    <!-- Page Header -->
-    <section class="py-16 bg-navy">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <h1 class="text-4xl md:text-5xl font-heading font-black text-white mb-4" data-aos="fade-up">
-                {{ page.title }}
-            </h1>
-            {% if page.intro %}
-            <div class="text-xl text-gray-300 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">
-                {{ page.intro|richtext }}
+{# Hero Section #}
+<header class="pt-32 pb-16 bg-navy" role="banner">
+    <div class="max-w-7xl mx-auto px-6">
+        {# Breadcrumb #}
+        <nav aria-label="Breadcrumb" class="mb-8">
+            <ol class="flex items-center gap-2 text-sm text-gray-400">
+                {% for ancestor in page.get_ancestors(inclusive=False)[1:] %}
+                <li><a href="{{ ancestor.url }}" class="hover:text-gold transition">{{ ancestor.title }}</a></li>
+                <li><i class="fas fa-chevron-right text-xs" aria-hidden="true"></i></li>
+                {% endfor %}
+                <li aria-current="page" class="text-gold">{{ page.title|replace('**', '') }}</li>
+            </ol>
+        </nav>
+        
+        <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up">
+            {{ gold_title(page.title) }}
+        </h1>
+        {% if page.intro %}
+        <div class="text-xl text-gray-300 max-w-3xl" data-aos="fade-up" data-aos-delay="100">
+            {{ page.intro|richtext }}
+        </div>
+        {% endif %}
+    </div>
+</header>
+
+<main id="main-content" role="main">
+    
+    {# Gallery Sections #}
+    {% set sections = page.get_gallery_sections() %}
+    {% set all_images = page.get_all_images() %}
+    {% set categories = page.get_categories() %}
+    {% set all_tags = page.get_all_tags() %}
+    
+    {% if sections %}
+    {# ======================================== #}
+    {# FILTRI GALLERIA                          #}
+    {# ======================================== #}
+    <section class="sticky top-20 z-40 bg-white/95 backdrop-blur-sm shadow-md py-4 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="space-y-4">
+                
+                {# Riga 1: Filtro Sezioni/Gallerie #}
+                {% if sections|length > 1 %}
+                <div class="flex flex-wrap items-center gap-2 justify-center">
+                    <span class="text-xs text-gray-500 font-medium uppercase tracking-wide mr-2">
+                        <i class="fas fa-images mr-1" aria-hidden="true"></i>{{ _("Galleria:") }}
+                    </span>
+                    <button class="section-filter-btn active px-3 py-1.5 rounded-full text-sm font-semibold transition bg-navy text-white" 
+                            data-section="all">
+                        {{ _("Tutte") }}
+                    </button>
+                    {% for section in sections %}
+                    <button class="section-filter-btn px-3 py-1.5 rounded-full text-sm font-semibold transition bg-cream text-navy hover:bg-gold" 
+                            data-section="{{ section.id }}">
+                        {{ section.title }}
+                        <span class="ml-1 text-xs opacity-60">({{ section.images|length }})</span>
+                    </button>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                {# Riga 2: Filtro Categorie #}
+                {% if page.show_filters and categories %}
+                <div class="flex flex-wrap items-center gap-2 justify-center">
+                    <span class="text-xs text-gray-500 font-medium uppercase tracking-wide mr-2">
+                        <i class="fas fa-folder mr-1" aria-hidden="true"></i>{{ _("Categoria:") }}
+                    </span>
+                    <button class="category-filter-btn active px-3 py-1.5 rounded-full text-sm font-semibold transition bg-amaranth text-white" 
+                            data-category="all">
+                        {{ _("Tutte") }}
+                    </button>
+                    {% for cat in categories %}
+                    <button class="category-filter-btn px-3 py-1.5 rounded-full text-sm font-semibold transition bg-cream text-navy hover:bg-amaranth hover:text-white" 
+                            data-category="{{ cat.slug }}">
+                        <i class="{{ cat.icon|default('fas fa-tag') }} mr-1" aria-hidden="true"></i>
+                        {{ cat.name }}
+                    </button>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                {# Riga 3: Filtro Tag (mostra solo i primi 10 più usati) #}
+                {% if all_tags %}
+                <div class="flex flex-wrap items-center gap-2 justify-center">
+                    <span class="text-xs text-gray-500 font-medium uppercase tracking-wide mr-2">
+                        <i class="fas fa-hashtag mr-1" aria-hidden="true"></i>{{ _("Tag:") }}
+                    </span>
+                    <button class="tag-filter-btn active px-3 py-1.5 rounded-full text-sm font-semibold transition bg-gold text-navy" 
+                            data-tag="all">
+                        {{ _("Tutti") }}
+                    </button>
+                    {% for tag_name, count in all_tags[:12] %}
+                    <button class="tag-filter-btn px-3 py-1.5 rounded-full text-sm font-semibold transition bg-cream text-navy hover:bg-gold" 
+                            data-tag="{{ tag_name }}">
+                        {{ tag_name }}
+                        <span class="ml-1 text-xs opacity-60">({{ count }})</span>
+                    </button>
+                    {% endfor %}
+                    {% if all_tags|length > 12 %}
+                    <button class="text-xs text-gray-500 hover:text-navy" onclick="document.getElementById('more-tags').classList.toggle('hidden')">
+                        +{{ all_tags|length - 12 }} {{ _("altri") }}
+                    </button>
+                    {% endif %}
+                </div>
+                {# Tag nascosti #}
+                {% if all_tags|length > 12 %}
+                <div id="more-tags" class="hidden flex flex-wrap items-center gap-2 justify-center">
+                    {% for tag_name, count in all_tags[12:] %}
+                    <button class="tag-filter-btn px-3 py-1.5 rounded-full text-sm font-semibold transition bg-cream text-navy hover:bg-gold" 
+                            data-tag="{{ tag_name }}">
+                        {{ tag_name }}
+                        <span class="ml-1 text-xs opacity-60">({{ count }})</span>
+                    </button>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endif %}
+                
+                {# Contatore risultati filtrati #}
+                <div class="text-center text-sm text-gray-500">
+                    <span id="filter-count">{{ all_images|length }}</span> {{ _("foto") }}
+                    <span id="filter-active" class="hidden ml-2 text-amaranth">
+                        (<a href="#" onclick="resetFilters(); return false;" class="underline hover:text-navy">{{ _("reset filtri") }}</a>)
+                    </span>
+                </div>
             </div>
-            {% endif %}
         </div>
     </section>
     
-    {# Gallery from InlinePanel (new method) #}
-    {% set all_images = page.get_all_images() %}
-    {% if all_images %}
-    <section class="py-16 bg-cream">
+    {# ======================================== #}
+    {# GRIGLIA UNIFICATA                        #}
+    {# ======================================== #}
+    <section class="py-12 bg-cream">
         <div class="max-w-7xl mx-auto px-6">
-            
-            {# Category Filters #}
-            {% if page.show_filters %}
-            {% set categories = page.get_categories() %}
-            {% if categories %}
-            <div class="flex flex-wrap justify-center gap-3 mb-12" data-aos="fade-up">
-                <button class="filter-btn active px-6 py-2 rounded-full font-semibold transition bg-navy text-white" 
-                        data-filter="all">
-                    {{ _("Tutti") }}
-                </button>
-                {% for cat in categories %}
-                <button class="filter-btn px-6 py-2 rounded-full font-semibold transition bg-white text-navy hover:bg-navy hover:text-white" 
-                        data-filter="{{ cat }}">
-                    {{ cat|capitalize }}
-                </button>
-                {% endfor %}
-            </div>
-            {% endif %}
-            {% endif %}
-            
-            {# Image Grid #}
             <div class="grid grid-cols-2 md:grid-cols-{{ page.columns }} gap-4" id="gallery-grid">
-                {% for img in all_images %}
-                <div class="gallery-item overflow-hidden rounded-xl shadow-lg cursor-pointer group"
-                     data-category="{{ img.category }}"
-                     data-aos="fade-up"
-                     data-aos-delay="{{ loop.index0 * 50 }}"
-                     onclick="openLightbox('{{ image(img.image, 'width-1600').url }}', '{{ img.caption|e }}')">
+                {% for section in sections %}
+                {% for img in section.images %}
+                {% set img_category = img.category.slug if img.category else '' %}
+                {% set img_title = img.title if img.title and img.title != 'None' else '' %}
+                {% set img_caption = img.caption if img.caption and img.caption != 'None' else '' %}
+                {% set img_tags = [] %}
+                {% if img.image.tags %}
+                    {% for tag in img.image.tags.all() %}
+                        {% set _ = img_tags.append(tag.name) %}
+                    {% endfor %}
+                {% endif %}
+                <div class="gallery-item overflow-hidden rounded-xl shadow-lg cursor-pointer group relative"
+                     data-section="{{ section.id }}"
+                     data-category="{{ img_category }}"
+                     data-tags="{{ img_tags|join(',') }}"
+                     data-title="{{ img_title }}"
+                     data-caption="{{ img_caption }}"
+                     onclick="openLightbox('{{ image(img.image, 'width-1600|format-webp|webpquality-85').url }}', '{{ img_title|e }}', '{{ img_caption|e }}', '{{ section.id }}')">
                     <div class="aspect-square overflow-hidden">
-                        <img src="{{ image(img.image, 'fill-400x400').url }}" 
-                             alt="{{ img.caption or img.image.title }}"
+                        <img src="{{ image(img.image, 'fill-400x400|format-webp|webpquality-85').url }}"
+                             alt="{{ img_title or img_caption or img.image.title }}"
                              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                              loading="lazy">
                     </div>
-                    {% if img.caption %}
-                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <p class="text-white text-sm">{{ img.caption }}</p>
+                    {# Badge sezione #}
+                    <div class="absolute top-2 left-2 bg-navy/80 text-white text-xs px-2 py-1 rounded-full">
+                        {{ section.title }}
                     </div>
-                    {% endif %}
+                    {# Overlay info #}
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {% if img_title %}<h4 class="text-white font-bold text-sm">{{ img_title }}</h4>{% endif %}
+                        {% if img_tags %}<p class="text-gold text-xs mt-1">#{{ img_tags|join(' #') }}</p>{% endif %}
+                    </div>
                 </div>
                 {% endfor %}
+                {% endfor %}
+            </div>
+            
+            {# Messaggio nessun risultato #}
+            <div id="no-results" class="hidden text-center py-16">
+                <i class="fas fa-search text-4xl text-gray-300 mb-4" aria-hidden="true"></i>
+                <p class="text-gray-500 text-lg">{{ _("Nessuna foto corrisponde ai filtri selezionati") }}</p>
+                <button onclick="resetFilters()" class="mt-4 px-6 py-2 bg-gold text-navy font-semibold rounded-full hover:bg-gold-dark transition">
+                    {{ _("Mostra tutte le foto") }}
+                </button>
             </div>
         </div>
     </section>
     {% endif %}
-    
-    {# Legacy: StreamField Blocks (for backwards compatibility) #}
-    {% for block in page.gallery %}
-    <div>
-        {% include_block block %}
-    </div>
-    {% endfor %}
 </main>
 
 <!-- Lightbox -->
-<div id="lightbox" class="fixed inset-0 z-50 hidden bg-black/95 flex items-center justify-center p-4" onclick="closeLightbox()">
-    <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white text-4xl hover:text-gold transition" aria-label="{{ _('Chiudi') }}">
+<div id="lightbox" class="fixed inset-0 z-50 hidden bg-black/95 items-center justify-center p-4">
+    <button onclick="closeLightbox(); event.stopPropagation();" class="absolute top-6 right-6 text-white text-4xl hover:text-gold transition z-10" aria-label="{{ _('Chiudi') }}">
         <i class="fas fa-times" aria-hidden="true"></i>
     </button>
-    <img id="lightbox-image" src="" alt="" class="max-w-full max-h-[90vh] object-contain">
-    <p id="lightbox-caption" class="absolute bottom-6 left-6 right-6 text-center text-white text-lg"></p>
+    
+    <!-- Navigation Arrows -->
+    <button onclick="prevImage(); event.stopPropagation();" class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gold transition z-10" aria-label="{{ _('Precedente') }}">
+        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+    </button>
+    <button onclick="nextImage(); event.stopPropagation();" class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gold transition z-10" aria-label="{{ _('Successiva') }}">
+        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+    </button>
+    
+    <div class="w-full max-w-[80%] max-h-full flex flex-col items-center mx-auto" onclick="event.stopPropagation()">
+        <img id="lightbox-image" src="" alt="" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+        <div class="mt-4 text-center w-full px-4">
+            <h3 id="lightbox-title" class="text-white text-2xl font-heading font-bold"></h3>
+            <p id="lightbox-caption" class="text-white/80 mt-2 text-lg"></p>
+            <p id="lightbox-counter" class="text-white/50 mt-2 text-sm"></p>
+        </div>
+    </div>
 </div>
 
 <script>
-function openLightbox(src, caption) {
-    document.getElementById('lightbox-image').src = src;
-    document.getElementById('lightbox-caption').textContent = caption;
-    document.getElementById('lightbox').classList.remove('hidden');
+// Gallery data organized by sections for navigation
+const gallerySections = {
+    {% for section in sections %}
+    '{{ section.id }}': [
+        {% for img in section.images %}
+        {
+            src: '{{ image(img.image, "width-1600|format-webp|webpquality-85").url }}',
+            title: '{{ (img.title or "")|e }}',
+            caption: '{{ (img.caption or "")|e }}'
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ]{% if not loop.last %},{% endif %}
+    {% endfor %}
+};
+
+// All images flat for global navigation
+const galleryImages = [
+    {% for img in all_images %}
+    {
+        src: '{{ image(img.image, "width-1600|format-webp|webpquality-85").url }}',
+        title: '{{ (img.title or "")|e }}',
+        caption: '{{ (img.caption or "")|e }}'
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+];
+
+let currentImageIndex = 0;
+let currentSection = null;
+let currentSectionImages = [];
+
+function openLightbox(src, title, caption, sectionId) {
+    // If section provided, navigate within that section
+    if (sectionId && gallerySections[sectionId]) {
+        currentSection = sectionId;
+        currentSectionImages = gallerySections[sectionId];
+        currentImageIndex = currentSectionImages.findIndex(img => img.src === src);
+    } else {
+        // Global navigation
+        currentSection = null;
+        currentSectionImages = galleryImages;
+        currentImageIndex = galleryImages.findIndex(img => img.src === src);
+    }
+    
+    if (currentImageIndex === -1) currentImageIndex = 0;
+    
+    showImage(currentImageIndex);
+    
+    const lb = document.getElementById('lightbox');
+    lb.classList.remove('hidden');
+    lb.classList.add('flex');
     document.body.style.overflow = 'hidden';
 }
 
+function showImage(index) {
+    const images = currentSectionImages.length > 0 ? currentSectionImages : galleryImages;
+    if (images.length === 0) return;
+    
+    // Wrap around
+    if (index < 0) index = images.length - 1;
+    if (index >= images.length) index = 0;
+    
+    currentImageIndex = index;
+    const img = images[index];
+    
+    document.getElementById('lightbox-image').src = img.src;
+    document.getElementById('lightbox-title').textContent = img.title || '';
+    document.getElementById('lightbox-caption').textContent = img.caption || '';
+    document.getElementById('lightbox-counter').textContent = `${index + 1} / ${images.length}`;
+}
+
+function nextImage() {
+    showImage(currentImageIndex + 1);
+}
+
+function prevImage() {
+    showImage(currentImageIndex - 1);
+}
+
 function closeLightbox() {
-    document.getElementById('lightbox').classList.add('hidden');
+    const lb = document.getElementById('lightbox');
+    lb.classList.add('hidden');
+    lb.classList.remove('flex');
     document.body.style.overflow = '';
 }
 
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeLightbox();
+// Close on background click
+document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
 });
 
-// Category Filter
-document.querySelectorAll('.filter-btn').forEach(btn => {
+document.addEventListener('keydown', (e) => {
+    const lb = document.getElementById('lightbox');
+    if (lb.classList.contains('hidden')) return;
+    
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') prevImage();
+    if (e.key === 'ArrowRight') nextImage();
+});
+
+// ===========================================
+// SISTEMA FILTRI A 3 LIVELLI
+// ===========================================
+const filters = {
+    section: 'all',
+    category: 'all',
+    tag: 'all'
+};
+
+function applyFilters() {
+    const items = document.querySelectorAll('.gallery-item');
+    let visibleCount = 0;
+    
+    items.forEach(item => {
+        const itemSection = item.dataset.section || '';
+        const itemCategory = item.dataset.category || '';
+        const itemTags = (item.dataset.tags || '').split(',').filter(t => t);
+        
+        // Check each filter
+        const matchSection = filters.section === 'all' || itemSection === filters.section;
+        const matchCategory = filters.category === 'all' || itemCategory === filters.category;
+        const matchTag = filters.tag === 'all' || itemTags.includes(filters.tag);
+        
+        if (matchSection && matchCategory && matchTag) {
+            item.style.display = '';
+            visibleCount++;
+        } else {
+            item.style.display = 'none';
+        }
+    });
+    
+    // Update counter
+    document.getElementById('filter-count').textContent = visibleCount;
+    
+    // Show/hide reset link
+    const isFiltered = filters.section !== 'all' || filters.category !== 'all' || filters.tag !== 'all';
+    document.getElementById('filter-active').classList.toggle('hidden', !isFiltered);
+    
+    // Show/hide no results message
+    document.getElementById('no-results').classList.toggle('hidden', visibleCount > 0);
+    document.getElementById('gallery-grid').classList.toggle('hidden', visibleCount === 0);
+}
+
+function resetFilters() {
+    filters.section = 'all';
+    filters.category = 'all';
+    filters.tag = 'all';
+    
+    // Reset button states
+    document.querySelectorAll('.section-filter-btn').forEach(b => {
+        b.classList.remove('bg-navy', 'text-white', 'active');
+        b.classList.add('bg-cream', 'text-navy');
+    });
+    document.querySelector('.section-filter-btn[data-section="all"]')?.classList.add('bg-navy', 'text-white', 'active');
+    document.querySelector('.section-filter-btn[data-section="all"]')?.classList.remove('bg-cream');
+    
+    document.querySelectorAll('.category-filter-btn').forEach(b => {
+        b.classList.remove('bg-amaranth', 'text-white', 'active');
+        b.classList.add('bg-cream', 'text-navy');
+    });
+    document.querySelector('.category-filter-btn[data-category="all"]')?.classList.add('bg-amaranth', 'text-white', 'active');
+    document.querySelector('.category-filter-btn[data-category="all"]')?.classList.remove('bg-cream');
+    
+    document.querySelectorAll('.tag-filter-btn').forEach(b => {
+        b.classList.remove('bg-gold', 'active');
+        b.classList.add('bg-cream');
+    });
+    document.querySelector('.tag-filter-btn[data-tag="all"]')?.classList.add('bg-gold', 'active');
+    document.querySelector('.tag-filter-btn[data-tag="all"]')?.classList.remove('bg-cream');
+    
+    applyFilters();
+}
+
+// Section filter buttons
+document.querySelectorAll('.section-filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
-        const filter = this.dataset.filter;
+        filters.section = this.dataset.section;
         
-        // Update active button
-        document.querySelectorAll('.filter-btn').forEach(b => {
-            b.classList.remove('active', 'bg-navy', 'text-white');
-            b.classList.add('bg-white', 'text-navy');
+        document.querySelectorAll('.section-filter-btn').forEach(b => {
+            b.classList.remove('bg-navy', 'text-white', 'active');
+            b.classList.add('bg-cream', 'text-navy');
         });
-        this.classList.add('active', 'bg-navy', 'text-white');
-        this.classList.remove('bg-white', 'text-navy');
+        this.classList.add('bg-navy', 'text-white', 'active');
+        this.classList.remove('bg-cream');
         
-        // Filter images
-        document.querySelectorAll('.gallery-item').forEach(item => {
-            if (filter === 'all' || item.dataset.category === filter || item.dataset.category === 'all') {
-                item.style.display = '';
-            } else {
-                item.style.display = 'none';
-            }
+        applyFilters();
+    });
+});
+
+// Category filter buttons
+document.querySelectorAll('.category-filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        filters.category = this.dataset.category;
+        
+        document.querySelectorAll('.category-filter-btn').forEach(b => {
+            b.classList.remove('bg-amaranth', 'text-white', 'active');
+            b.classList.add('bg-cream', 'text-navy');
         });
+        this.classList.add('bg-amaranth', 'text-white', 'active');
+        this.classList.remove('bg-cream');
+        
+        applyFilters();
+    });
+});
+
+// Tag filter buttons
+document.querySelectorAll('.tag-filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        filters.tag = this.dataset.tag;
+        
+        document.querySelectorAll('.tag-filter-btn').forEach(b => {
+            b.classList.remove('bg-gold', 'active');
+            b.classList.add('bg-cream');
+        });
+        this.classList.add('bg-gold', 'active');
+        this.classList.remove('bg-cream');
+        
+        applyFilters();
     });
 });
 </script>

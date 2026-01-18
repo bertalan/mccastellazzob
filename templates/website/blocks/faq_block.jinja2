@@ -1,0 +1,34 @@
+{# FAQ Block Template - Accordion Style #}
+<section class="py-20 bg-warm-gray" aria-labelledby="faq-heading-{{ value.id|default('main') }}">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-12">
+            <h2 id="faq-heading-{{ value.id|default('main') }}" class="text-3xl md:text-4xl font-heading font-black text-navy mb-4" data-aos="fade-up">
+                {% set title_parts = value.title.split(' ') %}
+                {% if title_parts|length > 1 %}
+                    {{ title_parts[:-1]|join(' ') }} <span class="text-gold">{{ title_parts[-1] }}</span>
+                {% else %}
+                    {{ value.title }}
+                {% endif %}
+            </h2>
+            {% if value.subtitle %}
+            <p class="text-gray-600" data-aos="fade-up" data-aos-delay="100">
+                {{ value.subtitle }}
+            </p>
+            {% endif %}
+        </div>
+        
+        <div class="space-y-4">
+            {% for item in value.items %}
+            <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 50 }}">
+                <summary class="flex items-center justify-between p-6 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset">
+                    <span class="font-heading font-bold text-navy text-lg">{{ item.question }}</span>
+                    <i class="fas fa-chevron-down text-gold transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                </summary>
+                <div class="px-6 pb-6 text-gray-600 prose prose-lg max-w-none">
+                    {{ item.answer|richtext }}
+                </div>
+            </details>
+            {% endfor %}
+        </div>
+    </div>
+</section>

@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{{ page.title }}{% endblock %} | {{ settings.website.SiteSettings.organization_name }}</title>
+    {# Usa wagtailseo per nome organizzazione, fallback su site name #}
+    <title>{% block title %}{{ page.title }}{% endblock %} | {{ settings.wagtailseo.SeoSettings.struct_org_name or request.site.site_name }}</title>
     
     {# Costruisci dizionario traduzioni pagina #}
     {% set translations_dict = {} %}
@@ -14,10 +15,26 @@
         {% endfor %}
     {% endif %}
     
-    {# SEO #}
-    <meta name="description" content="{% block meta_description %}Moto Club Castellazzo Bormida - Dal 1933, passione su due ruote nel cuore del Piemonte{% endblock %}">
+    {# hreflang per SEO multilingua #}
+    {% for lang_code, lang_url in translations_dict.items() %}
+    <link rel="alternate" hreflang="{{ lang_code }}" href="{{ lang_url }}" />
+    {% endfor %}
+    {% if translations_dict %}
+    <link rel="alternate" hreflang="x-default" href="{{ translations_dict.get('it', page.full_url) }}" />
+    {% endif %}
     
-    {# Schema.org JSON-LD #}
+    {# SEO Meta Description #}
+    <meta name="description" content="{% block meta_description %}{{ page.search_description or _('Moto Club Castellazzo Bormida - Dal 1933, passione su due ruote nel cuore del Piemonte') }}{% endblock %}">
+    
+    {# Open Graph / Social Meta #}
+    <meta property="og:title" content="{{ page.seo_title or page.title }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ page.full_url }}" />
+    {% if page.og_image or settings.wagtailseo.SeoSettings.og_image_default %}
+    <meta property="og:image" content="{{ (page.og_image or settings.wagtailseo.SeoSettings.og_image_default).get_rendition('fill-1200x630').url }}" />
+    {% endif %}
+    
+    {# Schema.org JSON-LD - Custom per pagine con JsonLdMixin #}
     {% if page.get_json_ld is defined %}
     <script type="application/ld+json">
     {{ page.get_json_ld() }}
@@ -400,13 +417,13 @@
             <div class="flex justify-between items-center">
                 <a href="{{ main_pages.home or '/' }}" class="flex items-center gap-4">
                     {% if settings.website.SiteSettings.logo %}
-                    {{ image(settings.website.SiteSettings.logo, "height-56", class="h-14 w-14", alt="Logo " ~ settings.website.SiteSettings.organization_name) }}
+                    {{ image(settings.website.SiteSettings.logo, "height-56", class="h-14 w-14", alt="Logo " ~ settings.wagtailseo.SeoSettings.struct_org_name) }}
                     {% else %}
-                    <img src="/static/images/MotoClubCastellazzoBormida-logo.webp" alt="Logo {{ settings.website.SiteSettings.organization_name }}" class="h-14 w-14">
+                    <img src="/static/images/MotoClubCastellazzoBormida-logo.webp" alt="Logo {{ settings.wagtailseo.SeoSettings.struct_org_name }}" class="h-14 w-14">
                     {% endif %}
                     <div>
-                        <span class="text-navy font-heading font-bold text-xl block">{{ settings.website.SiteSettings.organization_name }}</span>
-                        <span class="text-navy text-xs tracking-widest">{% trans %}DAL{% endtrans %} {{ settings.website.SiteSettings.organization_founding_year }}</span>
+                        <span class="text-navy font-heading font-bold text-xl block">{{ settings.wagtailseo.SeoSettings.struct_org_name }}</span>
+                        <span class="text-navy text-xs tracking-widest">{% trans %}DAL{% endtrans %} {{ settings.website.SiteSettings.founding_year }}</span>
                     </div>
                 </a>
                 
@@ -554,20 +571,20 @@
                 <div>
                     <div class="flex items-center gap-4 mb-6">
                         {% if settings.website.SiteSettings.logo %}
-                        {{ image(settings.website.SiteSettings.logo, "height-56", class="h-14 w-14", alt="Logo " ~ settings.website.SiteSettings.organization_name) }}
+                        {{ image(settings.website.SiteSettings.logo, "height-56", class="h-14 w-14", alt="Logo " ~ settings.wagtailseo.SeoSettings.struct_org_name) }}
                         {% else %}
-                        <img src="/static/images/MotoClubCastellazzoBormida-logo.webp" alt="Logo {{ settings.website.SiteSettings.organization_name }}" class="h-14 w-14">
+                        <img src="/static/images/MotoClubCastellazzoBormida-logo.webp" alt="Logo {{ settings.wagtailseo.SeoSettings.struct_org_name }}" class="h-14 w-14">
                         {% endif %}
                         <div>
-                            <span class="font-heading font-bold text-lg block whitespace-nowrap">{{ settings.website.SiteSettings.organization_name }}</span>
-                            <span class="text-gold text-xs tracking-widest">{{ _("DAL") }} {{ settings.website.SiteSettings.organization_founding_year }}</span>
+                            <span class="font-heading font-bold text-lg block whitespace-nowrap">{{ settings.wagtailseo.SeoSettings.struct_org_name }}</span>
+                            <span class="text-gold text-xs tracking-widest">{{ _("DAL") }} {{ settings.website.SiteSettings.founding_year }}</span>
                         </div>
                     </div>
                     <p class="text-gray-400 mb-4">
                         {% if footer and footer.tagline %}
                             {{ footer.tagline }}
                         {% else %}
-                            {{ _("Il più antico Moto Club del Piemonte. Passione, adrenalina e fratellanza su due ruote.") }}
+                            {{ _("Il Moto Club che ospita il Raduno dei Centauri: passione e fratellanza su due ruote") }}
                         {% endif %}
                     </p>
                     {# Social Links #}
@@ -645,18 +662,12 @@
                     <ul class="space-y-3 text-gray-400">
                         <li class="flex items-start gap-3">
                             <i class="fas fa-map-marker-alt text-gold mt-1 shrink-0" aria-hidden="true"></i>
-                            <span class="leading-relaxed">{% if settings.website.SiteSettings.organization_street_address %}<span class="whitespace-nowrap">{{ settings.website.SiteSettings.organization_street_address }}</span><br>{% endif %}<span class="whitespace-nowrap">{{ settings.website.SiteSettings.organization_city }}</span><br>{{ settings.website.SiteSettings.organization_region }}, {{ settings.website.SiteSettings.organization_country }}</span>
+                            <span class="leading-relaxed">{% if settings.wagtailseo.SeoSettings.struct_org_address_street %}<span class="whitespace-nowrap">{{ settings.wagtailseo.SeoSettings.struct_org_address_street }}</span><br>{% endif %}<span class="whitespace-nowrap">{{ settings.wagtailseo.SeoSettings.struct_org_address_locality }}</span><br>{{ settings.wagtailseo.SeoSettings.struct_org_address_region }}, {{ settings.wagtailseo.SeoSettings.struct_org_address_country }}</span>
                         </li>
-                        {% if settings.website.SiteSettings.organization_email %}
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-envelope text-gold shrink-0" aria-hidden="true"></i>
-                            <a href="mailto:{{ settings.website.SiteSettings.organization_email }}" class="hover:text-white transition whitespace-nowrap">{{ settings.website.SiteSettings.organization_email }}</a>
-                        </li>
-                        {% endif %}
-                        {% if settings.website.SiteSettings.organization_phone %}
+                        {% if settings.wagtailseo.SeoSettings.struct_org_phone %}
                         <li class="flex items-center gap-3">
                             <i class="fas fa-phone text-gold shrink-0" aria-hidden="true"></i>
-                            <a href="tel:{{ settings.website.SiteSettings.organization_phone|replace(' ', '') }}" class="hover:text-white transition whitespace-nowrap">{{ settings.website.SiteSettings.organization_phone }}</a>
+                            <a href="tel:{{ settings.wagtailseo.SeoSettings.struct_org_phone|replace(' ', '')|replace('(', '')|replace(')', '')|replace('-', '') }}" class="hover:text-white transition whitespace-nowrap">{{ settings.wagtailseo.SeoSettings.struct_org_phone }}</a>
                         </li>
                         {% endif %}
                     </ul>
@@ -669,7 +680,7 @@
                     {% if footer and footer.copyright_text %}
                         {{ footer.copyright_text }}
                     {% else %}
-                        &copy; {{ now().year }} {{ settings.website.SiteSettings.organization_name }}. {{ _("Tutti i diritti riservati.") }}
+                        &copy; {{ now().year }} {{ settings.wagtailseo.SeoSettings.struct_org_name }}. {{ _("Tutti i diritti riservati.") }}
                     {% endif %}
                 </p>
                 <div class="flex items-center gap-2">
@@ -767,5 +778,8 @@
     </script>
     
     {% block extra_js %}{% endblock %}
+    
+    {# Accessibility Toolbar #}
+    {% include "website/includes/accessibility_toolbar.jinja2" %}
 </body>
 </html>

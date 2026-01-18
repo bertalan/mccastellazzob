@@ -1,8 +1,9 @@
 {# MC Castellazzo - About Page Template #}
 {# WCAG 2.2 AAA Compliant #}
 {% extends "website/base.jinja2" %}
+{% from "website/includes/gold_title.jinja2" import gold_title %}
 
-{% block title %}{{ page.hero_title or page.title }} | {{ settings.website.SiteSettings.organization_name }}{% endblock %}
+{% block title %}{{ (page.hero_title or page.title)|replace('**', '') }}{% endblock %}
 
 {% block content %}
 {# ============================================= #}
@@ -25,26 +26,26 @@
                 </li>
                 {% endfor %}
                 <li aria-current="page" class="text-gold font-medium">
-                    {{ page.title }}
+                    {{ page.title|replace('**', '') }}
                 </li>
             </ol>
         </nav>
         
-        {# Hero Title #}
+        {# Hero Title - usa gold_title per evidenziare **testo** in oro #}
         <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up">
             {% if page.hero_title %}
-                {{ page.hero_title|replace(_('Storia'), "<span class='text-gold'>" ~ _('Storia') ~ "</span>")|safe }}
+                {{ gold_title(page.hero_title) }}
             {% else %}
                 {{ _('La Nostra') }} <span class="text-gold">{{ _('Storia') }}</span>
             {% endif %}
         </h1>
         
         {% if page.hero_subtitle %}
-        <p class="text-xl text-gray-300 max-w-2xl" data-aos="fade-up" data-aos-delay="100">
+        <p class="text-xl text-gray-300" data-aos="fade-up" data-aos-delay="100">
             {{ page.hero_subtitle }}
         </p>
         {% else %}
-        <p class="text-xl text-gray-300 max-w-2xl" data-aos="fade-up" data-aos-delay="100">
+        <p class="text-xl text-gray-300" data-aos="fade-up" data-aos-delay="100">
             {{ _("Dal 1933, una passione che unisce generazioni di motociclisti nel cuore del Piemonte") }}
         </p>
         {% endif %}
@@ -109,9 +110,9 @@
                 <div data-aos="fade-left">
                     <div class="bg-warm-gray rounded-3xl p-8">
                         {% if page.image %}
-                        <img src="{{ image(page.image, 'fill-600x400').url }}" 
+                        <img src="{{ image(page.image, 'max-800x600').url }}" 
                              alt="{{ _("Gruppo di motociclisti del Moto Club Castellazzo Bormida") }}" 
-                             class="w-full h-80 object-cover rounded-2xl"
+                             class="w-full h-auto object-contain rounded-2xl"
                              loading="lazy">
                         {% else %}
                         <div class="w-full h-80 bg-gradient-to-br from-navy to-bordeaux rounded-2xl flex items-center justify-center">

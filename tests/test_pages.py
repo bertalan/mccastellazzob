@@ -28,29 +28,24 @@ class TestHomePage:
         """Test homepage exists after site fixture."""
         home = HomePage.objects.first()
         assert home is not None
-        assert home.organization_name is not None  # Nome dinamico dalla fixture
+        # organization_name ora viene da wagtailseo.SeoSettings, non più dalla pagina
     
     def test_homepage_schema_org_type(self, site):
-        """Test homepage schema.org type is Organization."""
+        """Test homepage schema.org type is SportsClub."""
         home = HomePage.objects.first()
-        assert home.get_schema_org_type() == "Organization"
+        assert home.get_json_ld_type() == "SportsClub"
     
     def test_homepage_schema_org_data(self, site):
         """Test homepage schema.org data."""
         home = HomePage.objects.first()
-        home.telephone = "+39 011 1234567"
-        home.email = "info@mccastellazzob.com"
-        home.founding_date = date(1975, 1, 1)
-        home.save()
         
-        data = home.get_schema_org_data()
+        data = home.get_json_ld_data()
         
-        assert data["name"] == home.organization_name  # Nome dinamico
-        assert data["knowsAbout"] == "Motoclub"
-        assert "address" in data
-        assert data["address"]["addressLocality"] == home.city
-        assert "contactPoint" in data
-        assert data["foundingDate"] == "1975-01-01"
+        # I dati organizzazione vengono da wagtailseo.SeoSettings
+        assert "@type" in data
+        assert data["sport"] == "Motorcycling"
+        assert "memberOf" in data
+        assert data["memberOf"]["name"] == "FMI - Federazione Motociclistica Italiana"
 
 
 @pytest.mark.django_db
@@ -77,7 +72,7 @@ class TestTimelinePage:
         timeline = TimelinePage(title="Timeline", slug="timeline")
         home.add_child(instance=timeline)
         
-        assert timeline.get_schema_org_type() == "ItemList"
+        assert timeline.get_json_ld_type() == "ItemList"
 
 
 @pytest.mark.django_db
@@ -145,7 +140,7 @@ class TestEventPages:
         home.add_child(instance=events)
         
         assert events.pk is not None
-        assert events.get_schema_org_type() == "EventSeries"
+        assert events.get_json_ld_type() == "EventSeries"
     
     def test_event_detail_creation(self, site):
         """Test EventDetailPage creation."""
@@ -165,7 +160,7 @@ class TestEventPages:
         
         assert event.pk is not None
         assert event.event_name == "Raduno Moto 2025"
-        assert event.get_schema_org_type() == "Event"
+        assert event.get_json_ld_type() == "Event"
     
     def test_event_detail_schema_org(self, site):
         """Test EventDetailPage schema.org data."""
@@ -184,11 +179,11 @@ class TestEventPages:
         )
         events.add_child(instance=event)
         
-        data = event.get_schema_org_data()
+        data = event.get_json_ld_data()
         
         assert data["name"] == "Raduno Moto 2025"
         assert "2025-06-15" in data["startDate"]
         assert data["location"]["name"] == "Piazza Castello"
         assert "EventScheduled" in data["eventStatus"]
-        # Organizer ora usa SiteSettings, fallback a "MC Castellazzo Bormida"
-        assert "MC Castellazzo" in data["organizer"]["name"]
+        # Organizer ora usa wagtailseo.SeoSettings
+        assert "organizer" in data

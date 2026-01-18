@@ -1,5 +1,6 @@
 {# MC Castellazzo - Board Page Template (Consiglio Direttivo) #}
 {% extends "website/base.jinja2" %}
+{% from "website/includes/gold_title.jinja2" import gold_title %}
 
 {% block content %}
     {# Hero Section #}
@@ -12,21 +13,17 @@
                     <li><a href="{{ ancestor.url }}" class="hover:text-gold transition">{{ ancestor.title }}</a></li>
                     <li><i class="fas fa-chevron-right text-xs" aria-hidden="true"></i></li>
                     {% endfor %}
-                    <li aria-current="page" class="text-gold">{{ page.title }}</li>
+                    <li aria-current="page" class="text-gold">{{ page.title|replace('**', '') }}</li>
                 </ol>
             </nav>
             
             <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up">
-                {{ _("Il Consiglio") }} <span class="text-gold">{{ _("Direttivo") }}</span>
+                {{ gold_title(page.title) }}
             </h1>
             {% if page.intro %}
-            <div class="text-xl text-gray-300 max-w-2xl" data-aos="fade-up" data-aos-delay="100">
+            <div class="text-xl text-gray-300" data-aos="fade-up" data-aos-delay="100">
                 {{ page.intro|safe }}
             </div>
-            {% else %}
-            <p class="text-xl text-gray-300 max-w-2xl" data-aos="fade-up" data-aos-delay="100">
-                {{ _("Le persone che guidano il club con passione e dedizione, lavorando per offrire esperienze uniche a tutti i soci") }}
-            </p>
             {% endif %}
         </div>
     </header>
@@ -54,10 +51,10 @@
                             {% if member.image %}
                             <img src="{{ image(member.image, 'fill-400x400').url }}" 
                                  alt="{{ member.name }}" 
-                                 class="w-full h-full object-cover opacity-80">
+                                 class="w-full h-full object-cover opacity-80 notranslate" translate="no">
                             {% else %}
                             <div class="w-full h-full flex items-center justify-center">
-                                <span class="text-8xl font-heading font-bold {{ 'text-gold' if bg_color == 'navy' else 'text-white' }} opacity-50">
+                                <span class="text-8xl font-heading font-bold {{ 'text-gold' if bg_color == 'navy' else 'text-white' }} opacity-50 notranslate" translate="no">
                                     {{ member.name[0]|upper }}
                                 </span>
                             </div>
@@ -75,7 +72,7 @@
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-2xl font-heading font-bold text-navy mb-2">{{ member.name }}</h3>
+                            <h3 class="text-2xl font-heading font-bold text-navy mb-2 notranslate" translate="no">{{ member.name }}</h3>
                             {% if member.bio %}
                             <div class="text-gray-600 mb-4">
                                 {{ member.bio|safe }}
@@ -126,11 +123,11 @@
                                 <p class="text-gray-300 mb-6">{{ _("Il rinnovo del consiglio avviene ogni triennio durante l'assemblea dei soci") }}</p>
                                 <div class="flex justify-center gap-8 text-center">
                                     <div>
-                                        <span class="text-4xl font-black text-gold">{{ settings.website.SiteSettings.organization_founding_year }}</span>
+                                        <span class="text-4xl font-black text-gold">{{ settings.website.SiteSettings.founding_year }}</span>
                                         <p class="text-gray-400 text-sm mt-1">{{ _("Fondazione") }}</p>
                                     </div>
                                     <div>
-                                        <span class="text-4xl font-black text-gold">{{ now().year - settings.website.SiteSettings.organization_founding_year }}</span>
+                                        <span class="text-4xl font-black text-gold">{{ now().year - settings.website.SiteSettings.founding_year }}</span>
                                         <p class="text-gray-400 text-sm mt-1">{{ _("Anni di Storia") }}</p>
                                     </div>
                                 </div>

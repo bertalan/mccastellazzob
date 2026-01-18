@@ -7,6 +7,52 @@ from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
+from wagtail.snippets.blocks import SnippetChooserBlock
+
+
+def get_collection_choices():
+    """Genera le scelte per il dropdown collezioni (lazy loading)."""
+    from wagtail.models import Collection
+    # Esclude la root collection (depth=1)
+    collections = Collection.objects.filter(depth__gt=1).order_by('path')
+    choices = [('', _('--- Seleziona collezione ---'))]
+    for collection in collections:
+        # Indenta in base alla profondità
+        indent = '— ' * (collection.depth - 2)
+        choices.append((collection.id, f"{indent}{collection.name}"))
+    return choices
+
+
+class CollectionChooserBlock(blocks.ChoiceBlock):
+    """Blocco per scegliere una Collection Wagtail tramite dropdown."""
+    
+    def __init__(self, *args, **kwargs):
+        # Usa callable per lazy loading delle scelte
+        kwargs['choices'] = get_collection_choices
+        kwargs.setdefault('required', True)
+        super().__init__(*args, **kwargs)
+    
+    def clean(self, value):
+        """Converte l'ID in oggetto Collection."""
+        from wagtail.models import Collection
+        value = super().clean(value)
+        if value:
+            try:
+                return Collection.objects.get(id=int(value))
+            except (Collection.DoesNotExist, ValueError, TypeError):
+                return None
+        return None
+    
+    def get_prep_value(self, value):
+        """Converte l'oggetto Collection in ID per la serializzazione."""
+        if value is None:
+            return None
+        if hasattr(value, 'id'):
+            return value.id
+        return value
+    
+    class Meta:
+        icon = "folder-open-inverse"
 
 
 # =============================================================================
@@ -62,7 +108,7 @@ class HeroSliderBlock(blocks.StructBlock):
     class Meta:
         icon = "image"
         label = _("Slider Fotografico")
-        template = "website/blocks/hero_slider_block.html"
+        template = "website/blocks/hero_slider_block.jinja2"
 
 
 class HeroCountdownBlock(blocks.StructBlock):
@@ -162,7 +208,7 @@ class StatsBlock(blocks.StructBlock):
     class Meta:
         icon = "order"
         label = _("Statistiche")
-        template = "website/blocks/stats_block.html"
+        template = "website/blocks/stats_block.jinja2"
 
 
 # =============================================================================
@@ -210,7 +256,7 @@ class SectionCardBlock(blocks.StructBlock):
     class Meta:
         icon = "doc-full"
         label = _("Card Sezione")
-        template = "website/blocks/section_card_block.html"
+        template = "website/blocks/section_card_block.jinja2"
 
 
 class SectionCardsGridBlock(blocks.StructBlock):
@@ -248,7 +294,7 @@ class SectionCardsGridBlock(blocks.StructBlock):
     class Meta:
         icon = "grip"
         label = _("Griglia Sezioni")
-        template = "website/blocks/section_cards_grid_block.html"
+        template = "website/blocks/section_cards_grid_block.jinja2"
 
 
 # =============================================================================
@@ -306,7 +352,7 @@ class CTABlock(blocks.StructBlock):
     class Meta:
         icon = "pick"
         label = _("Call-to-Action")
-        template = "website/blocks/cta_block.html"
+        template = "website/blocks/cta_block.jinja2"
 
 
 # =============================================================================
@@ -345,7 +391,7 @@ class ValuesBlock(blocks.StructBlock):
     class Meta:
         icon = "pick"
         label = _("Valori")
-        template = "website/blocks/values_block.html"
+        template = "website/blocks/values_block.jinja2"
 
 
 # =============================================================================
@@ -401,7 +447,7 @@ class TimelineBlock(blocks.StructBlock):
     class Meta:
         icon = "history"
         label = _("Timeline Storica")
-        template = "website/blocks/timeline_block.html"
+        template = "website/blocks/timeline_block.jinja2"
 
 
 # =============================================================================
@@ -413,26 +459,58 @@ class GalleryImageBlock(blocks.StructBlock):
     Blocco per immagine galleria con categoria (schema.org ImageObject).
     """
     image = ImageChooserBlock(label=_("Immagine"))
-    caption = blocks.CharBlock(
-        label=_("Didascalia"),
-        max_length=255,
+    title = blocks.CharBlock(
+        label=_("Titolo"),
+        max_length=100,
         required=False,
+        help_text=_("Titolo dell'immagine (visibile nel lightbox)"),
     )
-    category = blocks.ChoiceBlock(
+    caption = blocks.CharBlock(
+        label=_("Descrizione"),
+        max_length=500,
+        required=False,
+        help_text=_("Descrizione dell'immagine (visibile nel lightbox)"),
+    )
+    category = SnippetChooserBlock(
+        "website.GalleryCategory",
         label=_("Categoria"),
-        choices=[
-            ("all", _("Tutti")),
-            ("raduni", _("Raduni")),
-            ("escursioni", _("Escursioni")),
-            ("gare", _("Gare")),
-            ("sociali", _("Eventi Sociali")),
-        ],
-        default="all",
+        required=False,
+        help_text=_("Categoria per il filtro galleria"),
     )
 
     class Meta:
         icon = "image"
         label = _("Immagine")
+
+
+class CollectionGalleryBlock(blocks.StructBlock):
+    """
+    Blocco per importare tutte le immagini da una Collection Wagtail.
+    Usa il titolo dell'immagine come titolo, i tag come caption.
+    """
+    title = blocks.CharBlock(
+        label=_("Titolo sezione"),
+        max_length=255,
+        required=False,
+        help_text=_("Titolo visualizzato sopra la galleria (es. 'Raduno 2024')"),
+    )
+    collection = CollectionChooserBlock(
+        label=_("Collezione"),
+        help_text=_(
+            "Importa tutte le immagini da questa collezione. "
+            "Il titolo dell'immagine viene usato come titolo, i tag come descrizione."
+        ),
+    )
+    category = SnippetChooserBlock(
+        "website.GalleryCategory",
+        label=_("Categoria"),
+        required=False,
+        help_text=_("Categoria da applicare a tutte le immagini della collezione."),
+    )
+
+    class Meta:
+        icon = "folder-open-inverse"
+        label = _("Galleria da Collezione")
 
 
 class GalleryBlock(blocks.StructBlock):
@@ -466,7 +544,7 @@ class GalleryBlock(blocks.StructBlock):
     class Meta:
         icon = "image"
         label = _("Galleria")
-        template = "website/blocks/gallery_block.html"
+        template = "website/blocks/gallery_block.jinja2"
 
 
 # =============================================================================
@@ -507,7 +585,7 @@ class ArticleBlock(blocks.StructBlock):
     class Meta:
         icon = "doc-full"
         label = _("Articolo")
-        template = "website/blocks/article_block.html"
+        template = "website/blocks/article_block.jinja2"
 
 
 class MemberBlock(blocks.StructBlock):
@@ -534,7 +612,7 @@ class MemberBlock(blocks.StructBlock):
     class Meta:
         icon = "user"
         label = _("Membro")
-        template = "website/blocks/member_block.html"
+        template = "website/blocks/member_block.jinja2"
 
 
 class DocumentBlock(blocks.StructBlock):
@@ -556,7 +634,7 @@ class DocumentBlock(blocks.StructBlock):
     class Meta:
         icon = "doc-full-inverse"
         label = _("Documento")
-        template = "website/blocks/document_block.html"
+        template = "website/blocks/document_block.jinja2"
 
 
 class MapBlock(blocks.StructBlock):
@@ -597,7 +675,7 @@ class MapBlock(blocks.StructBlock):
     class Meta:
         icon = "site"
         label = _("Mappa")
-        template = "website/blocks/map_block.html"
+        template = "website/blocks/map_block.jinja2"
 
 
 class EventCardBlock(blocks.StructBlock):
@@ -650,5 +728,52 @@ class EventCardBlock(blocks.StructBlock):
     class Meta:
         icon = "date"
         label = _("Evento")
-        template = "website/blocks/event_card_block.html"
+        template = "website/blocks/event_card_block.jinja2"
+
+
+class FAQItemBlock(blocks.StructBlock):
+    """
+    Singola domanda/risposta per le FAQ.
+    """
+    question = blocks.CharBlock(
+        label=_("Domanda"),
+        max_length=255,
+        help_text=_("La domanda frequente"),
+    )
+    answer = blocks.RichTextBlock(
+        label=_("Risposta"),
+        help_text=_("La risposta alla domanda"),
+    )
+
+    class Meta:
+        icon = "help"
+        label = _("Domanda FAQ")
+
+
+class FAQBlock(blocks.StructBlock):
+    """
+    Blocco FAQ con titolo e lista di domande/risposte.
+    Schema.org FAQPage compatible.
+    """
+    title = blocks.CharBlock(
+        label=_("Titolo sezione"),
+        max_length=100,
+        default=_("Domande Frequenti"),
+    )
+    subtitle = blocks.CharBlock(
+        label=_("Sottotitolo"),
+        max_length=255,
+        required=False,
+        default=_("Trova rapidamente le risposte alle domande più comuni"),
+    )
+    items = blocks.ListBlock(
+        FAQItemBlock(),
+        label=_("Domande"),
+        min_num=1,
+    )
+
+    class Meta:
+        icon = "help"
+        label = _("FAQ")
+        template = "website/blocks/faq_block.jinja2"
 

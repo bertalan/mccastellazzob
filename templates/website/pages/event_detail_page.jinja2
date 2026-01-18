@@ -1,7 +1,8 @@
 {# MC Castellazzo - Event Detail Page Template #}
 {% extends "website/base.jinja2" %}
+{% from "website/includes/gold_title.jinja2" import gold_title %}
 
-{% block title %}{{ page.event_name }}{% endblock %}
+{% block title %}{{ page.event_name|replace('**', '') }}{% endblock %}
 
 {% block content %}
     {# Hero Section #}
@@ -19,7 +20,7 @@
                     <li><a href="{{ ancestor.url }}" class="hover:text-gold transition">{{ ancestor.title }}</a></li>
                     <li><i class="fas fa-chevron-right text-xs" aria-hidden="true"></i></li>
                     {% endfor %}
-                    <li aria-current="page" class="text-gold">{{ page.event_name }}</li>
+                    <li aria-current="page" class="text-gold">{{ page.event_name|replace('**', '') }}</li>
                 </ol>
             </nav>
             
@@ -49,7 +50,7 @@
             </div>
             
             <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up" data-aos-delay="100">
-                {{ page.event_name }}
+                {{ gold_title(page.event_name) }}
             </h1>
             
             {# Quick Info Bar #}
@@ -116,13 +117,19 @@
                                 {{ _("Galleria") }}
                             </h2>
                             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                {% set gallery_images = [] %}
                                 {% for block in page.gallery %}
                                 {% if block.block_type == 'image' and block.value.image %}
-                                <div class="aspect-video rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition"
-                                     onclick="openLightbox('{{ image(block.value.image, 'width-1200').url }}', '{{ block.value.caption or block.value.image.title }}')">
+                                {% set img_title = block.value.caption or block.value.image.title %}
+                                {% set _ = gallery_images.append({'src': image(block.value.image, 'width-1200').url, 'title': img_title, 'thumb': image(block.value.image, 'fill-400x300').url}) %}
+                                <div class="aspect-video rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition group relative"
+                                     onclick="openEventLightbox({{ loop.index0 }})">
                                     <img src="{{ image(block.value.image, 'fill-400x300').url }}" 
-                                         alt="{{ block.value.caption or block.value.image.title }}"
-                                         class="w-full h-full object-cover">
+                                         alt="{{ img_title }}"
+                                         class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition flex items-center justify-center">
+                                        <i class="fas fa-search-plus text-white text-2xl opacity-0 group-hover:opacity-100 transition" aria-hidden="true"></i>
+                                    </div>
                                 </div>
                                 {% endif %}
                                 {% endfor %}
@@ -203,12 +210,29 @@
         </article>
     </main>
 
-    {# Lightbox #}
-    <div id="lightbox" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center" onclick="closeLightbox()">
-        <img id="lightbox-img" src="" alt="" class="max-w-[90%] max-h-[90%] rounded-lg">
-        <button class="absolute top-8 right-8 text-white text-4xl hover:text-gold transition" aria-label="{{ _('Chiudi') }}">
+    {# Lightbox con navigazione #}
+    <div id="lightbox" class="fixed inset-0 bg-black/95 z-50 hidden items-center justify-center p-4" onclick="closeEventLightbox()">
+        {# Close button #}
+        <button onclick="closeEventLightbox(); event.stopPropagation();" class="absolute top-6 right-6 text-white text-4xl hover:text-gold transition z-10" aria-label="{{ _('Chiudi') }}">
             <i class="fas fa-times" aria-hidden="true"></i>
         </button>
+        
+        {# Navigation Arrows #}
+        <button onclick="prevEventImage(); event.stopPropagation();" class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gold transition z-10" aria-label="{{ _('Foto precedente') }}">
+            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+        </button>
+        <button onclick="nextEventImage(); event.stopPropagation();" class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gold transition z-10" aria-label="{{ _('Foto successiva') }}">
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+        </button>
+        
+        {# Image container #}
+        <div class="w-full max-w-[80%] max-h-full flex flex-col items-center mx-auto" onclick="event.stopPropagation()">
+            <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+            <div class="mt-4 text-center w-full px-4">
+                <h3 id="lightbox-title" class="text-white text-xl font-heading font-bold"></h3>
+                <p id="lightbox-counter" class="text-white/50 mt-2 text-sm"></p>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
@@ -234,23 +258,73 @@
             .openPopup();
     })();
     
-    // Lightbox
-    function openLightbox(src, alt) {
+    // Lightbox con navigazione
+    const eventGalleryImages = [
+        {% for block in page.gallery %}
+        {% if block.block_type == 'image' and block.value.image %}
+        {
+            src: '{{ image(block.value.image, "width-1200").url }}',
+            title: '{{ (block.value.caption or block.value.image.title)|e }}'
+        }{% if not loop.last %},{% endif %}
+        {% endif %}
+        {% endfor %}
+    ];
+    
+    let currentEventImageIndex = 0;
+    
+    function openEventLightbox(index) {
+        currentEventImageIndex = index;
+        showEventImage(index);
+        
         var lightbox = document.getElementById('lightbox');
-        document.getElementById('lightbox-img').src = src;
-        document.getElementById('lightbox-img').alt = alt;
         lightbox.classList.remove('hidden');
         lightbox.classList.add('flex');
+        document.body.style.overflow = 'hidden';
     }
     
-    function closeLightbox() {
+    function showEventImage(index) {
+        if (eventGalleryImages.length === 0) return;
+        
+        // Wrap around
+        if (index < 0) index = eventGalleryImages.length - 1;
+        if (index >= eventGalleryImages.length) index = 0;
+        
+        currentEventImageIndex = index;
+        var img = eventGalleryImages[index];
+        
+        document.getElementById('lightbox-img').src = img.src;
+        document.getElementById('lightbox-img').alt = img.title || '';
+        document.getElementById('lightbox-title').textContent = img.title || '';
+        document.getElementById('lightbox-counter').textContent = (index + 1) + ' / ' + eventGalleryImages.length;
+    }
+    
+    function nextEventImage() {
+        showEventImage(currentEventImageIndex + 1);
+    }
+    
+    function prevEventImage() {
+        showEventImage(currentEventImageIndex - 1);
+    }
+    
+    function closeEventLightbox() {
         var lightbox = document.getElementById('lightbox');
         lightbox.classList.add('hidden');
         lightbox.classList.remove('flex');
+        document.body.style.overflow = '';
     }
     
+    // Close on background click
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+        if (e.target === this) closeEventLightbox();
+    });
+    
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeLightbox();
+        var lightbox = document.getElementById('lightbox');
+        if (lightbox.classList.contains('hidden')) return;
+        
+        if (e.key === 'Escape') closeEventLightbox();
+        if (e.key === 'ArrowLeft') prevEventImage();
+        if (e.key === 'ArrowRight') nextEventImage();
     });
 </script>
 {% endblock %}

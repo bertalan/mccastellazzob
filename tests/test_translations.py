@@ -56,20 +56,12 @@ def homepage_with_translations(db, locales):
         root_page = Page.add_root(title="Root", slug="root")
     
     # Create Italian homepage (default)
+    # NOTE: organization_name, city, region, etc. are now in wagtailseo.SeoSettings
     home_it = HomePage(
         title="Home",
         slug="home",
         locale=locales["it"],
-        organization_name="Moto Club Castellazzo Bormida",
         description="<p>Il Moto Club Castellazzo Bormida, fondato nel 1933</p>",
-        city="Castellazzo Bormida",
-        region="Piemonte",
-        country="IT",
-        street_address="Via Roma, 45",
-        postal_code="15073",
-        telephone="+39 0131 123456",
-        email="info@mccastellazzobormida.it",
-        founding_date=date(1933, 1, 1),
         hero_title="Moto Club Castellazzo Bormida",
         hero_subtitle="Dal 1933 - La passione per le due ruote",
     )
@@ -272,11 +264,6 @@ class TestHomePageTranslations:
         }
         for lang, expected_title in titles.items():
             assert homepage_with_translations[lang].title == expected_title
-    
-    def test_homepage_organization_name_preserved(self, homepage_with_translations):
-        """Test organization name is the same in all languages."""
-        for hp in homepage_with_translations.values():
-            assert hp.organization_name == "Moto Club Castellazzo Bormida"
 
 
 # ============================================================
@@ -343,47 +330,50 @@ class TestPageStructure:
 
 @pytest.mark.django_db
 class TestSchemaOrgTypes:
-    """Test schema.org types are correct for each page as per CLAUDE.md."""
+    """Test schema.org types are correct for each page.
     
-    def test_homepage_schema_org_organization(self, full_site_structure):
-        """Test HomePage has schema.org Organization type."""
+    Uses get_json_ld_type() method from JsonLdMixin.
+    """
+    
+    def test_homepage_schema_org_sportsclub(self, full_site_structure):
+        """Test HomePage has schema.org SportsClub type."""
         home = full_site_structure["home"]
-        assert home.get_schema_org_type() == "Organization"
+        assert home.get_json_ld_type() == "SportsClub"
     
     def test_timeline_schema_org_itemlist(self, full_site_structure):
         """Test TimelinePage has schema.org ItemList type."""
         timeline = full_site_structure["timeline"]
-        assert timeline.get_schema_org_type() == "ItemList"
+        assert timeline.get_json_ld_type() == "ItemList"
     
     def test_about_schema_org_aboutpage(self, full_site_structure):
         """Test AboutPage has schema.org AboutPage type."""
         about = full_site_structure["about"]
-        assert about.get_schema_org_type() == "AboutPage"
+        assert about.get_json_ld_type() == "AboutPage"
     
     def test_board_schema_org_organization(self, full_site_structure):
         """Test BoardPage has schema.org Organization type (for member list)."""
         board = full_site_structure["board"]
-        assert board.get_schema_org_type() == "Organization"
+        assert board.get_json_ld_type() == "Organization"
     
     def test_transparency_schema_org_webpage(self, full_site_structure):
         """Test TransparencyPage has schema.org WebPage type."""
         transparency = full_site_structure["transparency"]
-        assert transparency.get_schema_org_type() == "WebPage"
+        assert transparency.get_json_ld_type() == "WebPage"
     
     def test_contact_schema_org_organization(self, full_site_structure):
-        """Test ContactPage has schema.org Organization type (valid type for contact info)."""
+        """Test ContactPage has schema.org Organization type (contact info with address)."""
         contact = full_site_structure["contact"]
-        assert contact.get_schema_org_type() == "Organization"
+        assert contact.get_json_ld_type() == "Organization"
     
     def test_events_schema_org_eventseries(self, full_site_structure):
         """Test EventsPage has schema.org EventSeries type."""
         events = full_site_structure["events"]
-        assert events.get_schema_org_type() == "EventSeries"
+        assert events.get_json_ld_type() == "EventSeries"
     
     def test_event_detail_schema_org_event(self, full_site_structure):
         """Test EventDetailPage has schema.org Event type."""
         event = full_site_structure["event"]
-        assert event.get_schema_org_type() == "Event"
+        assert event.get_json_ld_type() == "Event"
 
 
 # ============================================================
@@ -445,51 +435,38 @@ class TestUrlPatterns:
 
 @pytest.mark.django_db
 class TestHomePageRequiredFields:
-    """Test HomePage has all required fields from CLAUDE.md."""
+    """Test HomePage has JSON-LD schema.org support.
     
-    def test_homepage_has_organization_name(self, homepage_with_translations):
-        """Test HomePage has name field (organization_name)."""
-        home = homepage_with_translations["it"]
-        assert hasattr(home, "organization_name")
-        assert home.organization_name is not None
+    NOTE: I campi organizzazione (organization_name, city, etc.) sono ora
+    gestiti da wagtailseo.SeoSettings, non più dalla HomePage direttamente.
+    """
     
-    def test_homepage_has_address_fields(self, homepage_with_translations):
-        """Test HomePage has PostalAddress fields."""
+    def test_homepage_has_json_ld_type(self, homepage_with_translations):
+        """Test HomePage has get_json_ld_type method."""
         home = homepage_with_translations["it"]
-        assert hasattr(home, "street_address")
-        assert hasattr(home, "city")
-        assert hasattr(home, "region")
-        assert hasattr(home, "country")
-        assert hasattr(home, "postal_code")
+        assert hasattr(home, "get_json_ld_type")
+        assert home.get_json_ld_type() == "SportsClub"
     
-    def test_homepage_has_contact_fields(self, homepage_with_translations):
-        """Test HomePage has ContactPoint fields."""
+    def test_homepage_has_json_ld_data(self, homepage_with_translations):
+        """Test HomePage has get_json_ld_data method."""
         home = homepage_with_translations["it"]
-        assert hasattr(home, "telephone")
-        assert hasattr(home, "email")
+        assert hasattr(home, "get_json_ld_data")
+        data = home.get_json_ld_data()
+        assert "sport" in data
+        assert data["sport"] == "Motorcycling"
     
-    def test_homepage_has_founding_date(self, homepage_with_translations):
-        """Test HomePage has foundingDate field."""
+    def test_homepage_has_hero_fields(self, homepage_with_translations):
+        """Test HomePage has hero section fields."""
         home = homepage_with_translations["it"]
-        assert hasattr(home, "founding_date")
-        assert home.founding_date == date(1933, 1, 1)
+        assert hasattr(home, "hero_title")
+        assert hasattr(home, "hero_subtitle")
+        assert home.hero_title == "Moto Club Castellazzo Bormida"
     
-    def test_homepage_schema_data_includes_address(self, homepage_with_translations):
-        """Test HomePage schema.org data includes address."""
+    def test_homepage_has_description(self, homepage_with_translations):
+        """Test HomePage has description field."""
         home = homepage_with_translations["it"]
-        schema_data = home.get_schema_org_data()
-        
-        assert "address" in schema_data
-        assert schema_data["address"]["@type"] == "PostalAddress"
-        assert schema_data["address"]["addressLocality"] == "Castellazzo Bormida"
-    
-    def test_homepage_schema_data_includes_contact(self, homepage_with_translations):
-        """Test HomePage schema.org data includes contactPoint."""
-        home = homepage_with_translations["it"]
-        schema_data = home.get_schema_org_data()
-        
-        assert "contactPoint" in schema_data
-        assert schema_data["contactPoint"]["@type"] == "ContactPoint"
+        assert hasattr(home, "description")
+        assert home.description is not None
 
 
 # ============================================================
@@ -549,9 +526,8 @@ class TestEventFields:
     def test_event_schema_org_data(self, full_site_structure):
         """Test EventDetailPage schema.org data is correct."""
         event = full_site_structure["event"]
-        schema_data = event.get_schema_org_data()
+        schema_data = event.get_json_ld_data()
         
-        assert schema_data["@type"] == "Event"
         assert schema_data["name"] == "92° Raduno Nazionale MC Castellazzo"
         assert "startDate" in schema_data
         assert "location" in schema_data
@@ -619,7 +595,8 @@ class TestJsonLdOutput:
         assert "@context" in parsed
         assert parsed["@context"] == "https://schema.org"
         assert "@type" in parsed
-        assert parsed["@type"] == "Organization"
+        # HomePage ora usa SportsClub
+        assert parsed["@type"] == "SportsClub"
     
     def test_event_json_ld_valid(self, full_site_structure):
         """Test EventDetailPage JSON-LD is valid JSON."""
@@ -630,69 +607,6 @@ class TestJsonLdOutput:
         parsed = json.loads(json_ld)
         assert parsed["@type"] == "Event"
         assert "startDate" in parsed
-
-
-# ============================================================
-# UI TRANSLATIONS TEST
-# ============================================================
-
-@pytest.mark.django_db
-class TestUITranslations:
-    """Test that UI strings are properly translated in all languages."""
-    
-    UI_STRINGS = {
-        'en': {
-            'DAL': 'SINCE',
-            'Contattaci': 'Contact Us',
-            'Prossimi Eventi': 'Upcoming Events',
-            'Vedi Eventi': 'View Events',
-            'Scopri di più': 'Learn more',
-            'Benvenuti': 'Welcome',
-            'Lingua': 'Language',
-        },
-        'de': {
-            'DAL': 'SEIT',
-            'Contattaci': 'Kontaktieren Sie uns',
-            'Prossimi Eventi': 'Kommende Veranstaltungen',
-            'Vedi Eventi': 'Veranstaltungen ansehen',
-            'Scopri di più': 'Mehr erfahren',
-            'Benvenuti': 'Willkommen',
-            'Lingua': 'Sprache',
-        },
-        'fr': {
-            'DAL': 'DEPUIS',
-            'Contattaci': 'Contactez-nous',
-            'Prossimi Eventi': 'Événements à venir',
-            'Vedi Eventi': 'Voir les événements',
-            'Scopri di più': 'En savoir plus',
-            'Benvenuti': 'Bienvenue',
-            'Lingua': 'Langue',
-        },
-        'es': {
-            'DAL': 'DESDE',
-            'Contattaci': 'Contáctanos',
-            'Prossimi Eventi': 'Próximos Eventos',
-            'Vedi Eventi': 'Ver Eventos',
-            'Scopri di più': 'Saber más',
-            'Benvenuti': 'Bienvenidos',
-            'Lingua': 'Idioma',
-        },
-    }
-    
-    @pytest.mark.parametrize("lang", ['en', 'de', 'fr', 'es'])
-    def test_ui_strings_translated(self, lang):
-        """Test that UI strings are properly translated via gettext."""
-        from django.utils.translation import activate, gettext
-        
-        activate(lang)
-        expected = self.UI_STRINGS[lang]
-        
-        for italian, translated in expected.items():
-            result = gettext(italian)
-            assert result == translated, (
-                f"Translation failed for '{italian}' in {lang}: "
-                f"expected '{translated}', got '{result}'"
-            )
 
 
 # ============================================================

@@ -1,7 +1,10 @@
 """
 MC Castellazzo - HomePage Model
 ================================
-schema.org Organization
+schema.org SportsClub/Organization
+
+Usa wagtailseo.SeoSettings come fonte unica per i dati organizzazione.
+I campi locali sono solo per contenuti specifici della pagina (hero, CTA).
 """
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -9,7 +12,7 @@ from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
-from apps.core.schema import SchemaOrgMixin, postal_address, contact_point
+from apps.core.seo import JsonLdMixin, clean_html, get_organization_data
 from apps.website.blocks import (
     HeroSliderBlock,
     HeroCountdownBlock,
@@ -21,88 +24,19 @@ from apps.website.blocks import (
 )
 
 
-class HomePage(SchemaOrgMixin, Page):
+class HomePage(JsonLdMixin, Page):
     """
-    Homepage del sito - schema.org Organization.
+    Homepage del sito - schema.org SportsClub/Organization.
     
-    Campi secondo schema.org:
-    - name: Nome organizzazione
-    - logo: Logo
-    - url: URL sito
-    - description: Descrizione
-    - address: PostalAddress
-    - contactPoint: ContactPoint
-    - foundingDate: Data fondazione
-    - knowsAbout: Motoclub
+    I dati organizzazione (nome, indirizzo, telefono, logo) sono gestiti
+    centralmente in Settings > SEO (wagtailseo.SeoSettings).
+    
+    Qui definiamo solo:
+    - Contenuti specifici della homepage (hero, CTA)
+    - StreamField per componenti visivi
     """
     
-    # === Campi Organization ===
-    organization_name = models.CharField(
-        _("Nome organizzazione"),
-        max_length=255,
-        default="MC Castellazzo",
-    )
-    
-    logo = models.ForeignKey(
-        "wagtailimages.Image",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-        verbose_name=_("Logo"),
-    )
-    
-    description = RichTextField(
-        _("Descrizione"),
-        blank=True,
-    )
-    
-    # Address (PostalAddress)
-    street_address = models.CharField(
-        _("Indirizzo"),
-        max_length=255,
-        blank=True,
-    )
-    city = models.CharField(
-        _("Città"),
-        max_length=100,
-        default="Torino",
-    )
-    region = models.CharField(
-        _("Regione"),
-        max_length=100,
-        default="Piedmont",
-    )
-    country = models.CharField(
-        _("Paese"),
-        max_length=2,
-        default="IT",
-    )
-    postal_code = models.CharField(
-        _("CAP"),
-        max_length=10,
-        blank=True,
-    )
-    
-    # ContactPoint
-    telephone = models.CharField(
-        _("Telefono"),
-        max_length=30,
-        blank=True,
-    )
-    email = models.EmailField(
-        _("Email"),
-        blank=True,
-    )
-    
-    # Founding date
-    founding_date = models.DateField(
-        _("Data fondazione"),
-        null=True,
-        blank=True,
-    )
-    
-    # Hero section
+    # === HERO SECTION ===
     hero_badge = models.CharField(
         _("Badge hero"),
         max_length=100,
@@ -143,8 +77,26 @@ class HomePage(SchemaOrgMixin, Page):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
-        verbose_name=_("Slider fotografico"),
-        help_text=_("Seleziona un Carousel da Snippets > Carousel."),
+        verbose_name=_("Slider fotografico (CodeRedCMS)"),
+        help_text=_("Carousel CodeRedCMS - può avere bug, usa Simple Carousel se non funziona."),
+    )
+    
+    # Simple Carousel (alternativa senza bug)
+    simple_carousel = models.ForeignKey(
+        "website.SimpleCarousel",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Simple Carousel"),
+        help_text=_("Carousel semplice senza bug - CONSIGLIATO."),
+    )
+    
+    # === CONTENUTO ===
+    description = RichTextField(
+        _("Descrizione breve"),
+        blank=True,
+        help_text=_("Breve descrizione del motoclub per la homepage"),
     )
     
     # Evento in evidenza
@@ -195,41 +147,17 @@ class HomePage(SchemaOrgMixin, Page):
     content_panels = Page.content_panels + [
         MultiFieldPanel(
             [
-                FieldPanel("organization_name"),
-                FieldPanel("logo"),
-                FieldPanel("description"),
-                FieldPanel("founding_date"),
-            ],
-            heading=_("Informazioni Organizzazione"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("street_address"),
-                FieldPanel("city"),
-                FieldPanel("region"),
-                FieldPanel("country"),
-                FieldPanel("postal_code"),
-            ],
-            heading=_("Indirizzo"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("telephone"),
-                FieldPanel("email"),
-            ],
-            heading=_("Contatti"),
-        ),
-        MultiFieldPanel(
-            [
                 FieldPanel("hero_badge"),
                 FieldPanel("hero_title"),
                 FieldPanel("hero_subtitle"),
                 FieldPanel("hero_tagline"),
                 FieldPanel("hero_image"),
+                FieldPanel("simple_carousel"),
                 FieldPanel("hero_carousel"),
             ],
             heading=_("Hero Section"),
         ),
+        FieldPanel("description"),
         FieldPanel("featured_event"),
         MultiFieldPanel(
             [
@@ -246,37 +174,21 @@ class HomePage(SchemaOrgMixin, Page):
         verbose_name_plural = _("Homepage")
     
     # === Schema.org Methods ===
-    def get_schema_org_type(self) -> str:
-        return "Organization"
+    def get_json_ld_type(self) -> str:
+        """Homepage usa SportsClub come tipo principale."""
+        return "SportsClub"
     
-    def get_schema_org_data(self) -> dict:
-        data = {
-            "name": self.organization_name,
-            "url": self.full_url,
-            "knowsAbout": "Motoclub",
-        }
+    def get_json_ld_data(self, request=None) -> dict:
+        """
+        Dati schema.org SportsClub.
+        Prende i dati organizzazione da wagtailseo.SeoSettings.
+        Sport e federazione vengono da SiteSettings.
+        """
+        # Ottieni dati completi da SeoSettings (include sport e memberOf)
+        data = get_organization_data(self)
         
-        if self.logo:
-            data["logo"] = self.logo.get_rendition("original").url
-        
+        # Aggiungi descrizione dalla pagina se presente
         if self.description:
-            data["description"] = self.description
-        
-        data["address"] = postal_address(
-            street=self.street_address,
-            city=self.city,
-            region=self.region,
-            country=self.country,
-            postal_code=self.postal_code,
-        )
-        
-        if self.telephone or self.email:
-            data["contactPoint"] = contact_point(
-                telephone=self.telephone,
-                email=self.email,
-            )
-        
-        if self.founding_date:
-            data["foundingDate"] = self.founding_date.isoformat()
+            data["description"] = clean_html(self.description)
         
         return data

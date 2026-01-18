@@ -32,9 +32,9 @@
         <!-- Dots Indicator -->
         <div class="slider-dots absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-2 z-10">
             {% for slide in value.slides %}
-            <button class="dot w-3 h-3 rounded-full {% if forloop.first %}bg-gold{% else %}bg-white/50{% endif %}" 
-                    data-index="{{ forloop.counter0 }}" 
-                    aria-label="{{ _('Vai alla foto') }} {{ forloop.counter }}"></button>
+            <button class="dot w-3 h-3 rounded-full {% if loop.first %}bg-gold{% else %}bg-white/50{% endif %}" 
+                    data-index="{{ loop.index0 }}" 
+                    aria-label="{{ _('Vai alla foto') }} {{ loop.index }}"></button>
             {% endfor %}
         </div>
     </div>

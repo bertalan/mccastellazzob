@@ -1,0 +1,247 @@
+{# Block: Gallery con filtri categoria dinamici e lightbox #}
+{% set gallery_id = "gallery_" ~ range(10000, 99999)|random %}
+
+<section class="gallery-section py-16 bg-white" aria-labelledby="{{ gallery_id }}-heading">
+    <div class="max-w-7xl mx-auto px-6">
+        {% if value.title %}
+        <h2 id="{{ gallery_id }}-heading" class="text-4xl font-heading font-black text-navy text-center mb-8" data-aos="fade-up">
+            {{ value.title }}
+        </h2>
+        {% endif %}
+        
+        {% if value.show_filters %}
+        {# Raccoglie le categorie uniche dalle immagini (solo oggetti GalleryCategory, non stringhe legacy) #}
+        {% set categories = [] %}
+        {% for item in value.images %}
+            {% if item.category and item.category is not string and item.category.slug not in categories|map(attribute='slug')|list %}
+                {% set _ = categories.append(item.category) %}
+            {% endif %}
+        {% endfor %}
+        
+        <!-- Category Filters (dinamici) -->
+        <div class="flex flex-wrap justify-center gap-4 mb-12" data-aos="fade-up" role="tablist" aria-label="{{ _('Filtra galleria per categoria') }}">
+            <button class="{{ gallery_id }}-filter gallery-filter px-6 py-3 rounded-full font-bold transition bg-navy text-white" 
+                    data-category="all" 
+                    role="tab" 
+                    aria-selected="true">
+                <i class="fas fa-images mr-2" aria-hidden="true"></i> {{ _('Tutti') }}
+            </button>
+            {% for cat in categories|sort(attribute='sort_order') %}
+            <button class="{{ gallery_id }}-filter gallery-filter px-6 py-3 rounded-full font-bold transition bg-warm-gray text-navy hover:bg-navy hover:text-white" 
+                    data-category="{{ cat.slug }}" 
+                    role="tab" 
+                    aria-selected="false">
+                <i class="{{ cat.icon|default('fas fa-folder') }} mr-2" aria-hidden="true"></i> {{ cat.name }}
+            </button>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <!-- Gallery Grid -->
+        <div class="grid grid-cols-2 md:{{ value.columns }} gap-4" id="{{ gallery_id }}-grid">
+            {% for item in value.images %}
+            {% set item_title = item.title if item.title and item.title != 'None' else '' %}
+            {% set item_caption = item.caption if item.caption and item.caption != 'None' else '' %}
+            {# Gestisce sia oggetti GalleryCategory che stringhe legacy #}
+            {% if item.category and item.category is not string %}
+                {% set item_category = item.category.slug %}
+            {% elif item.category is string %}
+                {% set item_category = item.category %}
+            {% else %}
+                {% set item_category = 'all' %}
+            {% endif %}
+            <div class="{{ gallery_id }}-item gallery-item group relative overflow-hidden rounded-xl cursor-pointer card-hover" 
+                 data-category="{{ item_category }}"
+                 data-title="{{ item_title }}"
+                 data-caption="{{ item_caption }}"
+                 data-image="{{ image(item.image, 'width-1600').url }}"
+                 data-aos="fade-up" 
+                 data-aos-delay="{{ (loop.index % 6) }}00">
+                <div class="aspect-square overflow-hidden">
+                    <img src="{{ image(item.image, 'fill-400x400').url }}" 
+                         alt="{{ item_title or item_caption or _('Foto galleria') }}" 
+                         class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500"
+                         loading="lazy">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {% if item_title or item_caption %}
+                    <div class="absolute bottom-4 left-4 right-4">
+                        {% if item_title %}
+                        <h4 class="text-white font-bold text-lg">{{ item_title }}</h4>
+                        {% endif %}
+                        {% if item_caption %}
+                        <p class="text-white/80 text-sm mt-1 line-clamp-2">{{ item_caption }}</p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-gold text-navy px-2 py-1 rounded-full text-xs font-bold">
+                            <i class="fas fa-search-plus" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="{{ gallery_id }}-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 p-4" role="dialog" aria-modal="true" aria-label="{{ _('Visualizzatore immagine') }}">
+    <button class="absolute top-4 right-4 text-white text-3xl hover:text-gold transition z-10" 
+            onclick="closeLightbox_{{ gallery_id }}()" 
+            aria-label="{{ _('Chiudi') }}">
+        <i class="fas fa-times" aria-hidden="true"></i>
+    </button>
+    
+    <!-- Navigation arrows -->
+    <button class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gold transition z-10 hidden md:block" 
+            onclick="lightboxPrev_{{ gallery_id }}()" 
+            aria-label="{{ _('Immagine precedente') }}">
+        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+    </button>
+    <button class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gold transition z-10 hidden md:block" 
+            onclick="lightboxNext_{{ gallery_id }}()" 
+            aria-label="{{ _('Immagine successiva') }}">
+        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+    </button>
+    
+    <div class="max-w-5xl max-h-full flex flex-col items-center">
+        <img id="{{ gallery_id }}-lightbox-img" src="" alt="" class="max-w-full max-h-[70vh] object-contain rounded-lg shadow-2xl">
+        <div id="{{ gallery_id }}-lightbox-info" class="mt-4 text-center max-w-2xl">
+            <h3 id="{{ gallery_id }}-lightbox-title" class="text-white text-2xl font-heading font-bold"></h3>
+            <p id="{{ gallery_id }}-lightbox-caption" class="text-white/80 mt-2 text-lg"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    const galleryId = '{{ gallery_id }}';
+    const filterBtns = document.querySelectorAll('.' + galleryId + '-filter');
+    const items = document.querySelectorAll('.' + galleryId + '-item');
+    const lightbox = document.getElementById(galleryId + '-lightbox');
+    const lightboxImg = document.getElementById(galleryId + '-lightbox-img');
+    const lightboxTitle = document.getElementById(galleryId + '-lightbox-title');
+    const lightboxCaption = document.getElementById(galleryId + '-lightbox-caption');
+    
+    let currentIndex = 0;
+    let visibleItems = [];
+    
+    // Filter functionality
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const category = btn.dataset.category;
+            
+            // Update active state
+            filterBtns.forEach(b => {
+                b.classList.remove('bg-navy', 'text-white');
+                b.classList.add('bg-warm-gray', 'text-navy');
+                b.setAttribute('aria-selected', 'false');
+            });
+            btn.classList.remove('bg-warm-gray', 'text-navy');
+            btn.classList.add('bg-navy', 'text-white');
+            btn.setAttribute('aria-selected', 'true');
+            
+            // Filter items
+            items.forEach(item => {
+                const itemCategory = item.dataset.category;
+                if (category === 'all' || itemCategory === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            updateVisibleItems();
+        });
+    });
+    
+    function updateVisibleItems() {
+        visibleItems = Array.from(items).filter(item => item.style.display !== 'none');
+    }
+    
+    // Lightbox functionality
+    items.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            updateVisibleItems();
+            currentIndex = visibleItems.indexOf(item);
+            openLightboxAt(currentIndex);
+        });
+    });
+    
+    function openLightboxAt(index) {
+        if (index < 0 || index >= visibleItems.length) return;
+        
+        const item = visibleItems[index];
+        const imgUrl = item.dataset.image;
+        const title = item.dataset.title;
+        const caption = item.dataset.caption;
+        
+        lightboxImg.src = imgUrl;
+        lightboxImg.alt = title || caption || '{{ _("Foto galleria") }}';
+        
+        // Mostra/nascondi titolo e descrizione
+        if (title) {
+            lightboxTitle.textContent = title;
+            lightboxTitle.style.display = 'block';
+        } else {
+            lightboxTitle.style.display = 'none';
+        }
+        
+        if (caption) {
+            lightboxCaption.textContent = caption;
+            lightboxCaption.style.display = 'block';
+        } else {
+            lightboxCaption.style.display = 'none';
+        }
+        
+        lightbox.classList.remove('hidden');
+        lightbox.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+        currentIndex = index;
+    }
+    
+    // Funzione locale di chiusura
+    function closeThisLightbox() {
+        lightbox.classList.add('hidden');
+        lightbox.classList.remove('flex');
+        document.body.style.overflow = '';
+    }
+    
+    // Funzione locale prev
+    function prevImage() {
+        currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+        openLightboxAt(currentIndex);
+    }
+    
+    // Funzione locale next
+    function nextImage() {
+        currentIndex = (currentIndex + 1) % visibleItems.length;
+        openLightboxAt(currentIndex);
+    }
+    
+    // Esponi funzioni globali per onclick inline
+    window['closeLightbox_' + galleryId] = closeThisLightbox;
+    window['lightboxPrev_' + galleryId] = prevImage;
+    window['lightboxNext_' + galleryId] = nextImage;
+    
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('hidden')) {
+            if (e.key === 'Escape') closeThisLightbox();
+            if (e.key === 'ArrowLeft') prevImage();
+            if (e.key === 'ArrowRight') nextImage();
+        }
+    });
+    
+    // Close on background click
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeThisLightbox();
+    });
+    
+    // Initialize visible items
+    updateVisibleItems();
+})();
+</script>
+

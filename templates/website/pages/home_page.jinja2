@@ -3,10 +3,15 @@
 
 {% block title %}{{ page.hero_title or page.title }}{% endblock %}
 
-{% block meta_description %}{{ page.description|striptags|truncate(160) if page.description else settings.website.SiteSettings.organization_name ~ ' - Motoclub ' ~ settings.website.SiteSettings.organization_founding_year|string }}{% endblock %}
+{% block meta_description %}{{ page.description|striptags|truncate(160) if page.description else settings.wagtailseo.SeoSettings.struct_org_name ~ ' - Dal ' ~ settings.website.SiteSettings.founding_year|string }}{% endblock %}
 
 {% block content %}
-    {# Photo Slider Section - usa Carousel da database se disponibile #}
+    {# Photo Slider Section - usa SimpleCarousel (consigliato) o Carousel CodeRedCMS #}
+    {% if page.simple_carousel and page.simple_carousel.slides.all()|length > 0 %}
+        {# Usa SimpleCarousel (senza bug) #}
+        {% set carousel = page.simple_carousel %}
+        {% include "website/includes/simple_carousel.jinja2" %}
+    {% else %}
     <section id="photo-slider" class="relative w-full overflow-hidden bg-navy pt-24" style="height: 75vh;">
         <div class="slider-container h-full relative">
             {# Slides #}
@@ -74,12 +79,13 @@
             {% endif %}
         </div>
     </section>
+    {% endif %}
 
     {# Hero Section - Bordeaux Background #}
     <header id="hero" class="py-20 bg-bordeaux">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div>
+            <div class="grid lg:grid-cols-5 gap-12 items-center">
+                <div class="lg:col-span-3">
                     {% if page.hero_badge %}
                     <span class="inline-block bg-gold text-navy px-4 py-2 rounded-full text-sm font-bold mb-6" data-aos="fade-right">
                         <i class="fas fa-star mr-2" aria-hidden="true"></i> {{ page.hero_badge }}
@@ -88,12 +94,12 @@
                     
                     <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-right" data-aos-delay="100">
                         {{ page.hero_title or _("Moto Club") }}<br>
-                        <span class="text-gold">{{ page.hero_subtitle or settings.website.SiteSettings.organization_city }}</span>
+                        <span class="text-gold">{{ page.hero_subtitle or settings.wagtailseo.SeoSettings.struct_org_address_locality }}</span>
                     </h1>
                     
                     {% if page.hero_tagline %}
                     <p class="text-xl text-gray-300 mb-8 leading-relaxed" data-aos="fade-right" data-aos-delay="200">
-                        <span class="text-gold font-bold">{{ now().year - settings.website.SiteSettings.organization_founding_year }} {{ _("anni") }}</span> {{ page.hero_tagline }}
+                        <span class="text-gold font-bold">{{ now().year - settings.website.SiteSettings.founding_year }} {{ _("anni") }}</span> {{ page.hero_tagline }}
                     </p>
                     {% endif %}
                     
@@ -111,7 +117,7 @@
                 
                 {# Event Card #}
                 {% if page.featured_event %}
-                <div class="bg-white rounded-3xl p-8 shadow-xl" data-aos="fade-left">
+                <div class="lg:col-span-2 bg-white rounded-3xl p-8 shadow-xl" data-aos="fade-left">
                     <div class="flex items-start gap-6">
                         <div class="w-20 h-20 bg-amaranth rounded-2xl flex flex-col items-center justify-center shrink-0">
                             <span class="text-white text-3xl font-black">{{ localtime(page.featured_event.start_date).strftime('%d') }}</span>

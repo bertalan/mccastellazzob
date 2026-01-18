@@ -1,7 +1,8 @@
 {# MC Castellazzo - Transparency Page Template #}
 {% extends "website/base.jinja2" %}
+{% from "website/includes/gold_title.jinja2" import gold_title %}
 
-{% block title %}{{ page.title }}{% endblock %}
+{% block title %}{{ page.title|replace('**', '') }}{% endblock %}
 
 {% block content %}
     {# Hero Section #}
@@ -14,7 +15,7 @@
                     <li><a href="{{ ancestor.url }}" class="hover:text-gold transition">{{ ancestor.title }}</a></li>
                     <li><i class="fas fa-chevron-right text-xs" aria-hidden="true"></i></li>
                     {% endfor %}
-                    <li aria-current="page" class="text-gold">{{ page.title }}</li>
+                    <li aria-current="page" class="text-gold">{{ page.title|replace('**', '') }}</li>
                 </ol>
             </nav>
             
@@ -26,7 +27,7 @@
             </div>
             
             <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up" data-aos-delay="100">
-                {{ page.title }}
+                {{ gold_title(page.title) }}
             </h1>
             
             {% if page.intro %}

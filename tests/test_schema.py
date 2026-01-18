@@ -20,13 +20,14 @@ class TestPostalAddress:
     """Tests for postal_address function."""
     
     def test_basic_address(self):
-        """Test basic address generation."""
+        """Test basic address generation with minimal params."""
         addr = postal_address()
         
         assert addr["@type"] == "PostalAddress"
-        assert addr["addressLocality"] == "Torino"
-        assert addr["addressRegion"] == "Piedmont"
+        # Default country is IT, other fields are empty
         assert addr["addressCountry"] == "IT"
+        assert "addressLocality" not in addr  # No default city
+        assert "addressRegion" not in addr     # No default region
     
     def test_full_address(self):
         """Test address with all fields."""
@@ -87,12 +88,21 @@ class TestPlace:
     """Tests for place function."""
     
     def test_basic_place(self):
-        """Test basic place."""
+        """Test basic place with only name."""
         p = place(name="Piazza Castello")
         
         assert p["@type"] == "Place"
         assert p["name"] == "Piazza Castello"
+        # Address is only included if street/city/region are provided
+        assert "address" not in p
+    
+    def test_place_with_address(self):
+        """Test place with address."""
+        p = place(name="Piazza Castello", city="Torino", region="Piemonte")
+        
+        assert p["@type"] == "Place"
         assert "address" in p
+        assert p["address"]["addressLocality"] == "Torino"
     
     def test_place_with_geo(self):
         """Test place with coordinates."""

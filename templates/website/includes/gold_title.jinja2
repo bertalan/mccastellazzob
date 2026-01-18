@@ -1,0 +1,14 @@
+{# Macro per evidenziare testo con **asterischi** in oro #}
+{# Uso: {% from "website/includes/gold_title.jinja2" import gold_title %}
+   {{ gold_title(page.title) }} #}
+
+{% macro gold_title(text) %}
+{%- if text and '**' in text -%}
+{%- set parts = text.split('**') -%}
+{%- for part in parts -%}
+{%- if loop.index is odd -%}{{ part }}{%- else -%}<span class="text-gold">{{ part }}</span>{%- endif -%}
+{%- endfor -%}
+{%- else -%}
+{{ text }}
+{%- endif -%}
+{% endmacro %}

@@ -1,5 +1,5 @@
-{# Block: Section Card (singola card) - Django #}
-<div class="group relative overflow-hidden rounded-3xl shadow-lg card-hover" data-aos="fade-up" data-aos-delay="{% if forloop.counter %}{{ forloop.counter }}00{% else %}100{% endif %}">
+{# Block: Section Card (singola card) - Jinja2 #}
+<div class="group relative overflow-hidden rounded-3xl shadow-lg card-hover" data-aos="fade-up" data-aos-delay="{% if loop.index is defined %}{{ loop.index }}00{% else %}100{% endif %}">
     <div class="aspect-[4/3] overflow-hidden">
         <img src="{{ image(card.image, 'fill-600x450').url }}" 
              alt="{{ card.title }}" 

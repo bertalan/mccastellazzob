@@ -42,14 +42,11 @@ def site(db):
         root_page = Page.add_root(title="Root", slug="root")
     
     # Create homepage with unique slug
+    # NOTE: organization_name, city, etc. are now in wagtailseo.SeoSettings
     unique_slug = f"home-{uuid.uuid4().hex[:8]}"
     home = HomePage(
         title="MC Castellazzo",
         slug=unique_slug,
-        organization_name="MC Castellazzo",
-        city="Torino",
-        region="Piedmont",
-        country="IT",
     )
     root_page.add_child(instance=home)
     

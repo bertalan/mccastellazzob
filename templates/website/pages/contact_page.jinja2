@@ -1,8 +1,9 @@
 {# MC Castellazzo - Contact Page Template #}
 {# WCAG 2.2 AAA Compliant #}
 {% extends "website/base.jinja2" %}
+{% from "website/includes/gold_title.jinja2" import gold_title %}
 
-{% block title %}{{ page.title }} | {{ settings.website.SiteSettings.organization_name }}{% endblock %}
+{% block title %}{{ page.title|replace('**', '') }}{% endblock %}
 
 {% block content %}
 {# ============================================= #}
@@ -25,17 +26,17 @@
                 </li>
                 {% endfor %}
                 <li aria-current="page" class="text-gold font-medium">
-                    {{ page.title }}
+                    {{ page.title|replace('**', '') }}
                 </li>
             </ol>
         </nav>
         
         {# Hero Title #}
         <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up">
-            {{ page.title }}
+            {{ gold_title(page.title) }}
         </h1>
         {% if page.intro %}
-        <div class="text-xl text-gray-300 max-w-2xl prose prose-invert" data-aos="fade-up" data-aos-delay="100">
+        <div class="text-xl text-gray-300 prose prose-invert" data-aos="fade-up" data-aos-delay="100">
             {{ page.intro|safe }}
         </div>
         {% endif %}
@@ -58,22 +59,58 @@
                 {# Contact Form #}
                 {% if page.show_contact_form %}
                 <div class="bg-white rounded-2xl shadow-lg p-8" data-aos="fade-right">
+                    
+                    {# Success Message #}
+                    {% if form_success %}
+                    <div class="bg-green-50 border-2 border-green-500 rounded-xl p-6 text-center" role="alert">
+                        <i class="fas fa-check-circle text-4xl text-green-500 mb-4" aria-hidden="true"></i>
+                        <h2 class="text-2xl font-heading font-bold text-green-700 mb-2">{{ _("Messaggio Inviato!") }}</h2>
+                        <p class="text-green-600">{{ success_message or page.form_success_message or _("Grazie per averci contattato!") }}</p>
+                    </div>
+                    {% else %}
+                    
                     <h2 class="text-2xl font-heading font-bold text-navy mb-6">{{ _("Inviaci un Messaggio") }}</h2>
                     
-                    <form id="contactForm" method="post" action="" novalidate aria-describedby="formDescription">
+                    {# Error Messages #}
+                    {% if form_errors %}
+                    <div class="bg-red-50 border-2 border-red-400 rounded-xl p-4 mb-6" role="alert">
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-exclamation-circle text-red-500 mt-1" aria-hidden="true"></i>
+                            <div>
+                                <h3 class="font-semibold text-red-700 mb-1">{{ _("Correggi gli errori:") }}</h3>
+                                <ul class="text-sm text-red-600 list-disc list-inside">
+                                    {% for error in form_errors %}
+                                    <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <form id="contactForm" method="post" action="" enctype="multipart/form-data" novalidate aria-describedby="formDescription">
                         {% csrf_token %}
-                        <p id="formDescription" class="text-gray-600 mb-6">{{ _("Compila il modulo e ti risponderemo entro 24 ore.") }}</p>
+                        
+                        {# Honeypot - campo nascosto anti-bot #}
+                        <div class="hidden" aria-hidden="true">
+                            <label for="website">{{ _("Lascia vuoto") }}</label>
+                            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                        </div>
+                        
+                        <p id="formDescription" class="text-gray-600 mb-6">{{ _("Compila il modulo e ti risponderemo al più presto.") }}</p>
                         
                         <div class="grid md:grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label for="nome" class="block text-sm font-semibold text-navy mb-2">{{ _("Nome") }} *</label>
                                 <input type="text" id="nome" name="nome" required
+                                    value="{{ form_data.nome if form_data else '' }}"
                                     class="w-full px-4 py-3 rounded-lg bg-warm-gray border-2 border-transparent focus:border-gold focus:bg-white transition text-navy"
                                     aria-required="true">
                             </div>
                             <div>
                                 <label for="cognome" class="block text-sm font-semibold text-navy mb-2">{{ _("Cognome") }} *</label>
                                 <input type="text" id="cognome" name="cognome" required
+                                    value="{{ form_data.cognome if form_data else '' }}"
                                     class="w-full px-4 py-3 rounded-lg bg-warm-gray border-2 border-transparent focus:border-gold focus:bg-white transition text-navy"
                                     aria-required="true">
                             </div>
@@ -82,6 +119,7 @@
                         <div class="mb-4">
                             <label for="email" class="block text-sm font-semibold text-navy mb-2">{{ _("Email") }} *</label>
                             <input type="email" id="email" name="email" required
+                                value="{{ form_data.email if form_data else '' }}"
                                 class="w-full px-4 py-3 rounded-lg bg-warm-gray border-2 border-transparent focus:border-gold focus:bg-white transition text-navy"
                                 aria-required="true">
                         </div>
@@ -89,6 +127,7 @@
                         <div class="mb-4">
                             <label for="telefono" class="block text-sm font-semibold text-navy mb-2">{{ _("Telefono") }}</label>
                             <input type="tel" id="telefono" name="telefono"
+                                value="{{ form_data.telefono if form_data else '' }}"
                                 class="w-full px-4 py-3 rounded-lg bg-warm-gray border-2 border-transparent focus:border-gold focus:bg-white transition text-navy">
                         </div>
                         
@@ -98,25 +137,63 @@
                                 class="w-full px-4 py-3 rounded-lg bg-warm-gray border-2 border-transparent focus:border-gold focus:bg-white transition text-navy"
                                 aria-required="true">
                                 <option value="">{{ _("Seleziona un argomento") }}</option>
-                                <option value="iscrizione">{{ _("Richiesta Iscrizione") }}</option>
-                                <option value="eventi">{{ _("Informazioni Eventi") }}</option>
-                                <option value="collaborazioni">{{ _("Collaborazioni") }}</option>
-                                <option value="altro">{{ _("Altro") }}</option>
+                                <option value="iscrizione" {{ 'selected' if form_data and form_data.oggetto == 'iscrizione' else '' }}>{{ _("Richiesta Iscrizione") }}</option>
+                                <option value="eventi" {{ 'selected' if form_data and form_data.oggetto == 'eventi' else '' }}>{{ _("Informazioni Eventi") }}</option>
+                                <option value="collaborazioni" {{ 'selected' if form_data and form_data.oggetto == 'collaborazioni' else '' }}>{{ _("Collaborazioni") }}</option>
+                                <option value="altro" {{ 'selected' if form_data and form_data.oggetto == 'altro' else '' }}>{{ _("Altro") }}</option>
                             </select>
                         </div>
                         
-                        <div class="mb-6">
+                        <div class="mb-4">
                             <label for="messaggio" class="block text-sm font-semibold text-navy mb-2">{{ _("Messaggio") }} *</label>
                             <textarea id="messaggio" name="messaggio" rows="5" required
                                 class="w-full px-4 py-3 rounded-lg bg-warm-gray border-2 border-transparent focus:border-gold focus:bg-white transition text-navy resize-none"
-                                aria-required="true"></textarea>
+                                aria-required="true">{{ form_data.messaggio if form_data else '' }}</textarea>
                         </div>
+                        
+                        {# Allegati - Drag & Drop con preview #}
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-navy mb-2">
+                                <i class="fas fa-paperclip mr-1" aria-hidden="true"></i>
+                                {{ _("Allegati") }}
+                            </label>
+                            
+                            {# Drop Zone #}
+                            <div id="dropZone" 
+                                 class="relative border-2 border-dashed border-gray-300 rounded-lg p-6 text-center transition-all hover:border-gold hover:bg-gold/5 cursor-pointer"
+                                 role="button"
+                                 tabindex="0"
+                                 aria-label="{{ _('Trascina i file qui o clicca per selezionare') }}">
+                                <input type="file" id="fileInput" name="allegati" multiple
+                                    accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.txt"
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                                <div class="pointer-events-none">
+                                    <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2" aria-hidden="true"></i>
+                                    <p class="text-gray-600 font-medium">{{ _("Trascina i file qui") }}</p>
+                                    <p class="text-sm text-gray-400">{{ _("oppure clicca per selezionare") }}</p>
+                                </div>
+                            </div>
+                            
+                            {# File List Preview #}
+                            <div id="fileList" class="mt-3 space-y-2 hidden">
+                                {# Files will be added here via JavaScript #}
+                            </div>
+                            
+                            <p class="text-xs text-gray-500 mt-2">
+                                <i class="fas fa-info-circle mr-1" aria-hidden="true"></i>
+                                {{ _("Max 3 file, 5MB ciascuno. Formati: PDF, JPG, PNG, DOC, DOCX, TXT") }}
+                            </p>
+                        </div>
+                        
+                        {# Hidden timestamp token for anti-spam #}
+                        <input type="hidden" name="captcha_token" value="{{ captcha.timestamp_token }}">
                         
                         <div class="mb-6">
                             <label class="flex items-start gap-3 cursor-pointer">
                                 <input type="checkbox" id="privacy" name="privacy" required
                                     class="mt-1 w-5 h-5 accent-gold"
-                                    aria-required="true">
+                                    aria-required="true"
+                                    {{ 'checked' if form_data and form_data.privacy else '' }}>
                                 <span class="text-sm text-gray-600">
                                     {{ _("Ho letto e accetto la") }} <a href="{{ main_pages.privacy or '/privacy/' }}" class="text-gold hover:text-gold-dark underline">{{ _("Privacy Policy") }}</a> *
                                 </span>
@@ -128,6 +205,7 @@
                             <span>{{ _("Invia Messaggio") }}</span>
                         </button>
                     </form>
+                    {% endif %}
                 </div>
                 {% endif %}
                 
@@ -146,6 +224,24 @@
                                     {{ page.address|replace(", ", "<br>")|safe }}
                                 </address>
                                 {% if page.latitude and page.longitude %}
+                                <div class="mt-3 flex flex-wrap gap-2">
+                                    <a href="https://www.google.com/maps/dir/?api=1&destination={{ page.latitude }},{{ page.longitude }}" 
+                                       target="_blank" 
+                                       rel="noopener noreferrer"
+                                       class="inline-flex items-center gap-2 text-sm bg-navy text-white px-3 py-1.5 rounded-full hover:bg-gold hover:text-navy transition"
+                                       aria-label="{{ _('Indicazioni stradali con Google Maps') }}">
+                                        <i class="fab fa-google" aria-hidden="true"></i>
+                                        <span>{{ _("Indicazioni") }}</span>
+                                    </a>
+                                    <a href="https://maps.apple.com/?daddr={{ page.latitude }},{{ page.longitude }}" 
+                                       target="_blank" 
+                                       rel="noopener noreferrer"
+                                       class="inline-flex items-center gap-2 text-sm bg-gray-700 text-white px-3 py-1.5 rounded-full hover:bg-gold hover:text-navy transition"
+                                       aria-label="{{ _('Indicazioni stradali con Apple Maps') }}">
+                                        <i class="fab fa-apple" aria-hidden="true"></i>
+                                        <span>{{ _("Indicazioni") }}</span>
+                                    </a>
+                                </div>
                                 <p class="text-xs text-gray-400 mt-2">
                                     <i class="fas fa-location-crosshairs mr-1" aria-hidden="true"></i>
                                     GPS: {{ "%.6f"|format(page.latitude) }}, {{ "%.6f"|format(page.longitude) }}
@@ -283,72 +379,43 @@
     </section>
 
     {# ----------------------------------------- #}
-    {# FAQ SECTION                               #}
+    {# FAQ SECTION (from database)               #}
     {# ----------------------------------------- #}
+    {% if page.faq and page.faq|length > 0 %}
     <section class="py-20 bg-warm-gray" aria-labelledby="faq-heading">
         <div class="max-w-4xl mx-auto px-6">
             <div class="text-center mb-12">
                 <h2 id="faq-heading" class="text-3xl md:text-4xl font-heading font-black text-navy mb-4" data-aos="fade-up">
-                    {{ _("Domande") }} <span class="text-gold">{{ _("Frequenti") }}</span>
+                    {% set title_parts = (page.faq_title or _("Domande Frequenti")).split(' ') %}
+                    {% if title_parts|length > 1 %}
+                        {{ title_parts[:-1]|join(' ') }} <span class="text-gold">{{ title_parts[-1] }}</span>
+                    {% else %}
+                        {{ page.faq_title or _("Domande Frequenti") }}
+                    {% endif %}
                 </h2>
+                {% if page.faq_subtitle %}
                 <p class="text-gray-600" data-aos="fade-up" data-aos-delay="100">
-                    {{ _("Trova rapidamente le risposte alle domande più comuni") }}
+                    {{ page.faq_subtitle }}
                 </p>
+                {% endif %}
             </div>
             
             <div class="space-y-4">
-                <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up">
+                {% for block in page.faq %}
+                <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 50 }}">
                     <summary class="flex items-center justify-between p-6 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset">
-                        <span class="font-heading font-bold text-navy text-lg">{{ _("Come posso iscrivermi al club?") }}</span>
+                        <span class="font-heading font-bold text-navy text-lg">{{ block.value.question }}</span>
                         <i class="fas fa-chevron-down text-gold transition-transform group-open:rotate-180" aria-hidden="true"></i>
                     </summary>
-                    <div class="px-6 pb-6 text-gray-600">
-                        <p>{{ _("Puoi iscriverti compilando il modulo in questa pagina, passando in sede durante gli orari di apertura, o contattandoci telefonicamente. La quota annuale è di €50 e include tessera FMI, assicurazione e partecipazione a tutti gli eventi sociali.") }}</p>
+                    <div class="px-6 pb-6 text-gray-600 prose prose-lg max-w-none">
+                        {{ block.value.answer|richtext }}
                     </div>
                 </details>
-                
-                <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="50">
-                    <summary class="flex items-center justify-between p-6 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset">
-                        <span class="font-heading font-bold text-navy text-lg">{{ _("Quali sono i requisiti per l'iscrizione?") }}</span>
-                        <i class="fas fa-chevron-down text-gold transition-transform group-open:rotate-180" aria-hidden="true"></i>
-                    </summary>
-                    <div class="px-6 pb-6 text-gray-600">
-                        <p>{{ _("Possono iscriversi tutti i maggiorenni in possesso di patente valida e con la passione per le moto. Non è richiesto possedere una moto, basta l'entusiasmo!") }}</p>
-                    </div>
-                </details>
-                
-                <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="100">
-                    <summary class="flex items-center justify-between p-6 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset">
-                        <span class="font-heading font-bold text-navy text-lg">{{ _("Posso partecipare agli eventi prima di iscrivermi?") }}</span>
-                        <i class="fas fa-chevron-down text-gold transition-transform group-open:rotate-180" aria-hidden="true"></i>
-                    </summary>
-                    <div class="px-6 pb-6 text-gray-600">
-                        <p>{{ _("Sì! Puoi partecipare come ospite a un massimo di 2 eventi prima di decidere se iscriverti. È un ottimo modo per conoscere il club e i suoi membri.") }}</p>
-                    </div>
-                </details>
-                
-                <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="150">
-                    <summary class="flex items-center justify-between p-6 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset">
-                        <span class="font-heading font-bold text-navy text-lg">{{ _("Che tipo di moto devo avere?") }}</span>
-                        <i class="fas fa-chevron-down text-gold transition-transform group-open:rotate-180" aria-hidden="true"></i>
-                    </summary>
-                    <div class="px-6 pb-6 text-gray-600">
-                        <p>{{ _("Nel nostro club sono benvenute moto di ogni tipo: stradali, naked, enduro, custom, sportive... La passione per le due ruote è l'unico requisito! Molti soci hanno anche più moto per diverse occasioni.") }}</p>
-                    </div>
-                </details>
-                
-                <details class="bg-white rounded-xl shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="200">
-                    <summary class="flex items-center justify-between p-6 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold focus:ring-inset">
-                        <span class="font-heading font-bold text-navy text-lg">{{ _("Organizzate corsi di guida sicura?") }}</span>
-                        <i class="fas fa-chevron-down text-gold transition-transform group-open:rotate-180" aria-hidden="true"></i>
-                    </summary>
-                    <div class="px-6 pb-6 text-gray-600">
-                        <p>{{ _("Sì, in collaborazione con la FMI organizziamo periodicamente corsi di guida sicura e perfezionamento. I corsi sono aperti anche ai non soci con un piccolo supplemento.") }}</p>
-                    </div>
-                </details>
+                {% endfor %}
             </div>
         </div>
     </section>
+    {% endif %}
 
     {# ----------------------------------------- #}
     {# CTA SECTION                               #}
@@ -402,8 +469,182 @@
         
         L.marker([location.lat, location.lon])
             .addTo(map)
-            .bindPopup('{{ page.address or settings.website.SiteSettings.organization_name }}')
+            .bindPopup('{{ page.address or settings.wagtailseo.SeoSettings.struct_org_name }}')
             .openPopup();
+    })();
+    
+    // File Upload Drag & Drop
+    (function() {
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+        
+        if (!dropZone || !fileInput || !fileList) return;
+        
+        const MAX_FILES = 3;
+        const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+        const ALLOWED_EXTENSIONS = ['.pdf', '.jpg', '.jpeg', '.png', '.doc', '.docx', '.txt'];
+        
+        let selectedFiles = new DataTransfer();
+        
+        // Get file icon based on extension
+        function getFileIcon(filename) {
+            const ext = filename.split('.').pop().toLowerCase();
+            const icons = {
+                'pdf': 'fa-file-pdf text-red-500',
+                'jpg': 'fa-file-image text-blue-500',
+                'jpeg': 'fa-file-image text-blue-500',
+                'png': 'fa-file-image text-green-500',
+                'doc': 'fa-file-word text-blue-600',
+                'docx': 'fa-file-word text-blue-600',
+                'txt': 'fa-file-alt text-gray-500'
+            };
+            return icons[ext] || 'fa-file text-gray-400';
+        }
+        
+        // Format file size
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+        
+        // Validate file
+        function validateFile(file) {
+            const ext = '.' + file.name.split('.').pop().toLowerCase();
+            if (!ALLOWED_EXTENSIONS.includes(ext)) {
+                return { valid: false, error: '{{ _("Tipo file non permesso") }}' };
+            }
+            if (file.size > MAX_SIZE) {
+                return { valid: false, error: '{{ _("File troppo grande (max 5MB)") }}' };
+            }
+            return { valid: true };
+        }
+        
+        // Update file list UI
+        function updateFileList() {
+            fileList.innerHTML = '';
+            
+            if (selectedFiles.files.length === 0) {
+                fileList.classList.add('hidden');
+                return;
+            }
+            
+            fileList.classList.remove('hidden');
+            
+            Array.from(selectedFiles.files).forEach((file, index) => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between bg-warm-gray rounded-lg px-4 py-3';
+                item.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <i class="fas ${getFileIcon(file.name)} text-lg" aria-hidden="true"></i>
+                        <div>
+                            <p class="text-sm font-medium text-navy">${file.name}</p>
+                            <p class="text-xs text-gray-500">${formatSize(file.size)}</p>
+                        </div>
+                    </div>
+                    <button type="button" class="remove-file text-gray-400 hover:text-red-500 transition p-2" 
+                            data-index="${index}" aria-label="{{ _('Rimuovi file') }}">
+                        <i class="fas fa-times" aria-hidden="true"></i>
+                    </button>
+                `;
+                fileList.appendChild(item);
+            });
+            
+            // Add remove handlers
+            fileList.querySelectorAll('.remove-file').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    removeFile(index);
+                });
+            });
+            
+            // Update input files
+            fileInput.files = selectedFiles.files;
+        }
+        
+        // Remove file by index
+        function removeFile(index) {
+            const newFiles = new DataTransfer();
+            Array.from(selectedFiles.files).forEach((file, i) => {
+                if (i !== index) newFiles.items.add(file);
+            });
+            selectedFiles = newFiles;
+            updateFileList();
+        }
+        
+        // Add files
+        function addFiles(files) {
+            let errorShown = false;
+            
+            Array.from(files).forEach(file => {
+                // Check max files
+                if (selectedFiles.files.length >= MAX_FILES) {
+                    if (!errorShown) {
+                        alert('{{ _("Puoi allegare massimo 3 file") }}');
+                        errorShown = true;
+                    }
+                    return;
+                }
+                
+                // Validate file
+                const validation = validateFile(file);
+                if (!validation.valid) {
+                    alert(file.name + ': ' + validation.error);
+                    return;
+                }
+                
+                // Check for duplicates
+                const isDuplicate = Array.from(selectedFiles.files).some(f => 
+                    f.name === file.name && f.size === file.size
+                );
+                if (isDuplicate) return;
+                
+                selectedFiles.items.add(file);
+            });
+            
+            updateFileList();
+        }
+        
+        // Event: File input change
+        fileInput.addEventListener('change', function(e) {
+            addFiles(e.target.files);
+            // Clear native input to allow re-selecting same file
+            this.value = '';
+        });
+        
+        // Event: Drag over
+        dropZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.classList.add('border-gold', 'bg-gold/10');
+        });
+        
+        // Event: Drag leave
+        dropZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.classList.remove('border-gold', 'bg-gold/10');
+        });
+        
+        // Event: Drop
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.classList.remove('border-gold', 'bg-gold/10');
+            
+            if (e.dataTransfer.files.length > 0) {
+                addFiles(e.dataTransfer.files);
+            }
+        });
+        
+        // Event: Keyboard accessibility
+        dropZone.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                fileInput.click();
+            }
+        });
     })();
 </script>
 {% endblock %}

@@ -59,7 +59,7 @@ class TestHeroSliderBlock:
     def test_hero_slider_has_template(self):
         """Test HeroSliderBlock has template defined."""
         block = HeroSliderBlock()
-        assert block.meta.template == "website/blocks/hero_slider_block.html"
+        assert block.meta.template == "website/blocks/hero_slider_block.jinja2"
 
 
 @pytest.mark.django_db
@@ -108,7 +108,7 @@ class TestStatsBlock:
     def test_stats_block_has_template(self):
         """Test StatsBlock has template defined."""
         block = StatsBlock()
-        assert block.meta.template == "website/blocks/stats_block.html"
+        assert block.meta.template == "website/blocks/stats_block.jinja2"
 
 
 @pytest.mark.django_db
@@ -140,7 +140,7 @@ class TestSectionCardsBlock:
     def test_section_cards_grid_has_template(self):
         """Test SectionCardsGridBlock has template defined."""
         block = SectionCardsGridBlock()
-        assert block.meta.template == "website/blocks/section_cards_grid_block.html"
+        assert block.meta.template == "website/blocks/section_cards_grid_block.jinja2"
 
 
 @pytest.mark.django_db
@@ -164,7 +164,7 @@ class TestCTABlock:
     def test_cta_block_has_template(self):
         """Test CTABlock has template defined."""
         block = CTABlock()
-        assert block.meta.template == "website/blocks/cta_block.html"
+        assert block.meta.template == "website/blocks/cta_block.jinja2"
 
 
 @pytest.mark.django_db
@@ -189,7 +189,7 @@ class TestValuesBlock:
     def test_values_block_has_template(self):
         """Test ValuesBlock has template defined."""
         block = ValuesBlock()
-        assert block.meta.template == "website/blocks/values_block.html"
+        assert block.meta.template == "website/blocks/values_block.jinja2"
 
 
 @pytest.mark.django_db
@@ -209,15 +209,14 @@ class TestGalleryBlockExtended:
         assert "show_filters" in block.child_blocks
         assert "columns" in block.child_blocks
     
-    def test_gallery_category_choices(self):
-        """Test GalleryImageBlock category choices."""
+    def test_gallery_category_uses_snippet(self):
+        """Test GalleryImageBlock category uses SnippetChooserBlock."""
+        from wagtail.snippets.blocks import SnippetChooserBlock
+        
         block = GalleryImageBlock()
         category_block = block.child_blocks["category"]
         
-        # ChoiceBlock._constructor_kwargs contiene le choices originali
-        choices = [c[0] for c in category_block._constructor_kwargs["choices"]]
-        assert "all" in choices
-        assert "raduni" in choices
-        assert "escursioni" in choices
-        assert "gare" in choices
-        assert "sociali" in choices
+        # Ora usa SnippetChooserBlock invece di ChoiceBlock
+        assert isinstance(category_block, SnippetChooserBlock)
+        # Il target model è GalleryCategory
+        assert category_block.target_model.__name__ == "GalleryCategory"

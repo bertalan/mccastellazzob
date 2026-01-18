@@ -1,7 +1,8 @@
 {# MC Castellazzo - Events Page Template (Modern) #}
 {% extends "website/base.jinja2" %}
+{% from "website/includes/gold_title.jinja2" import gold_title %}
 
-{% block title %}{{ _("Eventi") }} | {{ settings.website.SiteSettings.organization_name }}{% endblock %}
+{% block title %}{{ page.title|replace('**', '') }}{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
@@ -14,20 +15,18 @@
                 <li><a href="{{ ancestor.url }}" class="hover:text-gold transition">{{ ancestor.title }}</a></li>
                 <li><i class="fas fa-chevron-right text-xs" aria-hidden="true"></i></li>
                 {% endfor %}
-                <li aria-current="page" class="text-gold">{{ page.title }}</li>
+                <li aria-current="page" class="text-gold">{{ page.title|replace('**', '') }}</li>
             </ol>
         </nav>
         
         <h1 class="text-4xl md:text-6xl font-heading font-black text-white mb-6" data-aos="fade-up">
-            {{ _("I Nostri") }} <span class="text-gold">{{ _("Eventi") }}</span>
+            {{ gold_title(page.title) }}
         </h1>
-        <p class="text-xl text-gray-300 max-w-2xl" data-aos="fade-up" data-aos-delay="100">
-            {% if page.intro %}
-                {{ page.intro|striptags }}
-            {% else %}
-                {{ _("Raduni, escursioni, gare e momenti di convivialità per vivere insieme la passione per le due ruote") }}
-            {% endif %}
+        {% if page.intro %}
+        <p class="text-xl text-gray-300" data-aos="fade-up" data-aos-delay="100">
+            {{ page.intro|striptags }}
         </p>
+        {% endif %}
     </div>
 </header>
 

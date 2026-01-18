@@ -1,26 +1,25 @@
-{# Block: Values - Django Template #}
-{% load i18n %}
+{# Block: Values - Jinja2 Template #}
 {# Colori: posizione 1=gold, 2=amaranth, 3=navy, poi ripete #}
 <section class="py-20 bg-white" aria-labelledby="values-heading-{{ id }}">
     <div class="max-w-7xl mx-auto px-6">
         <div class="text-center mb-16" data-aos="fade-up">
-            <span class="text-amaranth font-bold text-sm uppercase tracking-widest">{% trans "I Nostri Valori" %}</span>
+            <span class="text-amaranth font-bold text-sm uppercase tracking-widest">{{ _("I Nostri Valori") }}</span>
             <h2 id="values-heading-{{ id }}" class="text-3xl md:text-5xl font-heading font-black text-navy mt-4">
                 {{ value.heading }}
             </h2>
         </div>
         
         <div class="grid md:grid-cols-3 gap-8">
-            {% for item in value.values %}
-            <article class="bg-warm-gray rounded-2xl p-8 text-center card-hover" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+            {% for item in value['values'] %}
+            <article class="bg-warm-gray rounded-2xl p-8 text-center card-hover" data-aos="fade-up" data-aos-delay="{{ loop.index }}00">
                 <div class="w-20 h-20 
-                    {% if forloop.counter == 1 %}bg-gold
-                    {% elif forloop.counter == 2 %}bg-amaranth
+                    {% if loop.index == 1 %}bg-gold
+                    {% elif loop.index == 2 %}bg-amaranth
                     {% else %}bg-navy{% endif %} 
                     rounded-2xl flex items-center justify-center mx-auto mb-6">
                     <i class="{{ item.icon }} text-3xl 
-                        {% if forloop.counter == 1 %}text-navy
-                        {% elif forloop.counter == 2 %}text-white
+                        {% if loop.index == 1 %}text-navy
+                        {% elif loop.index == 2 %}text-white
                         {% else %}text-gold{% endif %}" 
                         aria-hidden="true"></i>
                 </div>

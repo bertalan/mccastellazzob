@@ -5,6 +5,8 @@ Pagine Eventi con:
 - EventsPage (schema.org EventSeries - eventi anno corrente)
 - EventDetailPage (schema.org Event - dettaglio singolo evento)
 - EventsArchivePage (archivio storico per anno)
+
+I dati organizzatore (Organizer) vengono da wagtailseo.SeoSettings.
 """
 from datetime import date
 
@@ -14,11 +16,11 @@ from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
-from apps.core.schema import SchemaOrgMixin, event as schema_event, place
+from apps.core.seo import JsonLdMixin, clean_html, get_organization_data, event as schema_event, place
 from apps.website.blocks import GalleryImageBlock, HeroCountdownBlock
 
 
-class EventDetailPage(SchemaOrgMixin, Page):
+class EventDetailPage(JsonLdMixin, Page):
     """
     Pagina dettaglio evento singolo - schema.org Event.
     """
@@ -136,11 +138,10 @@ class EventDetailPage(SchemaOrgMixin, Page):
         return self.event_name or self.title
     
     # === Schema.org Methods ===
-    def get_schema_org_type(self) -> str:
+    def get_json_ld_type(self) -> str:
         return "Event"
     
-    def get_schema_org_data(self) -> dict:
-        from apps.website.models.settings import SiteSettings
+    def get_json_ld_data(self, request=None) -> dict:
         
         location = place(
             name=self.location_name,
@@ -155,25 +156,18 @@ class EventDetailPage(SchemaOrgMixin, Page):
             end_date=self.end_date.isoformat() if self.end_date else "",
             location=location,
             image_url=self.image.get_rendition("original").url if self.image else "",
-            description=self.description,
+            description=clean_html(self.description),
             event_status=self.event_status,
+            url=self.full_url,
         )
         
-        # Aggiungi organizer (da SiteSettings)
-        site = self.get_site()
-        settings = SiteSettings.load(request_or_site=site) if site else None
-        org_name = settings.organization_name if settings else "MC Castellazzo Bormida"
-        
-        data["organizer"] = {
-            "@type": "Organization",
-            "name": org_name,
-            "url": site.root_url if site else "",
-        }
+        # Aggiungi organizer da SeoSettings (fonte unica)
+        data["organizer"] = get_organization_data(self)
         
         return data
 
 
-class EventsPage(SchemaOrgMixin, Page):
+class EventsPage(JsonLdMixin, Page):
     """
     Pagina lista eventi anno corrente - schema.org EventSeries.
     """
@@ -245,10 +239,10 @@ class EventsPage(SchemaOrgMixin, Page):
         )
     
     # === Schema.org Methods ===
-    def get_schema_org_type(self) -> str:
+    def get_json_ld_type(self) -> str:
         return "EventSeries"
     
-    def get_schema_org_data(self) -> dict:
+    def get_json_ld_data(self, request=None) -> dict:
         events = self.get_current_year_events()
         sub_events = []
         
@@ -262,12 +256,12 @@ class EventsPage(SchemaOrgMixin, Page):
         
         return {
             "name": self.title,
-            "description": self.intro,
+            "description": clean_html(self.intro),
             "subEvent": sub_events,
         }
 
 
-class EventsArchivePage(SchemaOrgMixin, Page):
+class EventsArchivePage(JsonLdMixin, Page):
     """
     Pagina archivio storico eventi - raggruppa per anno.
     """
@@ -314,10 +308,10 @@ class EventsArchivePage(SchemaOrgMixin, Page):
         return sorted(by_year.items(), key=lambda x: x[0], reverse=True)
     
     # === Schema.org Methods ===
-    def get_schema_org_type(self) -> str:
+    def get_json_ld_type(self) -> str:
         return "ItemList"
     
-    def get_schema_org_data(self) -> dict:
+    def get_json_ld_data(self, request=None) -> dict:
         items = []
         position = 1
         
@@ -337,7 +331,7 @@ class EventsArchivePage(SchemaOrgMixin, Page):
         
         return {
             "name": self.title,
-            "description": self.intro,
+            "description": clean_html(self.intro),
             "numberOfItems": len(items),
             "itemListElement": items,
         }

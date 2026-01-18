@@ -1,0 +1,169 @@
+{# MC Castellazzo - Simple Carousel Template (Tailwind + JS) #}
+{# Carousel semplice senza Bootstrap, compatibile con Tailwind #}
+
+{% if carousel and carousel.slides.all()|length > 0 %}
+{% set slides = carousel.slides.all() %}
+{% set slides_count = slides|length %}
+
+<section id="simple-carousel-section-{{ carousel.id }}" class="relative w-full overflow-hidden bg-navy pt-20 md:pt-24" style="height: 80vh; min-height: 500px; max-height: 800px;">
+    
+    {# Container Slides #}
+    <div id="carousel-track-{{ carousel.id }}" class="flex h-full transition-transform duration-700 ease-in-out">
+        {% for slide in slides %}
+        <div class="carousel-slide min-w-full h-full relative flex-shrink-0">
+            {# Immagine di sfondo #}
+            {% if slide.image %}
+            <img src="{{ image(slide.image, 'fill-1920x800').url }}" 
+                 alt="{{ slide.title or slide.image.title }}"
+                 class="w-full h-full object-cover"
+                 loading="{% if loop.first %}eager{% else %}lazy{% endif %}">
+            {% endif %}
+            
+            {# Overlay scuro #}
+            <div class="absolute inset-0" style="background: rgba(0,0,0,{{ (slide.overlay_opacity or 40) / 100 }});"></div>
+            
+            {# Caption #}
+            {% if slide.title or slide.subtitle or slide.button_text %}
+            <div class="absolute inset-x-0 bottom-0 flex flex-col justify-end items-start text-left px-6 md:px-12 lg:px-20 pb-8 md:pb-10 lg:pb-12">
+                {% if slide.title %}
+                <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 notranslate" 
+                    translate="no"
+                    style="text-shadow: 2px 2px 8px rgba(0,0,0,0.7);">
+                    {{ slide.title }}
+                </h2>
+                {% endif %}
+                
+                {% if slide.subtitle %}
+                <p class="text-lg md:text-xl lg:text-2xl text-white/90 mb-4 max-w-2xl font-medium"
+                   style="text-shadow: 2px 2px 6px rgba(0,0,0,0.8);">
+                    {{ slide.subtitle }}
+                </p>
+                {% endif %}
+                
+                {% if slide.button_text and slide.button_url %}
+                <a href="{{ slide.button_url }}" 
+                   class="inline-flex items-center px-6 py-2 bg-gold text-navy text-sm font-bold rounded-lg hover:bg-gold/90 transition-colors">
+                    {{ slide.button_text }}
+                    <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    
+    {# Frecce Navigazione #}
+    {% if carousel.show_controls and slides_count > 1 %}
+    <button id="prev-{{ carousel.id }}" 
+            class="absolute left-4 top-1/2 -translate-y-1/2 bg-gold/90 hover:bg-gold text-navy w-12 h-12 rounded-full flex items-center justify-center transition shadow-lg z-10"
+            aria-label="{{ _('Foto precedente') }}">
+        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+    </button>
+    <button id="next-{{ carousel.id }}" 
+            class="absolute right-4 top-1/2 -translate-y-1/2 bg-gold/90 hover:bg-gold text-navy w-12 h-12 rounded-full flex items-center justify-center transition shadow-lg z-10"
+            aria-label="{{ _('Foto successiva') }}">
+        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+    </button>
+    {% endif %}
+    
+    {# Indicatori (Dots) #}
+    {% if carousel.show_indicators and slides_count > 1 %}
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        {% for slide in slides %}
+        <button class="carousel-dot-{{ carousel.id }} w-3 h-3 rounded-full transition-colors {{ 'bg-gold' if loop.first else 'bg-white/50 hover:bg-white/75' }}" 
+                data-index="{{ loop.index0 }}"
+                aria-label="{{ _('Vai alla foto') }} {{ loop.index }}">
+        </button>
+        {% endfor %}
+    </div>
+    {% endif %}
+</section>
+
+<script>
+(function() {
+    const carouselId = {{ carousel.id }};
+    const track = document.getElementById('carousel-track-' + carouselId);
+    const slides = track.querySelectorAll('.carousel-slide');
+    const totalSlides = {{ slides_count }};
+    let currentIndex = 0;
+    let autoplayInterval = null;
+    
+    function goToSlide(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+        currentIndex = index;
+        track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
+        updateDots();
+    }
+    
+    function updateDots() {
+        const dots = document.querySelectorAll('.carousel-dot-' + carouselId);
+        dots.forEach((dot, i) => {
+            if (i === currentIndex) {
+                dot.classList.remove('bg-white/50', 'hover:bg-white/75');
+                dot.classList.add('bg-gold');
+            } else {
+                dot.classList.remove('bg-gold');
+                dot.classList.add('bg-white/50', 'hover:bg-white/75');
+            }
+        });
+    }
+    
+    function nextSlide() {
+        goToSlide(currentIndex + 1);
+    }
+    
+    function prevSlide() {
+        goToSlide(currentIndex - 1);
+    }
+    
+    // Frecce
+    const prevBtn = document.getElementById('prev-' + carouselId);
+    const nextBtn = document.getElementById('next-' + carouselId);
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    
+    // Dots
+    const dots = document.querySelectorAll('.carousel-dot-' + carouselId);
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            goToSlide(parseInt(dot.dataset.index));
+        });
+    });
+    
+    // Autoplay
+    {% if carousel.autoplay %}
+    function startAutoplay() {
+        autoplayInterval = setInterval(nextSlide, {{ carousel.interval or 5000 }});
+    }
+    
+    function stopAutoplay() {
+        if (autoplayInterval) clearInterval(autoplayInterval);
+    }
+    
+    // Start autoplay
+    startAutoplay();
+    
+    // Pause on hover
+    const section = document.getElementById('simple-carousel-section-' + carouselId);
+    section.addEventListener('mouseenter', stopAutoplay);
+    section.addEventListener('mouseleave', startAutoplay);
+    {% endif %}
+    
+    // Touch/Swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    track.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+    
+    track.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 50) nextSlide();
+        if (touchEndX - touchStartX > 50) prevSlide();
+    }, {passive: true});
+})();
+</script>
+{% endif %}

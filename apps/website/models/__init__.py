@@ -10,7 +10,7 @@ from .events import EventsPage, EventDetailPage, EventsArchivePage
 from .gallery import GalleryPage, GalleryImage
 from .privacy import PrivacyPage
 from .settings import SiteSettings
-from .snippets import Navbar, Footer
+from .snippets import Navbar, Footer, GalleryCategory, SimpleCarousel, SimpleCarouselSlide
 
 __all__ = [
     "HomePage",
@@ -28,4 +28,7 @@ __all__ = [
     "SiteSettings",
     "Navbar",
     "Footer",
+    "GalleryCategory",
+    "SimpleCarousel",
+    "SimpleCarouselSlide",
 ]

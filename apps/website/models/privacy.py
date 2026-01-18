@@ -9,10 +9,10 @@ from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField
 from wagtail.models import Page
 
-from apps.core.schema import SchemaOrgMixin
+from apps.core.seo import JsonLdMixin, clean_html
 
 
-class PrivacyPage(SchemaOrgMixin, Page):
+class PrivacyPage(JsonLdMixin, Page):
     """
     Pagina Privacy Policy - schema.org WebPage.
     """
@@ -40,12 +40,12 @@ class PrivacyPage(SchemaOrgMixin, Page):
         verbose_name_plural = _("Privacy Policy")
     
     # === Schema.org Methods ===
-    def get_schema_org_type(self) -> str:
+    def get_json_ld_type(self) -> str:
         return "WebPage"
     
-    def get_schema_org_data(self) -> dict:
+    def get_json_ld_data(self, request=None) -> dict:
         return {
             "name": self.title,
-            "description": self.intro if self.intro else "",
+            "description": clean_html(self.intro) if self.intro else "",
             "url": self.full_url,
         }
