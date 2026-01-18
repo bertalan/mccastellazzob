@@ -93,12 +93,73 @@ class NewsIndexPage(JsonLdMixin, CoderedArticleIndexPage):
     def get_json_ld_type(self) -> str:
         return "CollectionPage"
     
+    def _get_item_schema(self, page) -> dict:
+        """
+        Genera lo schema.org corretto in base al tipo di pagina.
+        
+        Supporta:
+        - NewsPage → Article
+        - EventDetailPage → Event
+        - Altre pagine → WebPage
+        """
+        from apps.website.models.events import EventDetailPage
+        
+        # EventDetailPage → Event schema
+        if isinstance(page, EventDetailPage):
+            event_data = {
+                "@type": "Event",
+                "name": page.event_name or page.title,
+                "url": page.full_url,
+            }
+            if page.start_date:
+                event_data["startDate"] = page.start_date.isoformat()
+            if page.end_date:
+                event_data["endDate"] = page.end_date.isoformat()
+            if page.location_name:
+                event_data["location"] = {
+                    "@type": "Place",
+                    "name": page.location_name,
+                }
+                if page.location_address:
+                    event_data["location"]["address"] = page.location_address
+            if page.cover_image:
+                try:
+                    rendition = page.cover_image.get_rendition("fill-400x300")
+                    event_data["image"] = rendition.full_url if hasattr(rendition, 'full_url') else rendition.url
+                except Exception:
+                    pass
+            return event_data
+        
+        # NewsPage → Article schema
+        if isinstance(page, NewsPage):
+            article_data = {
+                "@type": "Article",
+                "headline": page.title,
+                "url": page.full_url,
+            }
+            if page.date_display:
+                article_data["datePublished"] = page.date_display.isoformat()
+            if page.cover_image:
+                try:
+                    rendition = page.cover_image.get_rendition("fill-400x300")
+                    article_data["image"] = rendition.full_url if hasattr(rendition, 'full_url') else rendition.url
+                except Exception:
+                    pass
+            return article_data
+        
+        # Default → WebPage
+        return {
+            "@type": "WebPage",
+            "name": page.title,
+            "url": page.full_url,
+        }
+    
     def get_json_ld_data(self, request=None) -> dict:
         """
         Genera JSON-LD per l'indice articoli.
         
-        Schema.org: CollectionPage con ItemList contenente tutti gli articoli.
-        Simile a EventsArchivePage ma per gli articoli.
+        Schema.org: CollectionPage con ItemList contenente articoli ed eventi.
+        Rileva automaticamente il tipo di ogni risultato (Article, Event, WebPage).
         """
         # Ottieni gli articoli figli live
         articles = NewsPage.objects.child_of(self).live().public().order_by(
@@ -108,29 +169,12 @@ class NewsIndexPage(JsonLdMixin, CoderedArticleIndexPage):
         items = []
         position = 1
         
-        for article in articles:
+        for page in articles:
             item_data = {
                 "@type": "ListItem",
                 "position": position,
-                "item": {
-                    "@type": "Article",
-                    "headline": article.title,
-                    "url": article.full_url,
-                },
+                "item": self._get_item_schema(page),
             }
-            
-            # Aggiungi data se disponibile
-            if article.date_display:
-                item_data["item"]["datePublished"] = article.date_display.isoformat()
-            
-            # Aggiungi immagine se disponibile
-            if article.cover_image:
-                try:
-                    rendition = article.cover_image.get_rendition("fill-400x300")
-                    item_data["item"]["image"] = rendition.full_url if hasattr(rendition, 'full_url') else rendition.url
-                except Exception:
-                    pass
-            
             items.append(item_data)
             position += 1
         
@@ -399,7 +443,7 @@ class NewsPage(JsonLdMixin, CoderedArticlePage):
     def get_json_ld_type(self):
         return "Article"
     
-    def get_json_ld_data(self):
+    def get_json_ld_data(self, request=None):
         org = get_organization_data(self)
         
         data = {
