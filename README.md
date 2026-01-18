@@ -7,16 +7,20 @@ Sito web ufficiale del Motoclub Castellazzo Bormida, costruito con **CodeRedCMS 
 - **5 lingue**: IT (default), EN, FR, DE, ES - tutte paritarie con traduzioni complete
 - **Schema.org**: JSON-LD automatico via `JsonLdMixin` (SportsClub, Event, AboutPage...)
 - **SEO**: Fonte unica dati in `wagtailseo.SeoSettings`, hreflang multilingua
-- **Tema**: Oro #D4AF37, Blu #1B263B, Amaranto #9B1D64
+- **Tema**: Oro #D4AF37, Blu #1B263B, Amaranto #9B1D64 (Tailwind CSS)
 - **Mappe**: OpenStreetMap + Leaflet.js + Nominatim (no Google)
+- **Geocoding**: Autocompletamento indirizzi con coordinate automatiche
 - **Auth**: Frontend authentication con django-allauth
 - **TDD**: Test-driven development con pytest
+- **WCAG 2.2 AAA**: Accessibilità avanzata (focus visible, aria-labels, contrasto)
 
 ## 📄 Pagine e Schema.org
 
 | Pagina | Tipo schema.org | Modello |
 |--------|-----------------|---------|
 | Homepage | SportsClub | `HomePage` |
+| Articoli (indice) | ItemList | `NewsIndexPage` |
+| Articolo singolo | NewsArticle | `NewsPage` |
 | Eventi Anno | EventSeries | `EventsPage` |
 | Dettaglio Evento | Event | `EventDetailPage` |
 | Archivio Eventi | ItemList | `EventsArchivePage` |
@@ -47,14 +51,30 @@ docker compose up -d
 ```
 mccastellazzob/
 ├── apps/
-│   ├── core/           # SEO module (JsonLdMixin), context processors, traduzioni
-│   ├── website/        # Models, blocks, snippets (Navbar/Footer)
+│   ├── core/           # SEO (JsonLdMixin), API metadati, geocoding, traduzioni
+│   ├── website/        # Models (News, Eventi, Galleria), blocks, snippets
 │   └── custom_user/    # User model personalizzato
 ├── mccastellazzob/     # Settings Django (base, dev, docker, prod)
 ├── templates/          # Jinja2 templates (.jinja2)
+├── static/js/          # Scripts (address_geocoding.js, gallery_image_metadata.js)
 ├── locale/             # Traduzioni .po/.mo (de, en, es, fr)
 └── tests/              # Test suite TDD (pytest)
 ```
+
+## 📰 Sistema News/Blog
+
+Il sistema articoli (`NewsIndexPage` + `NewsPage`) offre:
+
+- **Ricerca globale**: Cerca in articoli E eventi contemporaneamente
+- **Filtro per tag**: Tag condivisi tra articoli ed eventi
+- **Pagine in evidenza**: Selezione manuale di pagine da evidenziare
+- **Categorie**: Classificazione tramite CodeRedCMS classifiers
+- **Galleria immagini**: Con lightbox sfogliabile
+- **Tag recenti**: Ordinati per ultima pubblicazione
+
+### API Admin
+
+- `/admin/api/image-metadata/<id>/` - Metadati immagine (titolo, descrizione, tag)
 
 ## 🔧 Architettura SEO
 
@@ -94,7 +114,7 @@ Le traduzioni sono gestite su due livelli:
 2. **Contenuti DB**: Pagine Wagtail tradotte con wagtail-localize
 
 ### URL tradotti
-- `/it/novita/` → `/en/news/` → `/fr/actualites/` → `/de/neuigkeiten/` → `/es/novedades/`
+- `/it/articoli/` → `/en/articles/` → `/fr/articles/` → `/de/artikel/` → `/es/articulos/`
 - `/it/galleria/` → `/en/gallery/` → `/fr/galerie/` → `/de/galerie/` → `/es/galeria/`
 - `/it/eventi/` → `/en/events/` → `/fr/evenements/` → `/de/veranstaltungen/` → `/es/eventos/`
 
@@ -122,7 +142,7 @@ docker compose exec web python manage.py force_translate --skip-existing
 | Pagina | ID |
 |--------|-----|
 | Home | 3 |
-| Novità | 4 |
+| Articoli | 4 |
 | Chi Siamo | 5 |
 | Consiglio | 6 |
 | Trasparenza | 7 |
@@ -147,12 +167,24 @@ docker compose exec web pytest --cov=apps
 - **Framework**: Django 5.2 LTS + Wagtail 7.x LTS + CodeRedCMS 6.x
 - **Database**: PostgreSQL 15
 - **Template Engine**: Jinja2 (.jinja2)
-- **CSS**: Bootstrap 5 con variabili custom
+- **CSS**: Tailwind CSS con palette custom (gold, navy, amaranth)
 - **SEO**: wagtailseo (SeoSettings, struct_org_*)
 - **i18n**: wagtail-localize + django i18n
 - **Auth**: django-allauth
 - **Testing**: pytest + pytest-django + factory_boy
 - **Python**: 3.11+
+
+## ♿ Accessibilità (WCAG 2.2 AAA)
+
+Il sito rispetta le linee guida WCAG 2.2 livello AAA:
+
+- **Focus visible**: `ring-2 ring-gold ring-offset-2` su tutti i link interattivi
+- **Contrasto**: Testo `gray-700` su sfondo chiaro (rapporto 7:1)
+- **Aria-labels**: Contesto completo per screen readers
+- **Role search**: Form di ricerca con ruolo semantico
+- **Aria-live**: Messaggi dinamici annunciati agli screen readers
+- **Skip links**: Salta al contenuto principale
+- **Datetime semantico**: Elementi `<time>` con attributo `datetime`
 
 ## 📚 Documentazione
 
