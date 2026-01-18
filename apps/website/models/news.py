@@ -155,8 +155,19 @@ class NewsIndexPage(JsonLdMixin, CoderedArticleIndexPage):
                 "headline": page.title,
                 "url": page.full_url,
             }
+            # datePublished con timezone (Schema.org richiede ISO 8601 con TZ)
             if page.date_display:
-                article_data["datePublished"] = page.date_display.isoformat()
+                from datetime import datetime, timezone
+                # Converti date in datetime a mezzanotte UTC
+                dt = datetime.combine(page.date_display, datetime.min.time(), tzinfo=timezone.utc)
+                article_data["datePublished"] = dt.isoformat()
+            # Author
+            author_name = page.author_display or (page.author.get_full_name() if page.author else None)
+            if author_name:
+                article_data["author"] = {
+                    "@type": "Person",
+                    "name": author_name,
+                }
             if page.cover_image:
                 try:
                     rendition = page.cover_image.get_rendition("fill-400x300")
@@ -558,17 +569,27 @@ class NewsPage(JsonLdMixin, CoderedArticlePage):
         return "Article"
     
     def get_json_ld_data(self, request=None):
+        from datetime import datetime, timezone
+        
         org = get_organization_data(self)
+        
+        # datePublished con timezone (Schema.org richiede ISO 8601 con TZ)
+        date_published = None
+        if self.date_display:
+            dt = datetime.combine(self.date_display, datetime.min.time(), tzinfo=timezone.utc)
+            date_published = dt.isoformat()
+        
+        # dateModified - già datetime con timezone
+        date_modified = self.last_published_at.isoformat() if self.last_published_at else None
+        
+        # Author
+        author_name = self.author_display or (self.author.get_full_name() if self.author else None)
         
         data = {
             "@type": self.get_json_ld_type(),
             "headline": self.title,
-            "datePublished": self.date_display.isoformat() if self.date_display else None,
-            "dateModified": self.last_published_at.isoformat() if self.last_published_at else None,
-            "author": {
-                "@type": "Person",
-                "name": self.author_display or (self.author.get_full_name() if self.author else None),
-            },
+            "datePublished": date_published,
+            "dateModified": date_modified,
             "publisher": {
                 "@type": "Organization",
                 "name": org.get("name", ""),
@@ -579,6 +600,13 @@ class NewsPage(JsonLdMixin, CoderedArticlePage):
                 "@id": self.full_url,
             },
         }
+        
+        # Aggiungi author solo se presente
+        if author_name:
+            data["author"] = {
+                "@type": "Person",
+                "name": author_name,
+            }
         
         # Cover image - usa logo come fallback
         if self.cover_image:
