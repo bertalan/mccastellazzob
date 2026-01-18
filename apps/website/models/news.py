@@ -93,8 +93,8 @@ class NewsPage(JsonLdMixin, CoderedArticlePage):
         index.SearchField("gallery"),
     ]
     
-    # Pannelli admin
-    content_panels = CoderedArticlePage.content_panels + [
+    # Body panels - ereditiamo da CodeRedCMS e aggiungiamo galleria
+    body_content_panels = CoderedArticlePage.body_content_panels + [
         MultiFieldPanel(
             [
                 FieldPanel("gallery"),
@@ -102,6 +102,9 @@ class NewsPage(JsonLdMixin, CoderedArticlePage):
             heading=_("Galleria"),
         ),
     ]
+    
+    # Content panels - ereditiamo tutto da CodeRedCMS
+    content_panels = CoderedArticlePage.content_panels
     
     class Meta:
         verbose_name = _("Articolo")
