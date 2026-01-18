@@ -23,8 +23,27 @@
     <link rel="alternate" hreflang="x-default" href="{{ translations_dict.get('it', page.full_url) }}" />
     {% endif %}
     
-    {# SEO Meta Description #}
-    <meta name="description" content="{% block meta_description %}{{ page.search_description or _('Moto Club Castellazzo Bormida - Dal 1933, passione su due ruote nel cuore del Piemonte') }}{% endblock %}">
+    {# SEO Meta Description - Priorità: search_description > intro/caption/description > body > fallback #}
+    {% set meta_desc = page.search_description if page.search_description else '' %}
+    {% if not meta_desc and page.intro is defined and page.intro %}
+        {% set meta_desc = page.intro|striptags|truncate(160, killwords=False, end='...') %}
+    {% endif %}
+    {% if not meta_desc and page.caption is defined and page.caption %}
+        {% set meta_desc = page.caption|striptags|truncate(160, killwords=False, end='...') %}
+    {% endif %}
+    {% if not meta_desc and page.description is defined and page.description %}
+        {% set meta_desc = page.description|striptags|truncate(160, killwords=False, end='...') %}
+    {% endif %}
+    {% if not meta_desc and page.body is defined and page.body %}
+        {% set first_block = page.body[0] if page.body|length > 0 else none %}
+        {% if first_block and first_block.block_type == 'text' %}
+            {% set meta_desc = first_block.value|striptags|truncate(160, killwords=False, end='...') %}
+        {% endif %}
+    {% endif %}
+    {% if not meta_desc %}
+        {% set meta_desc = _('Moto Club Castellazzo Bormida - Dal 1933, passione su due ruote nel cuore del Piemonte') %}
+    {% endif %}
+    <meta name="description" content="{% block meta_description %}{{ meta_desc }}{% endblock %}">
     
     {# Open Graph / Social Meta #}
     <meta property="og:title" content="{{ page.seo_title or page.title }}" />
