@@ -441,7 +441,7 @@ msgstr "Further information link"
 
 #: apps/website/blocks.py:509
 msgid "Articolo"
-msgstr "Item"
+msgstr "Article"
 
 #: apps/website/blocks.py:518 apps/website/models/snippets.py:119
 #: apps/website/models/snippets.py:165
@@ -2156,3 +2156,54 @@ msgstr "Max 3 files, 5MB each. Formats: PDF, JPG, PNG, DOC, DOCX, TXT"
 
 msgid "Compila il modulo e ti risponderemo al più presto."
 msgstr "Fill out the form and we will respond to you as soon as possible."
+
+msgid "Cerca negli articoli..."
+msgstr "Search articles..."
+
+msgid "Cerca"
+msgstr "Search"
+
+msgid "Risultati per:"
+msgstr "Results for:"
+
+msgid "Cancella"
+msgstr "Clear"
+
+msgid "Tutte"
+msgstr "All"
+
+msgid "Nessun risultato trovato"
+msgstr "No results found"
+
+msgid "Nessun articolo disponibile"
+msgstr "No articles available"
+
+msgid "Prova con termini di ricerca diversi."
+msgstr "Try different search terms."
+
+msgid "Gli articoli saranno pubblicati presto."
+msgstr "Articles will be published soon."
+
+msgid "Autore"
+msgstr "Author"
+
+msgid "Membro del Club"
+msgstr "Club Member"
+
+msgid "Informazioni"
+msgstr "Information"
+
+msgid "Tutte le Novità"
+msgstr "All News"
+
+msgid "Articoli Correlati"
+msgstr "Related Articles"
+
+msgid "Tags:"
+msgstr "Tags:"
+
+msgid "Navigazione pagine"
+msgstr "Page navigation"
+
+msgid "Indice Novità"
+msgstr "News Index"

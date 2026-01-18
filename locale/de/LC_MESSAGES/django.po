@@ -425,7 +425,7 @@ msgstr "Titel des Artikels"
 
 #: apps/website/blocks.py:490
 msgid "Data pubblicazione"
-msgstr "Erscheinungsdatum"
+msgstr "Veröffentlichungsdatum"
 
 #: apps/website/blocks.py:496
 msgid "Categoria o tema dell'articolo"
@@ -2175,3 +2175,54 @@ msgstr "Max. 3 Dateien, je 5MB. Formate: PDF, JPG, PNG, DOC, DOCX, TXT"
 
 msgid "Compila il modulo e ti risponderemo al più presto."
 msgstr "Füllen Sie das Formular aus und wir werden Ihnen so schnell wie möglich antworten."
+
+msgid "Cerca negli articoli..."
+msgstr "In Artikeln suchen..."
+
+msgid "Cerca"
+msgstr "Suchen"
+
+msgid "Risultati per:"
+msgstr "Ergebnisse für:"
+
+msgid "Cancella"
+msgstr "Löschen"
+
+msgid "Tutte"
+msgstr "Alle"
+
+msgid "Nessun risultato trovato"
+msgstr "Keine Ergebnisse gefunden"
+
+msgid "Nessun articolo disponibile"
+msgstr "Keine Artikel verfügbar"
+
+msgid "Prova con termini di ricerca diversi."
+msgstr "Versuchen Sie es mit anderen Suchbegriffen."
+
+msgid "Gli articoli saranno pubblicati presto."
+msgstr "Artikel werden bald veröffentlicht."
+
+msgid "Autore"
+msgstr "Autor"
+
+msgid "Membro del Club"
+msgstr "Clubmitglied"
+
+msgid "Informazioni"
+msgstr "Informationen"
+
+msgid "Tutte le Novità"
+msgstr "Alle Neuigkeiten"
+
+msgid "Articoli Correlati"
+msgstr "Verwandte Artikel"
+
+msgid "Tags:"
+msgstr "Tags:"
+
+msgid "Navigazione pagine"
+msgstr "Seitennavigation"
+
+msgid "Indice Novità"
+msgstr "Neuigkeiten-Index"

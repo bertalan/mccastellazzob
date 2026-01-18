@@ -9,6 +9,7 @@ from .about import AboutPage, BoardPage, TransparencyPage, ContactPage
 from .events import EventsPage, EventDetailPage, EventsArchivePage
 from .gallery import GalleryPage, GalleryImage
 from .privacy import PrivacyPage
+from .news import NewsIndexPage, NewsPage
 from .settings import SiteSettings
 from .snippets import Navbar, Footer, GalleryCategory, SimpleCarousel, SimpleCarouselSlide
 
@@ -25,6 +26,8 @@ __all__ = [
     "GalleryPage",
     "GalleryImage",
     "PrivacyPage",
+    "NewsIndexPage",
+    "NewsPage",
     "SiteSettings",
     "Navbar",
     "Footer",

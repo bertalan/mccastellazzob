@@ -24,7 +24,7 @@ class TestNavigationLinks:
         self.main_links = [
             '/',                                   # Home
             '/chi-siamo/',                        # Chi Siamo
-            '/chi-siamo/consiglio-direttivo/',   # Consiglio Direttivo
+            '/chi-siamo/consiglio/',              # Consiglio Direttivo
             '/eventi/',                           # Eventi
             '/galleria/',                         # Galleria
             '/chi-siamo/contatti/',               # Contatti
@@ -107,7 +107,7 @@ class TestNavigationLinks:
         expected_links = [
             '/it/',
             '/it/chi-siamo/',
-            '/it/chi-siamo/consiglio-direttivo/',
+            '/it/chi-siamo/consiglio/',
             '/it/eventi/',
             '/it/galleria/',
             '/it/chi-siamo/contatti/',
@@ -141,7 +141,7 @@ class TestNavigationLinks:
         content = response.content.decode('utf-8')
         
         transparency_links = [
-            '/it/chi-siamo/consiglio-direttivo/',
+            '/it/chi-siamo/consiglio/',
             '/it/chi-siamo/trasparenza/',
             '/it/privacy/',
         ]
@@ -163,7 +163,7 @@ class TestNavigationLinks:
         mobile_links = [
             '/it/',
             '/it/chi-siamo/',
-            '/it/chi-siamo/consiglio-direttivo/',
+            '/it/chi-siamo/consiglio/',
             '/it/eventi/',
             '/it/galleria/',
             '/it/chi-siamo/contatti/',

@@ -1,0 +1,187 @@
+{% extends "website/base.jinja2" %}
+{% from "website/includes/gold_title.jinja2" import gold_title %}
+
+{% block title %}{{ page.title }} - {{ _("Novità") }}{% endblock %}
+
+{% block content %}
+    {# Hero Section #}
+    <section class="relative bg-gradient-to-b from-navy to-navy/90 py-20 overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,...'); background-size: 60px 60px;"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-white mb-4">
+                    {{ gold_title(page.title) }}
+                </h1>
+                {% if page.caption %}
+                <p class="text-xl text-white/90 max-w-2xl mx-auto">{{ page.caption }}</p>
+                {% endif %}
+                
+                {# Search Form #}
+                <form method="get" action="" class="mt-8 max-w-xl mx-auto">
+                    <div class="flex bg-white rounded-full overflow-hidden shadow-lg">
+                        <input type="text" name="q" value="{{ search_query or '' }}" 
+                               placeholder="{{ _('Cerca negli articoli...') }}"
+                               class="flex-1 px-6 py-4 focus:outline-none text-gray-700">
+                        <button type="submit" class="bg-gold hover:bg-gold/90 text-navy px-8 py-4 font-bold transition">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                            <span class="sr-only">{{ _("Cerca") }}</span>
+                        </button>
+                    </div>
+                </form>
+                
+                {# Active search query #}
+                {% if search_query %}
+                <div class="mt-4">
+                    <span class="text-white/80">{{ _("Risultati per:") }}</span>
+                    <span class="text-gold font-bold">"{{ search_query }}"</span>
+                    <a href="{{ page.url }}" class="ml-4 text-white hover:text-gold transition">
+                        <i class="fas fa-times" aria-hidden="true"></i>
+                        {{ _("Cancella") }}
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    
+    {# Category Filters #}
+    {% if page.index_classifiers.exists() %}
+    <section class="bg-gray-100 py-6">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap items-center justify-center gap-3">
+                <a href="{{ page.url }}" 
+                   class="px-4 py-2 rounded-full transition font-medium {% if not selected_terms %}bg-gold text-navy{% else %}bg-white text-gray-700 hover:bg-gold/20{% endif %}">
+                    {{ _("Tutte") }}
+                </a>
+                {% for classifier in page.index_classifiers.all() %}
+                    {% for term in classifier.terms.all() %}
+                    <a href="{{ page.url }}?c={{ term.slug }}" 
+                       class="px-4 py-2 rounded-full transition font-medium {% if selected_terms and term in selected_terms %}bg-gold text-navy{% else %}bg-white text-gray-700 hover:bg-gold/20{% endif %}">
+                        {{ term.name }}
+                    </a>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    
+    {# Articles Grid #}
+    <main class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            {% if index_children %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for article in index_children %}
+                <article class="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+                    {# Cover Image #}
+                    <a href="{{ article.url }}" class="block aspect-video overflow-hidden">
+                        {% if article.cover_image %}
+                        <img src="{{ image(article.cover_image, 'fill-600x400').url }}" 
+                             alt="{{ article.title }}"
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        {% else %}
+                        <div class="w-full h-full bg-gradient-to-br from-navy to-navy/80 flex items-center justify-center">
+                            <i class="fas fa-newspaper text-gold text-5xl" aria-hidden="true"></i>
+                        </div>
+                        {% endif %}
+                    </a>
+                    
+                    <div class="p-6">
+                        {# Categories & Date #}
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex flex-wrap gap-2">
+                                {% for term in article.classifier_terms.all()[:2] %}
+                                <span class="px-2 py-1 bg-gold/10 text-gold text-xs font-bold rounded-full">
+                                    {{ term.name }}
+                                </span>
+                                {% endfor %}
+                            </div>
+                            {% if article.date_display %}
+                            <time datetime="{{ article.date_display.isoformat() }}" class="text-sm text-gray-500">
+                                {{ article.date_display.strftime('%d/%m/%Y') }}
+                            </time>
+                            {% endif %}
+                        </div>
+                        
+                        {# Title #}
+                        <h2 class="text-xl font-heading font-bold text-navy mb-3 group-hover:text-amaranth transition">
+                            <a href="{{ article.url }}">{{ article.title }}</a>
+                        </h2>
+                        
+                        {# Caption/Excerpt #}
+                        {% if article.caption %}
+                        <p class="text-gray-600 mb-4 line-clamp-2">{{ article.caption }}</p>
+                        {% endif %}
+                        
+                        {# Author & Read More #}
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            {% if article.author_display or article.author %}
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+                                <i class="fas fa-user-circle" aria-hidden="true"></i>
+                                {{ article.author_display or article.author.get_full_name() }}
+                            </div>
+                            {% endif %}
+                            <a href="{{ article.url }}" class="text-amaranth font-bold text-sm hover:text-gold transition flex items-center gap-1">
+                                {{ _("Leggi tutto") }}
+                                <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+            
+            {# Pagination #}
+            {% if index_paginated.has_other_pages() %}
+            <nav class="mt-12 flex justify-center items-center gap-2" aria-label="{{ _('Navigazione pagine') }}">
+                {% if index_paginated.has_previous() %}
+                <a href="?page={{ index_paginated.previous_page_number() }}{% if search_query %}&q={{ search_query }}{% endif %}" 
+                   class="px-4 py-2 bg-white rounded-lg shadow hover:bg-gold hover:text-navy transition">
+                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                </a>
+                {% endif %}
+                
+                {% for num in index_paginated.paginator.page_range %}
+                    {% if num == index_paginated.number %}
+                    <span class="px-4 py-2 bg-gold text-navy font-bold rounded-lg shadow">{{ num }}</span>
+                    {% elif num > index_paginated.number - 3 and num < index_paginated.number + 3 %}
+                    <a href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}" 
+                       class="px-4 py-2 bg-white rounded-lg shadow hover:bg-gold hover:text-navy transition">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if index_paginated.has_next() %}
+                <a href="?page={{ index_paginated.next_page_number() }}{% if search_query %}&q={{ search_query }}{% endif %}" 
+                   class="px-4 py-2 bg-white rounded-lg shadow hover:bg-gold hover:text-navy transition">
+                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                </a>
+                {% endif %}
+            </nav>
+            {% endif %}
+            
+            {% else %}
+            {# No Results #}
+            <div class="text-center py-16">
+                <i class="fas fa-newspaper text-6xl text-gray-300 mb-6" aria-hidden="true"></i>
+                <h2 class="text-2xl font-heading font-bold text-navy mb-4">
+                    {% if search_query %}
+                    {{ _("Nessun risultato trovato") }}
+                    {% else %}
+                    {{ _("Nessun articolo disponibile") }}
+                    {% endif %}
+                </h2>
+                <p class="text-gray-600">
+                    {% if search_query %}
+                    {{ _("Prova con termini di ricerca diversi.") }}
+                    {% else %}
+                    {{ _("Gli articoli saranno pubblicati presto.") }}
+                    {% endif %}
+                </p>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}

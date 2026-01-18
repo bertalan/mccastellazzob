@@ -1268,7 +1268,7 @@ msgstr "Inicio"
 #: templates/website/pages/timeline_page.jinja2:4
 #: templates/website/pages/timeline_page.jinja2:22
 msgid "Novità"
-msgstr "Novedad"
+msgstr "Novedades"
 
 #: templates/website/base.jinja2:439 templates/website/base.jinja2:515
 #: templates/website/pages/board_page.jinja2:113
@@ -2168,3 +2168,54 @@ msgstr "Máx. 3 archivos, 5MB cada uno. Formatos: PDF, JPG, PNG, DOC, DOCX, TXT"
 
 msgid "Compila il modulo e ti risponderemo al più presto."
 msgstr "Rellena el formulario y te responderemos lo antes posible."
+
+msgid "Cerca negli articoli..."
+msgstr "Buscar en artículos..."
+
+msgid "Cerca"
+msgstr "Buscar"
+
+msgid "Risultati per:"
+msgstr "Resultados para:"
+
+msgid "Cancella"
+msgstr "Borrar"
+
+msgid "Tutte"
+msgstr "Todas"
+
+msgid "Nessun risultato trovato"
+msgstr "No se encontraron resultados"
+
+msgid "Nessun articolo disponibile"
+msgstr "No hay artículos disponibles"
+
+msgid "Prova con termini di ricerca diversi."
+msgstr "Prueba con términos de búsqueda diferentes."
+
+msgid "Gli articoli saranno pubblicati presto."
+msgstr "Los artículos se publicarán pronto."
+
+msgid "Autore"
+msgstr "Autor"
+
+msgid "Membro del Club"
+msgstr "Miembro del Club"
+
+msgid "Informazioni"
+msgstr "Información"
+
+msgid "Tutte le Novità"
+msgstr "Todas las Novedades"
+
+msgid "Articoli Correlati"
+msgstr "Artículos Relacionados"
+
+msgid "Tags:"
+msgstr "Etiquetas:"
+
+msgid "Navigazione pagine"
+msgstr "Navegación de páginas"
+
+msgid "Indice Novità"
+msgstr "Índice de Novedades"

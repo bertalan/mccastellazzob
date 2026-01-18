@@ -1,0 +1,312 @@
+{% extends "website/base.jinja2" %}
+{% from "website/includes/gold_title.jinja2" import gold_title %}
+
+{% block title %}{{ page.title }} - {{ _("Novità") }}{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+{% endblock %}
+
+{% block content %}
+    {# Hero with Cover Image #}
+    <header class="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
+        {% if page.cover_image %}
+        <div class="absolute inset-0">
+            <img src="{{ image(page.cover_image, 'width-1920').url }}" 
+                 alt="{{ page.title }}"
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+        </div>
+        {% else %}
+        <div class="absolute inset-0 bg-gradient-to-br from-navy via-navy/90 to-navy/80"></div>
+        {% endif %}
+        
+        <div class="container mx-auto px-4 relative z-10 text-center py-20">
+            {# Categories #}
+            {% if page.classifier_terms.exists() %}
+            <div class="mb-4 flex flex-wrap justify-center gap-2">
+                {% for term in page.classifier_terms.all() %}
+                <a href="{{ page.get_parent().url }}?c={{ term.slug }}" 
+                   class="px-3 py-1 bg-gold text-navy text-sm font-bold rounded-full hover:bg-gold/90 transition">
+                    {{ term.name }}
+                </a>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-white mb-4">
+                {{ page.title }}
+            </h1>
+            
+            {% if page.caption %}
+            <p class="text-xl text-white/90 max-w-2xl mx-auto">{{ page.caption }}</p>
+            {% endif %}
+            
+            {# Meta info #}
+            <div class="mt-8 flex items-center justify-center gap-6 text-white/80">
+                {% if page.date_display %}
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                    <time datetime="{{ page.date_display.isoformat() }}">
+                        {{ page.date_display.strftime('%d %B %Y') }}
+                    </time>
+                </div>
+                {% endif %}
+                
+                {% if page.author_display or page.author %}
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-user" aria-hidden="true"></i>
+                    {{ page.author_display or page.author.get_full_name() }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    
+    {# Article Content #}
+    <main class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                {# Main Content #}
+                <article class="lg:col-span-2 space-y-8">
+                    {# Body Content - StreamField from CodeRedCMS #}
+                    <div class="bg-white rounded-2xl p-8 shadow-lg prose prose-lg max-w-none" data-aos="fade-up">
+                        {% for block in page.body %}
+                            {{ block }}
+                        {% endfor %}
+                    </div>
+                    
+                    {# Gallery #}
+                    {% if page.gallery %}
+                    <section class="bg-white rounded-2xl p-8 shadow-lg" data-aos="fade-up">
+                        <h2 class="text-2xl font-heading font-bold text-navy mb-6 flex items-center gap-3">
+                            <i class="fas fa-images text-amaranth" aria-hidden="true"></i>
+                            {{ _("Galleria") }}
+                        </h2>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            {% for block in page.gallery %}
+                            {% if block.block_type == 'image' and block.value.image %}
+                            <div class="aspect-video rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition group relative"
+                                 onclick="openNewsLightbox({{ loop.index0 }})">
+                                <img src="{{ image(block.value.image, 'fill-400x300').url }}" 
+                                     alt="{{ block.value.caption or block.value.image.title }}"
+                                     class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition flex items-center justify-center">
+                                    <i class="fas fa-search-plus text-white text-2xl opacity-0 group-hover:opacity-100 transition" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </section>
+                    {% endif %}
+                    
+                    {# Tags #}
+                    {% if page.tags.exists() %}
+                    <div class="bg-white rounded-2xl p-6 shadow-lg" data-aos="fade-up">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-gray-500 font-medium">{{ _("Tags:") }}</span>
+                            {% for tag in page.tags.all() %}
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
+                                #{{ tag.name }}
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </article>
+                
+                {# Sidebar #}
+                <aside class="space-y-6">
+                    {# Author Card #}
+                    {% if page.author or page.author_display %}
+                    <div class="bg-white rounded-2xl p-6 shadow-lg" data-aos="fade-left">
+                        <h3 class="text-lg font-heading font-bold text-navy mb-4">{{ _("Autore") }}</h3>
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-navy text-2xl" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-navy">{{ page.author_display or page.author.get_full_name() }}</p>
+                                {% if page.author and page.author.is_member %}
+                                <p class="text-sm text-gray-500">{{ _("Membro del Club") }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {# Article Info #}
+                    <div class="bg-white rounded-2xl p-6 shadow-lg sticky top-24" data-aos="fade-left">
+                        <h3 class="text-lg font-heading font-bold text-navy mb-4">{{ _("Informazioni") }}</h3>
+                        
+                        <div class="space-y-4">
+                            {% if page.date_display %}
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 bg-amaranth/10 rounded-lg flex items-center justify-center shrink-0">
+                                    <i class="fas fa-calendar text-amaranth" aria-hidden="true"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">{{ _("Data pubblicazione") }}</p>
+                                    <p class="font-bold text-navy">{{ page.date_display.strftime('%d/%m/%Y') }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if page.classifier_terms.exists() %}
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 bg-gold/10 rounded-lg flex items-center justify-center shrink-0">
+                                    <i class="fas fa-folder text-gold" aria-hidden="true"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500">{{ _("Categoria") }}</p>
+                                    <div class="flex flex-wrap gap-1">
+                                        {% for term in page.classifier_terms.all() %}
+                                        <a href="{{ page.get_parent().url }}?c={{ term.slug }}" 
+                                           class="text-navy font-bold hover:text-amaranth transition">
+                                            {{ term.name }}{% if not loop.last %},{% endif %}
+                                        </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        {# Navigation #}
+                        <div class="mt-8 space-y-3">
+                            <a href="{{ page.get_parent().url }}" 
+                               class="w-full border-2 border-navy text-navy font-bold py-3 rounded-full text-center hover:bg-navy hover:text-white transition flex items-center justify-center gap-2">
+                                <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                                {{ _("Tutte le Novità") }}
+                            </a>
+                        </div>
+                    </div>
+                    
+                    {# Related Articles #}
+                    {% if page.related_show and related_pages %}
+                    <div class="bg-white rounded-2xl p-6 shadow-lg" data-aos="fade-left" data-aos-delay="100">
+                        <h3 class="text-lg font-heading font-bold text-navy mb-4">{{ _("Articoli Correlati") }}</h3>
+                        <div class="space-y-4">
+                            {% for related in related_pages[:3] %}
+                            <a href="{{ related.url }}" class="flex gap-4 group">
+                                {% if related.cover_image %}
+                                <img src="{{ image(related.cover_image, 'fill-80x60').url }}" 
+                                     alt="{{ related.title }}"
+                                     class="w-20 h-15 object-cover rounded-lg shrink-0">
+                                {% else %}
+                                <div class="w-20 h-15 bg-gray-100 rounded-lg shrink-0 flex items-center justify-center">
+                                    <i class="fas fa-newspaper text-gray-400" aria-hidden="true"></i>
+                                </div>
+                                {% endif %}
+                                <div>
+                                    <p class="font-bold text-navy text-sm group-hover:text-amaranth transition line-clamp-2">
+                                        {{ related.title }}
+                                    </p>
+                                    {% if related.date_display %}
+                                    <p class="text-xs text-gray-500 mt-1">{{ related.date_display.strftime('%d/%m/%Y') }}</p>
+                                    {% endif %}
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    {# Lightbox #}
+    <div id="lightbox" class="fixed inset-0 bg-black/95 z-50 hidden items-center justify-center p-4" onclick="closeNewsLightbox()">
+        {# Close button #}
+        <button onclick="closeNewsLightbox(); event.stopPropagation();" class="absolute top-6 right-6 text-white text-4xl hover:text-gold transition z-10" aria-label="{{ _('Chiudi') }}">
+            <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+        
+        {# Navigation Arrows #}
+        <button onclick="prevNewsImage(); event.stopPropagation();" class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gold transition z-10" aria-label="{{ _('Foto precedente') }}">
+            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+        </button>
+        <button onclick="nextNewsImage(); event.stopPropagation();" class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gold transition z-10" aria-label="{{ _('Foto successiva') }}">
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+        </button>
+        
+        {# Image container #}
+        <div class="w-full max-w-[80%] max-h-full flex flex-col items-center mx-auto" onclick="event.stopPropagation()">
+            <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[70vh] object-contain rounded-lg">
+            <div class="mt-4 text-center w-full px-4">
+                <h3 id="lightbox-title" class="text-white text-xl font-heading font-bold"></h3>
+                <p id="lightbox-counter" class="text-white/50 mt-2 text-sm"></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Gallery Lightbox
+    const newsGalleryImages = [
+        {% for block in page.gallery %}
+        {% if block.block_type == 'image' and block.value.image %}
+        {
+            src: '{{ image(block.value.image, "width-1200").url }}',
+            title: '{{ (block.value.caption or block.value.image.title)|e }}'
+        }{% if not loop.last %},{% endif %}
+        {% endif %}
+        {% endfor %}
+    ];
+    
+    let currentNewsImageIndex = 0;
+    
+    function openNewsLightbox(index) {
+        currentNewsImageIndex = index;
+        showNewsImage(index);
+        
+        var lightbox = document.getElementById('lightbox');
+        lightbox.classList.remove('hidden');
+        lightbox.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function showNewsImage(index) {
+        if (newsGalleryImages.length === 0) return;
+        
+        if (index < 0) index = newsGalleryImages.length - 1;
+        if (index >= newsGalleryImages.length) index = 0;
+        
+        currentNewsImageIndex = index;
+        var img = newsGalleryImages[index];
+        
+        document.getElementById('lightbox-img').src = img.src;
+        document.getElementById('lightbox-img').alt = img.title || '';
+        document.getElementById('lightbox-title').textContent = img.title || '';
+        document.getElementById('lightbox-counter').textContent = (index + 1) + ' / ' + newsGalleryImages.length;
+    }
+    
+    function nextNewsImage() {
+        showNewsImage(currentNewsImageIndex + 1);
+    }
+    
+    function prevNewsImage() {
+        showNewsImage(currentNewsImageIndex - 1);
+    }
+    
+    function closeNewsLightbox() {
+        var lightbox = document.getElementById('lightbox');
+        lightbox.classList.add('hidden');
+        lightbox.classList.remove('flex');
+        document.body.style.overflow = '';
+    }
+    
+    document.addEventListener('keydown', function(e) {
+        var lightbox = document.getElementById('lightbox');
+        if (lightbox.classList.contains('hidden')) return;
+        
+        if (e.key === 'Escape') closeNewsLightbox();
+        if (e.key === 'ArrowLeft') prevNewsImage();
+        if (e.key === 'ArrowRight') nextNewsImage();
+    });
+</script>
+{% endblock %}

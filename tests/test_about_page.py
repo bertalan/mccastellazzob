@@ -76,7 +76,7 @@ class TestAboutPageStructure:
         content = response.text
         
         # Verifica link sottopagine
-        assert '/chi-siamo/consiglio-direttivo/' in content, "Link Consiglio non trovato"
+        assert '/chi-siamo/consiglio/' in content, "Link Consiglio non trovato"
         assert '/chi-siamo/trasparenza/' in content, "Link Trasparenza non trovato"
         assert '/chi-siamo/contatti/' in content, "Link Contatti non trovato"
 

@@ -59,7 +59,7 @@ def main():
     navbar_links = [
         ('/', 'Home'),
         ('/chi-siamo/', 'Chi Siamo'),
-        ('/chi-siamo/consiglio-direttivo/', 'Consiglio Direttivo'),
+        ('/chi-siamo/consiglio/', 'Consiglio Direttivo'),
         ('/eventi/', 'Eventi'),
         ('/galleria/', 'Galleria'),
         ('/chi-siamo/contatti/', 'Contatti'),
