@@ -93,6 +93,17 @@ class NewsIndexPage(JsonLdMixin, CoderedArticleIndexPage):
     def get_json_ld_type(self) -> str:
         return "CollectionPage"
     
+    def _get_default_image_url(self) -> str:
+        """
+        Ottiene l'URL del logo dell'organizzazione come immagine di default.
+        Usato quando manca la cover_image/image specifica.
+        """
+        org = get_organization_data(self)
+        logo = org.get("logo")
+        if logo and isinstance(logo, dict):
+            return logo.get("url", "")
+        return ""
+    
     def _get_item_schema(self, page) -> dict:
         """
         Genera lo schema.org corretto in base al tipo di pagina.
@@ -101,8 +112,12 @@ class NewsIndexPage(JsonLdMixin, CoderedArticleIndexPage):
         - NewsPage → Article
         - EventDetailPage → Event
         - Altre pagine → WebPage
+        
+        Usa il logo dell'organizzazione come immagine di default se manca.
         """
         from apps.website.models.events import EventDetailPage
+        
+        default_image = self._get_default_image_url()
         
         # EventDetailPage → Event schema
         if isinstance(page, EventDetailPage):
@@ -128,7 +143,9 @@ class NewsIndexPage(JsonLdMixin, CoderedArticleIndexPage):
                     rendition = page.image.get_rendition("fill-400x300")
                     event_data["image"] = rendition.full_url if hasattr(rendition, 'full_url') else rendition.url
                 except Exception:
-                    pass
+                    event_data["image"] = default_image
+            elif default_image:
+                event_data["image"] = default_image
             return event_data
         
         # NewsPage → Article schema
@@ -145,15 +162,20 @@ class NewsIndexPage(JsonLdMixin, CoderedArticleIndexPage):
                     rendition = page.cover_image.get_rendition("fill-400x300")
                     article_data["image"] = rendition.full_url if hasattr(rendition, 'full_url') else rendition.url
                 except Exception:
-                    pass
+                    article_data["image"] = default_image
+            elif default_image:
+                article_data["image"] = default_image
             return article_data
         
         # Default → WebPage
-        return {
+        webpage_data = {
             "@type": "WebPage",
             "name": page.title,
             "url": page.full_url,
         }
+        if default_image:
+            webpage_data["image"] = default_image
+        return webpage_data
     
     def _get_search_results(self, request) -> list:
         """
@@ -558,7 +580,7 @@ class NewsPage(JsonLdMixin, CoderedArticlePage):
             },
         }
         
-        # Cover image
+        # Cover image - usa logo come fallback
         if self.cover_image:
             rendition = self.cover_image.get_rendition("width-1200")
             data["image"] = {
@@ -567,6 +589,9 @@ class NewsPage(JsonLdMixin, CoderedArticlePage):
                 "width": rendition.width,
                 "height": rendition.height,
             }
+        elif org.get("logo"):
+            # Fallback al logo dell'organizzazione
+            data["image"] = org.get("logo")
         
         # Descrizione
         if self.search_description:
