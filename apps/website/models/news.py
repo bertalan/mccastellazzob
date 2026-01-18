@@ -121,6 +121,8 @@ class NewsIndexPage(JsonLdMixin, CoderedArticleIndexPage):
         
         # EventDetailPage → Event schema
         if isinstance(page, EventDetailPage):
+            org = get_organization_data(page)
+            
             event_data = {
                 "@type": "Event",
                 "name": page.event_name or page.title,
@@ -130,13 +132,35 @@ class NewsIndexPage(JsonLdMixin, CoderedArticleIndexPage):
                 event_data["startDate"] = page.start_date.isoformat()
             if page.end_date:
                 event_data["endDate"] = page.end_date.isoformat()
+            
+            # eventStatus (Schema.org EventStatusType)
+            if page.event_status:
+                event_data["eventStatus"] = f"https://schema.org/{page.event_status}"
+            
+            # Location con PostalAddress
             if page.location_name:
                 event_data["location"] = {
                     "@type": "Place",
                     "name": page.location_name,
                 }
                 if page.location_address:
-                    event_data["location"]["address"] = page.location_address
+                    event_data["location"]["address"] = {
+                        "@type": "PostalAddress",
+                        "name": page.location_address,
+                    }
+            
+            # Description (pulita da HTML)
+            if page.description:
+                event_data["description"] = clean_html(page.description)
+            
+            # Organizer (l'organizzazione del sito)
+            if org.get("name"):
+                event_data["organizer"] = {
+                    "@type": "Organization",
+                    "name": org.get("name"),
+                    "url": org.get("url", ""),
+                }
+            
             # EventDetailPage usa 'image', non 'cover_image'
             if page.image:
                 try:
