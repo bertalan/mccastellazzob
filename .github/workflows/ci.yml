@@ -16,7 +16,7 @@ on:
 
 env:
   PYTHON_VERSION: "3.12"
-  WORKING_DIR: src/mccastellazzob
+  WORKING_DIR: .
 
 jobs:
   # ============================================
