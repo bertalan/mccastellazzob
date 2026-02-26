@@ -23,6 +23,7 @@ DATABASES = {
 }
 
 # Security
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = "DENY"
@@ -32,6 +33,10 @@ SECURE_HSTS_PRELOAD = True
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+CSRF_TRUSTED_ORIGINS = [
+    "https://mccastellazzob.com",
+    "https://www.mccastellazzob.com",
+]
 
 # Email
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
