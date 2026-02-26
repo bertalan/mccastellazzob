@@ -7,7 +7,7 @@ from .base import *  # noqa: F401,F403
 
 DEBUG = False
 SECRET_KEY = os.environ["SECRET_KEY"]
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "mccastellazzob.com,www.mccastellazzob.com").split(",")
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "mccastellazzob.com,www.mccastellazzob.com,new.mccastellazzob.com").split(",")
 
 # PostgreSQL
 DATABASES = {
@@ -36,6 +36,7 @@ CSRF_COOKIE_SECURE = True
 CSRF_TRUSTED_ORIGINS = [
     "https://mccastellazzob.com",
     "https://www.mccastellazzob.com",
+    "https://new.mccastellazzob.com",
 ]
 
 # Email
