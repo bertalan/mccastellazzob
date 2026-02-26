@@ -167,7 +167,7 @@ class StatItemBlock(blocks.StructBlock):
         label=_("Icona FontAwesome"),
         max_length=50,
         default="fas fa-star",
-        help_text=_("Classe FontAwesome, es: fas fa-calendar-alt"),
+        help_text=_("Classe FontAwesome, es:") + " fas fa-calendar-alt",
     )
     icon_bg_color = blocks.ChoiceBlock(
         label=_("Colore sfondo icona"),

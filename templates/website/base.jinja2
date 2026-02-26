@@ -800,5 +800,74 @@
     
     {# Accessibility Toolbar #}
     {% include "website/includes/accessibility_toolbar.jinja2" %}
+    
+    {# Global Gallery Lightbox #}
+    <div id="gallery-lightbox" class="fixed inset-0 z-[9999] hidden bg-black/90 items-center justify-center" onclick="closeGalleryLightbox(event)">
+        <button onclick="closeGalleryLightbox(event)" class="absolute top-4 right-4 text-white text-3xl hover:text-gold transition z-10" aria-label="{{ _('Chiudi') }}">
+            <i class="fas fa-times"></i>
+        </button>
+        <button onclick="prevGalleryImage(event)" class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gold transition z-10" aria-label="{{ _('Precedente') }}">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button onclick="nextGalleryImage(event)" class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gold transition z-10" aria-label="{{ _('Successiva') }}">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        <div class="flex flex-col items-center justify-center max-w-[90vw] max-h-[90vh]" onclick="event.stopPropagation()">
+            <img id="gallery-lightbox-image" src="" alt="" class="max-w-full max-h-[85vh] object-contain">
+            <p id="gallery-lightbox-title" class="text-white text-center mt-4 text-lg"></p>
+        </div>
+    </div>
+    <script>
+    (function() {
+        let currentIndex = 0;
+        let images = [];
+
+        window.openGalleryLightbox = function(el) {
+            const section = el.closest('section');
+            images = Array.from(section.querySelectorAll('.gallery-image'));
+            currentIndex = images.indexOf(el);
+            showImage();
+            const lightbox = document.getElementById('gallery-lightbox');
+            lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeGalleryLightbox = function(e) {
+            if (e && e.target.closest('#gallery-lightbox-image')) return;
+            const lightbox = document.getElementById('gallery-lightbox');
+            lightbox.classList.add('hidden');
+            lightbox.classList.remove('flex');
+            document.body.style.overflow = '';
+        };
+
+        window.nextGalleryImage = function(e) {
+            if (e) e.stopPropagation();
+            currentIndex = (currentIndex + 1) % images.length;
+            showImage();
+        };
+
+        window.prevGalleryImage = function(e) {
+            if (e) e.stopPropagation();
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            showImage();
+        };
+
+        function showImage() {
+            const img = images[currentIndex];
+            document.getElementById('gallery-lightbox-image').src = img.dataset.fullSrc;
+            document.getElementById('gallery-lightbox-title').textContent = img.dataset.title || '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            const lightbox = document.getElementById('gallery-lightbox');
+            if (lightbox && !lightbox.classList.contains('hidden')) {
+                if (e.key === 'Escape') closeGalleryLightbox();
+                if (e.key === 'ArrowRight') { e.preventDefault(); nextGalleryImage(e); }
+                if (e.key === 'ArrowLeft') { e.preventDefault(); prevGalleryImage(e); }
+            }
+        });
+    })();
+    </script>
 </body>
 </html>

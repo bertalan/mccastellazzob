@@ -19,6 +19,7 @@ from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.fields import StreamField
 from wagtail.models import Orderable, TranslatableMixin
 from wagtail.snippets.models import register_snippet
+from wagtail_localize.fields import SynchronizedField
 
 
 class NavbarLinkBlock(BaseLinkBlock):
@@ -31,7 +32,7 @@ class NavbarLinkBlock(BaseLinkBlock):
         label=_("Icona FontAwesome"),
         max_length=50,
         required=False,
-        help_text=_("Es: fas fa-home"),
+        help_text=_("Es:") + " fas fa-home",
     )
 
     class Meta:
@@ -53,7 +54,7 @@ class NavbarDropdownBlock(blocks.StructBlock):
         label=_("Icona FontAwesome"),
         max_length=50,
         required=False,
-        help_text=_("Es: fas fa-info-circle"),
+        help_text=_("Es:") + " fas fa-info-circle",
     )
     links = blocks.ListBlock(
         NavbarLinkBlock(),
@@ -251,7 +252,7 @@ class GalleryCategory(TranslatableMixin, models.Model):
         max_length=50,
         blank=True,
         default="fas fa-images",
-        help_text=_("Classe FontAwesome (es. 'fas fa-users', 'fas fa-mountain')"),
+        help_text=_("Classe FontAwesome, es:") + " 'fas fa-users', 'fas fa-mountain'",
     )
     
     sort_order = models.PositiveIntegerField(
@@ -265,6 +266,12 @@ class GalleryCategory(TranslatableMixin, models.Model):
         FieldPanel("slug"),
         FieldPanel("icon"),
         FieldPanel("sort_order"),
+    ]
+    
+    # Blocca il campo icon dalla traduzione - le classi FontAwesome non devono essere tradotte
+    override_translatable_fields = [
+        SynchronizedField("icon", overridable=False),
+        SynchronizedField("slug", overridable=False),
     ]
     
     class Meta:

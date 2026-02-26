@@ -76,7 +76,7 @@
                         <section class="bg-white rounded-2xl p-8 shadow-lg" data-aos="fade-up">
                             <div class="prose prose-lg max-w-none">
                                 {% for block in page.body %}
-                                    {{ block }}
+                                    {% include_block block %}
                                 {% endfor %}
                             </div>
                         </section>

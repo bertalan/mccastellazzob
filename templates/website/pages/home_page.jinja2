@@ -182,7 +182,7 @@
     <section class="py-20 bg-navy text-white text-center">
         <div class="max-w-4xl mx-auto px-6">
             <h2 class="text-4xl font-heading font-bold mb-6" data-aos="fade-up">
-                {{ page.cta_title or _("Unisciti a Noi") }}
+                {{ (page.cta_title or _("Unisciti a Noi"))|capitalize }}
             </h2>
             <p class="text-xl text-cream mb-10" data-aos="fade-up" data-aos-delay="100">
                 {{ page.cta_subtitle or _("Diventa parte della famiglia del Moto Club più antico del Piemonte") }}

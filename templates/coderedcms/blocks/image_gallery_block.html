@@ -1,0 +1,26 @@
+{% load wagtailcore_tags wagtailimages_tags coderedcms_tags i18n %}
+{% get_pictures self.collection.id as pictures %}
+
+<section class="{{self.settings.custom_css_class}}" {% if self.settings.custom_id %}id="{{self.settings.custom_id}}"{%endif %}>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {% for picture in pictures %}
+        {% image picture fill-400x300 format-webp preserve-svg as thumb_image %}
+        {% image picture max-1920x1080 format-webp preserve-svg as full_image %}
+        <div class="aspect-[4/3] rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition group relative gallery-image"
+             data-full-src="{{ full_image.url }}"
+             data-title="{{ picture.title }}"
+             onclick="openGalleryLightbox(this)">
+            <img src="{{ thumb_image.url }}" 
+                 alt="{{ picture.title }}"
+                 title="{{ picture.title }}"
+                 loading="lazy"
+                 class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition flex items-center justify-center">
+                <i class="fas fa-search-plus text-white text-2xl opacity-0 group-hover:opacity-100 transition" aria-hidden="true"></i>
+            </div>
+        </div>
+        {% empty %}
+        <p class="col-span-full text-center text-gray-500 py-8">{% trans "Nessuna immagine nella galleria." %}</p>
+        {% endfor %}
+    </div>
+</section>

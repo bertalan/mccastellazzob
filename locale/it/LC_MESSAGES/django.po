@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-18 00:27+0100\n"
+"POT-Creation-Date: 2026-01-27 21:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,16 +18,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps/core/admin_views.py:114 apps/core/admin_views.py:159
+#: apps/core/admin_views.py:117 apps/core/admin_views.py:162
 msgid "Caricamento massivo immagini"
 msgstr ""
 
-#: apps/core/admin_views.py:141
+#: apps/core/admin_views.py:144
 #, python-format
 msgid "Caricate con successo %(count)d immagini!"
 msgstr ""
 
-#: apps/core/admin_views.py:152
+#: apps/core/admin_views.py:155
 #, python-format
 msgid "Errore durante il caricamento: %(error)s"
 msgstr ""
@@ -46,7 +46,8 @@ msgstr ""
 msgid "es. Raduno Madonnina 2026"
 msgstr ""
 
-#: apps/core/forms.py:59 templates/wagtailadmin/bulk_upload.html:48
+#: apps/core/forms.py:59 apps/website/models/events.py:125
+#: templates/wagtailadmin/bulk_upload.html:48
 msgid "Tag"
 msgstr ""
 
@@ -89,7 +90,7 @@ msgstr ""
 msgid "Formato non supportato: %(name)s. Usa JPG, PNG, GIF o WebP."
 msgstr ""
 
-#: apps/core/wagtail_hooks.py:71
+#: apps/core/wagtail_hooks.py:78
 msgid "Caricamento Massivo"
 msgstr ""
 
@@ -128,8 +129,8 @@ msgstr ""
 #: apps/website/blocks.py:64 apps/website/blocks.py:461
 #: apps/website/blocks.py:483 apps/website/blocks.py:564
 #: apps/website/blocks.py:706 apps/website/models/about.py:82
-#: apps/website/models/events.py:75 apps/website/models/gallery.py:32
-#: apps/website/models/snippets.py:357 vecchio/apps/media/models.py:37
+#: apps/website/models/events.py:91 apps/website/models/gallery.py:32
+#: apps/website/models/snippets.py:364 vecchio/apps/media/models.py:37
 msgid "Immagine"
 msgstr ""
 
@@ -139,7 +140,7 @@ msgstr ""
 #: apps/website/blocks.py:408 apps/website/blocks.py:463
 #: apps/website/blocks.py:559 apps/website/blocks.py:623
 #: apps/website/blocks.py:645 apps/website/models/gallery.py:37
-#: apps/website/models/snippets.py:366
+#: apps/website/models/snippets.py:373
 msgid "Titolo"
 msgstr ""
 
@@ -153,14 +154,14 @@ msgstr ""
 msgid "Es: Raduni, Escursioni, Gare"
 msgstr ""
 
-#: apps/website/blocks.py:72 apps/website/models/snippets.py:38
-#: apps/website/models/snippets.py:79
+#: apps/website/blocks.py:72 apps/website/models/snippets.py:39
+#: apps/website/models/snippets.py:80
 #: vecchio/apps/website/models/snippets.py:31
 msgid "Link"
 msgstr ""
 
-#: apps/website/blocks.py:76 apps/website/models/snippets.py:330
-#: apps/website/models/snippets.py:409 apps/website/models/snippets.py:410
+#: apps/website/blocks.py:76 apps/website/models/snippets.py:337
+#: apps/website/models/snippets.py:416 apps/website/models/snippets.py:417
 msgid "Slide"
 msgstr ""
 
@@ -168,11 +169,11 @@ msgstr ""
 msgid "Slides"
 msgstr ""
 
-#: apps/website/blocks.py:88 apps/website/models/snippets.py:308
+#: apps/website/blocks.py:88 apps/website/models/snippets.py:315
 msgid "Autoplay"
 msgstr ""
 
-#: apps/website/blocks.py:93 apps/website/models/snippets.py:314
+#: apps/website/blocks.py:93 apps/website/models/snippets.py:321
 msgid "Intervallo (ms)"
 msgstr ""
 
@@ -202,7 +203,7 @@ msgstr ""
 
 #: apps/website/blocks.py:127 apps/website/blocks.py:274
 #: apps/website/blocks.py:313 apps/website/blocks.py:764
-#: apps/website/models/snippets.py:373
+#: apps/website/models/snippets.py:380
 msgid "Sottotitolo"
 msgstr ""
 
@@ -222,7 +223,7 @@ msgstr ""
 msgid "Link CTA secondario"
 msgstr ""
 
-#: apps/website/blocks.py:144 apps/website/models/events.py:197
+#: apps/website/blocks.py:144 apps/website/models/events.py:232
 #: apps/website/models/home.py:109
 msgid "Evento in evidenza"
 msgstr ""
@@ -235,13 +236,13 @@ msgstr ""
 msgid "Hero con Countdown"
 msgstr ""
 
-#: apps/website/blocks.py:167 apps/website/models/snippets.py:31
-#: apps/website/models/snippets.py:53 apps/website/models/snippets.py:250
+#: apps/website/blocks.py:167 apps/website/models/snippets.py:32
+#: apps/website/models/snippets.py:54 apps/website/models/snippets.py:251
 msgid "Icona FontAwesome"
 msgstr ""
 
-#: apps/website/blocks.py:170
-msgid "Classe FontAwesome, es: fas fa-calendar-alt"
+#: apps/website/blocks.py:170 apps/website/models/snippets.py:255
+msgid "Classe FontAwesome, es:"
 msgstr ""
 
 #: apps/website/blocks.py:173
@@ -301,7 +302,7 @@ msgstr ""
 #: apps/website/blocks.py:221 apps/website/blocks.py:370
 #: apps/website/blocks.py:412 apps/website/blocks.py:469
 #: apps/website/blocks.py:630 apps/website/blocks.py:710
-#: apps/website/models/events.py:79 apps/website/models/gallery.py:43
+#: apps/website/models/events.py:95 apps/website/models/gallery.py:43
 msgid "Descrizione"
 msgstr ""
 
@@ -433,8 +434,8 @@ msgstr ""
 msgid "Evento Timeline"
 msgstr ""
 
-#: apps/website/blocks.py:444 apps/website/models/events.py:135
-#: apps/website/models/events.py:212 apps/website/models/events.py:213
+#: apps/website/blocks.py:444 apps/website/models/events.py:170
+#: apps/website/models/events.py:247 apps/website/models/events.py:248
 #: vecchio/apps/website/blocks.py:68 vecchio/apps/website/models/pages.py:93
 msgid "Eventi"
 msgstr ""
@@ -490,7 +491,8 @@ msgid "4 colonne"
 msgstr ""
 
 #: apps/website/blocks.py:546 apps/website/models/gallery.py:130
-#: apps/website/models/gallery.py:254
+#: apps/website/models/gallery.py:254 apps/website/models/news.py:554
+#: apps/website/models/news.py:569
 msgid "Galleria"
 msgstr ""
 
@@ -514,13 +516,14 @@ msgstr ""
 msgid "Link approfondimento"
 msgstr ""
 
-#: apps/website/blocks.py:587 vecchio/apps/website/models/pages.py:52
+#: apps/website/blocks.py:587 apps/website/models/news.py:577
+#: vecchio/apps/website/models/pages.py:52
 msgid "Articolo"
 msgstr ""
 
 #: apps/website/blocks.py:596 apps/website/models/about.py:738
-#: apps/website/models/snippets.py:121 apps/website/models/snippets.py:167
-#: apps/website/models/snippets.py:238 apps/website/models/snippets.py:290
+#: apps/website/models/snippets.py:122 apps/website/models/snippets.py:168
+#: apps/website/models/snippets.py:239 apps/website/models/snippets.py:297
 #: vecchio/apps/website/models/snippets.py:68
 #: vecchio/apps/website/models/snippets.py:107
 msgid "Nome"
@@ -558,7 +561,7 @@ msgid "Indirizzo da geocodificare"
 msgstr ""
 
 #: apps/website/blocks.py:655 apps/website/models/about.py:285
-#: apps/website/models/events.py:57
+#: apps/website/models/events.py:73
 msgid "Latitudine"
 msgstr ""
 
@@ -567,7 +570,7 @@ msgid "Lascia vuoto per geocodifica automatica"
 msgstr ""
 
 #: apps/website/blocks.py:660 apps/website/models/about.py:291
-#: apps/website/models/events.py:63
+#: apps/website/models/events.py:79
 msgid "Longitudine"
 msgstr ""
 
@@ -579,39 +582,39 @@ msgstr ""
 msgid "Mappa"
 msgstr ""
 
-#: apps/website/blocks.py:686 apps/website/models/events.py:30
+#: apps/website/blocks.py:686 apps/website/models/events.py:46
 msgid "Nome evento"
 msgstr ""
 
-#: apps/website/blocks.py:690 apps/website/models/events.py:35
+#: apps/website/blocks.py:690 apps/website/models/events.py:51
 msgid "Data inizio"
 msgstr ""
 
-#: apps/website/blocks.py:693 apps/website/models/events.py:39
+#: apps/website/blocks.py:693 apps/website/models/events.py:55
 msgid "Data fine"
 msgstr ""
 
-#: apps/website/blocks.py:697 apps/website/models/events.py:126
+#: apps/website/blocks.py:697 apps/website/models/events.py:149
 msgid "Luogo"
 msgstr ""
 
-#: apps/website/blocks.py:714 apps/website/models/events.py:84
+#: apps/website/blocks.py:714 apps/website/models/events.py:100
 msgid "Stato evento"
 msgstr ""
 
-#: apps/website/blocks.py:716 apps/website/models/events.py:87
+#: apps/website/blocks.py:716 apps/website/models/events.py:103
 msgid "Programmato"
 msgstr ""
 
-#: apps/website/blocks.py:717 apps/website/models/events.py:88
+#: apps/website/blocks.py:717 apps/website/models/events.py:104
 msgid "Annullato"
 msgstr ""
 
-#: apps/website/blocks.py:718 apps/website/models/events.py:89
+#: apps/website/blocks.py:718 apps/website/models/events.py:105
 msgid "Posticipato"
 msgstr ""
 
-#: apps/website/blocks.py:719 apps/website/models/events.py:90
+#: apps/website/blocks.py:719 apps/website/models/events.py:106
 msgid "Riprogrammato"
 msgstr ""
 
@@ -619,7 +622,7 @@ msgstr ""
 msgid "Link dettaglio"
 msgstr ""
 
-#: apps/website/blocks.py:730 apps/website/models/events.py:134
+#: apps/website/blocks.py:730 apps/website/models/events.py:169
 #: vecchio/apps/website/models/pages.py:92
 msgid "Evento"
 msgstr ""
@@ -687,13 +690,14 @@ msgstr ""
 
 #: apps/website/models/about.py:67 apps/website/models/about.py:168
 #: apps/website/models/about.py:228 apps/website/models/about.py:272
-#: apps/website/models/events.py:176 apps/website/models/events.py:270
+#: apps/website/models/events.py:211 apps/website/models/events.py:305
 #: apps/website/models/gallery.py:77 apps/website/models/privacy.py:21
 #: apps/website/models/timeline.py:25
 msgid "Introduzione"
 msgstr ""
 
-#: apps/website/models/about.py:72 apps/website/models/privacy.py:26
+#: apps/website/models/about.py:72 apps/website/models/news.py:545
+#: apps/website/models/privacy.py:26
 msgid "Contenuto"
 msgstr ""
 
@@ -705,7 +709,7 @@ msgstr ""
 msgid "I Nostri Valori"
 msgstr ""
 
-#: apps/website/models/about.py:125 apps/website/models/events.py:187
+#: apps/website/models/about.py:125 apps/website/models/events.py:222
 #: apps/website/models/home.py:158
 msgid "Hero Section"
 msgstr ""
@@ -960,27 +964,27 @@ msgstr ""
 msgid "Campo obbligatorio: %(field)s"
 msgstr ""
 
-#: apps/website/models/events.py:46
+#: apps/website/models/events.py:62
 msgid "Nome luogo"
 msgstr ""
 
-#: apps/website/models/events.py:51
+#: apps/website/models/events.py:67
 msgid "Indirizzo luogo"
 msgstr ""
 
-#: apps/website/models/events.py:102
+#: apps/website/models/events.py:118
 msgid "Galleria immagini"
 msgstr ""
 
-#: apps/website/models/events.py:117
+#: apps/website/models/events.py:140
 msgid "Date e Stato"
 msgstr ""
 
-#: apps/website/models/events.py:198
+#: apps/website/models/events.py:233
 msgid "Evento da mostrare in primo piano con countdown"
 msgstr ""
 
-#: apps/website/models/events.py:283 apps/website/models/events.py:284
+#: apps/website/models/events.py:318 apps/website/models/events.py:319
 msgid "Archivio Eventi"
 msgstr ""
 
@@ -1105,6 +1109,31 @@ msgstr ""
 msgid "Homepage"
 msgstr ""
 
+#: apps/website/models/news.py:44 apps/website/models/news.py:52
+msgid "Pagina in evidenza"
+msgstr ""
+
+#: apps/website/models/news.py:53 apps/website/models/news.py:85
+msgid "Pagine in evidenza"
+msgstr ""
+
+#: apps/website/models/news.py:70
+msgid "Indice Novità"
+msgstr ""
+
+#: apps/website/models/news.py:71
+msgid "Indici Novità"
+msgstr ""
+
+#: apps/website/models/news.py:84
+msgid "Pagina"
+msgstr ""
+
+#: apps/website/models/news.py:578 apps/website/models/timeline.py:36
+#: vecchio/apps/website/blocks.py:67 vecchio/apps/website/models/pages.py:53
+msgid "Articoli"
+msgstr ""
+
 #: apps/website/models/privacy.py:39 apps/website/models/privacy.py:40
 msgid "Privacy Policy"
 msgstr ""
@@ -1199,219 +1228,211 @@ msgstr ""
 msgid "Impostazioni Sito"
 msgstr ""
 
-#: apps/website/models/snippets.py:34
-msgid "Es: fas fa-home"
+#: apps/website/models/snippets.py:35 apps/website/models/snippets.py:57
+msgid "Es:"
 msgstr ""
 
-#: apps/website/models/snippets.py:49
+#: apps/website/models/snippets.py:50
 #: vecchio/apps/website/models/snippets.py:44
 msgid "Titolo dropdown"
 msgstr ""
 
-#: apps/website/models/snippets.py:56
-msgid "Es: fas fa-info-circle"
-msgstr ""
-
-#: apps/website/models/snippets.py:60
+#: apps/website/models/snippets.py:61
 #: vecchio/apps/website/models/snippets.py:49
 msgid "Link nel dropdown"
 msgstr ""
 
-#: apps/website/models/snippets.py:64
+#: apps/website/models/snippets.py:65
 #: vecchio/apps/website/models/snippets.py:54
 msgid "Dropdown"
 msgstr ""
 
-#: apps/website/models/snippets.py:74
+#: apps/website/models/snippets.py:75
 msgid "Titolo colonna"
 msgstr ""
 
-#: apps/website/models/snippets.py:83
+#: apps/website/models/snippets.py:84
 msgid "Colonna Footer"
 msgstr ""
 
-#: apps/website/models/snippets.py:93
+#: apps/website/models/snippets.py:94
 msgid "Piattaforma"
 msgstr ""
 
-#: apps/website/models/snippets.py:103
+#: apps/website/models/snippets.py:104
 msgid "URL"
 msgstr ""
 
-#: apps/website/models/snippets.py:107
+#: apps/website/models/snippets.py:108
 msgid "Social Link"
 msgstr ""
 
-#: apps/website/models/snippets.py:123
+#: apps/website/models/snippets.py:124
 msgid "Nome identificativo della navbar (es. 'Main Navigation')."
 msgstr ""
 
-#: apps/website/models/snippets.py:127
+#: apps/website/models/snippets.py:128
 msgid "Attiva"
 msgstr ""
 
-#: apps/website/models/snippets.py:129
+#: apps/website/models/snippets.py:130
 msgid "Solo la navbar attiva verrà mostrata."
 msgstr ""
 
-#: apps/website/models/snippets.py:139
+#: apps/website/models/snippets.py:140
 msgid "Voci di menu"
 msgstr ""
 
-#: apps/website/models/snippets.py:149 apps/website/models/snippets.py:150
+#: apps/website/models/snippets.py:150 apps/website/models/snippets.py:151
 #: vecchio/apps/website/models/snippets.py:89
 #: vecchio/apps/website/models/snippets.py:90
 msgid "Navbar"
 msgstr ""
 
-#: apps/website/models/snippets.py:169
+#: apps/website/models/snippets.py:170
 #: vecchio/apps/website/models/snippets.py:109
 msgid "Nome identificativo del footer."
 msgstr ""
 
-#: apps/website/models/snippets.py:173
+#: apps/website/models/snippets.py:174
 msgid "Attivo"
 msgstr ""
 
-#: apps/website/models/snippets.py:175
+#: apps/website/models/snippets.py:176
 msgid "Solo il footer attivo verrà mostrato."
 msgstr ""
 
-#: apps/website/models/snippets.py:179
+#: apps/website/models/snippets.py:180
 msgid "Tagline"
 msgstr ""
 
-#: apps/website/models/snippets.py:182
+#: apps/website/models/snippets.py:183
 msgid "Breve descrizione sotto il logo."
 msgstr ""
 
-#: apps/website/models/snippets.py:191
+#: apps/website/models/snippets.py:192
 msgid "Colonne link"
 msgstr ""
 
-#: apps/website/models/snippets.py:200
+#: apps/website/models/snippets.py:201
 msgid "Link social"
 msgstr ""
 
-#: apps/website/models/snippets.py:204
+#: apps/website/models/snippets.py:205
 msgid "Testo copyright"
 msgstr ""
 
-#: apps/website/models/snippets.py:207
+#: apps/website/models/snippets.py:208
 msgid "Es: © 2026 MC Castellazzo. Tutti i diritti riservati."
 msgstr ""
 
-#: apps/website/models/snippets.py:220 apps/website/models/snippets.py:221
+#: apps/website/models/snippets.py:221 apps/website/models/snippets.py:222
 #: vecchio/apps/website/models/snippets.py:134
 #: vecchio/apps/website/models/snippets.py:135
 msgid "Footer"
 msgstr ""
 
-#: apps/website/models/snippets.py:240
+#: apps/website/models/snippets.py:241
 msgid "Nome della categoria (es. 'Raduni', 'Escursioni')"
 msgstr ""
 
-#: apps/website/models/snippets.py:244
+#: apps/website/models/snippets.py:245
 msgid "Slug"
 msgstr ""
 
-#: apps/website/models/snippets.py:246
+#: apps/website/models/snippets.py:247
 msgid "Identificatore URL-friendly (es. 'raduni', 'escursioni')"
 msgstr ""
 
-#: apps/website/models/snippets.py:254
-msgid "Classe FontAwesome (es. 'fas fa-users', 'fas fa-mountain')"
-msgstr ""
-
-#: apps/website/models/snippets.py:258
+#: apps/website/models/snippets.py:259
 msgid "Ordine"
 msgstr ""
 
-#: apps/website/models/snippets.py:260
+#: apps/website/models/snippets.py:261
 msgid "Ordine di visualizzazione nei filtri"
 msgstr ""
 
-#: apps/website/models/snippets.py:271
+#: apps/website/models/snippets.py:278
 msgid "Categoria Galleria"
 msgstr ""
 
-#: apps/website/models/snippets.py:272
+#: apps/website/models/snippets.py:279
 msgid "Categorie Galleria"
 msgstr ""
 
-#: apps/website/models/snippets.py:292
+#: apps/website/models/snippets.py:299
 msgid "Nome identificativo del carousel."
 msgstr ""
 
-#: apps/website/models/snippets.py:296
+#: apps/website/models/snippets.py:303
 msgid "Mostra controlli"
 msgstr ""
 
-#: apps/website/models/snippets.py:298
+#: apps/website/models/snippets.py:305
 msgid "Mostra frecce di navigazione."
 msgstr ""
 
-#: apps/website/models/snippets.py:302
+#: apps/website/models/snippets.py:309
 msgid "Mostra indicatori"
 msgstr ""
 
-#: apps/website/models/snippets.py:304
+#: apps/website/models/snippets.py:311
 msgid "Mostra pallini indicatori sotto il carousel."
 msgstr ""
 
-#: apps/website/models/snippets.py:310
+#: apps/website/models/snippets.py:317
 msgid "Cambia slide automaticamente."
 msgstr ""
 
-#: apps/website/models/snippets.py:316
+#: apps/website/models/snippets.py:323
 msgid "Tempo tra le slide in millisecondi."
 msgstr ""
 
-#: apps/website/models/snippets.py:328
+#: apps/website/models/snippets.py:335
 msgid "Impostazioni Carousel"
 msgstr ""
 
-#: apps/website/models/snippets.py:334
+#: apps/website/models/snippets.py:341
 msgid "Carousel Semplice"
 msgstr ""
 
-#: apps/website/models/snippets.py:335
+#: apps/website/models/snippets.py:342
 msgid "Carousel Semplici"
 msgstr ""
 
-#: apps/website/models/snippets.py:362
+#: apps/website/models/snippets.py:369
 msgid "Immagine di sfondo della slide (consigliato: 1920x800)."
 msgstr ""
 
-#: apps/website/models/snippets.py:369
+#: apps/website/models/snippets.py:376
 msgid "Titolo sovrapposto all'immagine."
 msgstr ""
 
-#: apps/website/models/snippets.py:376
+#: apps/website/models/snippets.py:383
 msgid "Testo descrittivo sotto il titolo."
 msgstr ""
 
-#: apps/website/models/snippets.py:380
+#: apps/website/models/snippets.py:387
 msgid "Testo pulsante"
 msgstr ""
 
-#: apps/website/models/snippets.py:383
+#: apps/website/models/snippets.py:390
 msgid "Testo del pulsante CTA (lascia vuoto per nascondere)."
 msgstr ""
 
-#: apps/website/models/snippets.py:387
+#: apps/website/models/snippets.py:394
 msgid "URL pulsante"
 msgstr ""
 
-#: apps/website/models/snippets.py:390
+#: apps/website/models/snippets.py:397
 msgid "Link del pulsante (può essere URL esterno o percorso interno)."
 msgstr ""
 
-#: apps/website/models/snippets.py:394
+#: apps/website/models/snippets.py:401
 msgid "Opacità overlay"
 msgstr ""
 
-#: apps/website/models/snippets.py:396
+#: apps/website/models/snippets.py:403
 msgid "Opacità dell'overlay scuro (0-100)."
 msgstr ""
 
@@ -1419,13 +1440,12 @@ msgstr ""
 msgid "Testo introduttivo per la pagina timeline"
 msgstr ""
 
-#: apps/website/models/timeline.py:36 vecchio/apps/website/blocks.py:67
-#: vecchio/apps/website/models/pages.py:53
-msgid "Articoli"
-msgstr ""
-
 #: apps/website/models/timeline.py:48 apps/website/models/timeline.py:49
 msgid "Timeline"
+msgstr ""
+
+#: templates/coderedcms/blocks/image_gallery_block.html:23
+msgid "Nessuna immagine nella galleria."
 msgstr ""
 
 #: templates/wagtailadmin/bulk_upload.html:20
