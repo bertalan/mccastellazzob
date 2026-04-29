@@ -595,6 +595,7 @@ class MemberBlock(blocks.StructBlock):
     name = blocks.CharBlock(
         label=_("Nome"),
         max_length=255,
+        translatable=False,
     )
     role = blocks.CharBlock(
         label=_("Ruolo"),
