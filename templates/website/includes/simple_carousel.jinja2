@@ -13,7 +13,7 @@
         <div class="carousel-slide min-w-full h-full relative flex-shrink-0">
             {# Immagine di sfondo #}
             {% if slide.image %}
-            <img src="{{ image(slide.image, 'fill-1920x800').url }}" 
+            <img src="{{ image(slide.image, 'fill-1280x533|format-webp').url }}" 
                  alt="{{ slide.title or slide.image.title }}"
                  class="w-full h-full object-cover"
                  loading="{% if loop.first %}eager{% else %}lazy{% endif %}">

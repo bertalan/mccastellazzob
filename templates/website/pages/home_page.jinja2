@@ -21,7 +21,7 @@
                     {% for slide in page.hero_carousel.carousel_slides.all() %}
                     <div class="slide min-w-full h-full relative">
                         {% if slide.image %}
-                        <img src="{{ image(slide.image, 'fill-1600x900').url }}" alt="{{ slide.image.title }}" class="w-full h-full object-cover">
+                        <img src="{{ image(slide.image, 'fill-1280x720|format-webp').url }}" alt="{{ slide.image.title }}" class="w-full h-full object-cover">
                         {% endif %}
                         <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-navy/90 to-transparent p-8">
                             {# Contenuto della slide (può essere vuoto o con testo) #}

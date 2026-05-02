@@ -9,7 +9,7 @@
     <header class="pt-32 pb-16 bg-navy relative overflow-hidden">
         {% if page.image %}
         <div class="absolute inset-0 opacity-30">
-            <img src="{{ image(page.image, 'width-1920').url }}" alt="" class="w-full h-full object-cover">
+            <img src="{{ image(page.image, 'width-1280|format-webp').url }}" alt="" class="w-full h-full object-cover">
         </div>
         {% endif %}
         <div class="relative max-w-7xl mx-auto px-6">
