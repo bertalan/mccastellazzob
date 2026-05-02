@@ -8,14 +8,21 @@ Pagine Eventi con:
 
 I dati organizzatore (Organizer) vengono da wagtailseo.SeoSettings.
 """
+import io
 from datetime import date
 
+import qrcode
+import qrcode.image.svg
 from django.db import models
+from django.http import HttpResponse
+from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy as _
+from django.views.decorators.http import require_safe
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.contrib.routable_page.models import RoutablePageMixin, path as wagtail_path
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
@@ -41,7 +48,7 @@ class EventPageTag(TaggedItemBase):
     )
 
 
-class EventDetailPage(JsonLdMixin, Page):
+class EventDetailPage(RoutablePageMixin, JsonLdMixin, Page):
     """
     Pagina dettaglio evento singolo - schema.org Event.
     """
@@ -237,6 +244,122 @@ class EventDetailPage(JsonLdMixin, Page):
             data["subjectOf"] = attachment_objects
 
         return data
+
+    # === iCalendar VEVENT (per QR code) ===
+    @staticmethod
+    def _ical_escape(value: str) -> str:
+        """RFC 5545: escape backslash, virgola, punto e virgola; newline -> \\n."""
+        if not value:
+            return ""
+        return (
+            value.replace("\\", "\\\\")
+            .replace(";", "\\;")
+            .replace(",", "\\,")
+            .replace("\r\n", "\\n")
+            .replace("\n", "\\n")
+            .replace("\r", "\\n")
+        )
+
+    def _build_vevent(self, request) -> str:
+        """
+        Compone una stringa VCALENDAR/VEVENT (RFC 5545) con titolo, descrizione,
+        luogo, date e URL della pagina nella lingua corrente.
+        Usata come payload del QR code: gli smartphone propongono "Aggiungi al calendario".
+        """
+        def fmt_dt(dt) -> str:
+            # Wagtail salva in UTC con USE_TZ=True. Formato ZULU: 20260503T140000Z
+            if dt is None:
+                return ""
+            if dt.tzinfo is not None:
+                dt = dt.astimezone(tz=None).utctimetuple()
+                return "{:04d}{:02d}{:02d}T{:02d}{:02d}{:02d}Z".format(
+                    dt.tm_year, dt.tm_mon, dt.tm_mday,
+                    dt.tm_hour, dt.tm_min, dt.tm_sec,
+                )
+            return dt.strftime("%Y%m%dT%H%M%S")
+
+        # URL completo localizzato: full_url rispetta la locale corrente del thread
+        url = self.full_url or ""
+
+        # Descrizione: rimuovi HTML, accorcia a ~500 char per non gonfiare il QR
+        plain_description = strip_tags(self.description or "").strip()
+        if len(plain_description) > 500:
+            plain_description = plain_description[:497] + "..."
+
+        location_parts = [self.location_name or "", self.location_address or ""]
+        location = ", ".join(p for p in location_parts if p)
+
+        dtstart = fmt_dt(self.start_date)
+        dtend = fmt_dt(self.end_date) if self.end_date else dtstart
+
+        uid = "event-{pk}-{locale}@mccastellazzob.com".format(
+            pk=self.pk,
+            locale=getattr(self.locale, "language_code", "x"),
+        )
+
+        lines = [
+            "BEGIN:VCALENDAR",
+            "VERSION:2.0",
+            "PRODID:-//MC Castellazzo//Events//EN",
+            "CALSCALE:GREGORIAN",
+            "METHOD:PUBLISH",
+            "BEGIN:VEVENT",
+            f"UID:{uid}",
+            f"DTSTAMP:{fmt_dt(self.last_published_at) or dtstart}",
+            f"DTSTART:{dtstart}",
+            f"DTEND:{dtend}",
+            f"SUMMARY:{self._ical_escape(self.event_name or self.title)}",
+            f"DESCRIPTION:{self._ical_escape(plain_description)}",
+            f"LOCATION:{self._ical_escape(location)}",
+            f"URL:{url}",
+            "STATUS:" + ("CANCELLED" if self.event_status == "EventCancelled" else "CONFIRMED"),
+            "END:VEVENT",
+            "END:VCALENDAR",
+        ]
+        # RFC 5545 vuole CRLF
+        return "\r\n".join(lines)
+
+    @wagtail_path("qrcode/")
+    def qrcode_svg_view(self, request):
+        """
+        Restituisce il QR code SVG con i dettagli dell'evento (VEVENT) e l'URL
+        della pagina nella lingua corrente. Una versione per ogni traduzione.
+        Cache pubblica (l'evento cambia raramente).
+        """
+        return _serve_event_qrcode(request, self, attachment=False)
+
+    @wagtail_path("qrcode-download/")
+    def qrcode_svg_download(self, request):
+        """Stesso SVG ma con Content-Disposition: attachment."""
+        return _serve_event_qrcode(request, self, attachment=True)
+
+
+@require_safe
+def _serve_event_qrcode(request, page: "EventDetailPage", attachment: bool) -> HttpResponse:
+    """
+    Genera l'SVG del QR code per l'evento.
+    Helper modulo richiamato dai due route della pagina.
+    """
+    payload = page._build_vevent(request)
+    qr = qrcode.QRCode(
+        version=None,
+        error_correction=qrcode.constants.ERROR_CORRECT_M,
+        box_size=10,
+        border=2,
+    )
+    qr.add_data(payload)
+    qr.make(fit=True)
+    img = qr.make_image(image_factory=qrcode.image.svg.SvgPathImage)
+    buf = io.BytesIO()
+    img.save(buf)
+    response = HttpResponse(buf.getvalue(), content_type="image/svg+xml; charset=utf-8")
+    # Cache pubblica 1h: evento cambia raramente, full_url e contenuti sono stabili
+    response["Cache-Control"] = "public, max-age=3600"
+    if attachment:
+        lang = getattr(page.locale, "language_code", "xx")
+        filename = f"evento-{page.slug}-{lang}.svg"
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
+    return response
 
 
 class EventsPage(JsonLdMixin, Page):

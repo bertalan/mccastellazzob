@@ -219,6 +219,30 @@
                                 </a>
                             </div>
                         </div>
+
+                        {# QR Code Card - una versione per lingua #}
+                        <div class="bg-white rounded-2xl p-6 shadow-lg" data-aos="fade-left" data-aos-delay="100">
+                            <h3 class="text-xl font-heading font-bold text-navy mb-2 flex items-center gap-2">
+                                <i class="fas fa-qrcode text-amaranth" aria-hidden="true"></i>
+                                {{ _("Aggiungi al calendario") }}
+                            </h3>
+                            <p class="text-sm text-gray-600 mb-4">
+                                {{ _("Inquadra il QR code con la fotocamera per salvare l'evento sul tuo dispositivo.") }}
+                            </p>
+                            <div class="bg-gray-50 rounded-xl p-4 flex items-center justify-center">
+                                <img src="{{ page.url }}qrcode/"
+                                     alt="{{ _('QR code evento') }} - {{ page.event_name }}"
+                                     class="w-48 h-48"
+                                     loading="lazy"
+                                     width="192" height="192">
+                            </div>
+                            <a href="{{ page.url }}qrcode-download/"
+                               download="evento-{{ page.slug }}-{{ page.locale.language_code }}.svg"
+                               class="mt-4 w-full inline-flex items-center justify-center gap-2 bg-navy text-white font-bold py-3 rounded-full hover:bg-amaranth transition">
+                                <i class="fas fa-download" aria-hidden="true"></i>
+                                {{ _("Scarica QR (SVG)") }}
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -101,6 +101,7 @@ node_modules/
 .ruff_cache/
 
 # Files
+docs/
 copia_crea_traduzioni.py
 CLAUDE.md
 TRADUZIONI.md
