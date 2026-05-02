@@ -6,6 +6,7 @@ Configurazione base per CodeRedCMS/Wagtail con supporto 4 lingue.
 import os
 from pathlib import Path
 
+from django.core.management.utils import get_random_secret_key
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -15,7 +16,9 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Security
-SECRET_KEY = os.environ.get("SECRET_KEY", "changeme-in-production")
+# In production, SECRET_KEY MUST be set via env (prod.py enforces this).
+# In development, generate a random key per process to avoid predictable secrets.
+SECRET_KEY = os.environ.get("SECRET_KEY") or get_random_secret_key()
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
@@ -282,3 +285,12 @@ DEFAULT_LOCATION = {
     "region": "Piedmont",
     "country": "IT",
 }
+
+# ======================
+# SESSION / COOKIE SECURITY (V2-007)
+# ======================
+SESSION_COOKIE_HTTPONLY = True       # Impedisce accesso JS al cookie di sessione
+SESSION_COOKIE_SAMESITE = "Lax"      # Protezione CSRF cross-site
+SESSION_COOKIE_AGE = 60 * 60 * 8    # 8 ore (default Django 14 giorni è troppo lungo)
+PASSWORD_RESET_TIMEOUT = 60 * 60    # 1 ora (default Django 3 giorni è troppo lungo)
+CSRF_COOKIE_SAMESITE = "Lax"        # Protezione CSRF cross-site esplicita

@@ -12,11 +12,14 @@ I dati organizzazione vengono da wagtailseo.SeoSettings.
 import hashlib
 import hmac
 import random
+import re
 import time
 import logging
 
 from django.conf import settings
 from django.core.mail import EmailMessage
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import models
 from django.http import JsonResponse
 from django.template.response import TemplateResponse
@@ -651,13 +654,17 @@ class ContactPage(JsonLdMixin, Page):
         """
         Invia email di contatto con allegati.
         """
+        # V2-009: Sanitizza campi che finiscono nell'oggetto email per prevenire header injection
+        _clean = lambda s: re.sub(r"[\r\n]", "", str(s))[:200]
+        raw_oggetto = form_data.get('oggetto', 'altro')
+        oggetto_label = dict([
+            ('iscrizione', gettext('Richiesta Iscrizione')),
+            ('eventi', gettext('Informazioni Eventi')),
+            ('collaborazioni', gettext('Collaborazioni')),
+            ('altro', gettext('Altro')),
+        ]).get(raw_oggetto, _clean(raw_oggetto))
         subject = gettext("[MC Castellazzo] Nuovo messaggio: %(subject)s") % {
-            'subject': dict([
-                ('iscrizione', gettext('Richiesta Iscrizione')),
-                ('eventi', gettext('Informazioni Eventi')),
-                ('collaborazioni', gettext('Collaborazioni')),
-                ('altro', gettext('Altro')),
-            ]).get(form_data.get('oggetto', 'altro'), form_data.get('oggetto', 'Contatto'))
+            'subject': oggetto_label
         }
         
         body = f"""
@@ -679,14 +686,20 @@ Inviato dal form contatti di mccastellazzo.com
         # Destinatario: email della pagina o default
         to_email = self.email or getattr(settings, 'DEFAULT_FROM_EMAIL', 'info@mccastellazzo.com')
         from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@mccastellazzo.com')
-        reply_to = form_data.get('email', '')
-        
+        # V2-009: Valida reply_to per prevenire email header injection
+        reply_to_raw = form_data.get('email', '').strip()
+        try:
+            validate_email(reply_to_raw)
+            reply_to = reply_to_raw
+        except DjangoValidationError:
+            reply_to = None
+
         email = EmailMessage(
             subject=subject,
             body=body,
             from_email=from_email,
             to=[to_email],
-            reply_to=[reply_to] if reply_to else None,
+            reply_to=[reply_to] if reply_to else [],
         )
         
         # Aggiungi allegati

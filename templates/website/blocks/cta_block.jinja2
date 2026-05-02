@@ -3,7 +3,7 @@
     <div class="max-w-4xl mx-auto px-6 text-center">
         <h2 id="cta-heading-{{ id }}" class="text-4xl md:text-5xl font-heading font-black text-white mb-6" data-aos="fade-up">
             {% if value.title_highlight %}
-            {{ value.title|replace(value.title_highlight, '<span class="text-gold">' ~ value.title_highlight ~ '</span>')|safe }}
+            {{ value.title|e|replace(value.title_highlight|e, '<span class="text-gold">' ~ value.title_highlight|e ~ '</span>')|safe }}
             {% else %}
             {{ value.title }}
             {% endif %}

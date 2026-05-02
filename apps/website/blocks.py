@@ -3,11 +3,39 @@ MC Castellazzo - StreamField Blocks
 ====================================
 Blocchi riutilizzabili per StreamField.
 """
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.snippets.blocks import SnippetChooserBlock
+
+
+# Mappa estensione -> metadati schema.org per allegati evento.
+# Estendere qui per supportare nuovi formati senza toccare la logica.
+EVENT_ATTACHMENT_SCHEMA_MAP = {
+    "gpx": {
+        "type": "DataDownload",
+        "encoding_format": "application/gpx+xml",
+        "icon": "fas fa-route",
+        "label": _("Traccia GPX"),
+    },
+    "kml": {
+        "type": "DataDownload",
+        "encoding_format": "application/vnd.google-earth.kml+xml",
+        "icon": "fas fa-map-marked-alt",
+        "label": _("Traccia KML"),
+    },
+    "pdf": {
+        "type": "DigitalDocument",
+        "encoding_format": "application/pdf",
+        "icon": "fas fa-file-pdf",
+        "label": _("Documento PDF"),
+    },
+}
+
+EVENT_ATTACHMENT_ALLOWED_EXTENSIONS = tuple(EVENT_ATTACHMENT_SCHEMA_MAP.keys())
+EVENT_ATTACHMENT_MAX_SIZE_BYTES = 5 * 1024 * 1024  # 5 MB
 
 
 def get_collection_choices():
@@ -636,6 +664,52 @@ class DocumentBlock(blocks.StructBlock):
         icon = "doc-full-inverse"
         label = _("Documento")
         template = "website/blocks/document_block.jinja2"
+
+
+class EventAttachmentBlock(DocumentBlock):
+    """
+    Allegato di un evento (GPX, KML, PDF).
+
+    Riusa DocumentBlock (titolo + documento + descrizione) e aggiunge:
+    - validazione estensione contro EVENT_ATTACHMENT_ALLOWED_EXTENSIONS
+    - validazione dimensione contro EVENT_ATTACHMENT_MAX_SIZE_BYTES
+    - icona e label dedicate per il rendering frontend
+    """
+
+    def clean(self, value):
+        cleaned = super().clean(value)
+        document = cleaned.get("document")
+        if document is None:
+            return cleaned
+
+        filename = (document.filename or "").lower()
+        ext = filename.rsplit(".", 1)[-1] if "." in filename else ""
+        if ext not in EVENT_ATTACHMENT_ALLOWED_EXTENSIONS:
+            allowed = ", ".join(EVENT_ATTACHMENT_ALLOWED_EXTENSIONS).upper()
+            raise ValidationError(
+                _("Formato non consentito: %(name)s. Usa: %(allowed)s.") % {
+                    "name": document.filename,
+                    "allowed": allowed,
+                }
+            )
+
+        try:
+            size = document.file.size
+        except (AttributeError, OSError, ValueError):
+            size = None
+        if size is not None and size > EVENT_ATTACHMENT_MAX_SIZE_BYTES:
+            raise ValidationError(
+                _("File troppo grande: %(name)s (max 5 MB).") % {
+                    "name": document.filename,
+                }
+            )
+
+        return cleaned
+
+    class Meta:
+        icon = "download"
+        label = _("Allegato evento")
+        template = "website/blocks/event_attachment_block.jinja2"
 
 
 class MapBlock(blocks.StructBlock):

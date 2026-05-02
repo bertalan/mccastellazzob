@@ -33,6 +33,10 @@ SECURE_HSTS_PRELOAD = True
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+# V2-020: Header di sicurezza moderni (Permissions-Policy, COOP, COEP, CORP)
+MIDDLEWARE = [
+    "apps.core.middleware.SecurityHeadersMiddleware",
+] + MIDDLEWARE  # noqa: F405
 # Invia l'origin come Referer alle richieste cross-origin (richiesto da
 # OpenStreetMap tile server, vedi https://osm.wiki/Blocked).
 # Il default Django ("same-origin") blocca le tile OSM sulla mappa Contatti.

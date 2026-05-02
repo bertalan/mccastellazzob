@@ -113,6 +113,11 @@ def auto_translate_page_view(request, page_id):
     target_lang = current_locale.language_code
     
     # Non tradurre pagine italiane
+    # V2-004: Verifica che l'utente abbia il permesso di modificare questa specifica pagina
+    if not page.permissions_for_user(request.user).can_edit():
+        messages.error(request, "Non hai il permesso di modificare questa pagina.")
+        return redirect("wagtailadmin_home")
+
     if target_lang == "it":
         messages.warning(request, "Questa pagina è già in italiano, non serve tradurla.")
         return redirect("wagtailadmin_pages:edit", page.id)

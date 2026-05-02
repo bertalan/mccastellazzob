@@ -109,3 +109,7 @@ TDD_NAVIGATION_REPORT.md
 DATABASE_MIGRATION_PLAN.md
 TRADUZIONI_MANCANTI.md
 SEO_SCHEMA_GUIDE.md.env.production
+
+# Local dev overrides & DB dumps
+docker-compose.override.yml
+*.dump

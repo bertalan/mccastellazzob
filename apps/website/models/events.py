@@ -20,7 +20,12 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
 from apps.core.seo import JsonLdMixin, clean_html, get_organization_data, event as schema_event, place
-from apps.website.blocks import GalleryImageBlock, HeroCountdownBlock
+from apps.website.blocks import (
+    EVENT_ATTACHMENT_SCHEMA_MAP,
+    EventAttachmentBlock,
+    GalleryImageBlock,
+    HeroCountdownBlock,
+)
 from wagtail.search import index
 
 
@@ -117,6 +122,16 @@ class EventDetailPage(JsonLdMixin, Page):
         use_json_field=True,
         verbose_name=_("Galleria immagini"),
     )
+
+    # Allegati (GPX, KML, PDF) - traduzione di title/description via wagtail-localize
+    attachments = StreamField(
+        [
+            ("attachment", EventAttachmentBlock()),
+        ],
+        blank=True,
+        use_json_field=True,
+        verbose_name=_("Allegati"),
+    )
     
     # Tags - usa lo stesso sistema di CodeRedCMS per condividere i tag
     tags = ClusterTaggableManager(
@@ -151,6 +166,7 @@ class EventDetailPage(JsonLdMixin, Page):
         FieldPanel("image"),
         FieldPanel("description"),
         FieldPanel("gallery"),
+        FieldPanel("attachments"),
         FieldPanel("tags"),
     ]
     
@@ -198,7 +214,28 @@ class EventDetailPage(JsonLdMixin, Page):
         
         # Aggiungi organizer da SeoSettings (fonte unica)
         data["organizer"] = get_organization_data(self)
-        
+
+        # Allegati riconosciuti (GPX/KML/PDF) come subjectOf
+        attachment_objects = []
+        for block in self.attachments:
+            doc = block.value.get("document")
+            if not doc:
+                continue
+            filename = (getattr(doc, "filename", "") or "").lower()
+            ext = filename.rsplit(".", 1)[-1] if "." in filename else ""
+            mapping = EVENT_ATTACHMENT_SCHEMA_MAP.get(ext)
+            if not mapping:
+                continue
+            attachment_objects.append({
+                "@type": mapping["type"],
+                "encodingFormat": mapping["encoding_format"],
+                "name": block.value.get("title") or doc.title,
+                "description": block.value.get("description", "") or "",
+                "contentUrl": doc.file.url,
+            })
+        if attachment_objects:
+            data["subjectOf"] = attachment_objects
+
         return data
 
 

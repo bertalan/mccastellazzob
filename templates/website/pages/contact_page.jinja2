@@ -221,7 +221,7 @@
                             <div>
                                 <h3 class="text-lg font-heading font-bold text-navy mb-1">{{ _("Sede Sociale") }}</h3>
                                 <address class="not-italic text-gray-600">
-                                    {{ page.address|replace(", ", "<br>")|safe }}
+                                    {{ page.address|e|replace(", ", "<br>")|safe }}
                                 </address>
                                 {% if page.latitude and page.longitude %}
                                 <div class="mt-3 flex flex-wrap gap-2">
@@ -471,7 +471,7 @@
         
         L.marker([location.lat, location.lon])
             .addTo(map)
-            .bindPopup('{{ page.address or settings.wagtailseo.SeoSettings.struct_org_name }}')
+            .bindPopup({{ (page.address or settings.wagtailseo.SeoSettings.struct_org_name) | tojson }})
             .openPopup();
     })();
     

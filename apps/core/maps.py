@@ -3,6 +3,8 @@ MC Castellazzo - Map Utilities
 ==============================
 OpenStreetMap + Nominatim geocoder (no Google Maps).
 """
+import json
+
 import requests
 from django.conf import settings
 
@@ -82,7 +84,8 @@ def generate_leaflet_map_html(
     Returns:
         HTML string per la mappa
     """
-    marker_popup = f'.bindPopup("{marker_text}")' if marker_text else ""
+    # V2-005: Use json.dumps to safely escape marker_text for embedding in JS string
+    marker_popup = f".bindPopup({json.dumps(marker_text)})" if marker_text else ""
     
     return f'''
 <div id="{map_id}" style="height: {height}; width: 100%;"></div>

@@ -6,6 +6,7 @@ Viste admin per il caricamento massivo di immagini e API per metadati immagini.
 
 import io
 import json
+import logging
 from typing import Optional
 
 from django.contrib import messages
@@ -19,6 +20,9 @@ from django.views import View
 from django.views.decorators.http import require_GET
 from wagtail.images import get_image_model
 from wagtail.models import Collection
+from wagtail.permission_policies.collections import CollectionOwnershipPermissionPolicy
+
+logger = logging.getLogger(__name__)
 
 from apps.core.forms import BulkUploadForm
 from apps.core.image_optimizer import (
@@ -152,10 +156,9 @@ class BulkUploadView(View):
             except Exception as e:
                 messages.error(
                     request,
-                    _("Errore durante il caricamento: %(error)s") % {
-                        "error": str(e)
-                    }
+                    _("Errore durante il caricamento delle immagini. Contatta l'amministratore.")
                 )
+                logger.exception("Errore BulkUpload: %s", e)
         
         return render(request, self.template_name, {
             "form": form,
@@ -172,7 +175,14 @@ def get_image_metadata(request, image_id):
     """
     try:
         image = Image.objects.get(pk=image_id)
-        
+
+        # V2-003: Verifica che l'utente abbia il permesso di cambiare questa immagine
+        permission_policy = CollectionOwnershipPermissionPolicy(
+            Image, auth_model=Image, owner_field_name="uploaded_by_user"
+        )
+        if not permission_policy.user_has_permission_for_instance(request.user, "change", image):
+            return JsonResponse({"success": False, "error": "Permission denied"}, status=403)
+
         # Recupera i tag come stringa
         tags_list = list(image.tags.names())
         

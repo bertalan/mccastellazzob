@@ -1,0 +1,49 @@
+{# Block: Event Attachment (GPX / KML / PDF) #}
+{% set doc = value.document %}
+{% if doc %}
+    {% set filename = doc.filename|lower %}
+    {% set ext = filename.rsplit('.', 1)[-1] if '.' in filename else '' %}
+    {% set icon_map = {'gpx': 'fas fa-route', 'kml': 'fas fa-map-marked-alt', 'pdf': 'fas fa-file-pdf'} %}
+    {% set label_map = {'gpx': _('Traccia GPX'), 'kml': _('Traccia KML'), 'pdf': _('Documento PDF')} %}
+    {% set color_map = {'gpx': 'text-amaranth', 'kml': 'text-amaranth', 'pdf': 'text-red-600'} %}
+    {% set icon = icon_map.get(ext, 'fas fa-file') %}
+    {% set type_label = label_map.get(ext, _('Allegato')) %}
+    {% set color_class = color_map.get(ext, 'text-gold') %}
+
+    {# Dimensione file in KB/MB #}
+    {% set size_bytes = doc.file.size if doc.file else 0 %}
+    {% if size_bytes >= 1024 * 1024 %}
+        {% set size_label = '%.1f MB'|format(size_bytes / (1024 * 1024)) %}
+    {% else %}
+        {% set size_label = '%.0f KB'|format(size_bytes / 1024) %}
+    {% endif %}
+
+    <article class="bg-white rounded-xl shadow-md hover:shadow-lg transition p-5 flex items-start gap-4">
+        <div class="flex-shrink-0">
+            <div class="w-12 h-12 rounded-full bg-cream flex items-center justify-center {{ color_class }}">
+                <i class="{{ icon }} text-2xl" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs uppercase font-bold tracking-wider {{ color_class }}">{{ type_label }}</span>
+                <span class="text-xs text-gray-400">·</span>
+                <span class="text-xs text-gray-500">{{ size_label }}</span>
+            </div>
+            <h3 class="font-heading font-bold text-navy text-lg mb-1 break-words">
+                {{ value.title }}
+            </h3>
+            {% if value.description %}
+            <p class="text-gray-600 text-sm mb-3 break-words">{{ value.description }}</p>
+            {% endif %}
+            <a href="{{ doc.url }}"
+               download="{{ doc.filename }}"
+               rel="noopener"
+               class="inline-flex items-center gap-2 text-amaranth font-semibold hover:gap-3 transition-all text-sm">
+                <i class="fas fa-download" aria-hidden="true"></i>
+                {{ _("Scarica") }}
+                <span class="sr-only">{{ doc.filename }}</span>
+            </a>
+        </div>
+    </article>
+{% endif %}

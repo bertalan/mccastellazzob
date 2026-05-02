@@ -106,6 +106,8 @@ class BulkUploadForm(forms.Form):
             "image/webp",
         ]
         
+        MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB per file
+
         for image in images:
             if hasattr(image, "content_type"):
                 if image.content_type not in allowed_types:
@@ -114,5 +116,10 @@ class BulkUploadForm(forms.Form):
                           "Usa JPG, PNG, GIF o WebP."),
                         params={"name": image.name}
                     )
+            if hasattr(image, "size") and image.size > MAX_FILE_SIZE:
+                raise forms.ValidationError(
+                    _("File troppo grande: %(name)s (max 10 MB)."),
+                    params={"name": image.name},
+                )
         
         return images

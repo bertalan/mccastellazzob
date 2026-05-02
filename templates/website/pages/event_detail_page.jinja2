@@ -109,6 +109,21 @@
                         </section>
                         {% endif %}
                         
+                        {# Attachments (GPX / KML / PDF) #}
+                        {% if page.attachments %}
+                        <section class="bg-white rounded-2xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="150">
+                            <h2 class="text-2xl font-heading font-bold text-navy mb-6 flex items-center gap-3">
+                                <i class="fas fa-paperclip text-amaranth" aria-hidden="true"></i>
+                                {{ _("Allegati") }}
+                            </h2>
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                {% for block in page.attachments %}
+                                    {% include_block block %}
+                                {% endfor %}
+                            </div>
+                        </section>
+                        {% endif %}
+                        
                         {# Gallery #}
                         {% if page.gallery %}
                         <section class="bg-white rounded-2xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="200">
@@ -254,7 +269,7 @@
         
         L.marker([lat, lon])
             .addTo(map)
-            .bindPopup('<strong>{{ page.location_name }}</strong>{% if page.location_address %}<br>{{ page.location_address }}{% endif %}')
+            .bindPopup('<strong>' + {{ page.location_name | tojson }} + '</strong>{% if page.location_address %}<br>' + {{ page.location_address | tojson }} + '{% endif %}')
             .openPopup();
     })();
     

@@ -21,6 +21,10 @@ MAX_DIMENSION = 1280
 WEBP_QUALITY = 85
 MAX_FILENAME_LENGTH = 100
 
+# V2-008: Protezione decompression bomb — Pillow alzerà DecompressionBombError
+# per immagini che si espandono oltre questa soglia (~50 megapixel)
+Image.MAX_IMAGE_PIXELS = 50_000_000
+
 
 def optimize_image(image_buffer: io.BytesIO) -> io.BytesIO:
     """

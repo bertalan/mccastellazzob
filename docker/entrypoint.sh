@@ -39,7 +39,9 @@ import os
 User = get_user_model()
 username = os.environ.get('SUPERUSER_USERNAME', 'admin')
 email = os.environ.get('SUPERUSER_EMAIL', 'admin@mccastellazzob.com')
-password = os.environ.get('SUPERUSER_PASSWORD', 'admin123')
+password = os.environ.get('SUPERUSER_PASSWORD')
+if not password:
+    raise SystemExit('SUPERUSER_PASSWORD env variable must be set')
 if not User.objects.filter(username=username).exists():
     User.objects.create_superuser(username=username, email=email, password=password)
     print(f'Superuser {username} created')
