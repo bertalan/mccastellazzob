@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-27 21:59+0100\n"
+"POT-Creation-Date: 2026-05-03 00:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,1923 +17,2015 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps/core/admin_views.py:117 apps/core/admin_views.py:162
 msgid "Caricamento massivo immagini"
 msgstr ""
 
-#: apps/core/admin_views.py:144
 #, python-format
 msgid "Caricate con successo %(count)d immagini!"
 msgstr ""
 
-#: apps/core/admin_views.py:155
-#, python-format
-msgid "Errore durante il caricamento: %(error)s"
+msgid "Errore durante il caricamento delle immagini. Contatta l'amministratore."
 msgstr ""
 
-#: apps/core/forms.py:44 templates/wagtailadmin/bulk_upload.html:31
 msgid "Prefisso titolo"
 msgstr ""
 
-#: apps/core/forms.py:48
-msgid ""
-"Il titolo base per tutte le immagini. Verrà aggiunto un numero sequenziale "
-"(es. 'Raduno 2026' → 'Raduno 2026 - 001', 'Raduno 2026 - 002', ...)"
+msgid "Il titolo base per tutte le immagini. Verrà aggiunto un numero sequenziale (es. 'Raduno 2026' → 'Raduno 2026 - 001', 'Raduno 2026 - 002', ...)"
 msgstr ""
 
-#: apps/core/forms.py:54
 msgid "es. Raduno Madonnina 2026"
 msgstr ""
 
-#: apps/core/forms.py:59 apps/website/models/events.py:125
-#: templates/wagtailadmin/bulk_upload.html:48
 #, fuzzy
 #| msgid "Tags:"
 msgid "Tag"
 msgstr "Tags:"
 
-#: apps/core/forms.py:62
 msgid "Tag comuni da applicare a tutte le immagini. Separare con virgola."
 msgstr ""
 
-#: apps/core/forms.py:67
 msgid "es. raduno, 2026, madonnina"
 msgstr ""
 
-#: apps/core/forms.py:72 apps/website/blocks.py:498
-#: templates/wagtailadmin/bulk_upload.html:64
 #, fuzzy
 #| msgid "Titolo sezione"
 msgid "Collezione"
 msgstr "Section title"
 
-#: apps/core/forms.py:75
 msgid "Root (nessuna collezione)"
 msgstr ""
 
-#: apps/core/forms.py:76
 msgid "Collezione dove salvare le immagini."
 msgstr ""
 
-#: apps/core/forms.py:83 apps/website/blocks.py:532
-#: apps/website/models/gallery.py:123
-#: templates/wagtailadmin/bulk_upload.html:80 vecchio/apps/media/models.py:38
 msgid "Immagini"
 msgstr "Images"
 
-#: apps/core/forms.py:86
-msgid ""
-"Seleziona una o più immagini. Formati supportati: JPG, PNG, GIF, WebP. Le "
-"immagini verranno ottimizzate automaticamente: max 1280px, formato WebP, "
-"qualità 85%."
+msgid "Seleziona una o più immagini. Formati supportati: JPG, PNG, GIF, WebP. Le immagini verranno ottimizzate automaticamente: max 1280px, formato WebP, qualità 85%."
 msgstr ""
 
-#: apps/core/forms.py:113
 #, python-format
 msgid "Formato non supportato: %(name)s. Usa JPG, PNG, GIF o WebP."
 msgstr ""
 
-#: apps/core/wagtail_hooks.py:78
+#, python-format
+msgid "File troppo grande: %(name)s (max 10 MB)."
+msgstr ""
+
 msgid "Caricamento Massivo"
 msgstr ""
 
-#: apps/custom_user/admin.py:28 apps/custom_user/admin.py:42
 msgid "Informazioni Club"
 msgstr "Club information"
 
-#: apps/custom_user/models.py:17
 msgid "Lingua preferita"
 msgstr "Preferred language"
 
-#: apps/custom_user/models.py:30 apps/website/models/about.py:298
 msgid "Telefono"
 msgstr "Phone"
 
-#: apps/custom_user/models.py:37
 msgid "Membro del club"
 msgstr "Club member"
 
-#: apps/custom_user/models.py:43
 msgid "Data iscrizione"
 msgstr "Registration date"
 
-#: apps/custom_user/models.py:49 vecchio/apps/users/models.py:115
 msgid "Utente"
 msgstr "User"
 
-#: apps/custom_user/models.py:50 vecchio/apps/users/models.py:116
 msgid "Utenti"
 msgstr "Users"
 
-#: apps/website/blocks.py:18
+msgid "Traccia GPX"
+msgstr ""
+
+msgid "Traccia KML"
+msgstr ""
+
+#, fuzzy
+#| msgid "Documento"
+msgid "Documento PDF"
+msgstr "Document"
+
 msgid "--- Seleziona collezione ---"
 msgstr ""
 
-#: apps/website/blocks.py:64 apps/website/blocks.py:461
-#: apps/website/blocks.py:483 apps/website/blocks.py:564
-#: apps/website/blocks.py:706 apps/website/models/about.py:82
-#: apps/website/models/events.py:91 apps/website/models/gallery.py:32
-#: apps/website/models/snippets.py:364 vecchio/apps/media/models.py:37
 msgid "Immagine"
 msgstr "Image"
 
-#: apps/website/blocks.py:65 apps/website/blocks.py:121
-#: apps/website/blocks.py:220 apps/website/blocks.py:270
-#: apps/website/blocks.py:306 apps/website/blocks.py:369
-#: apps/website/blocks.py:408 apps/website/blocks.py:463
-#: apps/website/blocks.py:559 apps/website/blocks.py:623
-#: apps/website/blocks.py:645 apps/website/models/gallery.py:37
-#: apps/website/models/snippets.py:373
 msgid "Titolo"
 msgstr "Title"
 
-#: apps/website/blocks.py:67 apps/website/blocks.py:476
-#: apps/website/blocks.py:506 apps/website/blocks.py:571
-#: apps/website/models/gallery.py:52
 msgid "Categoria"
 msgstr "Category"
 
-#: apps/website/blocks.py:70
 msgid "Es: Raduni, Escursioni, Gare"
 msgstr "Ex: Meetings, Excursions, Races"
 
-#: apps/website/blocks.py:72 apps/website/models/snippets.py:39
-#: apps/website/models/snippets.py:80
-#: vecchio/apps/website/models/snippets.py:31
 msgid "Link"
 msgstr "Links"
 
-#: apps/website/blocks.py:76 apps/website/models/snippets.py:337
-#: apps/website/models/snippets.py:416 apps/website/models/snippets.py:417
 msgid "Slide"
 msgstr "Slides"
 
-#: apps/website/blocks.py:85
 msgid "Slides"
 msgstr "Slides"
 
-#: apps/website/blocks.py:88 apps/website/models/snippets.py:315
 msgid "Autoplay"
 msgstr "AutoPlay"
 
-#: apps/website/blocks.py:93 apps/website/models/snippets.py:321
 msgid "Intervallo (ms)"
 msgstr "Interval (ms)"
 
-#: apps/website/blocks.py:99 apps/website/blocks.py:670
 msgid "Altezza"
 msgstr "Height"
 
-#: apps/website/blocks.py:103
 msgid "Schermo intero"
 msgstr "Full screen"
 
-#: apps/website/blocks.py:110
 msgid "Slider Fotografico"
 msgstr "Photo Slider"
 
-#: apps/website/blocks.py:117
 msgid "Badge"
 msgstr "Badges"
 
-#: apps/website/blocks.py:123
 msgid "Parte evidenziata"
 msgstr "Highlighted part"
 
-#: apps/website/blocks.py:125
 msgid "Testo in oro"
 msgstr "Gold text"
 
-#: apps/website/blocks.py:127 apps/website/blocks.py:274
-#: apps/website/blocks.py:313 apps/website/blocks.py:764
-#: apps/website/models/snippets.py:380
 msgid "Sottotitolo"
 msgstr "Subtitle"
 
-#: apps/website/blocks.py:130
 msgid "Testo CTA primario"
 msgstr "Primary CTA text"
 
-#: apps/website/blocks.py:131
 msgid "Link CTA primario"
 msgstr "Primary CTA link"
 
-#: apps/website/blocks.py:133
 msgid "Testo CTA secondario"
 msgstr "Secondary CTA text"
 
-#: apps/website/blocks.py:138
 msgid "Link CTA secondario"
 msgstr "Secondary CTA link"
 
-#: apps/website/blocks.py:144 apps/website/models/events.py:232
-#: apps/website/models/home.py:109
 msgid "Evento in evidenza"
 msgstr "Featured event"
 
-#: apps/website/blocks.py:149
 msgid "Mostra countdown"
 msgstr "Show countdown"
 
-#: apps/website/blocks.py:156
 msgid "Hero con Countdown"
 msgstr "Hero with Countdown"
 
-#: apps/website/blocks.py:167 apps/website/models/snippets.py:32
-#: apps/website/models/snippets.py:54 apps/website/models/snippets.py:251
 msgid "Icona FontAwesome"
 msgstr "FontAwesome icon"
 
-#: apps/website/blocks.py:170 apps/website/models/snippets.py:255
 #, fuzzy
 #| msgid "Classe FontAwesome, es: fas fa-calendar-alt"
 msgid "Classe FontAwesome, es:"
 msgstr "FontAwesome class, ex: fas fa-calendar-alt"
 
-#: apps/website/blocks.py:173
 msgid "Colore sfondo icona"
 msgstr "Color background icon"
 
-#: apps/website/blocks.py:175 apps/website/blocks.py:231
-#: apps/website/blocks.py:248
 msgid "Oro"
 msgstr "Gold"
 
-#: apps/website/blocks.py:176 apps/website/blocks.py:232
-#: apps/website/blocks.py:249 apps/website/blocks.py:346
 msgid "Bordeaux"
 msgstr "Burgundy"
 
-#: apps/website/blocks.py:177 apps/website/blocks.py:203
-#: apps/website/blocks.py:233 apps/website/blocks.py:250
-#: apps/website/blocks.py:345 apps/website/blocks.py:423
 msgid "Navy"
 msgstr "Navy"
 
-#: apps/website/blocks.py:178 apps/website/blocks.py:234
-#: apps/website/blocks.py:251 apps/website/blocks.py:424
 msgid "Amaranto"
 msgstr "Amaranth"
 
-#: apps/website/blocks.py:182 apps/website/blocks.py:374
 msgid "Valore"
 msgstr "Value"
 
-#: apps/website/blocks.py:183
 msgid "Etichetta"
 msgstr "Label"
 
-#: apps/website/blocks.py:187
 msgid "Statistica"
 msgstr "Statistics"
 
-#: apps/website/blocks.py:196 apps/website/blocks.py:210
-#: apps/website/models/about.py:132
 msgid "Statistiche"
 msgstr "Statistics"
 
-#: apps/website/blocks.py:199 apps/website/blocks.py:343
 msgid "Sfondo"
 msgstr "Background"
 
-#: apps/website/blocks.py:201 apps/website/blocks.py:235
 msgid "Bianco"
 msgstr "White"
 
-#: apps/website/blocks.py:202
 msgid "Crema"
 msgstr "Cream"
 
-#: apps/website/blocks.py:221 apps/website/blocks.py:370
-#: apps/website/blocks.py:412 apps/website/blocks.py:469
-#: apps/website/blocks.py:630 apps/website/blocks.py:710
-#: apps/website/models/events.py:95 apps/website/models/gallery.py:43
 msgid "Descrizione"
 msgstr "Description"
 
-#: apps/website/blocks.py:222
 msgid "Immagine di sfondo"
 msgstr "Background image"
 
-#: apps/website/blocks.py:224 apps/website/blocks.py:365
 msgid "Icona"
 msgstr "Icon"
 
-#: apps/website/blocks.py:229
 msgid "Colore icona"
 msgstr "Icon color"
 
-#: apps/website/blocks.py:239
 msgid "Pagina collegata"
 msgstr "Linked page"
 
-#: apps/website/blocks.py:241
 msgid "Testo link"
 msgstr "Link text"
 
-#: apps/website/blocks.py:246
 msgid "Colore link"
 msgstr "Link color"
 
-#: apps/website/blocks.py:258
 msgid "Card Sezione"
 msgstr "Card Section"
 
-#: apps/website/blocks.py:265
 msgid "Etichetta intestazione"
 msgstr "Header label"
 
-#: apps/website/blocks.py:282
 msgid "Cards"
 msgstr "Cards"
 
-#: apps/website/blocks.py:285
 msgid "Layout"
 msgstr "Layout"
 
-#: apps/website/blocks.py:287 apps/website/blocks.py:538
-#: apps/website/models/gallery.py:90
 msgid "3 colonne"
 msgstr "3 columns"
 
-#: apps/website/blocks.py:288 apps/website/blocks.py:537
-#: apps/website/models/gallery.py:89
 msgid "2 colonne"
 msgstr "2 columns"
 
-#: apps/website/blocks.py:289
 msgid "3 + 2 colonne (5 cards)"
 msgstr "3 + 2 columns (5 cards)"
 
-#: apps/website/blocks.py:296
 msgid "Griglia Sezioni"
 msgstr "Section Grid"
 
-#: apps/website/blocks.py:308
 msgid "Parola evidenziata"
 msgstr "Highlighted word"
 
-#: apps/website/blocks.py:311
 msgid "Parte del titolo in oro"
 msgstr "Part of the title in gold"
 
-#: apps/website/blocks.py:316
 msgid "Testo primario"
 msgstr "Primary text"
 
-#: apps/website/blocks.py:317
 msgid "Link primario"
 msgstr "Primary link"
 
-#: apps/website/blocks.py:319
 msgid "Icona primaria"
 msgstr "Primary icon"
 
-#: apps/website/blocks.py:327
 msgid "Testo secondario"
 msgstr "Secondary text"
 
-#: apps/website/blocks.py:332
 msgid "Link secondario"
 msgstr "Secondary link"
 
-#: apps/website/blocks.py:336
 msgid "Icona secondaria"
 msgstr "Secondary icon"
 
-#: apps/website/blocks.py:347
 msgid "Gradiente"
 msgstr "Gradient"
 
-#: apps/website/blocks.py:354
 msgid "Call-to-Action"
 msgstr "Call-to-action"
 
-#: apps/website/blocks.py:380 apps/website/blocks.py:437
-#: apps/website/blocks.py:492 apps/website/blocks.py:759
-#: vecchio/apps/website/blocks.py:85
 msgid "Titolo sezione"
 msgstr "Section title"
 
-#: apps/website/blocks.py:388 apps/website/blocks.py:393
 msgid "Valori"
 msgstr "Values"
 
-#: apps/website/blocks.py:404
 msgid "Anno"
 msgstr "Year"
 
-#: apps/website/blocks.py:415
 msgid "Evidenzia (bordo gold)"
 msgstr "Highlight (gold border)"
 
-#: apps/website/blocks.py:420
 msgid "Colore badge"
 msgstr "Badge colour"
 
-#: apps/website/blocks.py:422
 msgid "Gold"
 msgstr "Gold "
 
-#: apps/website/blocks.py:431
 msgid "Evento Timeline"
 msgstr "Event Timeline"
 
-#: apps/website/blocks.py:444 apps/website/models/events.py:170
-#: apps/website/models/events.py:247 apps/website/models/events.py:248
-#: vecchio/apps/website/blocks.py:68 vecchio/apps/website/models/pages.py:93
 msgid "Eventi"
 msgstr "Events"
 
-#: apps/website/blocks.py:449 apps/website/models/about.py:92
 msgid "Timeline Storica"
 msgstr "Historical Timeline"
 
-#: apps/website/blocks.py:466 apps/website/models/gallery.py:38
 msgid "Titolo dell'immagine (visibile nel lightbox)"
 msgstr ""
 
-#: apps/website/blocks.py:472 apps/website/models/gallery.py:44
 msgid "Descrizione dell'immagine (visibile nel lightbox)"
 msgstr ""
 
-#: apps/website/blocks.py:478 apps/website/models/gallery.py:53
 msgid "Categoria per il filtro galleria"
 msgstr ""
 
-#: apps/website/blocks.py:495
 msgid "Titolo visualizzato sopra la galleria (es. 'Raduno 2024')"
 msgstr ""
 
-#: apps/website/blocks.py:500
-msgid ""
-"Importa tutte le immagini da questa collezione. Il titolo dell'immagine "
-"viene usato come titolo, i tag come descrizione."
+msgid "Importa tutte le immagini da questa collezione. Il titolo dell'immagine viene usato come titolo, i tag come descrizione."
 msgstr ""
 
-#: apps/website/blocks.py:508
 msgid "Categoria da applicare a tutte le immagini della collezione."
 msgstr ""
 
-#: apps/website/blocks.py:513
 #, fuzzy
 #| msgid "Galleria immagini"
 msgid "Galleria da Collezione"
 msgstr "Image gallery"
 
-#: apps/website/blocks.py:521
 msgid "Titolo galleria"
 msgstr "Gallery title"
 
-#: apps/website/blocks.py:526 apps/website/models/gallery.py:83
 msgid "Mostra filtri categoria"
 msgstr "Show category filters"
 
-#: apps/website/blocks.py:535 apps/website/models/gallery.py:94
 msgid "Colonne"
 msgstr "Columns"
 
-#: apps/website/blocks.py:539 apps/website/models/gallery.py:91
 msgid "4 colonne"
 msgstr "4 columns"
 
-#: apps/website/blocks.py:546 apps/website/models/gallery.py:130
-#: apps/website/models/gallery.py:254 apps/website/models/news.py:554
-#: apps/website/models/news.py:569
 msgid "Galleria"
 msgstr "Gallery"
 
-#: apps/website/blocks.py:561
 msgid "Titolo dell'articolo"
 msgstr "Article title"
 
-#: apps/website/blocks.py:568
 msgid "Data pubblicazione"
 msgstr "Publication date"
 
-#: apps/website/blocks.py:574
 msgid "Categoria o tema dell'articolo"
 msgstr "Category or topic of the article"
 
-#: apps/website/blocks.py:577
 msgid "Sommario"
 msgstr "Summary"
 
-#: apps/website/blocks.py:581
 msgid "Link approfondimento"
 msgstr "Further information link"
 
-#: apps/website/blocks.py:587 apps/website/models/news.py:577
-#: vecchio/apps/website/models/pages.py:52
 msgid "Articolo"
 msgstr "Article"
 
-#: apps/website/blocks.py:596 apps/website/models/about.py:738
-#: apps/website/models/snippets.py:122 apps/website/models/snippets.py:168
-#: apps/website/models/snippets.py:239 apps/website/models/snippets.py:297
-#: vecchio/apps/website/models/snippets.py:68
-#: vecchio/apps/website/models/snippets.py:107
 msgid "Nome"
 msgstr "Name"
 
-#: apps/website/blocks.py:600
 msgid "Ruolo"
 msgstr "Role"
 
-#: apps/website/blocks.py:604
 msgid "Foto"
 msgstr "Photo"
 
-#: apps/website/blocks.py:608
 msgid "Biografia"
 msgstr "Biography"
 
-#: apps/website/blocks.py:614
 msgid "Membro"
 msgstr "Member"
 
-#: apps/website/blocks.py:627 apps/website/blocks.py:636
-#: vecchio/apps/media/models.py:70
 msgid "Documento"
 msgstr "Document"
 
-#: apps/website/blocks.py:650 apps/website/blocks.py:701
-#: apps/website/models/about.py:278 vecchio/apps/core/mixins.py:39
-#: vecchio/src/mccastellazzob/apps/core/mixins.py:43
+#, python-format
+msgid "Formato non consentito: %(name)s. Usa: %(allowed)s."
+msgstr ""
+
+#, python-format
+msgid "File troppo grande: %(name)s (max 5 MB)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Stato evento"
+msgid "Allegato evento"
+msgstr "Event status"
+
 msgid "Indirizzo"
 msgstr "Address"
 
-#: apps/website/blocks.py:652
 msgid "Indirizzo da geocodificare"
 msgstr "Address to geocode"
 
-#: apps/website/blocks.py:655 apps/website/models/about.py:285
-#: apps/website/models/events.py:73
 msgid "Latitudine"
 msgstr "Latitude"
 
-#: apps/website/blocks.py:657
 msgid "Lascia vuoto per geocodifica automatica"
 msgstr "Leave blank for automatic geocoding"
 
-#: apps/website/blocks.py:660 apps/website/models/about.py:291
-#: apps/website/models/events.py:79
 msgid "Longitudine"
 msgstr "Longitude"
 
-#: apps/website/blocks.py:664
 msgid "Zoom"
 msgstr "Zoom"
 
-#: apps/website/blocks.py:677
 msgid "Mappa"
 msgstr "Map"
 
-#: apps/website/blocks.py:686 apps/website/models/events.py:46
 msgid "Nome evento"
 msgstr "Event name"
 
-#: apps/website/blocks.py:690 apps/website/models/events.py:51
 msgid "Data inizio"
 msgstr "Start date"
 
-#: apps/website/blocks.py:693 apps/website/models/events.py:55
 msgid "Data fine"
 msgstr "End date"
 
-#: apps/website/blocks.py:697 apps/website/models/events.py:149
 msgid "Luogo"
 msgstr "Place"
 
-#: apps/website/blocks.py:714 apps/website/models/events.py:100
 msgid "Stato evento"
 msgstr "Event status"
 
-#: apps/website/blocks.py:716 apps/website/models/events.py:103
 msgid "Programmato"
 msgstr "Scheduled"
 
-#: apps/website/blocks.py:717 apps/website/models/events.py:104
 msgid "Annullato"
 msgstr "Canceled"
 
-#: apps/website/blocks.py:718 apps/website/models/events.py:105
 msgid "Posticipato"
 msgstr "Postponed"
 
-#: apps/website/blocks.py:719 apps/website/models/events.py:106
 msgid "Riprogrammato"
 msgstr "Rescheduled"
 
-#: apps/website/blocks.py:724
 msgid "Link dettaglio"
 msgstr "Detail link"
 
-#: apps/website/blocks.py:730 apps/website/models/events.py:169
-#: vecchio/apps/website/models/pages.py:92
 msgid "Evento"
 msgstr "Event"
 
-#: apps/website/blocks.py:739
 #, fuzzy
 #| msgid "Domande"
 msgid "Domanda"
 msgstr "Requests"
 
-#: apps/website/blocks.py:741
 msgid "La domanda frequente"
 msgstr "The frequently asked question"
 
-#: apps/website/blocks.py:744
 #, fuzzy
 #| msgid "Rispetto"
 msgid "Risposta"
 msgstr "Respect"
 
-#: apps/website/blocks.py:745
 msgid "La risposta alla domanda"
 msgstr "The answer to the question"
 
-#: apps/website/blocks.py:750
 #, fuzzy
 #| msgid "Domande"
 msgid "Domanda FAQ"
 msgstr "Requests"
 
-#: apps/website/blocks.py:761 apps/website/models/about.py:383
-#: apps/website/models/about.py:390
 #, fuzzy
 #| msgid "FAQ - Domande Frequenti"
 msgid "Domande Frequenti"
 msgstr "FAQ - Frequently Asked Questions"
 
-#: apps/website/blocks.py:767 apps/website/models/about.py:397
 msgid "Trova rapidamente le risposte alle domande più comuni"
 msgstr "Quickly find answers to the most common questions"
 
-#: apps/website/blocks.py:771
 msgid "Domande"
 msgstr "Requests"
 
-#: apps/website/blocks.py:777
 msgid "FAQ"
 msgstr "FAQ"
 
-#: apps/website/models/about.py:42
 msgid "Titolo Hero"
 msgstr "Title Hero"
 
-#: apps/website/models/about.py:45
 msgid "Titolo principale nell'hero section"
 msgstr "Main title in the hero section"
 
-#: apps/website/models/about.py:49
 msgid "Sottotitolo Hero"
 msgstr "Subtitle Hero"
 
-#: apps/website/models/about.py:52
 msgid "Sottotitolo nell'hero section"
 msgstr "Subtitle in the hero section"
 
-#: apps/website/models/about.py:57 apps/website/models/settings.py:90
 msgid "Anno di fondazione"
 msgstr "Year of foundation"
 
-#: apps/website/models/about.py:62
 msgid "Numero soci attivi"
 msgstr "Number of active members"
 
-#: apps/website/models/about.py:67 apps/website/models/about.py:168
-#: apps/website/models/about.py:228 apps/website/models/about.py:272
-#: apps/website/models/events.py:211 apps/website/models/events.py:305
-#: apps/website/models/gallery.py:77 apps/website/models/privacy.py:21
-#: apps/website/models/timeline.py:25
 msgid "Introduzione"
 msgstr "Introduction"
 
-#: apps/website/models/about.py:72 apps/website/models/news.py:545
-#: apps/website/models/privacy.py:26
 msgid "Contenuto"
 msgstr "Content"
 
-#: apps/website/models/about.py:102
 msgid "Traguardi / Statistiche"
 msgstr "Milestones / Statistics"
 
-#: apps/website/models/about.py:112
 msgid "I Nostri Valori"
 msgstr "Our Values"
 
-#: apps/website/models/about.py:125 apps/website/models/events.py:222
-#: apps/website/models/home.py:158
 msgid "Hero Section"
 msgstr "Hero section"
 
-#: apps/website/models/about.py:143 apps/website/models/about.py:144
 msgid "Chi Siamo"
 msgstr "About Us"
 
-#: apps/website/models/about.py:178
 msgid "Membri"
 msgstr "Members"
 
-#: apps/website/models/about.py:191 apps/website/models/about.py:192
 msgid "Consiglio Direttivo"
 msgstr "Board of Directors"
 
-#: apps/website/models/about.py:238 vecchio/apps/media/models.py:71
 msgid "Documenti"
 msgstr "Documents"
 
-#: apps/website/models/about.py:251 apps/website/models/about.py:252
 msgid "Trasparenza"
 msgstr "Transparency"
 
-#: apps/website/models/about.py:281
 msgid "Indirizzo completo per la mappa"
 msgstr "Full address for the map"
 
-#: apps/website/models/about.py:304 apps/website/models/about.py:740
-#: vecchio/apps/users/models.py:96
 msgid "Email"
 msgstr "Email"
 
-#: apps/website/models/about.py:310
 msgid "Mostra form contatto"
 msgstr "Show contact form"
 
-#: apps/website/models/about.py:315
 msgid "Messaggio successo form"
 msgstr "Form success message"
 
-#: apps/website/models/about.py:317 apps/website/models/about.py:780
 msgid "Grazie per averci contattato!"
 msgstr "Thanks for contacting us!"
 
-#: apps/website/models/about.py:322
 msgid "Nota telefono"
 msgstr "Note telephone"
 
-#: apps/website/models/about.py:325
 msgid "Es: 'Chiamaci il giovedì sera'"
 msgstr "Ex: 'Call us on Thursday evening'"
 
-#: apps/website/models/about.py:329
 msgid "Nota email"
 msgstr "Note email"
 
-#: apps/website/models/about.py:332
 msgid "Es: 'Rispondiamo entro 24h'"
 msgstr "Ex: 'We respond within 24 hours'"
 
-#: apps/website/models/about.py:337
 msgid "Orari apertura"
 msgstr "Opening hours"
 
-#: apps/website/models/about.py:339
 msgid "Un orario per riga, formato: 'Giorno: HH:MM - HH:MM'"
 msgstr "One time per line, format: 'Day: HH:MM - HH:MM'"
 
-#: apps/website/models/about.py:343
 msgid "Nota orari"
 msgstr "Note times"
 
-#: apps/website/models/about.py:346
 msgid "Es: 'Serata sociale settimanale'"
 msgstr "Ex: 'Weekly social evening'"
 
-#: apps/website/models/about.py:351
 msgid "Descrizione mappa"
 msgstr "Map description"
 
-#: apps/website/models/about.py:354
 msgid "Testo sotto il titolo 'Dove Trovarci'"
 msgstr "Text under the heading 'Where to find us'"
 
-#: apps/website/models/about.py:358
 msgid "Indicazioni auto"
 msgstr "Car directions"
 
-#: apps/website/models/about.py:361
 msgid "Es: 'Uscita A26 Alessandria Sud, 15 min'"
 msgstr "Ex: 'Exit A26 Alessandria Sud, 15 min'"
 
-#: apps/website/models/about.py:365
 msgid "Indicazioni treno"
 msgstr "Train directions"
 
-#: apps/website/models/about.py:368
 msgid "Es: 'Stazione Alessandria + bus linea 5'"
 msgstr "Ex: 'Alessandria station + bus line 5'"
 
-#: apps/website/models/about.py:372
 msgid "Indicazioni parcheggio"
 msgstr "Parking directions"
 
-#: apps/website/models/about.py:375
 msgid "Es: 'Ampio parcheggio gratuito disponibile'"
 msgstr "Ex: 'Ample free parking available'"
 
-#: apps/website/models/about.py:384
 msgid "Aggiungi le FAQ. Lascia vuoto per nascondere la sezione."
 msgstr ""
 
-#: apps/website/models/about.py:388
 #, fuzzy
 #| msgid "Titolo sezione"
 msgid "Titolo sezione FAQ"
 msgstr "Section title"
 
-#: apps/website/models/about.py:395
 #, fuzzy
 #| msgid "Sottotitolo"
 msgid "Sottotitolo FAQ"
 msgstr "Subtitle"
 
-#: apps/website/models/about.py:403 apps/website/models/home.py:115
 msgid "Titolo CTA"
 msgstr "CTA title"
 
-#: apps/website/models/about.py:406
 msgid "Es: 'Pronto a Unirti a Noi?'"
 msgstr "Ex: 'Ready to Join Us?'"
 
-#: apps/website/models/about.py:410
 msgid "Descrizione CTA"
 msgstr "CTA description"
 
-#: apps/website/models/about.py:413
 msgid "Es: 'Dal 1933 accogliamo appassionati di moto...'"
 msgstr "Ex: 'Since 1933 we have welcomed motorcycle enthusiasts...'"
 
-#: apps/website/models/about.py:428
 msgid "Posizione Mappa"
 msgstr "Location Map"
 
-#: apps/website/models/about.py:437
 msgid "Informazioni Contatto"
 msgstr "Contact Information"
 
-#: apps/website/models/about.py:444
 msgid "Orari Sede"
 msgstr "Headquarters opening hours"
 
-#: apps/website/models/about.py:453
 msgid "Indicazioni Stradali"
 msgstr "Road Directions"
 
-#: apps/website/models/about.py:460
 msgid "Form Contatto"
 msgstr "Contact form"
 
-#: apps/website/models/about.py:468
 msgid "FAQ - Domande Frequenti"
 msgstr "FAQ - Frequently Asked Questions"
 
-#: apps/website/models/about.py:475
 msgid "Call to Action"
 msgstr "Call to Action"
 
-#: apps/website/models/about.py:480 apps/website/models/about.py:481
 msgid "Contatti"
 msgstr "Contact"
 
-#: apps/website/models/about.py:571
 msgid "Token anti-spam mancante"
 msgstr "Anti-spam token missing"
 
-#: apps/website/models/about.py:576
 msgid "Token non valido"
 msgstr "Invalid token"
 
-#: apps/website/models/about.py:590
 #, fuzzy
 #| msgid "Token non valido"
 msgid "Token manipolato"
 msgstr "Invalid token"
 
-#: apps/website/models/about.py:595
 msgid "Hai compilato il form troppo velocemente"
 msgstr ""
 
-#: apps/website/models/about.py:599
 msgid "Il form è scaduto, ricarica la pagina"
 msgstr ""
 
-#: apps/website/models/about.py:605
 msgid "Errore verifica anti-spam"
 msgstr ""
 
-#: apps/website/models/about.py:624
 #, python-format
 msgid "Puoi allegare massimo %(max)s file"
 msgstr ""
 
-#: apps/website/models/about.py:632
 #, python-format
 msgid "Tipo file non permesso: %(name)s. Usa: %(allowed)s"
 msgstr ""
 
-#: apps/website/models/about.py:642
 #, python-format
 msgid "File troppo grande: %(name)s (max 5MB)"
 msgstr ""
 
-#: apps/website/models/about.py:654
+msgid "Richiesta Iscrizione"
+msgstr "Registration date"
+
+msgid "Informazioni Eventi"
+msgstr "Contact Information"
+
+msgid "Collaborazioni"
+msgstr "Collaborations"
+
+msgid "Altro"
+msgstr "Other"
+
 #, python-format
 msgid "[MC Castellazzo] Nuovo messaggio: %(subject)s"
 msgstr ""
 
-#: apps/website/models/about.py:656
-msgid "Richiesta Iscrizione"
-msgstr "Registration date"
-
-#: apps/website/models/about.py:657
-msgid "Informazioni Eventi"
-msgstr "Contact Information"
-
-#: apps/website/models/about.py:658
-msgid "Collaborazioni"
-msgstr "Collaborations"
-
-#: apps/website/models/about.py:659
-msgid "Altro"
-msgstr "Other"
-
-#: apps/website/models/about.py:702
 msgid "Errore nell'invio dell'email. Riprova più tardi."
 msgstr ""
 
-#: apps/website/models/about.py:739
 msgid "Cognome"
 msgstr "Surname"
 
-#: apps/website/models/about.py:741
 msgid "Oggetto"
 msgstr "Subject"
 
-#: apps/website/models/about.py:742
 msgid "Messaggio"
 msgstr "Message"
 
-#: apps/website/models/about.py:743
 msgid "Accettazione Privacy"
 msgstr ""
 
-#: apps/website/models/about.py:745
 #, python-format
 msgid "Campo obbligatorio: %(field)s"
 msgstr ""
 
-#: apps/website/models/events.py:62
 msgid "Nome luogo"
 msgstr "Place name"
 
-#: apps/website/models/events.py:67
 msgid "Indirizzo luogo"
 msgstr "Place address"
 
-#: apps/website/models/events.py:118
 msgid "Galleria immagini"
 msgstr "Image gallery"
 
-#: apps/website/models/events.py:140
+msgid "Allegati"
+msgstr "Attachments"
+
 msgid "Date e Stato"
 msgstr "Dates and Status"
 
-#: apps/website/models/events.py:233
 msgid "Evento da mostrare in primo piano con countdown"
 msgstr "Event to be shown in the foreground with countdown"
 
-#: apps/website/models/events.py:318 apps/website/models/events.py:319
 msgid "Archivio Eventi"
 msgstr "Events Archive"
 
-#: apps/website/models/gallery.py:65
 msgid "Immagine Galleria"
 msgstr "Hero image"
 
-#: apps/website/models/gallery.py:66
 msgid "Immagini Galleria"
 msgstr "Hero image"
 
-#: apps/website/models/gallery.py:105
 msgid "Gallerie (blocchi)"
 msgstr "Galleries"
 
-#: apps/website/models/gallery.py:106
 msgid "Usa blocchi immagine singola o importa da collezioni Wagtail"
 msgstr ""
 
-#: apps/website/models/gallery.py:119
 msgid "Impostazioni Galleria"
 msgstr "Site Settings"
 
-#: apps/website/models/gallery.py:124
 msgid "Trascina per riordinare. Puoi selezionare più immagini dalla libreria."
 msgstr "Drag to reorder. You can select multiple images from the library."
 
-#: apps/website/models/gallery.py:131
 msgid "Gallerie"
 msgstr "Galleries"
 
-#: apps/website/models/gallery.py:187
 #, fuzzy
 #| msgid "Galleria immagini"
 msgid "Galleria Principale"
 msgstr "Image gallery"
 
-#: apps/website/models/home.py:41
 #, fuzzy
 #| msgid "Immagine hero"
 msgid "Badge hero"
 msgstr "Hero image"
 
-#: apps/website/models/home.py:44
 #, fuzzy
 #| msgid "IL PIÙ ANTICO MOTO CLUB DEL PIEMONTE"
 msgid "Es: IL PIÙ ANTICO MOTO CLUB DEL PIEMONTE"
 msgstr "THE OLDEST MOTORCYCLE CLUB IN PIEDMONT"
 
-#: apps/website/models/home.py:47
 msgid "Titolo hero"
 msgstr "Title hero"
 
-#: apps/website/models/home.py:50
 #, fuzzy
 #| msgid "Moto Club"
 msgid "Es: Moto Club"
 msgstr "Motorcycle Club"
 
-#: apps/website/models/home.py:53
 msgid "Sottotitolo hero"
 msgstr "Subtitle hero"
 
-#: apps/website/models/home.py:56
 msgid "Es: Castellazzo Bormida (parte evidenziata in oro)"
 msgstr ""
 
-#: apps/website/models/home.py:59
 #, fuzzy
 #| msgid "Immagine hero"
 msgid "Tagline hero"
 msgstr "Hero image"
 
-#: apps/website/models/home.py:62
 #, fuzzy
-#| msgid ""
-#| "di passione, adrenalina e fratellanza su due ruote nel cuore del Piemonte"
+#| msgid "di passione, adrenalina e fratellanza su due ruote nel cuore del Piemonte"
 msgid "Es: di passione, adrenalina e fratellanza su due ruote"
-msgstr ""
-"of passion, adrenaline and brotherhood on two wheels in the heart of Piedmont"
+msgstr "of passion, adrenaline and brotherhood on two wheels in the heart of Piedmont"
 
-#: apps/website/models/home.py:70
 msgid "Immagine hero"
 msgstr "Hero image"
 
-#: apps/website/models/home.py:80
 #, fuzzy
 #| msgid "Slider Fotografico"
 msgid "Slider fotografico (CodeRedCMS)"
 msgstr "Photo Slider"
 
-#: apps/website/models/home.py:81
-msgid ""
-"Carousel CodeRedCMS - può avere bug, usa Simple Carousel se non funziona."
+msgid "Carousel CodeRedCMS - può avere bug, usa Simple Carousel se non funziona."
 msgstr ""
 
-#: apps/website/models/home.py:91
 msgid "Simple Carousel"
 msgstr ""
 
-#: apps/website/models/home.py:92
 msgid "Carousel semplice senza bug - CONSIGLIATO."
 msgstr ""
 
-#: apps/website/models/home.py:97
 #, fuzzy
 #| msgid "Descrizione"
 msgid "Descrizione breve"
 msgstr "Description"
 
-#: apps/website/models/home.py:99
 #, fuzzy
 #| msgid "Breve descrizione per Schema.org"
 msgid "Breve descrizione del motoclub per la homepage"
 msgstr "Brief description for Schema.org"
 
-#: apps/website/models/home.py:110
 #, fuzzy
 #| msgid "Evento da mostrare in primo piano con countdown"
 msgid "Evento da mostrare nella homepage"
 msgstr "Event to be shown in the foreground with countdown"
 
-#: apps/website/models/home.py:118
 #, fuzzy
 #| msgid "Unisciti a Noi"
 msgid "Es: Unisciti a Noi"
 msgstr "Join Us"
 
-#: apps/website/models/home.py:121
 #, fuzzy
 #| msgid "Sottotitolo"
 msgid "Sottotitolo CTA"
 msgstr "Subtitle"
 
-#: apps/website/models/home.py:124
 #, fuzzy
 #| msgid "Diventa parte della famiglia del Moto Club più antico del Piemonte"
 msgid "Es: Diventa parte della famiglia del Moto Club più antico del Piemonte"
 msgstr "Become part of the family of the oldest Moto Club in Piedmont"
 
-#: apps/website/models/home.py:140
 msgid "Contenuto pagina"
 msgstr "Page content"
 
-#: apps/website/models/home.py:167
 #, fuzzy
 #| msgid "Hero Section"
 msgid "CTA Section"
 msgstr "Hero section"
 
-#: apps/website/models/home.py:173 apps/website/models/home.py:174
 msgid "Homepage"
 msgstr "Homepage"
 
-#: apps/website/models/news.py:44 apps/website/models/news.py:52
 #, fuzzy
 #| msgid "Evento in evidenza"
 msgid "Pagina in evidenza"
 msgstr "Featured event"
 
-#: apps/website/models/news.py:53 apps/website/models/news.py:85
 #, fuzzy
 #| msgid "Evento in evidenza"
 msgid "Pagine in evidenza"
 msgstr "Featured event"
 
-#: apps/website/models/news.py:70
 msgid "Indice Novità"
 msgstr "News Index"
 
-#: apps/website/models/news.py:71
 #, fuzzy
 #| msgid "Indice Novità"
 msgid "Indici Novità"
 msgstr "News Index"
 
-#: apps/website/models/news.py:84
 msgid "Pagina"
 msgstr ""
 
-#: apps/website/models/news.py:578 apps/website/models/timeline.py:36
-#: vecchio/apps/website/blocks.py:67 vecchio/apps/website/models/pages.py:53
 msgid "Articoli"
 msgstr "Articles"
 
-#: apps/website/models/privacy.py:39 apps/website/models/privacy.py:40
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
 
-#: apps/website/models/settings.py:46
 msgid "Logo"
 msgstr "Logo"
 
-#: apps/website/models/settings.py:47
 msgid "Logo per header e navbar"
 msgstr ""
 
-#: apps/website/models/settings.py:56
 msgid "Favicon"
 msgstr "Favicons"
 
-#: apps/website/models/settings.py:57
 msgid "Icona per browser tab (32x32px consigliato)"
 msgstr ""
 
-#: apps/website/models/settings.py:62
 msgid "Facebook URL"
 msgstr "Facebook URL"
 
-#: apps/website/models/settings.py:64
 msgid "URL pagina Facebook"
 msgstr ""
 
-#: apps/website/models/settings.py:68
 msgid "Instagram URL"
 msgstr "Instagram URL"
 
-#: apps/website/models/settings.py:70
 msgid "URL profilo Instagram"
 msgstr ""
 
-#: apps/website/models/settings.py:74
 msgid "YouTube URL"
 msgstr "YouTube URL"
 
-#: apps/website/models/settings.py:76
 msgid "URL canale YouTube"
 msgstr ""
 
-#: apps/website/models/settings.py:81
 msgid "Testo Footer"
 msgstr "Footer text"
 
-#: apps/website/models/settings.py:85
 msgid "Copyright o altro testo per il footer"
 msgstr ""
 
-#: apps/website/models/settings.py:92
 #, fuzzy
 #| msgid "Anno di fondazione"
 msgid "Anno di fondazione del motoclub (es. 1933)"
 msgstr "Year of foundation"
 
-#: apps/website/models/settings.py:96
 msgid "Sport"
 msgstr ""
 
-#: apps/website/models/settings.py:99
 msgid "Tipo di sport praticato (es. Motorcycling)"
 msgstr ""
 
-#: apps/website/models/settings.py:103
 msgid "Federazione di appartenenza"
 msgstr ""
 
-#: apps/website/models/settings.py:107
 msgid "Nome della federazione sportiva di appartenenza"
 msgstr ""
 
-#: apps/website/models/settings.py:114
-msgid ""
-"<strong>Nota:</strong> Per modificare nome organizzazione, indirizzo, "
-"telefono e altri dati SEO vai in <strong>Settings > SEO</strong>."
+msgid "<strong>Nota:</strong> Per modificare nome organizzazione, indirizzo, telefono e altri dati SEO vai in <strong>Settings > SEO</strong>."
 msgstr ""
 
-#: apps/website/models/settings.py:123
 msgid "Branding"
 msgstr ""
 
-#: apps/website/models/settings.py:131
 msgid "Social Media"
 msgstr "Social Media"
 
-#: apps/website/models/settings.py:140
 #, fuzzy
 #| msgid "Footer"
 msgid "Footer & Info"
 msgstr "Footer"
 
-#: apps/website/models/settings.py:145 apps/website/models/settings.py:146
 msgid "Impostazioni Sito"
 msgstr "Site Settings"
 
-#: apps/website/models/snippets.py:35 apps/website/models/snippets.py:57
 msgid "Es:"
 msgstr ""
 
-#: apps/website/models/snippets.py:50
-#: vecchio/apps/website/models/snippets.py:44
 msgid "Titolo dropdown"
 msgstr "Title dropdown"
 
-#: apps/website/models/snippets.py:61
-#: vecchio/apps/website/models/snippets.py:49
 msgid "Link nel dropdown"
 msgstr "Link in dropdown"
 
-#: apps/website/models/snippets.py:65
-#: vecchio/apps/website/models/snippets.py:54
 msgid "Dropdown"
 msgstr "Dropdowns"
 
-#: apps/website/models/snippets.py:75
 msgid "Titolo colonna"
 msgstr "Column title"
 
-#: apps/website/models/snippets.py:84
 msgid "Colonna Footer"
 msgstr "Footer Column"
 
-#: apps/website/models/snippets.py:94
 msgid "Piattaforma"
 msgstr "Platform"
 
-#: apps/website/models/snippets.py:104
 msgid "URL"
 msgstr "URL"
 
-#: apps/website/models/snippets.py:108
 msgid "Social Link"
 msgstr "Social Links"
 
-#: apps/website/models/snippets.py:124
 msgid "Nome identificativo della navbar (es. 'Main Navigation')."
 msgstr "Identification name of the navbar (e.g. 'Main Navigation')."
 
-#: apps/website/models/snippets.py:128
 msgid "Attiva"
 msgstr "Activate"
 
-#: apps/website/models/snippets.py:130
 msgid "Solo la navbar attiva verrà mostrata."
 msgstr "Only the active navbar will be shown."
 
-#: apps/website/models/snippets.py:140
 msgid "Voci di menu"
 msgstr "Menu items"
 
-#: apps/website/models/snippets.py:150 apps/website/models/snippets.py:151
-#: vecchio/apps/website/models/snippets.py:89
-#: vecchio/apps/website/models/snippets.py:90
 msgid "Navbar"
 msgstr "Navbar"
 
-#: apps/website/models/snippets.py:170
-#: vecchio/apps/website/models/snippets.py:109
 msgid "Nome identificativo del footer."
 msgstr "Footer identifier name."
 
-#: apps/website/models/snippets.py:174
 msgid "Attivo"
 msgstr "Active"
 
-#: apps/website/models/snippets.py:176
 msgid "Solo il footer attivo verrà mostrato."
 msgstr "Only the active footer will be shown."
 
-#: apps/website/models/snippets.py:180
 msgid "Tagline"
 msgstr "Taglines"
 
-#: apps/website/models/snippets.py:183
 msgid "Breve descrizione sotto il logo."
 msgstr "Short description under the logo."
 
-#: apps/website/models/snippets.py:192
 msgid "Colonne link"
 msgstr "Link columns"
 
-#: apps/website/models/snippets.py:201
 msgid "Link social"
 msgstr "Social links"
 
-#: apps/website/models/snippets.py:205
 msgid "Testo copyright"
 msgstr "Copyright text"
 
-#: apps/website/models/snippets.py:208
 msgid "Es: © 2026 MC Castellazzo. Tutti i diritti riservati."
 msgstr "Ex: © 2026 MC Castellazzo. All rights reserved."
 
-#: apps/website/models/snippets.py:221 apps/website/models/snippets.py:222
-#: vecchio/apps/website/models/snippets.py:134
-#: vecchio/apps/website/models/snippets.py:135
 msgid "Footer"
 msgstr "Footer"
 
-#: apps/website/models/snippets.py:241
 msgid "Nome della categoria (es. 'Raduni', 'Escursioni')"
 msgstr ""
 
-#: apps/website/models/snippets.py:245
 msgid "Slug"
 msgstr ""
 
-#: apps/website/models/snippets.py:247
 msgid "Identificatore URL-friendly (es. 'raduni', 'escursioni')"
 msgstr ""
 
-#: apps/website/models/snippets.py:259
 msgid "Ordine"
 msgstr ""
 
-#: apps/website/models/snippets.py:261
 msgid "Ordine di visualizzazione nei filtri"
 msgstr ""
 
-#: apps/website/models/snippets.py:278
 #, fuzzy
 #| msgid "Immagine Galleria"
 msgid "Categoria Galleria"
 msgstr "Hero image"
 
-#: apps/website/models/snippets.py:279
 #, fuzzy
 #| msgid "Immagine Galleria"
 msgid "Categorie Galleria"
 msgstr "Hero image"
 
-#: apps/website/models/snippets.py:299
 #, fuzzy
 #| msgid "Nome identificativo del footer."
 msgid "Nome identificativo del carousel."
 msgstr "Footer identifier name."
 
-#: apps/website/models/snippets.py:303
 #, fuzzy
 #| msgid "Mostra countdown"
 msgid "Mostra controlli"
 msgstr "Show countdown"
 
-#: apps/website/models/snippets.py:305
 #, fuzzy
 #| msgid "Apri menu di navigazione"
 msgid "Mostra frecce di navigazione."
 msgstr "Year of foundation"
 
-#: apps/website/models/snippets.py:309
 #, fuzzy
 #| msgid "Mostra filtri categoria"
 msgid "Mostra indicatori"
 msgstr "Show category filters"
 
-#: apps/website/models/snippets.py:311
 msgid "Mostra pallini indicatori sotto il carousel."
 msgstr ""
 
-#: apps/website/models/snippets.py:317
 msgid "Cambia slide automaticamente."
 msgstr ""
 
-#: apps/website/models/snippets.py:323
 msgid "Tempo tra le slide in millisecondi."
 msgstr ""
 
-#: apps/website/models/snippets.py:335
 #, fuzzy
 #| msgid "Impostazioni Sito"
 msgid "Impostazioni Carousel"
 msgstr "Site Settings"
 
-#: apps/website/models/snippets.py:341
 msgid "Carousel Semplice"
 msgstr ""
 
-#: apps/website/models/snippets.py:342
 msgid "Carousel Semplici"
 msgstr ""
 
-#: apps/website/models/snippets.py:369
 msgid "Immagine di sfondo della slide (consigliato: 1920x800)."
 msgstr ""
 
-#: apps/website/models/snippets.py:376
 msgid "Titolo sovrapposto all'immagine."
 msgstr ""
 
-#: apps/website/models/snippets.py:383
 #, fuzzy
 #| msgid "Breve descrizione sotto il logo."
 msgid "Testo descrittivo sotto il titolo."
 msgstr "Short description under the logo."
 
-#: apps/website/models/snippets.py:387
 #, fuzzy
 #| msgid "Testo link"
 msgid "Testo pulsante"
 msgstr "Link text"
 
-#: apps/website/models/snippets.py:390
 msgid "Testo del pulsante CTA (lascia vuoto per nascondere)."
 msgstr ""
 
-#: apps/website/models/snippets.py:394
 msgid "URL pulsante"
 msgstr ""
 
-#: apps/website/models/snippets.py:397
 msgid "Link del pulsante (può essere URL esterno o percorso interno)."
 msgstr ""
 
-#: apps/website/models/snippets.py:401
 msgid "Opacità overlay"
 msgstr ""
 
-#: apps/website/models/snippets.py:403
 msgid "Opacità dell'overlay scuro (0-100)."
 msgstr ""
 
-#: apps/website/models/timeline.py:27
 msgid "Testo introduttivo per la pagina timeline"
 msgstr "Introductory text for the timeline page"
 
-#: apps/website/models/timeline.py:48 apps/website/models/timeline.py:49
 msgid "Timeline"
 msgstr "Timeline"
 
-#: templates/coderedcms/blocks/image_gallery_block.html:23
+msgid "Conferma Email"
+msgstr "Confirm Email"
+
+msgid "Conferma il tuo indirizzo email"
+msgstr "Confirm your email address"
+
+msgid "Confermi che questo è il tuo indirizzo email?"
+msgstr "Are you sure this is your email address?"
+
+msgid "Conferma"
+msgstr "He confirms"
+
+msgid "Accedi"
+msgstr "Log in"
+
+#, fuzzy
+#| msgid "Username o Email"
+msgid "Username o Email"
+msgstr "Username or Email"
+
+msgid "Password"
+msgstr "Password"
+
+msgid "Ricordami"
+msgstr "Remember me"
+
+msgid "Password dimenticata?"
+msgstr "Forgotten password?"
+
+msgid "Non hai un account?"
+msgstr "Don't have an account?"
+
+msgid "Registrati"
+msgstr "Register"
+
+msgid "Esci"
+msgstr "You go out"
+
+msgid "Sei sicuro di voler uscire?"
+msgstr "Are you sure you want to leave?"
+
+msgid "Annulla"
+msgstr "Canceled"
+
+msgid "Cambia Password"
+msgstr "Change Password"
+
+msgid "Password attuale"
+msgstr "Current password"
+
+msgid "Nuova Password"
+msgstr "New Password"
+
+msgid "Conferma nuova password"
+msgstr "Confirm new password"
+
+msgid "Reimposta Password"
+msgstr "Reset Password"
+
+msgid "Inserisci la tua email e ti invieremo un link per reimpostare la password."
+msgstr "Please enter your email and we will send you a link to reset your password."
+
+msgid "Invia link"
+msgstr "Send link"
+
+msgid "Torna al login"
+msgstr "Return to login"
+
+msgid "Email Inviata"
+msgstr "Email Sent"
+
+msgid "Controlla la tua email"
+msgstr "Check your email"
+
+msgid "Ti abbiamo inviato un'email con le istruzioni per reimpostare la password."
+msgstr "msgstr \"We've emailed you instructions to reset your password.\""
+
+msgid "Imposta Password"
+msgstr "Set Password"
+
+msgid "Non hai ancora una password impostata. Creane una per accedere con username e password."
+msgstr "You don't have a password set yet. Create one to log in with username and password."
+
+msgid "Conferma Password"
+msgstr "Confirm Password"
+
+msgid "Crea un Account"
+msgstr "Create an Account"
+
+msgid "Username"
+msgstr "Username"
+
+msgid "Hai già un account?"
+msgstr "Already have an account?"
+
+msgid "Verifica Email"
+msgstr "Verify Email"
+
+msgid "Verifica la tua email"
+msgstr "Verify your email"
+
+msgid "Ti abbiamo inviato un'email di verifica. Clicca sul link nell'email per attivare il tuo account."
+msgstr "We've sent you a verification email. Click the link in the email to activate your account."
+
+msgid "Torna alla home"
+msgstr "Return to home"
+
 #, fuzzy
 #| msgid "Immagine Galleria"
 msgid "Nessuna immagine nella galleria."
 msgstr "Hero image"
 
-#: templates/wagtailadmin/bulk_upload.html:20
 #, python-format
-msgid ""
-"Carica più immagini contemporaneamente con metadati comuni. Le immagini "
-"verranno automaticamente ottimizzate (max 1280px, formato WebP, qualità "
-"85%%)."
+msgid "Carica più immagini contemporaneamente con metadati comuni. Le immagini verranno automaticamente ottimizzate (max 1280px, formato WebP, qualità 85%%)."
 msgstr ""
 
-#: templates/wagtailadmin/bulk_upload.html:98
 msgid "Caricamento in corso..."
 msgstr ""
 
-#: templates/wagtailadmin/bulk_upload.html:102
 #, fuzzy
 #| msgid "Galleria immagini"
 msgid "Carica immagini"
 msgstr "Image gallery"
 
-#: vecchio/apps/core/mixins.py:42
-#: vecchio/src/mccastellazzob/apps/core/mixins.py:46
-msgid "Indirizzo della località per la visualizzazione sulla mappa."
-msgstr ""
+msgid "Moto Club Castellazzo Bormida - Dal 1933, passione su due ruote nel cuore del Piemonte"
+msgstr "Moto Club Castellazzo Bormida - Since 1933, passion on two wheels in the heart of Piedmont"
 
-#: vecchio/apps/core/mixins.py:46
-#: vecchio/src/mccastellazzob/apps/core/mixins.py:50
-msgid "Coordinate GPS"
-msgstr ""
+msgid "Vai al contenuto principale"
+msgstr "Page content"
 
-#: vecchio/apps/core/mixins.py:49
-#: vecchio/src/mccastellazzob/apps/core/mixins.py:53
-msgid "Coordinate nel formato 'latitudine,longitudine'. Clicca sulla mappa."
-msgstr ""
+msgid "Navigazione principale"
+msgstr "Main navigation"
 
-#: vecchio/apps/core/mixins.py:53
-msgid "Livello zoom"
-msgstr ""
+msgid "DAL"
+msgstr "SINCE"
 
-#: vecchio/apps/core/mixins.py:57
-msgid "Livello di zoom della mappa (1-18)."
-msgstr ""
+msgid "Home"
+msgstr "Home"
 
-#: vecchio/apps/core/validators.py:32
-#: vecchio/src/mccastellazzob/apps/core/validators.py:37
-msgid "Formato coordinate non valido. Usa: latitudine,longitudine"
-msgstr ""
+msgid "Contattaci"
+msgstr "Contact Us"
 
-#: vecchio/apps/core/validators.py:43
-#: vecchio/src/mccastellazzob/apps/core/validators.py:48
-msgid "Latitudine deve essere tra -90 e 90 gradi."
-msgstr ""
+msgid "Seleziona lingua"
+msgstr "Select language"
 
-#: vecchio/apps/core/validators.py:49
-#: vecchio/src/mccastellazzob/apps/core/validators.py:54
-msgid "Longitudine deve essere tra -180 e 180 gradi."
-msgstr ""
-
-#: vecchio/apps/core/validators.py:55
-#: vecchio/src/mccastellazzob/apps/core/validators.py:60
-msgid "Impossibile parsare le coordinate."
-msgstr ""
-
-#: vecchio/apps/core/validators.py:92
-#: vecchio/src/mccastellazzob/apps/core/validators.py:98
-msgid "Query di ricerca non valida."
-msgstr ""
-
-#: vecchio/apps/media/models.py:28
-msgid "Crediti"
-msgstr ""
-
-#: vecchio/apps/media/models.py:31
-msgid "Crediti fotografici o copyright."
-msgstr ""
-
-#: vecchio/apps/users/admin.py:23
 #, fuzzy
-#| msgid "Informazioni Eventi"
-msgid "Informazioni personali"
-msgstr "Contact Information"
+#| msgid "Apri menu di navigazione"
+msgid "Apri menu di navigazione"
+msgstr "Year of foundation"
 
-#: vecchio/apps/users/admin.py:25
-msgid "Permessi"
-msgstr ""
-
-#: vecchio/apps/users/admin.py:36
-msgid "Date importanti"
-msgstr ""
-
-#: vecchio/apps/users/models.py:51
-msgid "L'email è obbligatoria"
-msgstr ""
-
-#: vecchio/apps/users/models.py:80
-msgid "Superuser deve avere is_staff=True."
-msgstr ""
-
-#: vecchio/apps/users/models.py:82
-msgid "Superuser deve avere is_superuser=True."
-msgstr ""
-
-#: vecchio/apps/users/models.py:98
-msgid "Indirizzo email per login e comunicazioni."
-msgstr ""
-
-#: vecchio/apps/users/models.py:103
-msgid "Username"
-msgstr "Username"
-
-#: vecchio/apps/users/models.py:106
 #, fuzzy
-#| msgid "Username o Email"
-msgid "Username opzionale."
-msgstr "Username or Email"
+#| msgid "Il più antico Moto Club del Piemonte. Passione, adrenalina e fratellanza su due ruote."
+msgid "Il Moto Club che ospita il Raduno dei Centauri: passione e fratellanza su due ruote"
+msgstr "The oldest Moto Club in Piedmont. Passion, adrenaline and brotherhood on two wheels."
 
-#: vecchio/apps/website/blocks.py:69 vecchio/apps/website/models/pages.py:175
-#: vecchio/apps/website/models/pages.py:176
+msgid "Link Rapidi"
+msgstr "Primary link"
+
+msgid "Tutti i diritti riservati."
+msgstr "Ex: © 2026 MC Castellazzo. All rights reserved."
+
+msgid "Lingua"
+msgstr "Language"
+
+msgid "Chiudi"
+msgstr "Close"
+
 #, fuzzy
-#| msgid "Località e Contatti"
-msgid "Località"
-msgstr "Location and Contacts"
+#| msgid "Presidente"
+msgid "Precedente"
+msgstr "President"
 
-#: vecchio/apps/website/blocks.py:72
 #, fuzzy
-#| msgid "Contenuto"
-msgid "Tipo contenuto"
-msgstr "Content"
+#| msgid "Foto successiva"
+msgid "Successiva"
+msgstr "Next photo"
 
-#: vecchio/apps/website/blocks.py:79
-msgid "Numero elementi"
-msgstr ""
+msgid "Motoclub dal 1975"
+msgstr "Motorcycle club since 1975"
 
-#: vecchio/apps/website/blocks.py:90
-msgid "Ultimi contenuti"
-msgstr ""
+msgid "Link Utili"
+msgstr "Detail link"
 
-#: vecchio/apps/website/models/pages.py:67
-msgid "Pagina indice articoli"
-msgstr ""
+msgid "Lingue"
+msgstr "Languages"
 
-#: vecchio/apps/website/models/pages.py:85
-msgid "Autore visualizzato"
-msgstr ""
+msgid "Leggi di più"
+msgstr "Read More"
 
-#: vecchio/apps/website/models/pages.py:88
-msgid "Nome autore da visualizzare sull'evento."
-msgstr ""
+msgid "Scarica"
+msgstr "Download"
 
-#: vecchio/apps/website/models/pages.py:102
-#: vecchio/apps/website/models/pages.py:185
-msgid "Mappa OpenStreetMap"
-msgstr ""
-
-#: vecchio/apps/website/models/pages.py:106
 #, fuzzy
-#| msgid "Informazioni Organizzazione"
-msgid "Informazioni pubblicazione"
-msgstr "Organization Information"
+#| msgid "Allegati"
+msgid "Allegato"
+msgstr "Attachments"
 
-#: vecchio/apps/website/models/pages.py:144
-msgid "Pagina indice eventi"
-msgstr ""
+msgid "Dettagli"
+msgstr "Details"
 
-#: vecchio/apps/website/models/pages.py:215
-msgid "Pagina indice località"
-msgstr ""
+msgid "Filtra galleria per categoria"
+msgstr "Show category filters"
 
-#: vecchio/apps/website/models/pages.py:230
+msgid "Tutti"
+msgstr "Everyone"
+
+msgid "Foto galleria"
+msgstr "Gallery title"
+
 #, fuzzy
-#| msgid "Pagina collegata"
-msgid "Pagina web"
-msgstr "Linked page"
+#| msgid "Galleria immagini"
+msgid "Visualizzatore immagine"
+msgstr "Image gallery"
 
-#: vecchio/apps/website/models/pages.py:231
 #, fuzzy
-#| msgid "Immagine hero"
-msgid "Pagine web"
+#| msgid "Foto precedente"
+msgid "Immagine precedente"
+msgstr "Previous photo"
+
+#, fuzzy
+#| msgid "Immagine Galleria"
+msgid "Immagine successiva"
 msgstr "Hero image"
 
-#: vecchio/apps/website/models/pages.py:247
+msgid "PROSSIMO EVENTO"
+msgstr "NEXT EVENT"
+
+msgid "Conto alla rovescia"
+msgstr "Countdown"
+
+msgid "Giorni"
+msgstr "Days"
+
+msgid "Ore"
+msgstr "Gold"
+
+msgid "Min"
+msgstr "Min"
+
+msgid "Sec"
+msgstr "So"
+
+msgid "Scopri l'Evento"
+msgstr "Discover the Event"
+
+msgid "Foto precedente"
+msgstr "Previous photo"
+
+msgid "Foto successiva"
+msgstr "Next photo"
+
+msgid "Vai alla foto"
+msgstr "Go to photo"
+
+msgid "La Nostra Storia"
+msgstr "Our History"
+
+msgid "Timeline storica del club"
+msgstr "Historical timeline of the club"
+
+msgid "Apri strumenti accessibilità"
+msgstr ""
+
+msgid "Accessibilità"
+msgstr ""
+
+msgid "Strumenti accessibilità"
+msgstr ""
+
+msgid "Chiudi strumenti accessibilità"
+msgstr ""
+
+msgid "Dimensione testo"
+msgstr ""
+
+msgid "Riduci dimensione testo"
+msgstr ""
+
+msgid "Aumenta dimensione testo"
+msgstr ""
+
+msgid "Visuale"
+msgstr ""
+
+msgid "Alto contrasto"
+msgstr ""
+
 #, fuzzy
-#| msgid "Piattaforma"
-msgid "Pagina form"
-msgstr "Platform"
+#| msgid "Foto successiva"
+msgid "Font per dislessia"
+msgstr "Next photo"
 
-#: vecchio/apps/website/models/pages.py:248
-msgid "Pagine form"
-msgstr ""
-
-#: vecchio/apps/website/models/snippets.py:70
 #, fuzzy
-#| msgid "Nome identificativo del footer."
-msgid "Nome identificativo della navbar."
-msgstr "Footer identifier name."
+#| msgid "Foto successiva"
+msgid "Font dislessia"
+msgstr "Next photo"
 
-#: vecchio/apps/website/models/snippets.py:80
 #, fuzzy
-#| msgid "Voci di menu"
-msgid "Voci menu"
-msgstr "Menu items"
+#| msgid "Invia link"
+msgid "Evidenzia link"
+msgstr "Send link"
 
-#: vecchio/apps/website/models/snippets.py:119
 #, fuzzy
-#| msgid "Testo link"
-msgid "Testo"
-msgstr "Link text"
+#| msgid "Navigazione pagine"
+msgid "Navigazione"
+msgstr "Page navigation"
 
-#: vecchio/apps/website/models/snippets.py:125
 #, fuzzy
-#| msgid "Contenuto"
-msgid "Contenuto footer"
-msgstr "Content"
+#| msgid "Colore badge"
+msgid "Cursore grande"
+msgstr "Badge colour"
 
-#: vecchio/apps/website/templates/coderedcms/includes/pagination.html:8
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/includes/pagination.html:8
-msgid "Previous"
+msgid "Guida di lettura"
 msgstr ""
 
-#: vecchio/apps/website/templates/coderedcms/includes/pagination.html:12
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/includes/pagination.html:12
-msgid "Page"
+msgid "Guida lettura"
 msgstr ""
 
-#: vecchio/apps/website/templates/coderedcms/includes/pagination.html:12
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/includes/pagination.html:12
-msgid "of"
+msgid "Blocca animazioni"
 msgstr ""
 
-#: vecchio/apps/website/templates/coderedcms/includes/pagination.html:16
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/includes/pagination.html:16
-msgid "Next"
+msgid "Stop animazioni"
 msgstr ""
 
-#: vecchio/apps/website/templates/coderedcms/pages/article_page.mini.html:23
-#: vecchio/apps/website/templates/coderedcms/pages/event_page.html:24
-#: vecchio/apps/website/templates/coderedcms/pages/event_page.mini.html:17
-#: vecchio/apps/website/templates/coderedcms/pages/location_page.html:24
-#: vecchio/apps/website/templates/coderedcms/pages/location_page.mini.html:17
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/article_page.mini.html:23
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/event_page.html:24
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/event_page.mini.html:17
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/location_page.html:24
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/location_page.mini.html:17
+msgid "Ripristina impostazioni predefinite"
+msgstr ""
+
+msgid "Ripristina tutto"
+msgstr ""
+
+msgid "Premi Esc per chiudere"
+msgstr ""
+
+msgid "La Nostra"
+msgstr "Our History"
+
+msgid "Storia"
+msgstr "Category"
+
+msgid "Dal 1933, una passione che unisce generazioni di motociclisti nel cuore del Piemonte"
+msgstr "Since 1933, a passion that unites generations of motorcyclists in the heart of Piedmont"
+
+msgid "Più di"
+msgstr "More than"
+
+msgid "Anni di Passione"
+msgstr "Year of foundation"
+
+msgid "Il Moto Club Castellazzo Bormida è una delle realtà motoristiche più antiche del Piemonte."
+msgstr "The Moto Club Castellazzo Bormida is one of the oldest motorcycle clubs in Piedmont."
+
+msgid "Fondato nel"
+msgstr "Foundation Year"
+
+msgid "il club ha attraversato quasi un secolo di storia, mantenendo intatta la passione per le due ruote e lo spirito di fratellanza tra i suoi membri."
+msgstr "the club has gone through almost a century of history, keeping intact the passion for two wheels and the spirit of brotherhood among its members."
+
+msgid "Oggi il club conta oltre"
+msgstr "Today the club counts beyond"
+
+msgid "soci attivi"
+msgstr "active members"
+
+msgid "uniti dalla passione per il motociclismo e dal desiderio di vivere insieme avventure indimenticabili."
+msgstr "united by a passion for motorcycling and the desire to live unforgettable adventures together."
+
+msgid "Conosci il Consiglio"
+msgstr "Get to know the Council"
+
 #, fuzzy
-#| msgid "Articolo"
-msgid "Article by"
-msgstr "Article"
+#| msgid "Unisciti a Noi"
+msgid "Unisciti a Noi"
+msgstr "Join Us"
 
-#: vecchio/apps/website/templates/coderedcms/pages/event_page.html:9
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/event_page.html:9
-msgid "Start"
-msgstr ""
+msgid "Gruppo di motociclisti del Moto Club Castellazzo Bormida"
+msgstr "Group of motorcyclists from the Moto Club Castellazzo Bormida"
 
-#: vecchio/apps/website/templates/coderedcms/pages/event_page.html:11
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/event_page.html:11
-msgid "End"
-msgstr ""
+msgid "Statistiche del club"
+msgstr "Statistics"
 
-#: vecchio/apps/website/templates/coderedcms/pages/event_page.html:14
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/event_page.html:14
-msgid "Where"
-msgstr ""
+msgid "Anno Fondazione"
+msgstr "Foundation Year"
 
-#: vecchio/apps/website/templates/coderedcms/pages/event_page.html:40
-#: vecchio/apps/website/templates/coderedcms/pages/location_page.html:40
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/event_page.html:40
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/location_page.html:40
-msgid "Location Map"
-msgstr ""
+msgid "Anni di Storia"
+msgstr "Years of History"
 
-#: vecchio/apps/website/templates/coderedcms/pages/event_page.html:47
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/event_page.html:47
-msgid "Upcoming Dates"
-msgstr ""
+msgid "Soci Attivi"
+msgstr "Number of active members"
 
-#: vecchio/apps/website/templates/coderedcms/pages/event_page.html:51
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/event_page.html:51
-msgid "Start Time"
-msgstr ""
-
-#: vecchio/apps/website/templates/coderedcms/pages/event_page.html:52
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/event_page.html:52
 #, fuzzy
-#| msgid "Evento Timeline"
-msgid "End Time"
-msgstr "Event Timeline"
+#| msgid "Anni di Passione"
+msgid "Passione"
+msgstr "Year of foundation"
 
-#: vecchio/apps/website/templates/coderedcms/pages/event_page.html:53
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/event_page.html:53
-msgid "Actions"
-msgstr ""
+msgid "Cronologia"
+msgstr "Chronology"
 
-#: vecchio/apps/website/templates/coderedcms/pages/location_page.html:11
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/location_page.html:11
-msgid "Address"
-msgstr ""
+msgid "La Madonnina dei Centauri"
+msgstr "The Madonna of the Centaurs"
 
-#: vecchio/apps/website/templates/coderedcms/pages/location_page.html:14
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/location_page.html:14
-msgid "Phone"
-msgstr ""
+msgid "Papa Pio XII dichiara la Madonnina di Castellazzo Patrona dei Motociclisti. Un riconoscimento storico che porta il nome del club in tutta Europa."
+msgstr "Pope Pius XII declares the Madonnina of Castellazzo the Patron Saint of Motorcyclists. A historic recognition that bears the name of the club throughout Europe."
 
-#: vecchio/apps/website/templates/coderedcms/pages/location_page.html:17
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/location_page.html:17
-msgid "Website"
-msgstr ""
+msgid "La Fondazione"
+msgstr "Foundation Year"
 
-#: vecchio/apps/website/templates/coderedcms/pages/location_page.html:17
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/location_page.html:17
-msgid "Go to Visit"
-msgstr ""
+msgid "Il 16 marzo nasce il Moto Club Castellazzo Bormida. Un gruppo di appassionati fonda uno dei primi club motoristici della provincia di Alessandria."
+msgstr "On March 16, the Moto Club Castellazzo Bormida was born. A group of enthusiasts founded one of the first motoring clubs in the province of Alexandria."
 
-#: vecchio/apps/website/templates/coderedcms/pages/search.html:7
-#: vecchio/apps/website/templates/coderedcms/pages/search.html:14
-#: vecchio/apps/website/templates/coderedcms/pages/search.html:32
-#: vecchio/apps/website/templates/coderedcms/snippets/navbar.html:35
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/search.html:7
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/search.html:14
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/search.html:32
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/snippets/navbar.html:39
-msgid "Search"
-msgstr ""
+msgid "Cosa Ci Guida"
+msgstr "What Drives Us"
 
-#: vecchio/apps/website/templates/coderedcms/pages/search.html:7
-#: vecchio/apps/website/templates/coderedcms/pages/search.html:16
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/search.html:7
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/search.html:16
-msgid "Search for"
-msgstr ""
+msgid "L'amore per le due ruote è il motore di tutto ciò che facciamo."
+msgstr "The love for two wheels is the driving force behind everything we do."
 
-#: vecchio/apps/website/templates/coderedcms/pages/search.html:45
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/search.html:45
-msgid "All Results"
-msgstr ""
+msgid "Amicizia"
+msgstr "Friendship"
 
-#: vecchio/apps/website/templates/coderedcms/pages/search.html:78
-#: vecchio/src/mccastellazzob/website/templates/coderedcms/pages/search.html:78
-msgid "No results found."
-msgstr ""
+msgid "Il Club è prima di tutto una grande famiglia unita dalla stessa passione."
+msgstr "The Club is first and foremost a big family united by the same passion."
 
-#: vecchio/src/mccastellazzob/apps/core/mixins.py:126
 #, fuzzy
-#| msgid "Link social"
-msgid "Alt immagine social"
-msgstr "Social links"
+#| msgid "Rispetto"
+msgid "Rispetto"
+msgstr "Respect"
 
-#: vecchio/src/mccastellazzob/apps/core/mixins.py:129
-msgid "Testo alternativo per l'immagine condivisa sui social."
-msgstr ""
+msgid "Per la strada, per l'ambiente, per gli altri. Sempre."
+msgstr "For the street, for the environment, for others. Always."
 
-#: vecchio/src/mccastellazzob/apps/core/validators.py:121
-#, python-format
-msgid "Codice lingua '%(code)s' non supportato."
-msgstr ""
+msgid "Scopri di Più"
+msgstr "Find out more"
 
-#: vecchio/src/mccastellazzob/custom_user/admin.py:21
-msgid "Personal info"
-msgstr ""
+msgid "Scopri di più"
+msgstr "Learn More"
 
-#: vecchio/src/mccastellazzob/custom_user/admin.py:30
+msgid "Il Team"
+msgstr "The Team"
+
+msgid "I Nostri Membri"
+msgstr "Our Values"
+
+msgid "Conosci le persone che dedicano tempo e passione alla gestione del club"
+msgstr "Get to know the people who dedicate their time and passion to running the club"
+
+msgid "Nessun membro disponibile."
+msgstr "No members available."
+
+msgid "Vuoi Contribuire?"
+msgstr "Want to Contribute?"
+
+msgid "Metti le Tue Idee al Servizio del Club"
+msgstr "Put Your Ideas at the Service of the Club"
+
+msgid "Il nostro consiglio è sempre aperto a nuove idee e proposte. Se vuoi contribuire attivamente alla vita del club, partecipa alle nostre riunioni o candidati per il prossimo mandato."
+msgstr "Our board is always open to new ideas and proposals. If you want to actively contribute to the life of the club, attend our meetings or apply for the next term."
+
+msgid "Prossime Riunioni"
+msgstr "Upcoming Meetings"
+
+msgid "Assemblea Annuale"
+msgstr "Annual Assembly"
+
+msgid "Il rinnovo del consiglio avviene ogni triennio durante l'assemblea dei soci"
+msgstr "The renewal of the board takes place every three years during the shareholders' meeting"
+
+msgid "Fondazione"
+msgstr "Foundation"
+
+msgid "Sezione contatti"
+msgstr "Contact section"
+
 #, fuzzy
-#| msgid "Passione"
-msgid "Permissions"
-msgstr "Passion"
+#| msgid "Messaggio"
+msgid "Messaggio Inviato!"
+msgstr "Message"
 
-#: vecchio/src/mccastellazzob/custom_user/admin.py:41
-msgid "Important dates"
+msgid "Inviaci un Messaggio"
+msgstr "Send us a message"
+
+msgid "Correggi gli errori:"
 msgstr ""
 
-#: vecchio/src/mccastellazzob/custom_user/models.py:50
-msgid "email address"
+msgid "Lascia vuoto"
 msgstr ""
 
-#: vecchio/src/mccastellazzob/custom_user/models.py:53
-msgid "A user with that username already exists."
+msgid "Compila il modulo e ti risponderemo al più presto."
+msgstr "Fill out the form and we will respond to you as soon as possible."
+
+msgid "Seleziona un argomento"
+msgstr "Select a topic"
+
+#, fuzzy
+#| msgid "oppure clicca per selezionare"
+msgid "Trascina i file qui o clicca per selezionare"
+msgstr "or click to select"
+
+msgid "Trascina i file qui"
+msgstr "Drag files here"
+
+msgid "oppure clicca per selezionare"
+msgstr "or click to select"
+
+msgid "Max 3 file, 5MB ciascuno. Formati: PDF, JPG, PNG, DOC, DOCX, TXT"
+msgstr "Max 3 files, 5MB each. Formats: PDF, JPG, PNG, DOC, DOCX, TXT"
+
+msgid "Ho letto e accetto la"
+msgstr "I have read and accept the"
+
+msgid "Invia Messaggio"
+msgstr "Send Message"
+
+msgid "Sede Sociale"
+msgstr "Social Events"
+
+#, fuzzy
+#| msgid "Indicazioni Stradali"
+msgid "Indicazioni stradali con Google Maps"
+msgstr "Road Directions"
+
+#, fuzzy
+#| msgid "Indicazioni auto"
+msgid "Indicazioni"
+msgstr "Car directions"
+
+#, fuzzy
+#| msgid "Indicazioni Stradali"
+msgid "Indicazioni stradali con Apple Maps"
+msgstr "Road Directions"
+
+msgid "Dove"
+msgstr "Where"
+
+msgid "Trovarci"
+msgstr "Find us"
+
+msgid "Mappa interattiva con la posizione della sede"
+msgstr "Interactive map with the location of the office"
+
+msgid "In Auto"
+msgstr "By car"
+
+msgid "In Treno"
+msgstr "By Train"
+
+msgid "Parcheggio"
+msgstr "Parking"
+
+msgid "Compila il Modulo"
+msgstr "Fill out the form"
+
+msgid "Chiamaci Ora"
+msgstr "Call Us Now"
+
+msgid "Tipo file non permesso"
 msgstr ""
 
-#: vecchio/src/mccastellazzob/website/blocks.py:137
-msgid "HTML"
+msgid "File troppo grande (max 5MB)"
 msgstr ""
 
-#: vecchio/src/mccastellazzob/website/models.py:104
-#: vecchio/src/mccastellazzob/website/models.py:248
-msgid "Display author as"
+msgid "Rimuovi file"
 msgstr ""
 
-#: vecchio/src/mccastellazzob/website/models.py:105
-#: vecchio/src/mccastellazzob/website/models.py:249
-msgid "Name displays on this article."
+msgid "Puoi allegare massimo 3 file"
 msgstr ""
 
-#: vecchio/src/mccastellazzob/website/models.py:120
-#: vecchio/src/mccastellazzob/website/models.py:264
-msgid "OpenStreetMap details"
+msgid "Ottieni indicazioni"
+msgstr "Get directions"
+
+msgid "Dettagli Evento"
+msgstr "Details"
+
+msgid "Data e Ora"
+msgstr "Date and Time"
+
+msgid "fino a"
+msgstr "until"
+
+msgid "Richiedi Informazioni"
+msgstr "Club information"
+
+msgid "Tutti gli Eventi"
+msgstr "All Events"
+
+msgid "Aggiungi al calendario"
+msgstr "Add to calendar"
+
+msgid "Inquadra il QR code con la fotocamera per salvare l'evento sul tuo dispositivo."
+msgstr "Scan the QR code with your camera to save the event to your device."
+
+msgid "QR code evento"
+msgstr "Event QR code"
+
+msgid "Scarica QR (SVG)"
+msgstr "Download QR (SVG)"
+
+msgid "eventi"
+msgstr "Events"
+
+msgid "Vedi dettagli"
+msgstr "View Details"
+
+msgid "Nessun evento nell'archivio"
+msgstr "No events in the archive"
+
+msgid "Gli eventi passati appariranno qui man mano che si svolgeranno."
+msgstr "Past events will appear here as they unfold."
+
+msgid "Scopri gli eventi futuri"
+msgstr "Discover the Event"
+
+msgid "Non perderti i prossimi eventi!"
+msgstr "Don't miss the upcoming events!"
+
+msgid "Scopri cosa abbiamo in programma e unisciti a noi per nuove avventure su due ruote"
+msgstr "Find out what we have planned and join us for new adventures on two wheels"
+
+msgid "Torna agli eventi"
+msgstr "Back to events"
+
+msgid "EVENTO IN EVIDENZA"
+msgstr "HIGHLIGHTED EVENT"
+
+msgid "Calendario"
+msgstr "Calendar"
+
+msgid "Prossimi Eventi"
+msgstr "Upcoming Events"
+
+msgid "Nessun evento in programma al momento."
+msgstr "No events scheduled at the moment."
+
+msgid "Archivio storico eventi"
+msgstr "Events Archive"
+
+#, fuzzy
+#| msgid "Galleria"
+msgid "Galleria:"
+msgstr "Gallery"
+
+msgid "Tutte"
+msgstr "All"
+
+#, fuzzy
+#| msgid "Categoria"
+msgid "Categoria:"
+msgstr "Category"
+
+msgid "Tag:"
 msgstr ""
 
-#: vecchio/src/mccastellazzob/website/models.py:126
-#: vecchio/src/mccastellazzob/website/models.py:270
-msgid "Publication Info"
+msgid "altri"
 msgstr ""
+
+msgid "foto"
+msgstr ""
+
+msgid "reset filtri"
+msgstr ""
+
+msgid "Nessuna foto corrisponde ai filtri selezionati"
+msgstr ""
+
+msgid "Mostra tutte le foto"
+msgstr ""
+
+#, fuzzy
+#| msgid "Moto Club"
+msgid "Moto Club"
+msgstr "Motorcycle Club"
+
+msgid "anni"
+msgstr "years"
+
+msgid "MAR"
+msgstr "MAR"
+
+msgid "Prossimo Evento"
+msgstr "Next Event"
+
+msgid "Benvenuti"
+msgstr "Welcome"
+
+#, fuzzy
+#| msgid "Diventa parte della famiglia del Moto Club più antico del Piemonte"
+msgid "Diventa parte della famiglia del Moto Club più antico del Piemonte"
+msgstr "Become part of the family of the oldest Moto Club in Piedmont"
+
+msgid "Vedi Eventi"
+msgstr "See Events"
+
+#, fuzzy
+#| msgid "Cerca negli articoli..."
+msgid "Ricerca articoli"
+msgstr "Search articles..."
+
+#, fuzzy
+#| msgid "Cerca negli articoli..."
+msgid "Cerca negli articoli"
+msgstr "Search articles..."
+
+msgid "Cerca negli articoli..."
+msgstr "Search articles..."
+
+msgid "Cerca"
+msgstr "Search"
+
+#, fuzzy
+#| msgid "eventi"
+msgid "Recenti:"
+msgstr "Events"
+
+msgid "Risultati per:"
+msgstr "Results for:"
+
+msgid "Cancella"
+msgstr "Clear"
+
+msgid "Filtro tag:"
+msgstr ""
+
+msgid "Rimuovi filtro"
+msgstr ""
+
+#, fuzzy
+#| msgid "Risultati per:"
+msgid "Risultati per"
+msgstr "Results for:"
+
+#, fuzzy
+#| msgid "Trovarci"
+msgid "trovati"
+msgstr "Find us"
+
+#, fuzzy
+#| msgid "Informazioni Eventi"
+msgid "Informazioni evento"
+msgstr "Contact Information"
+
+#, fuzzy
+#| msgid "Scopri di più"
+msgid "Scopri di più su"
+msgstr "Learn More"
+
+msgid "Nessun risultato trovato"
+msgstr "No results found"
+
+msgid "La ricerca per"
+msgstr ""
+
+msgid "non ha prodotto risultati."
+msgstr ""
+
+#, fuzzy
+#| msgid "Torna agli eventi"
+msgid "Torna agli articoli"
+msgstr "Back to events"
+
+msgid "In Evidenza"
+msgstr "Featured"
+
+msgid "Leggi tutto"
+msgstr "Read More"
+
+msgid "Nessun articolo disponibile"
+msgstr "No articles available"
+
+msgid "Gli articoli saranno pubblicati presto."
+msgstr "Articles will be published soon."
+
+msgid "Tags:"
+msgstr ""
+
+msgid "Autore"
+msgstr "Author"
+
+msgid "Membro del Club"
+msgstr "Club Member"
+
+msgid "Informazioni"
+msgstr "Information"
+
+msgid "Tutte le Novità"
+msgstr "All News"
+
+msgid "Articoli Correlati"
+msgstr "Related Articles"
+
+msgid "Contenuto in fase di aggiornamento."
+msgstr "Content being updated."
+
+msgid "Torna alla Home"
+msgstr "Return to Home"
+
+msgid "Nessun articolo disponibile al momento."
+msgstr "No items available at the moment."
+
+msgid "Documenti Ufficiali"
+msgstr "Documents"
+
+msgid "Nessun documento disponibile"
+msgstr "No documents available"
+
+msgid "I documenti saranno pubblicati a breve."
+msgstr "The documents will be published shortly."
+
+msgid "Hai bisogno di altri documenti?"
+msgstr "Do you need other documents?"
+
+msgid "Contattaci per richiedere informazioni o documenti specifici."
+msgstr "Contact us to request information or specific documents."
+
+#, fuzzy
+#~| msgid "Informazioni Eventi"
+#~ msgid "Informazioni personali"
+#~ msgstr "Contact Information"
+
+#, fuzzy
+#~| msgid "Località e Contatti"
+#~ msgid "Località"
+#~ msgstr "Location and Contacts"
+
+#, fuzzy
+#~| msgid "Contenuto"
+#~ msgid "Tipo contenuto"
+#~ msgstr "Content"
+
+#, fuzzy
+#~| msgid "Informazioni Organizzazione"
+#~ msgid "Informazioni pubblicazione"
+#~ msgstr "Organization Information"
+
+#, fuzzy
+#~| msgid "Pagina collegata"
+#~ msgid "Pagina web"
+#~ msgstr "Linked page"
+
+#, fuzzy
+#~| msgid "Immagine hero"
+#~ msgid "Pagine web"
+#~ msgstr "Hero image"
+
+#, fuzzy
+#~| msgid "Piattaforma"
+#~ msgid "Pagina form"
+#~ msgstr "Platform"
+
+#, fuzzy
+#~| msgid "Nome identificativo del footer."
+#~ msgid "Nome identificativo della navbar."
+#~ msgstr "Footer identifier name."
+
+#, fuzzy
+#~| msgid "Voci di menu"
+#~ msgid "Voci menu"
+#~ msgstr "Menu items"
+
+#, fuzzy
+#~| msgid "Testo link"
+#~ msgid "Testo"
+#~ msgstr "Link text"
+
+#, fuzzy
+#~| msgid "Contenuto"
+#~ msgid "Contenuto footer"
+#~ msgstr "Content"
+
+#, fuzzy
+#~| msgid "Articolo"
+#~ msgid "Article by"
+#~ msgstr "Article"
+
+#, fuzzy
+#~| msgid "Evento Timeline"
+#~ msgid "End Time"
+#~ msgstr "Event Timeline"
+
+#, fuzzy
+#~| msgid "Link social"
+#~ msgid "Alt immagine social"
+#~ msgstr "Social links"
+
+#, fuzzy
+#~| msgid "Passione"
+#~ msgid "Permissions"
+#~ msgstr "Passion"
 
 #~ msgid "Didascalia"
 #~ msgstr "Caption"
-
-#~ msgid "Tutti"
-#~ msgstr "Everyone"
 
 #~ msgid "Raduni"
 #~ msgstr "Gatherings"
@@ -1980,9 +2072,6 @@ msgstr ""
 #~ msgid "Nome esteso o alternativo"
 #~ msgstr "Extended or alternative name"
 
-#~ msgid "Anno Fondazione"
-#~ msgstr "Foundation Year"
-
 #~ msgid "Descrizione Organizzazione"
 #~ msgstr "Description Organization"
 
@@ -2001,345 +2090,6 @@ msgstr ""
 #~ msgid "Es: fas fa-info-circle"
 #~ msgstr "Ex: fas fa-info-circle"
 
-#~ msgid "Conferma Email"
-#~ msgstr "Confirm Email"
-
-#~ msgid "Conferma il tuo indirizzo email"
-#~ msgstr "Confirm your email address"
-
-#~ msgid "Confermi che questo è il tuo indirizzo email?"
-#~ msgstr "Are you sure this is your email address?"
-
-#~ msgid "Conferma"
-#~ msgstr "He confirms"
-
-#~ msgid "Accedi"
-#~ msgstr "Log in"
-
-#~ msgid "Password"
-#~ msgstr "Password"
-
-#~ msgid "Ricordami"
-#~ msgstr "Remember me"
-
-#~ msgid "Password dimenticata?"
-#~ msgstr "Forgotten password?"
-
-#~ msgid "Non hai un account?"
-#~ msgstr "Don't have an account?"
-
-#~ msgid "Registrati"
-#~ msgstr "Register"
-
-#~ msgid "Esci"
-#~ msgstr "You go out"
-
-#~ msgid "Sei sicuro di voler uscire?"
-#~ msgstr "Are you sure you want to leave?"
-
-#~| msgid "Annullato"
-#~ msgid "Annulla"
-#~ msgstr "Canceled"
-
-#~ msgid "Cambia Password"
-#~ msgstr "Change Password"
-
-#~ msgid "Password attuale"
-#~ msgstr "Current password"
-
-#~ msgid "Nuova Password"
-#~ msgstr "New Password"
-
-#~ msgid "Conferma nuova password"
-#~ msgstr "Confirm new password"
-
-#~ msgid "Reimposta Password"
-#~ msgstr "Reset Password"
-
-#~ msgid ""
-#~ "Inserisci la tua email e ti invieremo un link per reimpostare la password."
-#~ msgstr ""
-#~ "Please enter your email and we will send you a link to reset your "
-#~ "password."
-
-#~ msgid "Invia link"
-#~ msgstr "Send link"
-
-#~ msgid "Torna al login"
-#~ msgstr "Return to login"
-
-#~ msgid "Email Inviata"
-#~ msgstr "Email Sent"
-
-#~ msgid "Controlla la tua email"
-#~ msgstr "Check your email"
-
-#~ msgid ""
-#~ "Ti abbiamo inviato un'email con le istruzioni per reimpostare la password."
-#~ msgstr "msgstr \"We've emailed you instructions to reset your password.\""
-
-#~ msgid "Imposta Password"
-#~ msgstr "Set Password"
-
-#~ msgid ""
-#~ "Non hai ancora una password impostata. Creane una per accedere con "
-#~ "username e password."
-#~ msgstr ""
-#~ "You don't have a password set yet. Create one to log in with username and "
-#~ "password."
-
-#~ msgid "Conferma Password"
-#~ msgstr "Confirm Password"
-
-#~ msgid "Crea un Account"
-#~ msgstr "Create an Account"
-
-#~ msgid "Hai già un account?"
-#~ msgstr "Already have an account?"
-
-#~ msgid "Verifica Email"
-#~ msgstr "Verify Email"
-
-#~ msgid "Verifica la tua email"
-#~ msgstr "Verify your email"
-
-#~ msgid ""
-#~ "Ti abbiamo inviato un'email di verifica. Clicca sul link nell'email per "
-#~ "attivare il tuo account."
-#~ msgstr ""
-#~ "We've sent you a verification email. Click the link in the email to "
-#~ "activate your account."
-
-#~ msgid "Torna alla home"
-#~ msgstr "Return to home"
-
-#~| msgid "Contenuto pagina"
-#~ msgid "Vai al contenuto principale"
-#~ msgstr "Page content"
-
-#~ msgid "Navigazione principale"
-#~ msgstr "Main navigation"
-
-#~ msgid "DAL"
-#~ msgstr "SINCE"
-
-#~ msgid "Home"
-#~ msgstr "Home"
-
-#~| msgid "Contatti"
-#~ msgid "Contattaci"
-#~ msgstr "Contact Us"
-
-#~ msgid "Seleziona lingua"
-#~ msgstr "Select language"
-
-#~ msgid ""
-#~ "Il più antico Moto Club del Piemonte. Passione, adrenalina e fratellanza "
-#~ "su due ruote."
-#~ msgstr ""
-#~ "The oldest Moto Club in Piedmont. Passion, adrenaline and brotherhood on "
-#~ "two wheels."
-
-#~| msgid "Link primario"
-#~ msgid "Link Rapidi"
-#~ msgstr "Primary link"
-
-#~| msgid "Es: © 2026 MC Castellazzo. Tutti i diritti riservati."
-#~ msgid "Tutti i diritti riservati."
-#~ msgstr "Ex: © 2026 MC Castellazzo. All rights reserved."
-
-#~ msgid "Lingua"
-#~ msgstr "Language"
-
-#~ msgid "Motoclub dal 1975"
-#~ msgstr "Motorcycle club since 1975"
-
-#~| msgid "Link dettaglio"
-#~ msgid "Link Utili"
-#~ msgstr "Detail link"
-
-#~ msgid "Lingue"
-#~ msgstr "Languages"
-
-#~ msgid "Leggi di più"
-#~ msgstr "Read More"
-
-#~ msgid "Scarica"
-#~ msgstr "Download"
-
-#~ msgid "Dettagli"
-#~ msgstr "Details"
-
-#~| msgid "Mostra filtri categoria"
-#~ msgid "Filtra galleria per categoria"
-#~ msgstr "Show category filters"
-
-#~| msgid "Titolo galleria"
-#~ msgid "Foto galleria"
-#~ msgstr "Gallery title"
-
-#~ msgid "PROSSIMO EVENTO"
-#~ msgstr "NEXT EVENT"
-
-#~ msgid "Conto alla rovescia"
-#~ msgstr "Countdown"
-
-#~ msgid "Giorni"
-#~ msgstr "Days"
-
-#~| msgid "Oro"
-#~ msgid "Ore"
-#~ msgstr "Gold"
-
-#~ msgid "Min"
-#~ msgstr "Min"
-
-#~ msgid "Sec"
-#~ msgstr "So"
-
-#~ msgid "Scopri l'Evento"
-#~ msgstr "Discover the Event"
-
-#~ msgid "Foto precedente"
-#~ msgstr "Previous photo"
-
-#~ msgid "Foto successiva"
-#~ msgstr "Next photo"
-
-#~ msgid "Vai alla foto"
-#~ msgstr "Go to photo"
-
-#~ msgid "La Nostra Storia"
-#~ msgstr "Our History"
-
-#~ msgid "Timeline storica del club"
-#~ msgstr "Historical timeline of the club"
-
-#~| msgid "La Nostra Storia"
-#~ msgid "La Nostra"
-#~ msgstr "Our History"
-
-#~| msgid "Categoria"
-#~ msgid "Storia"
-#~ msgstr "Category"
-
-#~ msgid ""
-#~ "Dal 1933, una passione che unisce generazioni di motociclisti nel cuore "
-#~ "del Piemonte"
-#~ msgstr ""
-#~ "Since 1933, a passion that unites generations of motorcyclists in the "
-#~ "heart of Piedmont"
-
-#~ msgid "Più di"
-#~ msgstr "More than"
-
-#~| msgid "Anno di fondazione"
-#~ msgid "Anni di Passione"
-#~ msgstr "Year of foundation"
-
-#~ msgid ""
-#~ "Il Moto Club Castellazzo Bormida è una delle realtà motoristiche più "
-#~ "antiche del Piemonte."
-#~ msgstr ""
-#~ "The Moto Club Castellazzo Bormida is one of the oldest motorcycle clubs "
-#~ "in Piedmont."
-
-#~| msgid "Anno Fondazione"
-#~ msgid "Fondato nel"
-#~ msgstr "Foundation Year"
-
-#~ msgid ""
-#~ "il club ha attraversato quasi un secolo di storia, mantenendo intatta la "
-#~ "passione per le due ruote e lo spirito di fratellanza tra i suoi membri."
-#~ msgstr ""
-#~ "the club has gone through almost a century of history, keeping intact the "
-#~ "passion for two wheels and the spirit of brotherhood among its members."
-
-#~ msgid "Oggi il club conta oltre"
-#~ msgstr "Today the club counts beyond"
-
-#~| msgid "Numero soci attivi"
-#~ msgid "soci attivi"
-#~ msgstr "active members"
-
-#~ msgid ""
-#~ "uniti dalla passione per il motociclismo e dal desiderio di vivere "
-#~ "insieme avventure indimenticabili."
-#~ msgstr ""
-#~ "united by a passion for motorcycling and the desire to live unforgettable "
-#~ "adventures together."
-
-#~ msgid "Conosci il Consiglio"
-#~ msgstr "Get to know the Council"
-
-#~ msgid "Gruppo di motociclisti del Moto Club Castellazzo Bormida"
-#~ msgstr "Group of motorcyclists from the Moto Club Castellazzo Bormida"
-
-#~| msgid "Statistiche"
-#~ msgid "Statistiche del club"
-#~ msgstr "Statistics"
-
-#~| msgid "Timeline Storica"
-#~ msgid "Anni di Storia"
-#~ msgstr "Years of History"
-
-#~| msgid "Numero soci attivi"
-#~ msgid "Soci Attivi"
-#~ msgstr "Number of active members"
-
-#~ msgid "Cronologia"
-#~ msgstr "Chronology"
-
-#~ msgid "La Madonnina dei Centauri"
-#~ msgstr "The Madonna of the Centaurs"
-
-#~ msgid ""
-#~ "Papa Pio XII dichiara la Madonnina di Castellazzo Patrona dei "
-#~ "Motociclisti. Un riconoscimento storico che porta il nome del club in "
-#~ "tutta Europa."
-#~ msgstr ""
-#~ "Pope Pius XII declares the Madonnina of Castellazzo the Patron Saint of "
-#~ "Motorcyclists. A historic recognition that bears the name of the club "
-#~ "throughout Europe."
-
-#~| msgid "Anno Fondazione"
-#~ msgid "La Fondazione"
-#~ msgstr "Foundation Year"
-
-#~ msgid ""
-#~ "Il 16 marzo nasce il Moto Club Castellazzo Bormida. Un gruppo di "
-#~ "appassionati fonda uno dei primi club motoristici della provincia di "
-#~ "Alessandria."
-#~ msgstr ""
-#~ "On March 16, the Moto Club Castellazzo Bormida was born. A group of "
-#~ "enthusiasts founded one of the first motoring clubs in the province of "
-#~ "Alexandria."
-
-#~ msgid "Cosa Ci Guida"
-#~ msgstr "What Drives Us"
-
-#~ msgid "L'amore per le due ruote è il motore di tutto ciò che facciamo."
-#~ msgstr ""
-#~ "The love for two wheels is the driving force behind everything we do."
-
-#~ msgid "Amicizia"
-#~ msgstr "Friendship"
-
-#~ msgid ""
-#~ "Il Club è prima di tutto una grande famiglia unita dalla stessa passione."
-#~ msgstr ""
-#~ "The Club is first and foremost a big family united by the same passion."
-
-#~ msgid "Per la strada, per l'ambiente, per gli altri. Sempre."
-#~ msgstr "For the street, for the environment, for others. Always."
-
-#~ msgid "Scopri di Più"
-#~ msgstr "Find out more"
-
-#~| msgid "Leggi di più"
-#~ msgid "Scopri di più"
-#~ msgstr "Learn More"
-
 #~ msgid "Il Consiglio"
 #~ msgstr "The Council"
 
@@ -2347,100 +2097,11 @@ msgstr ""
 #~ msgid "Direttivo"
 #~ msgstr "Active"
 
-#~ msgid ""
-#~ "Le persone che guidano il club con passione e dedizione, lavorando per "
-#~ "offrire esperienze uniche a tutti i soci"
-#~ msgstr ""
-#~ "The people who lead the club with passion and dedication, working to "
-#~ "offer unique experiences to all members"
-
-#~ msgid "Il Team"
-#~ msgstr "The Team"
-
-#~| msgid "I Nostri Valori"
-#~ msgid "I Nostri Membri"
-#~ msgstr "Our Values"
-
-#~ msgid ""
-#~ "Conosci le persone che dedicano tempo e passione alla gestione del club"
-#~ msgstr ""
-#~ "Get to know the people who dedicate their time and passion to running the "
-#~ "club"
-
-#~ msgid "Nessun membro disponibile."
-#~ msgstr "No members available."
-
-#~ msgid "Vuoi Contribuire?"
-#~ msgstr "Want to Contribute?"
-
-#~ msgid "Metti le Tue Idee al Servizio del Club"
-#~ msgstr "Put Your Ideas at the Service of the Club"
-
-#~ msgid ""
-#~ "Il nostro consiglio è sempre aperto a nuove idee e proposte. Se vuoi "
-#~ "contribuire attivamente alla vita del club, partecipa alle nostre "
-#~ "riunioni o candidati per il prossimo mandato."
-#~ msgstr ""
-#~ "Our board is always open to new ideas and proposals. If you want to "
-#~ "actively contribute to the life of the club, attend our meetings or apply "
-#~ "for the next term."
-
-#~ msgid "Prossime Riunioni"
-#~ msgstr "Upcoming Meetings"
-
-#~ msgid "Assemblea Annuale"
-#~ msgstr "Annual Assembly"
-
-#~ msgid ""
-#~ "Il rinnovo del consiglio avviene ogni triennio durante l'assemblea dei "
-#~ "soci"
-#~ msgstr ""
-#~ "The renewal of the board takes place every three years during the "
-#~ "shareholders' meeting"
-
-#~| msgid "Anno Fondazione"
-#~ msgid "Fondazione"
-#~ msgstr "Foundation"
-
-#~ msgid "Sezione contatti"
-#~ msgstr "Contact section"
-
-#~ msgid "Inviaci un Messaggio"
-#~ msgstr "Send us a message"
+#~ msgid "Le persone che guidano il club con passione e dedizione, lavorando per offrire esperienze uniche a tutti i soci"
+#~ msgstr "The people who lead the club with passion and dedication, working to offer unique experiences to all members"
 
 #~ msgid "Compila il modulo e ti risponderemo entro 24 ore."
 #~ msgstr "Fill out the form and we will respond to you within 24 hours."
-
-#~ msgid "Seleziona un argomento"
-#~ msgstr "Select a topic"
-
-#~ msgid "Ho letto e accetto la"
-#~ msgstr "I have read and accept the"
-
-#~ msgid "Invia Messaggio"
-#~ msgstr "Send Message"
-
-#~| msgid "Eventi Sociali"
-#~ msgid "Sede Sociale"
-#~ msgstr "Social Events"
-
-#~ msgid "Dove"
-#~ msgstr "Where"
-
-#~ msgid "Trovarci"
-#~ msgstr "Find us"
-
-#~ msgid "Mappa interattiva con la posizione della sede"
-#~ msgstr "Interactive map with the location of the office"
-
-#~ msgid "In Auto"
-#~ msgstr "By car"
-
-#~ msgid "In Treno"
-#~ msgstr "By Train"
-
-#~ msgid "Parcheggio"
-#~ msgstr "Parking"
 
 #~ msgid "Frequenti"
 #~ msgstr "Frequent"
@@ -2448,173 +2109,50 @@ msgstr ""
 #~ msgid "Come posso iscrivermi al club?"
 #~ msgstr "How can I join the club?"
 
-#~ msgid ""
-#~ "Puoi iscriverti compilando il modulo in questa pagina, passando in sede "
-#~ "durante gli orari di apertura, o contattandoci telefonicamente. La quota "
-#~ "annuale è di €50 e include tessera FMI, assicurazione e partecipazione a "
-#~ "tutti gli eventi sociali."
-#~ msgstr ""
-#~ "You can sign up by filling out the form on this page, by checking in "
-#~ "during opening hours, or by contacting us by phone. The annual fee is €50 "
-#~ "and includes IMF card, insurance and participation in all social events."
+#~ msgid "Puoi iscriverti compilando il modulo in questa pagina, passando in sede durante gli orari di apertura, o contattandoci telefonicamente. La quota annuale è di €50 e include tessera FMI, assicurazione e partecipazione a tutti gli eventi sociali."
+#~ msgstr "You can sign up by filling out the form on this page, by checking in during opening hours, or by contacting us by phone. The annual fee is €50 and includes IMF card, insurance and participation in all social events."
 
 #~ msgid "Quali sono i requisiti per l'iscrizione?"
 #~ msgstr "What are the registration requirements?"
 
-#~ msgid ""
-#~ "Possono iscriversi tutti i maggiorenni in possesso di patente valida e "
-#~ "con la passione per le moto. Non è richiesto possedere una moto, basta "
-#~ "l'entusiasmo!"
-#~ msgstr ""
-#~ "All adults in possession of a valid license and with a passion for "
-#~ "motorcycles can register. It is not required to own a motorcycle, "
-#~ "enthusiasm is enough!"
+#~ msgid "Possono iscriversi tutti i maggiorenni in possesso di patente valida e con la passione per le moto. Non è richiesto possedere una moto, basta l'entusiasmo!"
+#~ msgstr "All adults in possession of a valid license and with a passion for motorcycles can register. It is not required to own a motorcycle, enthusiasm is enough!"
 
 #~ msgid "Posso partecipare agli eventi prima di iscrivermi?"
 #~ msgstr "Can I attend events before signing up?"
 
-#~ msgid ""
-#~ "Sì! Puoi partecipare come ospite a un massimo di 2 eventi prima di "
-#~ "decidere se iscriverti. È un ottimo modo per conoscere il club e i suoi "
-#~ "membri."
-#~ msgstr ""
-#~ "Yes! You can participate as a guest in up to 2 events before deciding "
-#~ "whether to join. It's a great way to get to know the club and its members."
+#~ msgid "Sì! Puoi partecipare come ospite a un massimo di 2 eventi prima di decidere se iscriverti. È un ottimo modo per conoscere il club e i suoi membri."
+#~ msgstr "Yes! You can participate as a guest in up to 2 events before deciding whether to join. It's a great way to get to know the club and its members."
 
 #~ msgid "Che tipo di moto devo avere?"
 #~ msgstr "What type of bike should I have?"
 
-#~ msgid ""
-#~ "Nel nostro club sono benvenute moto di ogni tipo: stradali, naked, "
-#~ "enduro, custom, sportive... La passione per le due ruote è l'unico "
-#~ "requisito! Molti soci hanno anche più moto per diverse occasioni."
-#~ msgstr ""
-#~ "Motorcycles of all kinds are welcome in our club: street bikes, naked "
-#~ "bikes, enduro bikes, custom bikes, sports bikes... The passion for two "
-#~ "wheels is the only requirement! Many members also have multiple bikes for "
-#~ "different occasions."
+#~ msgid "Nel nostro club sono benvenute moto di ogni tipo: stradali, naked, enduro, custom, sportive... La passione per le due ruote è l'unico requisito! Molti soci hanno anche più moto per diverse occasioni."
+#~ msgstr "Motorcycles of all kinds are welcome in our club: street bikes, naked bikes, enduro bikes, custom bikes, sports bikes... The passion for two wheels is the only requirement! Many members also have multiple bikes for different occasions."
 
 #~ msgid "Organizzate corsi di guida sicura?"
 #~ msgstr "Do you organize safe driving courses?"
 
-#~ msgid ""
-#~ "Sì, in collaborazione con la FMI organizziamo periodicamente corsi di "
-#~ "guida sicura e perfezionamento. I corsi sono aperti anche ai non soci con "
-#~ "un piccolo supplemento."
-#~ msgstr ""
-#~ "Yes, in collaboration with the IMF we periodically organise safe driving "
-#~ "courses and refresher courses. Courses are also open to non-members for a "
-#~ "small fee."
-
-#~ msgid "Compila il Modulo"
-#~ msgstr "Fill out the form"
-
-#~ msgid "Chiamaci Ora"
-#~ msgstr "Call Us Now"
-
-#~ msgid "Ottieni indicazioni"
-#~ msgstr "Get directions"
-
-#~| msgid "Dettagli"
-#~ msgid "Dettagli Evento"
-#~ msgstr "Details"
-
-#~| msgid "Data fine"
-#~ msgid "Data e Ora"
-#~ msgstr "Date and Time"
-
-#~ msgid "fino a"
-#~ msgstr "until"
-
-#~| msgid "Informazioni Club"
-#~ msgid "Richiedi Informazioni"
-#~ msgstr "Club information"
-
-#~ msgid "Tutti gli Eventi"
-#~ msgstr "All Events"
-
-#~ msgid "Chiudi"
-#~ msgstr "Close"
+#~ msgid "Sì, in collaborazione con la FMI organizziamo periodicamente corsi di guida sicura e perfezionamento. I corsi sono aperti anche ai non soci con un piccolo supplemento."
+#~ msgstr "Yes, in collaboration with the IMF we periodically organise safe driving courses and refresher courses. Courses are also open to non-members for a small fee."
 
 #~| msgid "Archivio Eventi"
 #~ msgid "Archivio"
 #~ msgstr "Events Archive"
 
-#~ msgid ""
-#~ "Rivivi i momenti più belli delle nostre passate avventure su due ruote"
+#~ msgid "Rivivi i momenti più belli delle nostre passate avventure su due ruote"
 #~ msgstr "Relive the best moments of our past adventures on two wheels"
-
-#~| msgid "Eventi"
-#~ msgid "eventi"
-#~ msgstr "Events"
-
-#~| msgid "Link dettaglio"
-#~ msgid "Vedi dettagli"
-#~ msgstr "View Details"
-
-#~ msgid "Nessun evento nell'archivio"
-#~ msgstr "No events in the archive"
-
-#~ msgid "Gli eventi passati appariranno qui man mano che si svolgeranno."
-#~ msgstr "Past events will appear here as they unfold."
-
-#~| msgid "Scopri l'Evento"
-#~ msgid "Scopri gli eventi futuri"
-#~ msgstr "Discover the Event"
-
-#~ msgid "Non perderti i prossimi eventi!"
-#~ msgstr "Don't miss the upcoming events!"
-
-#~ msgid ""
-#~ "Scopri cosa abbiamo in programma e unisciti a noi per nuove avventure su "
-#~ "due ruote"
-#~ msgstr ""
-#~ "Find out what we have planned and join us for new adventures on two wheels"
-
-#~ msgid "Torna agli eventi"
-#~ msgstr "Back to events"
 
 #~| msgid "I Nostri Valori"
 #~ msgid "I Nostri"
 #~ msgstr "Our Values"
 
-#~ msgid ""
-#~ "Raduni, escursioni, gare e momenti di convivialità per vivere insieme la "
-#~ "passione per le due ruote"
-#~ msgstr ""
-#~ "Gatherings, excursions, competitions and moments of conviviality to live "
-#~ "together the passion for two wheels"
-
-#~ msgid "EVENTO IN EVIDENZA"
-#~ msgstr "HIGHLIGHTED EVENT"
-
-#~ msgid "Calendario"
-#~ msgstr "Calendar"
-
-#~| msgid "Archivio Eventi"
-#~ msgid "Prossimi Eventi"
-#~ msgstr "Upcoming Events"
-
-#~ msgid "Nessun evento in programma al momento."
-#~ msgstr "No events scheduled at the moment."
+#~ msgid "Raduni, escursioni, gare e momenti di convivialità per vivere insieme la passione per le due ruote"
+#~ msgstr "Gatherings, excursions, competitions and moments of conviviality to live together the passion for two wheels"
 
 #~| msgid "Archivio Eventi"
 #~ msgid "Vedi archivio eventi"
 #~ msgstr "Events Archive"
-
-#~| msgid "Archivio Eventi"
-#~ msgid "Archivio storico eventi"
-#~ msgstr "Events Archive"
-
-#~ msgid "anni"
-#~ msgstr "years"
-
-#~ msgid "MAR"
-#~ msgstr "MAR"
-
-#~| msgid "Nome evento"
-#~ msgid "Prossimo Evento"
-#~ msgstr "Next Event"
 
 #~ msgid "Raduno Primaverile"
 #~ msgstr "Spring meeting"
@@ -2626,52 +2164,17 @@ msgstr ""
 #~ msgid "Scopri Tutti gli Eventi"
 #~ msgstr "Discover the Event"
 
-#~ msgid "Benvenuti"
-#~ msgstr "Welcome"
-
 #~ msgid "Anni di storia"
 #~ msgstr "Years of history"
 
 #~ msgid "Passione per le moto"
 #~ msgstr "Passion for motorbikes"
 
-#~| msgid "Eventi"
-#~ msgid "Vedi Eventi"
-#~ msgstr "See Events"
-
-#~ msgid "Contenuto in fase di aggiornamento."
-#~ msgstr "Content being updated."
-
-#~ msgid "Torna alla Home"
-#~ msgstr "Return to Home"
-
 #~ msgid "Le Ultime"
 #~ msgstr "The Latest"
 
 #~ msgid "Notizie, aggiornamenti e storie dalla vita del club"
 #~ msgstr "News, updates and stories from club life"
-
-#~ msgid "Nessun articolo disponibile al momento."
-#~ msgstr "No items available at the moment."
-
-#~| msgid "Documenti"
-#~ msgid "Documenti Ufficiali"
-#~ msgstr "Documents"
-
-#~ msgid "Nessun documento disponibile"
-#~ msgstr "No documents available"
-
-#~ msgid "I documenti saranno pubblicati a breve."
-#~ msgstr "The documents will be published shortly."
-
-#~ msgid "Hai bisogno di altri documenti?"
-#~ msgstr "Do you need other documents?"
-
-#~ msgid "Contattaci per richiedere informazioni o documenti specifici."
-#~ msgstr "Contact us to request information or specific documents."
-
-#~ msgid "Leggi tutto"
-#~ msgstr "Read More"
 
 #~ msgid "Invia"
 #~ msgstr "Send"
@@ -2736,9 +2239,6 @@ msgstr ""
 #~ msgid "Il Consiglio Direttivo"
 #~ msgstr "The Board of Directors"
 
-#~ msgid "Presidente"
-#~ msgstr "President"
-
 #~ msgid "Vice Presidente"
 #~ msgstr "Vice President"
 
@@ -2763,73 +2263,5 @@ msgstr ""
 #~ msgid "Inviaci un messaggio"
 #~ msgstr "Send us a message"
 
-#~ msgid ""
-#~ "Moto Club Castellazzo Bormida - Dal 1933, passione su due ruote nel cuore "
-#~ "del Piemonte"
-#~ msgstr ""
-#~ "Moto Club Castellazzo Bormida - Since 1933, passion on two wheels in the "
-#~ "heart of Piedmont"
-
-#~ msgid "Allegati"
-#~ msgstr "Attachments"
-
-#~ msgid "Trascina i file qui"
-#~ msgstr "Drag files here"
-
-#~ msgid "oppure clicca per selezionare"
-#~ msgstr "or click to select"
-
-#~ msgid "Max 3 file, 5MB ciascuno. Formati: PDF, JPG, PNG, DOC, DOCX, TXT"
-#~ msgstr "Max 3 files, 5MB each. Formats: PDF, JPG, PNG, DOC, DOCX, TXT"
-
-#~ msgid "Compila il modulo e ti risponderemo al più presto."
-#~ msgstr "Fill out the form and we will respond to you as soon as possible."
-
-#~ msgid "Cerca negli articoli..."
-#~ msgstr "Search articles..."
-
-#~ msgid "Cerca"
-#~ msgstr "Search"
-
-#~ msgid "Risultati per:"
-#~ msgstr "Results for:"
-
-#~ msgid "Cancella"
-#~ msgstr "Clear"
-
-#~ msgid "Tutte"
-#~ msgstr "All"
-
-#~ msgid "Nessun risultato trovato"
-#~ msgstr "No results found"
-
-#~ msgid "Nessun articolo disponibile"
-#~ msgstr "No articles available"
-
 #~ msgid "Prova con termini di ricerca diversi."
 #~ msgstr "Try different search terms."
-
-#~ msgid "Gli articoli saranno pubblicati presto."
-#~ msgstr "Articles will be published soon."
-
-#~ msgid "Autore"
-#~ msgstr "Author"
-
-#~ msgid "Membro del Club"
-#~ msgstr "Club Member"
-
-#~ msgid "Informazioni"
-#~ msgstr "Information"
-
-#~ msgid "Tutte le Novità"
-#~ msgstr "All News"
-
-#~ msgid "Articoli Correlati"
-#~ msgstr "Related Articles"
-
-#~ msgid "Navigazione pagine"
-#~ msgstr "Page navigation"
-
-#: templates/website/pages/news_index_page.jinja2:237
-msgid "In Evidenza"
-msgstr "Featured"
