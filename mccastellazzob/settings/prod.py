@@ -33,6 +33,10 @@ SECURE_HSTS_PRELOAD = True
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+# Invia l'origin come Referer alle richieste cross-origin (richiesto da
+# OpenStreetMap tile server, vedi https://osm.wiki/Blocked).
+# Il default Django ("same-origin") blocca le tile OSM sulla mappa Contatti.
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 CSRF_TRUSTED_ORIGINS = [
     "https://mccastellazzob.com",
     "https://www.mccastellazzob.com",
