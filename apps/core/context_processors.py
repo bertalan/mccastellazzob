@@ -97,7 +97,7 @@ def main_pages(request):
     try:
         from apps.website.models import (
             HomePage, EventsPage, EventsArchivePage, 
-            AboutPage, ContactPage, PrivacyPage, TimelinePage
+            AboutPage, ContactPage, PrivacyPage, NewsIndexPage
         )
         
         # Find pages for current locale
@@ -125,7 +125,7 @@ def main_pages(request):
         if privacy:
             pages["privacy"] = privacy.url
             
-        news = TimelinePage.objects.filter(locale=locale).live().first()
+        news = NewsIndexPage.objects.filter(locale=locale).live().first()
         if news:
             pages["news"] = news.url
             
