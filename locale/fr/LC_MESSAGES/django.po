@@ -2850,3 +2850,7 @@ msgstr ""
 
 #~ msgid "Navigazione pagine"
 #~ msgstr "Navigation des pages"
+
+#: templates/website/pages/news_index_page.jinja2:237
+msgid "In Evidenza"
+msgstr "À la une"

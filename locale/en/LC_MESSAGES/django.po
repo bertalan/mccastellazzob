@@ -2829,3 +2829,7 @@ msgstr ""
 
 #~ msgid "Navigazione pagine"
 #~ msgstr "Page navigation"
+
+#: templates/website/pages/news_index_page.jinja2:237
+msgid "In Evidenza"
+msgstr "Featured"

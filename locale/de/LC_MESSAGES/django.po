@@ -2852,3 +2852,7 @@ msgstr ""
 
 #~ msgid "Navigazione pagine"
 #~ msgstr "Seitennavigation"
+
+#: templates/website/pages/news_index_page.jinja2:237
+msgid "In Evidenza"
+msgstr "Hervorgehoben"
