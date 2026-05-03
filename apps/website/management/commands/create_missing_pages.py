@@ -188,7 +188,7 @@ class Command(BaseCommand):
                 locale=locale,
                 show_in_menus=True,
                 intro=intro,
-                email='info@mccastellazzo.it',
+                email='mccastellazzob@gmail.com',
                 phone='+39 0123 456789',
                 address='Castellazzo Bormida, Piemonte, Italia',
             )
@@ -216,7 +216,7 @@ class Command(BaseCommand):
         
         <h3>Titolare del trattamento</h3>
         <p>Moto Club Castellazzo Bormida<br>
-        Email: info@mccastellazzo.it</p>
+        Email: mccastellazzob@gmail.com</p>
         
         <h3>Finalità del trattamento</h3>
         <p>I dati personali sono raccolti per:</p>
@@ -227,7 +227,7 @@ class Command(BaseCommand):
         </ul>
         
         <h3>Diritti dell'interessato</h3>
-        <p>L'interessato può esercitare i diritti di accesso, rettifica, cancellazione, limitazione, portabilità e opposizione contattando: info@mccastellazzo.it</p>
+        <p>L'interessato può esercitare i diritti di accesso, rettifica, cancellazione, limitazione, portabilità e opposizione contattando: mccastellazzob@gmail.com</p>
         """
 
         if not dry_run:

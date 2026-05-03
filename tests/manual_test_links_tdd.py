@@ -149,7 +149,7 @@ def main():
         response = requests.get(f"{BASE_URL}/it/", timeout=5)
         content = response.text
         
-        if 'mailto:info@mccastellazzo.it' in content:
+        if 'mailto:mccastellazzob@gmail.com' in content:
             print(f"{PASS} PASS - Link email presente")
             passed += 1
         else:
