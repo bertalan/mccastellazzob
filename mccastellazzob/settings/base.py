@@ -235,12 +235,22 @@ WAGTAILIMAGES_MAX_UPLOAD_SIZE = 10 * 1024 * 1024  # 10MB
 # ======================
 # WAGTAIL LOCALIZE - TRADUZIONE AUTOMATICA
 # ======================
-# Usa deep-translator (Google Translate gratuito) per traduzioni con un clic
+# Catena di fallback: Google Translate (veloce) → MyMemory (gratuito)
+# Ogni chiamata ha un timeout di 8s per non bloccare i worker Gunicorn.
+# Se tutti i provider falliscono, la stringa rimane con data="" e viene
+# ritentata automaticamente al primo caricamento della pagina tradotta
+# (hook before_serve_page) oppure tramite: manage.py retry_translations
 WAGTAILLOCALIZE_MACHINE_TRANSLATOR = {
     "CLASS": "apps.core.machine_translator.DeepTranslatorMachineTranslator",
     "OPTIONS": {
-        # Ritardo tra le richieste per evitare rate limiting (in secondi)
-        "DELAY": 0.5,
+        # Secondi di ritardo tra le stringhe (rate limiting)
+        "DELAY": 0.3,
+        # Timeout per ogni singola chiamata HTTP (evita worker TIMEOUT)
+        "HTTP_TIMEOUT": 8,
+        # Provider in ordine di priorità: Google primo (più veloce e affidabile)
+        "PROVIDERS": ["google", "mymemory"],
+        # Email MyMemory opzionale: 10000 req/giorno invece di 1000
+        # "MYMEMORY_EMAIL": "mccastellazzob@gmail.com",
     },
 }
 

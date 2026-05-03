@@ -97,3 +97,54 @@ def global_admin_js():
         "/static/js/address_geocoding.js",
         "/static/js/gallery_image_metadata.js"
     )
+
+
+# ---------------------------------------------------------------------------
+# Traduzione in background al primo caricamento di una pagina tradotta
+# ---------------------------------------------------------------------------
+import threading
+
+# Tiene traccia delle (locale_code) già avviate in questa sessione del processo
+# per non spammare thread ad ogni visita
+_bg_translate_started: set = set()
+_bg_translate_lock = threading.Lock()
+
+
+@hooks.register("before_serve_page")
+def trigger_background_translation(page, request, serve_args, serve_kwargs):
+    """
+    Quando una pagina viene servita in una lingua diversa dall'italiano,
+    controlla se ci sono stringhe pendenti e avvia la traduzione in background.
+
+    Il thread parte al massimo UNA volta per lingua per ciclo di vita del
+    worker Gunicorn (evita avvii ripetuti ad ogni richiesta).
+    Usa il lock globale di translate_pending_segments: se è già in corso,
+    il nuovo thread esce subito.
+    """
+    locale_code = page.locale.language_code
+    if locale_code == "it":
+        return  # Niente da fare per la lingua sorgente
+
+    with _bg_translate_lock:
+        if locale_code in _bg_translate_started:
+            return  # Questo worker ha già avviato un thread per questa lingua
+        _bg_translate_started.add(locale_code)
+
+    def _run():
+        try:
+            import django
+            from apps.core.machine_translator import translate_pending_segments
+            translate_pending_segments(locale_code=locale_code)
+        except Exception as exc:
+            import logging
+            logging.getLogger(__name__).error(
+                f"Background translation [{locale_code}] errore: {exc}"
+            )
+        finally:
+            # Rimuovi dal set per permettere un nuovo ciclo dopo il completamento
+            with _bg_translate_lock:
+                _bg_translate_started.discard(locale_code)
+
+    t = threading.Thread(target=_run, daemon=True, name=f"bg-translate-{locale_code}")
+    t.start()
+
