@@ -425,6 +425,11 @@
     </style>
     
     {% block extra_css %}{% endblock %}
+
+    {# Analytics head_scripts (Matomo, GTM, ecc.) da Settings > Tracking #}
+    {% if settings.coderedcms.AnalyticsSettings.head_scripts %}
+    {{ settings.coderedcms.AnalyticsSettings.head_scripts | safe }}
+    {% endif %}
 </head>
 <body class="bg-cream">
     {# Skip Link #}
@@ -869,5 +874,10 @@
         });
     })();
     </script>
+
+    {# Analytics body_scripts (Matomo, GTM, ecc.) da Settings > Tracking #}
+    {% if settings.coderedcms.AnalyticsSettings.body_scripts %}
+    {{ settings.coderedcms.AnalyticsSettings.body_scripts | safe }}
+    {% endif %}
 </body>
 </html>
