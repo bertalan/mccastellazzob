@@ -23,9 +23,12 @@ from apps.core.seo import JsonLdMixin, get_organization_data, clean_html
 from apps.website.blocks import GalleryImageBlock
 
 
-# Blocchi contenuto senza 'table' (richiede handsontable JS non installato)
+# Blocchi contenuto: rimossi 'table' (richiede handsontable JS non installato)
+# e 'html' (V2-014 — RawHTMLBlock può iniettare XSS, RichTextBlock è sufficiente
+# per gli editor; eventuali esigenze HTML grezzo vanno gestite via migrazione/shell
+# da un superuser).
 NEWS_CONTENT_BLOCKS = [
-    block for block in CONTENT_STREAMBLOCKS if block[0] != 'table'
+    block for block in CONTENT_STREAMBLOCKS if block[0] not in ('table', 'html')
 ]
 
 

@@ -8,6 +8,8 @@ import json
 import requests
 from django.conf import settings
 
+from apps.core.http_safe import safe_get
+
 
 def geocode_address(address: str) -> dict | None:
     """
@@ -23,7 +25,7 @@ def geocode_address(address: str) -> dict | None:
     user_agent = getattr(settings, "NOMINATIM_USER_AGENT", "MCCastellazzo/1.0")
     
     try:
-        response = requests.get(
+        response = safe_get(
             f"{base_url}/search",
             params={
                 "q": address,

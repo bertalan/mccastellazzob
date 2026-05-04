@@ -29,3 +29,7 @@ STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 # Disable debug toolbar
 INSTALLED_APPS = [app for app in INSTALLED_APPS if app != "debug_toolbar"]  # noqa: F405
 MIDDLEWARE = [m for m in MIDDLEWARE if "debug_toolbar" not in m]  # noqa: F405
+
+# Disabilita rate limiting allauth e django-ratelimit nei test
+ACCOUNT_RATE_LIMITS = False
+RATELIMIT_ENABLE = False

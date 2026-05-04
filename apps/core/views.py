@@ -8,6 +8,7 @@ import time
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
+from django_ratelimit.decorators import ratelimit
 from wagtail.models import Page, Locale
 from wagtail.fields import RichTextField, StreamField
 
@@ -99,6 +100,7 @@ def translate_stream_data(translator, stream_data, source_lang, target_lang):
 
 
 @staff_member_required
+@ratelimit(key="user", rate="20/h", block=True)
 def auto_translate_page_view(request, page_id):
     """
     View che traduce automaticamente una pagina dalla versione italiana.
@@ -206,16 +208,37 @@ def auto_translate_page_view(request, page_id):
     if translated_fields:
         try:
             page.save_revision(user=request.user)
+            # V2-019 — audit dell'operazione sensibile
+            from apps.core.audit import log_security_event
+            log_security_event(
+                request,
+                "auto_translate.completed",
+                page_id=page.id,
+                target_lang=target_lang,
+                fields_count=len(translated_fields),
+                errors_count=len(errors),
+            )
             success_msg = f"✅ Traduzione completata! Campi tradotti: {', '.join(translated_fields)}."
             if errors:
                 success_msg += f" Errori: {len(errors)}"
             messages.success(request, success_msg)
         except Exception as e:
-            logger.error(f"Errore salvataggio: {e}")
-            messages.error(request, f"Errore nel salvataggio: {e}")
+            # V2-013: non esporre il testo dell'eccezione nel messaggio flash;
+            # logga il dettaglio per il sysadmin.
+            logger.exception("Errore salvataggio revisione pagina %s", page.id)
+            messages.error(
+                request,
+                "Errore nel salvataggio della revisione. Controlla i log del server.",
+            )
     else:
         if errors:
-            messages.warning(request, f"Nessun campo tradotto. Errori: {', '.join(errors)}")
+            # Numero, non dettagli, per evitare leak di stack trace.
+            messages.warning(
+                request,
+                f"Nessun campo tradotto. {len(errors)} errori (vedi log server).",
+            )
+            for err in errors:
+                logger.warning("Auto-translate error: %s", err)
         else:
             messages.info(request, "Nessun campo da tradurre trovato.")
     

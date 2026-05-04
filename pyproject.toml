@@ -25,7 +25,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "Django>=5.2,<5.3",
+    "Django>=5.2.12,<5.3",
     "wagtail>=7.0,<8.0",
     "coderedcms>=6.0,<7.0",
     "wagtail-localize>=1.9,<2.0",
@@ -39,6 +39,7 @@ dependencies = [
     "python-dotenv>=1.0,<2.0",
     "deep-translator>=1.11,<2.0",
     "qrcode>=7.4,<9.0",
+    "django-ratelimit>=4.1,<5.0",
 ]
 
 [project.optional-dependencies]

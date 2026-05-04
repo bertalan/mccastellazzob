@@ -275,6 +275,11 @@ ACCOUNT_EMAIL_VERIFICATION = "optional"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
+# Rate limiting nativo allauth (V2-009 brute force protection).
+# I default di allauth 65+ sono adeguati: login 30/m/ip, login_failed 5/5m/ip,
+# signup 20/h/ip, reset_password 5/h/ip, change_password 5/h/user, ecc.
+# Per disabilitare in test impostare ACCOUNT_RATE_LIMITS = False in settings/test.py.
+
 # ======================
 # COLORI TEMA
 # ======================

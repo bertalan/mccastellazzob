@@ -66,20 +66,13 @@ jobs:
           pip install --upgrade pip
           pip install pip-audit bandit
 
-      - name: Create temp requirements for audit
+      - name: Run pip-audit (CVE scanning on real project deps)
         working-directory: ${{ env.WORKING_DIR }}
-        run: |
-          echo "coderedcms>=6.0,<7.0" > requirements-audit.txt
-          echo "wagtail>=7.0,<7.2" >> requirements-audit.txt
-          echo "Django>=5.2,<6.0" >> requirements-audit.txt
-          echo "wagtailgeowidget>=9.1.0" >> requirements-audit.txt
-          echo "psycopg2-binary>=2.9" >> requirements-audit.txt
-          echo "pillow>=10.0" >> requirements-audit.txt
-
-      - name: Run pip-audit (CVE scanning)
-        working-directory: ${{ env.WORKING_DIR }}
-        run: pip-audit -r requirements-audit.txt --desc on
-        continue-on-error: true  # Non blocca per warning
+        # Audita le dipendenze effettive risolte da pyproject.toml e fallisce
+        # se rileva CVE non già documentate. V2-020.
+        # --strict: warnings → exit non-zero
+        # --ignore-vuln GHSA-...: aggiungi qui le CVE accettate con motivazione
+        run: pip-audit --strict --desc on .
 
       - name: Run bandit (code security)
         working-directory: ${{ env.WORKING_DIR }}

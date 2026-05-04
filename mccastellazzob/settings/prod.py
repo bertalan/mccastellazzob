@@ -34,9 +34,15 @@ SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 # V2-020: Header di sicurezza moderni (Permissions-Policy, COOP, COEP, CORP)
+# V2-017: Content-Security-Policy applicato dallo stesso middleware
 MIDDLEWARE = [
     "apps.core.middleware.SecurityHeadersMiddleware",
 ] + MIDDLEWARE  # noqa: F405
+
+# CSP rollout: True = Report-Only (osserva violazioni nei DevTools senza
+# bloccare nulla). Dopo qualche giorno di monitoring, impostare a False
+# per attivare l'enforcement.
+CSP_REPORT_ONLY = os.environ.get("CSP_REPORT_ONLY", "True").lower() == "true"
 # Invia l'origin come Referer alle richieste cross-origin (richiesto da
 # OpenStreetMap tile server, vedi https://osm.wiki/Blocked).
 # Il default Django ("same-origin") blocca le tile OSM sulla mappa Contatti.
@@ -83,6 +89,13 @@ LOGGING = {
         "django": {
             "handlers": ["console"],
             "level": os.environ.get("DJANGO_LOG_LEVEL", "INFO"),
+            "propagate": False,
+        },
+        # V2-019 — log dedicato per eventi di sicurezza (auth, permission, audit
+        # operativo). Va idealmente dirottato su file/SIEM separato in prod.
+        "security": {
+            "handlers": ["console"],
+            "level": "INFO",
             "propagate": False,
         },
     },
