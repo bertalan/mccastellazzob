@@ -85,6 +85,8 @@ MIDDLEWARE = [
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
     # Allauth
     "allauth.account.middleware.AccountMiddleware",
+    # Daily lazy tasks (es. archiviazione eventi passati)
+    "apps.core.daily_tasks.DailyTasksMiddleware",
 ]
 
 ROOT_URLCONF = "mccastellazzob.urls"

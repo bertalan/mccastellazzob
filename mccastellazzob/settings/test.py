@@ -33,3 +33,6 @@ MIDDLEWARE = [m for m in MIDDLEWARE if "debug_toolbar" not in m]  # noqa: F405
 # Disabilita rate limiting allauth e django-ratelimit nei test
 ACCOUNT_RATE_LIMITS = False
 RATELIMIT_ENABLE = False
+
+# Disabilita i daily lazy tasks durante i test
+DAILY_TASKS_ENABLED = False
