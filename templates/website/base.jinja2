@@ -44,13 +44,28 @@
         {% set meta_desc = _('Moto Club Castellazzo Bormida - Dal 1933, passione su due ruote nel cuore del Piemonte') %}
     {% endif %}
     <meta name="description" content="{% block meta_description %}{{ meta_desc }}{% endblock %}">
+    <link rel="canonical" href="{{ page.full_url or request.build_absolute_uri() }}" />
+    {% set social_title = page.seo_title or page.title %}
+    {% set social_url = page.full_url or request.build_absolute_uri() %}
+    {% set social_image = page.og_image or settings.wagtailseo.SeoSettings.og_image_default %}
     
     {# Open Graph / Social Meta #}
-    <meta property="og:title" content="{{ page.seo_title or page.title }}" />
+    <meta property="og:title" content="{{ social_title }}" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="{{ page.full_url }}" />
-    {% if page.og_image or settings.wagtailseo.SeoSettings.og_image_default %}
-    <meta property="og:image" content="{{ (page.og_image or settings.wagtailseo.SeoSettings.og_image_default).get_rendition('fill-1200x630').url }}" />
+    <meta property="og:url" content="{{ social_url }}" />
+    <meta property="og:site_name" content="{{ settings.wagtailseo.SeoSettings.struct_org_name or request.site.site_name }}" />
+    <meta property="og:description" content="{{ meta_desc }}" />
+    {% if social_image %}
+    {% set social_rendition = social_image.get_rendition('fill-1200x630') %}
+    <meta property="og:image" content="{{ request.build_absolute_uri(social_rendition.url) }}" />
+    <meta property="og:image:width" content="{{ social_rendition.width }}" />
+    <meta property="og:image:height" content="{{ social_rendition.height }}" />
+    {% endif %}
+    <meta name="twitter:card" content="{% if social_image %}summary_large_image{% else %}summary{% endif %}" />
+    <meta name="twitter:title" content="{{ social_title }}" />
+    <meta name="twitter:description" content="{{ meta_desc }}" />
+    {% if social_image %}
+    <meta name="twitter:image" content="{{ request.build_absolute_uri(social_rendition.url) }}" />
     {% endif %}
     
     {# Schema.org JSON-LD - Custom per pagine con JsonLdMixin #}
