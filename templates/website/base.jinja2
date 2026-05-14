@@ -626,29 +626,22 @@
                             {{ _("Il Moto Club che ospita il Raduno dei Centauri: passione e fratellanza su due ruote") }}
                         {% endif %}
                     </p>
-                    {# Social Links #}
+                    {# Social Links - letti da Settings > Impostazioni Sito #}
+                    {% set site_settings = settings.website.SiteSettings %}
+                    {% set social_links = [
+                        {'url': site_settings.facebook_url, 'icon': 'fab fa-facebook-f', 'label': 'Facebook'},
+                        {'url': site_settings.instagram_url, 'icon': 'fab fa-instagram', 'label': 'Instagram'},
+                        {'url': site_settings.youtube_url, 'icon': 'fab fa-youtube', 'label': 'YouTube'},
+                    ] %}
                     <div class="flex gap-4">
-                        {% if footer and footer.social_links %}
-                            {% set social_icons = {'facebook': 'fab fa-facebook-f', 'instagram': 'fab fa-instagram', 'youtube': 'fab fa-youtube', 'twitter': 'fab fa-x-twitter', 'whatsapp': 'fab fa-whatsapp'} %}
-                            {% for social in footer.social_links %}
-                                <a href="{{ social.value.url }}" 
-                                   class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-navy transition" 
-                                   aria-label="{{ social.value.platform }}"
-                                   target="_blank" rel="noopener noreferrer">
-                                    <i class="{{ social_icons.get(social.value.platform, 'fas fa-link') }}" aria-hidden="true"></i>
-                                </a>
-                            {% endfor %}
-                        {% else %}
-                            <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-navy transition" aria-label="Facebook">
-                                <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        {% for social in social_links if social.url %}
+                            <a href="{{ social.url }}"
+                               class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-navy transition"
+                               aria-label="{{ social.label }}"
+                               target="_blank" rel="noopener noreferrer">
+                                <i class="{{ social.icon }}" aria-hidden="true"></i>
                             </a>
-                            <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-navy transition" aria-label="Instagram">
-                                <i class="fab fa-instagram" aria-hidden="true"></i>
-                            </a>
-                            <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-gold hover:text-navy transition" aria-label="YouTube">
-                                <i class="fab fa-youtube" aria-hidden="true"></i>
-                            </a>
-                        {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
                 
